@@ -1,3 +1,17 @@
+# project specific
+ofxRemoteUISettings.xml
+
+# IDE-specific ignore patterns
+#XCode
+*.pbxuser
+*.perspective
+*.perspectivev3
+*.mode1v3
+*.mode2v3
+#XCode 4
+xcuserdata
+*.xcworkspace
+
 # Compiled Object files
 *.slo
 *.lo
@@ -26,3 +40,6 @@
 *.exe
 *.out
 *.app
+*.mp4
+*.mov
+*.mp3
