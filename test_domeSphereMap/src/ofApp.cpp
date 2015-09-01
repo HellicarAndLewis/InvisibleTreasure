@@ -15,6 +15,7 @@ void ofApp::setup() {
     // optional resize listener
     ofAddListener(c->videoResized, this, &ofApp::videoResized);
     grabber = c;
+    
 }
 
 //------------------------------------------------------------------------------
@@ -59,6 +60,15 @@ void ofApp::draw() {
     ofPushMatrix();
     ofSetColor(255,255,255,255);
     grabber->draw(0,0,w,h); // draw the camera
+    
+    for (int y=0; y<grabber->getHeight(); y++) {
+        for (int x=0; x<grabber->getWidth(); x++) {
+            ofVec2f dewarped = fishToSphere(ofVec2f(x, y));
+            ofColor c = grabber->getFrame()->getColor(dewarped.x, dewarped.y);
+            ofSetColor(c);
+            ofRect(x, y, 1, 1);
+        }
+    }
     
     ofEnableAlphaBlending();
     
@@ -109,6 +119,38 @@ void ofApp::draw() {
     ofDisableAlphaBlending();
     
 }
+
+ofVec2f ofApp::fishToSphere(ofVec2f destCoord)
+{
+    ofVec2f pfish;
+    float theta,phi,r;
+    ofVec3f psph;
+    
+    float FOV = 3.141592654; // FOV of the fisheye, eg: 180 degrees
+    float width = grabber->getWidth();
+    float height = grabber->getHeight();
+    
+    // Polar angles
+    theta = 2.0 * 3.14159265 * (destCoord.x / width - 0.5); // -pi to pi
+    phi = 3.14159265 * (destCoord.y / height - 0.5);	// -pi/2 to pi/2
+    
+    // Vector in 3D space
+    psph.x = cos(phi) * sin(theta);
+    psph.y = cos(phi) * cos(theta);
+    psph.z = sin(phi);
+    
+    // Calculate fisheye angle and radius
+    theta = atan2(psph.z,psph.x);
+    phi = atan2(sqrt(psph.x*psph.x+psph.z*psph.z),psph.y);
+    r = width * phi / FOV;
+    
+    // Pixel in fisheye space
+    pfish.x = 0.5 * width + r * cos(theta);
+    pfish.y = 0.5 * width + r * sin(theta);
+    
+    pfish;
+}
+
 
 //------------------------------------------------------------------------------
 void ofApp::keyPressed(int key) {

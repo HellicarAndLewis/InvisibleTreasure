@@ -28,6 +28,7 @@
 
 #include "ofMain.h"
 #include "IPVideoGrabber.h"
+#include "ofxBezierWarp.h"
 
 #define NUM_CAMERAS 1
 #define NUM_ROWS 1
@@ -101,5 +102,8 @@ public:
     // This can happen if the IPCamera has a single broadcast state (some cheaper IPCams do this)
     // and that broadcast size is changed by another user. 
     void videoResized(const void* sender, ofResizeEventArgs& arg);
+    
+    ofxBezierWarp warp;
+    bool bUseWarp;
     
 };

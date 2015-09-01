@@ -90,6 +90,7 @@ public:
     void draw();
     
     void keyPressed(int key);
+    ofVec2f fishToSphere(ofVec2f destCoord);
 
     SharedIPVideoGrabber grabber;
 
