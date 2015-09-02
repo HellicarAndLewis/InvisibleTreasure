@@ -5,6 +5,7 @@
 #include "led/LedDisplay.h"
 #include "input/VisionManager.h"
 #include "scene/SceneManager.h"
+#include "network/OscClient.h"
 
 class ofApp : public ofBaseApp {
 public:
@@ -26,4 +27,5 @@ private:
     VisionManager vision;
     SceneManager sceneManager;
     LedDisplay led;
+    OscClient osc;
 };

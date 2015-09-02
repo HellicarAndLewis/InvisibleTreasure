@@ -31,12 +31,14 @@ ofApp::ofApp(ofxArgs* args) {
 }
 
 void ofApp::setup() {
+    osc.setup();
     vision.setup();
     if (mode == WINDOW) sceneManager.setup();
     if (mode == SLAVE) led.setup();
 }
 
 void ofApp::update() {
+    osc.update();
     if (mode == WINDOW) {
         vision.update();
         sceneManager.update();
@@ -50,6 +52,7 @@ void ofApp::draw() {
         sceneManager.draw();
     }
     else if (mode == SLAVE) led.draw();
+    osc.draw();
     // debug
     string s = modeString;
     s += "\n" + ofToString(ofGetFrameRate());
@@ -57,6 +60,7 @@ void ofApp::draw() {
 }
 
 void ofApp::keyPressed (int key) {
+    osc.keyPressed(key);
     vision.keyPressed(key);
     if (mode == WINDOW) sceneManager.keyPressed(key);
 }
