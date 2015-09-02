@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "E4B69B5A0A3A1756003C02F2"
-               BuildableName = "test_osc.app"
-               BlueprintName = "test_osc"
-               ReferencedContainer = "container:test_osc.xcodeproj">
+               BuildableName = "show.app"
+               BlueprintName = "show"
+               ReferencedContainer = "container:show.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E4B69B5A0A3A1756003C02F2"
-            BuildableName = "test_osc.app"
-            BlueprintName = "test_osc"
-            ReferencedContainer = "container:test_osc.xcodeproj">
+            BuildableName = "show.app"
+            BlueprintName = "show"
+            ReferencedContainer = "container:show.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </TestAction>
@@ -53,9 +53,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E4B69B5A0A3A1756003C02F2"
-            BuildableName = "test_osc.app"
-            BlueprintName = "test_osc"
-            ReferencedContainer = "container:test_osc.xcodeproj">
+            BuildableName = "show.app"
+            BlueprintName = "show"
+            ReferencedContainer = "container:show.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -72,9 +72,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E4B69B5A0A3A1756003C02F2"
-            BuildableName = "test_osc.app"
-            BlueprintName = "test_osc"
-            ReferencedContainer = "container:test_osc.xcodeproj">
+            BuildableName = "show.app"
+            BlueprintName = "show"
+            ReferencedContainer = "container:show.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

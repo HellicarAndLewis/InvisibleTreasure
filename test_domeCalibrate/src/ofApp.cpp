@@ -110,7 +110,8 @@ void ofApp::draw() {
 	drawHighlightString("reproj error: " + ofToString(calibration.getReprojectionError()) + " from " + ofToString(calibration.size()), 10, 60, magentaPrint);
 	for(int i = 0; i < calibration.size(); i++) {
 		//drawHighlightString(ofToString(i) + ": " + ofToString(calibration.getReprojectionError(i)), 10, 80 + 16 * i, magentaPrint);
-	}
+    }
+    ofDrawBitmapStringHighlight(ofToString(ofGetFrameRate()), 10, ofGetHeight() - 20);
 }
 
 //------------------------------------------------------------------------------
