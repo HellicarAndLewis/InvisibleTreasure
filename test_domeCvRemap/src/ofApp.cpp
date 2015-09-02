@@ -21,15 +21,14 @@ void ofApp::update() {
 	grabber->update();
 	if(grabber->isFrameNew()) {
         img = *grabber->getFrame();
-        
-        int w = grabber->getHeight();
-        int h = grabber->getHeight();
-        img.crop((img.width-w)/2, 0, w, h);
+        int h = img.getHeight();
+        img.crop((img.width-h)/2, 0, h, h);
+        int w = img.getWidth();
         src = toCv(img);
         
         if (isFirstImg) {
             dst.create(src.size(), src.type());
-            buildMap(w, h, w, h, 180.0, 180.0);
+            buildMap(w, h, w, h, 180.0, 167.0);
             imitate(undistorted, img);
             imitate(previous, img);
             imitate(diff, img);
@@ -51,9 +50,10 @@ void ofApp::update() {
 
 void ofApp::draw() {
 	ofSetColor(255);
-    //grabber->draw(0, 0);
-    img.draw(0, 0);
-    if (ofGetKeyPressed('d')) drawMat(dst, 0, 0);
+    float w = ofGetWidth()/2;
+    float h = img.getHeight() * (w / img.getWidth());
+    img.draw(0, 0, w, h);
+    drawMat(dst, w, 0, w, h);
     
 }
 

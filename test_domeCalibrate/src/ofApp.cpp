@@ -48,6 +48,8 @@ void ofApp::setup() {
 		calibration.setPatternType(patternType);
     }
     calibration.setFillFrame(false);
+    
+    calibration.load("dome.yml");
 	
 	lastTime = 0;
 	active = true;
@@ -107,7 +109,7 @@ void ofApp::draw() {
 	drawHighlightString("movement: " + ofToString(diffMean), 10, 40, cyanPrint);
 	drawHighlightString("reproj error: " + ofToString(calibration.getReprojectionError()) + " from " + ofToString(calibration.size()), 10, 60, magentaPrint);
 	for(int i = 0; i < calibration.size(); i++) {
-		drawHighlightString(ofToString(i) + ": " + ofToString(calibration.getReprojectionError(i)), 10, 80 + 16 * i, magentaPrint);
+		//drawHighlightString(ofToString(i) + ": " + ofToString(calibration.getReprojectionError(i)), 10, 80 + 16 * i, magentaPrint);
 	}
 }
 

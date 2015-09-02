@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "E4B69B5A0A3A1756003C02F2"
-               BuildableName = "calibrateDome.app"
+               BuildableName = "domeCvRemap.app"
                BlueprintName = "domeCvRemap"
                ReferencedContainer = "container:domeCvRemap.xcodeproj">
             </BuildableReference>
@@ -33,7 +33,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E4B69B5A0A3A1756003C02F2"
-            BuildableName = "calibrateDome.app"
+            BuildableName = "domeCvRemap.app"
             BlueprintName = "domeCvRemap"
             ReferencedContainer = "container:domeCvRemap.xcodeproj">
          </BuildableReference>
@@ -53,7 +53,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E4B69B5A0A3A1756003C02F2"
-            BuildableName = "calibrateDome.app"
+            BuildableName = "domeCvRemap.app"
             BlueprintName = "domeCvRemap"
             ReferencedContainer = "container:domeCvRemap.xcodeproj">
          </BuildableReference>
@@ -72,7 +72,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E4B69B5A0A3A1756003C02F2"
-            BuildableName = "calibrateDome.app"
+            BuildableName = "domeCvRemap.app"
             BlueprintName = "domeCvRemap"
             ReferencedContainer = "container:domeCvRemap.xcodeproj">
          </BuildableReference>
