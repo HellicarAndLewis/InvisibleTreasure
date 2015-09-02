@@ -1,10 +1,15 @@
 #pragma once
 
 #include "ofMain.h"
-#include "input/VisionManager.H"
+#include "ofxArgs.h"
+#include "led/LedDisplay.h"
+#include "input/VisionManager.h"
+#include "scene/SceneManager.h"
 
 class ofApp : public ofBaseApp {
 public:
+    enum MODE {MASTER, SLAVE, WINDOW} mode;
+    ofApp(ofxArgs* args);
 	void setup();
 	void update();
 	void draw();
@@ -17,5 +22,8 @@ public:
     void mouseReleased(int x, int y, int button);
     void windowResized(int w, int h);
 private:
+    string modeString;
     VisionManager vision;
+    SceneManager sceneManager;
+    LedDisplay led;
 };

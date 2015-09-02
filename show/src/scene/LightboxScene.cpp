@@ -1,0 +1,74 @@
+//
+//  LightboxScene.cpp
+//  show
+//
+//  Created by Chris Mullany on 02/09/2015.
+//
+//
+
+#include "LightboxScene.h"
+
+LightboxScene::LightboxScene() {
+}
+
+void LightboxScene::setup() {
+}
+
+void LightboxScene::update() {
+    SceneBase::update();
+}
+
+void LightboxScene::draw() {
+    ofSetColor(200, 10, 10);
+    ofRect(0, 0, ofGetWidth(), ofGetHeight());
+    ofSetColor(255);
+    string s = "Scene 3: Lighbox / The Machine";
+    ofRectangle rect = font->getStringBoundingBox(s, 0, 0);
+    font->drawString(s, (ofGetWidth()/2) - (rect.width/2), ofGetHeight()/2);
+    SceneBase::draw();
+}
+
+//////////////////////////////////////////////////////////////////////////////////
+// public
+//////////////////////////////////////////////////////////////////////////////////
+void LightboxScene::play(){
+    setState(INTRO);
+}
+
+void LightboxScene::stop(){
+    setState(OUTRO);
+}
+
+//////////////////////////////////////////////////////////////////////////////////
+// protected
+//////////////////////////////////////////////////////////////////////////////////
+
+//////////////////////////////////////////////////////////////////////////////////
+// private
+//////////////////////////////////////////////////////////////////////////////////
+
+//////////////////////////////////////////////////////////////////////////////////
+// custom event handlers
+//////////////////////////////////////////////////////////////////////////////////
+
+//////////////////////////////////////////////////////////////////////////////////
+// oF event handlers
+//////////////////////////////////////////////////////////////////////////////////
+
+void LightboxScene::keyPressed (int key) {}
+
+void LightboxScene::keyReleased (int key) {}
+
+void LightboxScene::mouseMoved(int x, int y) {}
+
+void LightboxScene::mouseDragged(int x, int y, int button) {}
+
+void LightboxScene::mousePressed(int x, int y, int button) {}
+
+void LightboxScene::mouseReleased(int x, int y, int button) {}
+
+void LightboxScene::windowResized(int w, int h) {}
+
+void LightboxScene::dragEvent(ofDragInfo dragInfo) {}
+
+void LightboxScene::gotMessage(ofMessage msg) {}

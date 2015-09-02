@@ -49,6 +49,13 @@
 		8366F91E1B970584006B9D74 /* IPCamInput.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8366F91C1B970584006B9D74 /* IPCamInput.cpp */; };
 		8366F9211B9706C1006B9D74 /* VisionManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8366F91F1B9706C1006B9D74 /* VisionManager.cpp */; };
 		8366F92B1B9716FC006B9D74 /* VideoInput.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8366F9291B9716FC006B9D74 /* VideoInput.cpp */; };
+		8366F9331B972CA9006B9D74 /* SceneManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8366F9311B972CA9006B9D74 /* SceneManager.cpp */; };
+		8366F9391B972D04006B9D74 /* SceneBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8366F9371B972D04006B9D74 /* SceneBase.cpp */; };
+		8366F9401B9730E4006B9D74 /* ShadowsScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8366F93E1B9730E4006B9D74 /* ShadowsScene.cpp */; };
+		8366F9471B9732EA006B9D74 /* IgniteScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8366F9431B9732EA006B9D74 /* IgniteScene.cpp */; };
+		8366F9481B9732EA006B9D74 /* LightboxScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8366F9451B9732EA006B9D74 /* LightboxScene.cpp */; };
+		8366F9591B974242006B9D74 /* ofxArgs.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8366F9541B974242006B9D74 /* ofxArgs.cpp */; };
+		8366F9611B974EF2006B9D74 /* LedDisplay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8366F95F1B974EF2006B9D74 /* LedDisplay.cpp */; };
 		83D8F3341B95CDBC00C12951 /* ETF.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 83D8F3181B95CDBC00C12951 /* ETF.cpp */; };
 		83D8F3351B95CDBC00C12951 /* fdog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 83D8F3191B95CDBC00C12951 /* fdog.cpp */; };
 		83D8F3361B95CDBC00C12951 /* Calibration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 83D8F3291B95CDBC00C12951 /* Calibration.cpp */; };
@@ -204,6 +211,20 @@
 		8366F9261B970964006B9D74 /* IVisionInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IVisionInput.h; path = input/IVisionInput.h; sourceTree = "<group>"; };
 		8366F9291B9716FC006B9D74 /* VideoInput.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = VideoInput.cpp; path = input/VideoInput.cpp; sourceTree = "<group>"; };
 		8366F92A1B9716FC006B9D74 /* VideoInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VideoInput.h; path = input/VideoInput.h; sourceTree = "<group>"; };
+		8366F9311B972CA9006B9D74 /* SceneManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SceneManager.cpp; path = scene/SceneManager.cpp; sourceTree = "<group>"; };
+		8366F9321B972CA9006B9D74 /* SceneManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SceneManager.h; path = scene/SceneManager.h; sourceTree = "<group>"; };
+		8366F9371B972D04006B9D74 /* SceneBase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SceneBase.cpp; path = scene/SceneBase.cpp; sourceTree = "<group>"; };
+		8366F9381B972D04006B9D74 /* SceneBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SceneBase.h; path = scene/SceneBase.h; sourceTree = "<group>"; };
+		8366F93E1B9730E4006B9D74 /* ShadowsScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ShadowsScene.cpp; path = scene/ShadowsScene.cpp; sourceTree = "<group>"; };
+		8366F93F1B9730E4006B9D74 /* ShadowsScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ShadowsScene.h; path = scene/ShadowsScene.h; sourceTree = "<group>"; };
+		8366F9431B9732EA006B9D74 /* IgniteScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IgniteScene.cpp; path = scene/IgniteScene.cpp; sourceTree = "<group>"; };
+		8366F9441B9732EA006B9D74 /* IgniteScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IgniteScene.h; path = scene/IgniteScene.h; sourceTree = "<group>"; };
+		8366F9451B9732EA006B9D74 /* LightboxScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = LightboxScene.cpp; path = scene/LightboxScene.cpp; sourceTree = "<group>"; };
+		8366F9461B9732EA006B9D74 /* LightboxScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LightboxScene.h; path = scene/LightboxScene.h; sourceTree = "<group>"; };
+		8366F9541B974242006B9D74 /* ofxArgs.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxArgs.cpp; sourceTree = "<group>"; };
+		8366F9551B974242006B9D74 /* ofxArgs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxArgs.h; sourceTree = "<group>"; };
+		8366F95F1B974EF2006B9D74 /* LedDisplay.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = LedDisplay.cpp; path = led/LedDisplay.cpp; sourceTree = "<group>"; };
+		8366F9601B974EF2006B9D74 /* LedDisplay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LedDisplay.h; path = led/LedDisplay.h; sourceTree = "<group>"; };
 		83D8F30F1B95CDBC00C12951 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		83D8F3131B95CDBC00C12951 /* ETF.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ETF.h; sourceTree = "<group>"; };
 		83D8F3141B95CDBC00C12951 /* fdog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = fdog.h; sourceTree = "<group>"; };
@@ -524,11 +545,18 @@
 			path = src;
 			sourceTree = "<group>";
 		};
-		8366F91A1B970490006B9D74 /* scenes */ = {
+		8366F91A1B970490006B9D74 /* scene */ = {
 			isa = PBXGroup;
 			children = (
+				8366F9411B97326E006B9D74 /* shadows */,
+				8366F9421B97327E006B9D74 /* ignite */,
+				8366F9491B9732EF006B9D74 /* lightbox */,
+				8366F9311B972CA9006B9D74 /* SceneManager.cpp */,
+				8366F9321B972CA9006B9D74 /* SceneManager.h */,
+				8366F9371B972D04006B9D74 /* SceneBase.cpp */,
+				8366F9381B972D04006B9D74 /* SceneBase.h */,
 			);
-			name = scenes;
+			name = scene;
 			sourceTree = "<group>";
 		};
 		8366F91B1B97049B006B9D74 /* input */ = {
@@ -543,6 +571,60 @@
 				8366F9261B970964006B9D74 /* IVisionInput.h */,
 			);
 			name = input;
+			sourceTree = "<group>";
+		};
+		8366F9411B97326E006B9D74 /* shadows */ = {
+			isa = PBXGroup;
+			children = (
+				8366F93E1B9730E4006B9D74 /* ShadowsScene.cpp */,
+				8366F93F1B9730E4006B9D74 /* ShadowsScene.h */,
+			);
+			name = shadows;
+			sourceTree = "<group>";
+		};
+		8366F9421B97327E006B9D74 /* ignite */ = {
+			isa = PBXGroup;
+			children = (
+				8366F9431B9732EA006B9D74 /* IgniteScene.cpp */,
+				8366F9441B9732EA006B9D74 /* IgniteScene.h */,
+			);
+			name = ignite;
+			sourceTree = "<group>";
+		};
+		8366F9491B9732EF006B9D74 /* lightbox */ = {
+			isa = PBXGroup;
+			children = (
+				8366F9451B9732EA006B9D74 /* LightboxScene.cpp */,
+				8366F9461B9732EA006B9D74 /* LightboxScene.h */,
+			);
+			name = lightbox;
+			sourceTree = "<group>";
+		};
+		8366F94C1B974242006B9D74 /* ofxArgs */ = {
+			isa = PBXGroup;
+			children = (
+				8366F9531B974242006B9D74 /* src */,
+			);
+			name = ofxArgs;
+			path = ../../../addons/ofxArgs;
+			sourceTree = "<group>";
+		};
+		8366F9531B974242006B9D74 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				8366F9541B974242006B9D74 /* ofxArgs.cpp */,
+				8366F9551B974242006B9D74 /* ofxArgs.h */,
+			);
+			path = src;
+			sourceTree = "<group>";
+		};
+		8366F95B1B974EB4006B9D74 /* led */ = {
+			isa = PBXGroup;
+			children = (
+				8366F95F1B974EF2006B9D74 /* LedDisplay.cpp */,
+				8366F9601B974EF2006B9D74 /* LedDisplay.h */,
+			);
+			name = led;
 			sourceTree = "<group>";
 		};
 		83D8F30E1B95CDBC00C12951 /* libs */ = {
@@ -676,6 +758,7 @@
 		BB4B014C10F69532006C3DED /* addons */ = {
 			isa = PBXGroup;
 			children = (
+				8366F94C1B974242006B9D74 /* ofxArgs */,
 				8366F90C1B97038C006B9D74 /* ofxXmlSettings */,
 				8366F8FA1B970383006B9D74 /* ofxNetwork */,
 				8366F8CE1B970348006B9D74 /* ofxTween */,
@@ -751,8 +834,9 @@
 		E4B69E1C0A3A1BDC003C02F2 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				8366F95B1B974EB4006B9D74 /* led */,
 				8366F91B1B97049B006B9D74 /* input */,
-				8366F91A1B970490006B9D74 /* scenes */,
+				8366F91A1B970490006B9D74 /* scene */,
 				E4B69E1D0A3A1BDC003C02F2 /* main.cpp */,
 				E4B69E1E0A3A1BDC003C02F2 /* ofApp.cpp */,
 				E4B69E1F0A3A1BDC003C02F2 /* ofApp.h */,
@@ -875,11 +959,14 @@
 				8366F9081B970383006B9D74 /* ofxTCPClient.cpp in Sources */,
 				8366F8F31B970351006B9D74 /* ofxEasingLinear.cpp in Sources */,
 				8366F92B1B9716FC006B9D74 /* VideoInput.cpp in Sources */,
+				8366F9331B972CA9006B9D74 /* SceneManager.cpp in Sources */,
 				83D8F3391B95CDBC00C12951 /* Flow.cpp in Sources */,
 				83D8F3401B95CDBC00C12951 /* Wrappers.cpp in Sources */,
+				8366F9471B9732EA006B9D74 /* IgniteScene.cpp in Sources */,
 				8366F8CB1B970339006B9D74 /* ofxOscParameterSync.cpp in Sources */,
 				83D8F3341B95CDBC00C12951 /* ETF.cpp in Sources */,
 				8366F8C51B970339006B9D74 /* OscOutboundPacketStream.cpp in Sources */,
+				8366F9401B9730E4006B9D74 /* ShadowsScene.cpp in Sources */,
 				83D8F3351B95CDBC00C12951 /* fdog.cpp in Sources */,
 				8366F8CC1B970339006B9D74 /* ofxOscReceiver.cpp in Sources */,
 				8366F8F61B970351006B9D74 /* ofxEasingQuint.cpp in Sources */,
@@ -890,6 +977,7 @@
 				83D8F33F1B95CDBC00C12951 /* Utilities.cpp in Sources */,
 				8366F8C21B970339006B9D74 /* UdpSocket.cpp in Sources */,
 				83D8F3491B95CF7400C12951 /* IPVideoGrabber.cpp in Sources */,
+				8366F9611B974EF2006B9D74 /* LedDisplay.cpp in Sources */,
 				8366F8C11B970339006B9D74 /* NetworkingUtils.cpp in Sources */,
 				8366F8F11B970351006B9D74 /* ofxEasingElastic.cpp in Sources */,
 				8366F8F81B970351006B9D74 /* ofxTween.cpp in Sources */,
@@ -902,6 +990,7 @@
 				83D8F3361B95CDBC00C12951 /* Calibration.cpp in Sources */,
 				E4B69E210A3A1BDC003C02F2 /* ofApp.cpp in Sources */,
 				83D8F3381B95CDBC00C12951 /* Distance.cpp in Sources */,
+				8366F9391B972D04006B9D74 /* SceneBase.cpp in Sources */,
 				8366F9211B9706C1006B9D74 /* VisionManager.cpp in Sources */,
 				8366F8C01B970339006B9D74 /* IpEndpointName.cpp in Sources */,
 				8366F8C31B970339006B9D74 /* NetworkingUtilsWin.cpp in Sources */,
@@ -910,6 +999,8 @@
 				8366F91E1B970584006B9D74 /* IPCamInput.cpp in Sources */,
 				8366F8F41B970351006B9D74 /* ofxEasingQuad.cpp in Sources */,
 				83D8F33C1B95CDBC00C12951 /* ObjectFinder.cpp in Sources */,
+				8366F9591B974242006B9D74 /* ofxArgs.cpp in Sources */,
+				8366F9481B9732EA006B9D74 /* LightboxScene.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

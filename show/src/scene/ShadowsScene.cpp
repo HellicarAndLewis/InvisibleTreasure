@@ -1,0 +1,74 @@
+//
+//  ShadowsScene.cpp
+//  show
+//
+//  Created by Chris Mullany on 02/09/2015.
+//
+//
+
+#include "ShadowsScene.h"
+
+ShadowsScene::ShadowsScene() {
+}
+
+void ShadowsScene::setup() {
+}
+
+void ShadowsScene::update() {
+    SceneBase::update();
+}
+
+void ShadowsScene::draw() {
+    ofSetColor(10, 10, 200);
+    ofRect(0, 0, ofGetWidth(), ofGetHeight());
+    ofSetColor(255);
+    string s = "Scene 1:Shadows";
+    ofRectangle rect = font->getStringBoundingBox(s, 0, 0);
+    font->drawString(s, (ofGetWidth()/2) - (rect.width/2), ofGetHeight()/2);
+    SceneBase::draw();
+}
+
+//////////////////////////////////////////////////////////////////////////////////
+// public
+//////////////////////////////////////////////////////////////////////////////////
+void ShadowsScene::play(){
+    setState(INTRO);
+}
+
+void ShadowsScene::stop(){
+    setState(OUTRO);
+}
+
+//////////////////////////////////////////////////////////////////////////////////
+// protected
+//////////////////////////////////////////////////////////////////////////////////
+
+//////////////////////////////////////////////////////////////////////////////////
+// private
+//////////////////////////////////////////////////////////////////////////////////
+
+//////////////////////////////////////////////////////////////////////////////////
+// custom event handlers
+//////////////////////////////////////////////////////////////////////////////////
+
+//////////////////////////////////////////////////////////////////////////////////
+// oF event handlers
+//////////////////////////////////////////////////////////////////////////////////
+
+void ShadowsScene::keyPressed (int key) {}
+
+void ShadowsScene::keyReleased (int key) {}
+
+void ShadowsScene::mouseMoved(int x, int y) {}
+
+void ShadowsScene::mouseDragged(int x, int y, int button) {}
+
+void ShadowsScene::mousePressed(int x, int y, int button) {}
+
+void ShadowsScene::mouseReleased(int x, int y, int button) {}
+
+void ShadowsScene::windowResized(int w, int h) {}
+
+void ShadowsScene::dragEvent(ofDragInfo dragInfo) {}
+
+void ShadowsScene::gotMessage(ofMessage msg) {}

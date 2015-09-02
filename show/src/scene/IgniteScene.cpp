@@ -1,0 +1,74 @@
+//
+//  IgniteScene.cpp
+//  show
+//
+//  Created by Chris Mullany on 02/09/2015.
+//
+//
+
+#include "IgniteScene.h"
+
+IgniteScene::IgniteScene() {
+}
+
+void IgniteScene::setup() {
+}
+
+void IgniteScene::update() {
+    SceneBase::update();
+}
+
+void IgniteScene::draw() {
+    ofSetColor(10, 200, 10);
+    ofRect(0, 0, ofGetWidth(), ofGetHeight());
+    ofSetColor(255);
+    string s = "Scene 2: Ignite";
+    ofRectangle rect = font->getStringBoundingBox(s, 0, 0);
+    font->drawString(s, (ofGetWidth()/2) - (rect.width/2), ofGetHeight()/2);
+    SceneBase::draw();
+}
+
+//////////////////////////////////////////////////////////////////////////////////
+// public
+//////////////////////////////////////////////////////////////////////////////////
+void IgniteScene::play(){
+    setState(INTRO);
+}
+
+void IgniteScene::stop(){
+    setState(OUTRO);
+}
+
+//////////////////////////////////////////////////////////////////////////////////
+// protected
+//////////////////////////////////////////////////////////////////////////////////
+
+//////////////////////////////////////////////////////////////////////////////////
+// private
+//////////////////////////////////////////////////////////////////////////////////
+
+//////////////////////////////////////////////////////////////////////////////////
+// custom event handlers
+//////////////////////////////////////////////////////////////////////////////////
+
+//////////////////////////////////////////////////////////////////////////////////
+// oF event handlers
+//////////////////////////////////////////////////////////////////////////////////
+
+void IgniteScene::keyPressed (int key) {}
+
+void IgniteScene::keyReleased (int key) {}
+
+void IgniteScene::mouseMoved(int x, int y) {}
+
+void IgniteScene::mouseDragged(int x, int y, int button) {}
+
+void IgniteScene::mousePressed(int x, int y, int button) {}
+
+void IgniteScene::mouseReleased(int x, int y, int button) {}
+
+void IgniteScene::windowResized(int w, int h) {}
+
+void IgniteScene::dragEvent(ofDragInfo dragInfo) {}
+
+void IgniteScene::gotMessage(ofMessage msg) {}
