@@ -33,6 +33,11 @@ void VisionManager::setup() {
     calibration.setFillFrame(false);
     calibration.load("camera/dome.yml");
     isFirstImage = true;
+    
+    // gui
+    inputSelector.addListener(this, &VisionManager::onInputChange);
+    inputSelector.set("input", 0, 0, inputs.size()-1);
+    debugDraw.set("debug draw", false);
 }
 
 void VisionManager::update() {
@@ -96,7 +101,17 @@ void VisionManager::exit() {
 //////////////////////////////////////////////////////////////////////////////////
 // public
 //////////////////////////////////////////////////////////////////////////////////
+void VisionManager::setupGui() {
+    guiName = "Vision";
+    panel.setup(guiName, "settings/vision.xml");
+    panel.add(inputSelector);
+    panel.add(debugDraw);
+    panel.loadFromFile("settings/vision.xml");
+}
 
+void VisionManager::drawGui() {
+    GuiableBase::drawGui();
+}
 //////////////////////////////////////////////////////////////////////////////////
 // protected
 //////////////////////////////////////////////////////////////////////////////////
@@ -108,7 +123,17 @@ void VisionManager::exit() {
 //////////////////////////////////////////////////////////////////////////////////
 // custom event handlers
 //////////////////////////////////////////////////////////////////////////////////
-
+void VisionManager::onInputChange(int & i) {
+    if (i >= 0 && i < inputs.size() && i != inputIndex) {
+        ofLogNotice() << "VisionManager::onInputChange to " << i;
+        input->stop();
+        inputIndex = i;
+        isFirstImage = true;
+        input = inputs[i];
+        input->start();
+    }
+    
+}
 //////////////////////////////////////////////////////////////////////////////////
 // oF event handlers
 //////////////////////////////////////////////////////////////////////////////////

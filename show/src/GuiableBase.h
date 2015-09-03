@@ -20,4 +20,5 @@ public:
     ofParameterGroup parameters;
     string guiName = "Guiable";
     ofParameter<bool> guiEnabled = false;
+    vector<GuiableBase*> guiables;
 };

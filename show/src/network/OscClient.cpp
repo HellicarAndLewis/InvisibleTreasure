@@ -90,9 +90,10 @@ void OscClient::setupGui() {
     parameters.add(sendAddress.set("to IP", "192.168.0.255"));
     parameters.add(sendPort.set("to port", "12345"));
     panel.setup(parameters, "settings/osc.xml");
-    vector<GuiableBase*> guiables;
-    guiables.push_back(this);
-    return guiables;
+    panel.loadFromFile("settings/osc.xml");
+    //vector<GuiableBase*> guiables;
+    //guiables.push_back(this);
+    //return guiables;
 }
 
 void OscClient::sendPlayScene(int id) {

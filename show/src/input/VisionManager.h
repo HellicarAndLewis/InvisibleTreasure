@@ -11,12 +11,13 @@
 #include "ofxCv.h"
 #include "IPCamInput.h"
 #include "VideoInput.h"
+#include "GuiableBase.h"
 
 // manages vision-based inputs: IP camera, video file, image file, etc
 // applies distortion coorection to active input
 // exposes the output image to the rest of the app
 //
-class VisionManager {
+class VisionManager : public GuiableBase {
 public:
     VisionManager();
     
@@ -33,11 +34,18 @@ public:
 	void mouseReleased(int x, int y, int button);
 	void windowResized(int w, int h);
 	void dragEvent(ofDragInfo dragInfo);
-	void gotMessage(ofMessage msg);
+    void gotMessage(ofMessage msg);
+    
+    void setupGui();
+    void drawGui();
+    
+    // gui
+    ofParameter<int> inputSelector;
+    ofParameter<bool> debugDraw;
+    void onInputChange(int & i);
 
 protected:  
 private:
-    
     IPCamInput ipcam;
     VideoInput video;
     vector<IVisionInput*> inputs;

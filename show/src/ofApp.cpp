@@ -29,11 +29,11 @@ ofApp::ofApp(ofxArgs* args) {
 }
 
 void ofApp::setup() {
-    setupGui();
     ofBackground(0);
     osc.setup();
     vision.setup();
     sceneManager.setup(&appModel, &osc);
+    setupGui();
 }
 
 void ofApp::update() {
@@ -44,7 +44,7 @@ void ofApp::update() {
 
 void ofApp::draw() {
     
-    //vision.draw();
+    if (vision.debugDraw) vision.draw();
     sceneManager.draw();
     osc.draw();
     
@@ -63,14 +63,18 @@ void ofApp::draw() {
 void ofApp::setupGui() {
     // setup panels
     // OSC
-    osc.setupGui();
     guiables.push_back(&osc);
+    // scene manager
+    guiables.push_back(&sceneManager);
+    // vision
+    guiables.push_back(&vision);
     
     // global panel
     panel.setDefaultWidth(250);
     parameters.setName("Global");
     parameters.add(debug.set("debug", true));
     for (auto guiable: guiables) {
+        guiable->setupGui();
         parameters.add(guiable->guiEnabled.set(guiable->guiName, false));
         guiable->panel.setPosition(270, 10);
     }
@@ -88,8 +92,10 @@ void ofApp::setupGui() {
 }
 
 void ofApp::drawGui() {
-    GuiableBase::drawGui();
-    for (auto guiable: guiables) guiable->drawGui();
+    if (guiEnabled) {
+        GuiableBase::drawGui();
+        for (auto guiable: guiables) guiable->drawGui();
+    }
 }
 
 void ofApp::keyPressed (int key) {

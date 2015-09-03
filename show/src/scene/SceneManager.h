@@ -17,8 +17,9 @@
 #include "AppModel.h"
 #include "OscClient.h"
 #include "Mic.h"
+#include "GuiableBase.h"
 
-class SceneManager {
+class SceneManager : public GuiableBase {
 public:
     SceneManager();
     
@@ -39,15 +40,25 @@ public:
 	void windowResized(int w, int h);
 	void dragEvent(ofDragInfo dragInfo);
 	void gotMessage(ofMessage msg);
+    
+    void setupGui();
+    void drawGui();
+    
 
 protected:  
 private:
+    // passed in from app
     OscClient* osc;
     AppModel* model;
     
-    // common views
+    // common display things
     LedDisplay led;
     Mic mic;
+    ofTrueTypeFont font;
+    
+    // gui
+    ofxButton nextSceneButton;
+    ofParameter<int> sceneIndex;
     
     // Scenes
     ShadowsScene shadows;
@@ -56,10 +67,9 @@ private:
     vector<SceneBase*> scenes;
     SceneBase* sceneIn;
     SceneBase* sceneOut;
-    int sceneIndex;
     
-    ofTrueTypeFont font;
     
+    // event listeners
     void onModeChange(AppModel::Mode& mode);
     void onSceneChange(SceneBase::State & state);
     void onPlayScene(int& id);

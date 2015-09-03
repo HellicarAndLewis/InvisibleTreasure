@@ -36,6 +36,11 @@ void SceneManager::setup(AppModel* model, OscClient* osc) {
         scene->setup();
         ofAddListener(scene->stateChangeEvent, this, &SceneManager::onSceneChange);
     }
+    
+    // setup GUI elements
+    nextSceneButton.addListener(this, &SceneManager::nextScene);
+    sceneIndex.set("scene number", 0, 0, scenes.size()-1);
+    
     playScene(0);
 }
 
@@ -73,10 +78,26 @@ void SceneManager::playScene(int id) {
     else ofLogWarning() << "in SceneManager::playScene, " << id << " is out of bounds";
     
 }
+
 void SceneManager::nextScene(){
     if (++sceneIndex < scenes.size()-1) {
         playScene(sceneIndex);
     }
+}
+
+void SceneManager::setupGui() {
+    guiName = "Scene Manager";
+    panel.setup(guiName, "settings/scenes.xml");
+    panel.add(nextSceneButton.setup("next"));
+    panel.add(sceneIndex);
+    panel.loadFromFile("settings/scenes.xml");
+    //guiables.push_back(this);
+    //return guiables;
+}
+
+void SceneManager::drawGui() {
+    GuiableBase::drawGui();
+    //for (auto guiable: guiables) guiable->drawGui();
 }
 
 //////////////////////////////////////////////////////////////////////////////////
