@@ -63,6 +63,14 @@ void ofApp::keyPressed (int key) {
     osc.keyPressed(key);
     vision.keyPressed(key);
     if (mode == WINDOW) sceneManager.keyPressed(key);
+    switch (key) {
+        case 'f':
+            ofToggleFullscreen();
+            break;
+            
+        default:
+            break;
+    }
 }
 
 void ofApp::keyReleased (int key) {}

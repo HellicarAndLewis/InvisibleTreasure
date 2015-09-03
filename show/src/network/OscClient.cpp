@@ -12,7 +12,7 @@ OscClient::OscClient() {
 }
 
 void OscClient::setup() {
-    sendAddress = "localhost";
+    sendAddress = "192.168.0.255";
     sendPort = 12345;
     receivePort = 12345;
     sender.setup(sendAddress, sendPort);

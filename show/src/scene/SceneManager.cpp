@@ -45,7 +45,7 @@ void SceneManager::exit() {
 void SceneManager::playScene(int id) {
     // if sceneOut is not NULL we're already animating out a scene
     // TODO: check for sceneOut != NULL and handle?
-    if (id > 0 && id < scenes.size()) {
+    if (id >= 0 && id < scenes.size()) {
         sceneIndex = id;
         sceneOut = sceneIn;
         sceneIn = scenes[id];

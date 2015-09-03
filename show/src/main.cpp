@@ -1,5 +1,6 @@
 #include "ofApp.h"
 #include "ofxArgs.h"
+#include "ofAppGLFWWindow.h"
 
 int main(int argc, char *argv[]) {
     // read in args
@@ -7,8 +8,10 @@ int main(int argc, char *argv[]) {
     bool fullScreen = args->getBool("-fullScreen", false);
     
     // setup window
-    if (fullScreen) ofSetupOpenGL(640, 480, OF_FULLSCREEN);
-    else ofSetupOpenGL(640, 480, OF_WINDOW);
+    ofAppGLFWWindow window;
+    window.setMultiDisplayFullscreen(true);
+    if (fullScreen) ofSetupOpenGL(&window, 640, 480, OF_FULLSCREEN);
+    else ofSetupOpenGL(&window, 640, 480, OF_WINDOW);
     
 	ofRunApp(new ofApp(args));
 }
