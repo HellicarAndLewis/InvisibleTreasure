@@ -117,6 +117,8 @@ void ofApp::keyPressed (int key) {
             break;
         case ' ':
             guiEnabled = !guiEnabled;
+            if (guiEnabled) ofShowCursor();
+            else ofHideCursor();
             break;
     }
 }

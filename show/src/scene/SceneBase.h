@@ -12,12 +12,13 @@
 #include "AppModel.h"
 #include "LedDisplay.h"
 #include "Mic.h"
+#include "GuiableBase.h"
 
 struct SceneEventArgs {
     float time;
 };
 
-class SceneBase {
+class SceneBase : public GuiableBase  {
 public:
     enum State {
         INACTIVE, INTRO, INTERACTIVE, OUTRO

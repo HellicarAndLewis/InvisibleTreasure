@@ -9,6 +9,7 @@
 #include "SceneManager.h"
 
 SceneManager::SceneManager() {
+    sceneIndex = 0;
 }
 
 void SceneManager::setup(AppModel* model, OscClient* osc) {
@@ -39,9 +40,10 @@ void SceneManager::setup(AppModel* model, OscClient* osc) {
     
     // setup GUI elements
     nextSceneButton.addListener(this, &SceneManager::nextScene);
-    sceneIndex.set("scene number", 0, 0, scenes.size()-1);
+    sceneSelctor.addListener(this, &SceneManager::onSceneSelect);
+    sceneSelctor.set("scene number", 0, 0, scenes.size()-1);
     
-    playScene(0);
+    playScene(sceneIndex);
 }
 
 void SceneManager::update() {
@@ -89,15 +91,24 @@ void SceneManager::setupGui() {
     guiName = "Scene Manager";
     panel.setup(guiName, "settings/scenes.xml");
     panel.add(nextSceneButton.setup("next"));
-    panel.add(sceneIndex);
+    panel.add(sceneSelctor);
+    
+    // child panels
+    guiables.push_back(&ignite);
+    for (auto guiable: guiables) {
+        guiable->setupGui();
+        panel.add(guiable->guiEnabled.set(guiable->guiName, false));
+        guiable->panel.setPosition(270*2, 10);
+    }
+    
     panel.loadFromFile("settings/scenes.xml");
-    //guiables.push_back(this);
-    //return guiables;
 }
 
 void SceneManager::drawGui() {
-    GuiableBase::drawGui();
-    //for (auto guiable: guiables) guiable->drawGui();
+    if (guiEnabled) {
+        GuiableBase::drawGui();
+        for (auto guiable: guiables) guiable->drawGui();
+    }
 }
 
 //////////////////////////////////////////////////////////////////////////////////
@@ -132,6 +143,10 @@ void SceneManager::onPlayScene(int& id) {
     if (model->mode != AppModel::MASTER) {
         playScene(id);
     }
+}
+
+void SceneManager::onSceneSelect(int & i) {
+    playScene(i);
 }
 
 //////////////////////////////////////////////////////////////////////////////////

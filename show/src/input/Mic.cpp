@@ -8,7 +8,7 @@ void Mic::setup(){
     fftFile.setMirrorData(false);
     fftFile.setup();
     
-    //soundPlayer.loadSound("sound/1085.mp3");
+    //soundPlayer.loadSound("sound/test.mp3");
     //soundPlayer.setLoop(true);
     //soundPlayer.play();
     
@@ -24,8 +24,8 @@ void Mic::update(){
 void Mic::draw(){
     // debug only
     ofSetColor(255);
-    ofDrawBitmapString("AUDIO FROM MIC (LIVE)", 10, 20);
-    ofDrawBitmapString("AUDIO FROM FILE (SOUND/1085.MP3)", 10, 310);
+    ofDrawBitmapString("AUDIO FROM MIC", 10, 20);
+    ofDrawBitmapString("AUDIO FROM FILE", 10, 310);
     fftLive.draw(10, 30);
     fftFile.draw(10, 320);
 }

@@ -29,6 +29,16 @@ public:
 	void windowResized(int w, int h);
 	void dragEvent(ofDragInfo dragInfo);
 	void gotMessage(ofMessage msg);
+    
+    void setupGui();
+    void drawGui();
+    
+    // gui
+    ofParameter<int> radiusMin;
+    ofParameter<int> radiusMax;
+    ofParameter<int> noiseScale;
+    ofParameter<float> threshold;
+    ofParameter<bool> debugDraw;
 
 protected:  
 private:

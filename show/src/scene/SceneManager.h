@@ -58,13 +58,15 @@ private:
     
     // gui
     ofxButton nextSceneButton;
-    ofParameter<int> sceneIndex;
+    ofParameter<int> sceneSelctor;
+    void onSceneSelect(int & i);
     
     // Scenes
     ShadowsScene shadows;
     IgniteScene ignite;
     LightboxScene lightbox;
     vector<SceneBase*> scenes;
+    int sceneIndex;
     SceneBase* sceneIn;
     SceneBase* sceneOut;
     

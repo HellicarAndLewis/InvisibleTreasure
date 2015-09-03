@@ -12,7 +12,7 @@
 
 class GuiableBase {
 public:
-    virtual void setupGui() = 0;
+    virtual void setupGui(){};
     virtual void drawGui() {
         if (guiEnabled) panel.draw();
     }
