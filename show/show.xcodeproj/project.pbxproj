@@ -11,6 +11,7 @@
 		6474CBF619BCE019003C94E2 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6474CBF019BCE00B003C94E2 /* AVFoundation.framework */; };
 		6474CBF719BCE019003C94E2 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6474CBF119BCE00B003C94E2 /* CoreMedia.framework */; };
 		6474CBF819BCE019003C94E2 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6474CBF219BCE00B003C94E2 /* QuartzCore.framework */; };
+		830CAAFD1B98F57A00217859 /* ContourTracker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 830CAAFB1B98F57A00217859 /* ContourTracker.cpp */; };
 		8366F8C01B970339006B9D74 /* IpEndpointName.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8366F89A1B970339006B9D74 /* IpEndpointName.cpp */; };
 		8366F8C11B970339006B9D74 /* NetworkingUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8366F89F1B970339006B9D74 /* NetworkingUtils.cpp */; };
 		8366F8C21B970339006B9D74 /* UdpSocket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8366F8A01B970339006B9D74 /* UdpSocket.cpp */; };
@@ -148,6 +149,8 @@
 		6474CBF019BCE00B003C94E2 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		6474CBF119BCE00B003C94E2 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		6474CBF219BCE00B003C94E2 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		830CAAFB1B98F57A00217859 /* ContourTracker.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ContourTracker.cpp; path = input/ContourTracker.cpp; sourceTree = "<group>"; };
+		830CAAFC1B98F57A00217859 /* ContourTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ContourTracker.h; path = input/ContourTracker.h; sourceTree = "<group>"; };
 		8366F89A1B970339006B9D74 /* IpEndpointName.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = IpEndpointName.cpp; sourceTree = "<group>"; };
 		8366F89B1B970339006B9D74 /* IpEndpointName.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IpEndpointName.h; sourceTree = "<group>"; };
 		8366F89C1B970339006B9D74 /* NetworkingUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkingUtils.h; sourceTree = "<group>"; };
@@ -646,6 +649,8 @@
 				8366F9291B9716FC006B9D74 /* VideoInput.cpp */,
 				8366F92A1B9716FC006B9D74 /* VideoInput.h */,
 				8366F9261B970964006B9D74 /* IVisionInput.h */,
+				830CAAFB1B98F57A00217859 /* ContourTracker.cpp */,
+				830CAAFC1B98F57A00217859 /* ContourTracker.h */,
 			);
 			name = input;
 			sourceTree = "<group>";
@@ -1175,6 +1180,7 @@
 				8366F9C61B989CD3006B9D74 /* ofxRemoteUIClient.cpp in Sources */,
 				8366F8F21B970351006B9D74 /* ofxEasingExpo.cpp in Sources */,
 				8366F8CD1B970339006B9D74 /* ofxOscSender.cpp in Sources */,
+				830CAAFD1B98F57A00217859 /* ContourTracker.cpp in Sources */,
 				8366F9081B970383006B9D74 /* ofxTCPClient.cpp in Sources */,
 				8366F9701B9877A0006B9D74 /* Mic.cpp in Sources */,
 				8366F9AA1B9899AB006B9D74 /* ofxLabel.cpp in Sources */,

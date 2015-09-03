@@ -38,7 +38,7 @@ bool VideoInput::getIsReady() {
 void VideoInput::start(){
     ofLogNotice() << "VideoInput::start";
     stop();
-    video.loadMovie("videos/dome.mov");
+    video.loadMovie("videos/PeopleTrackingAbove.mov");
     video.setLoopState(OF_LOOP_NORMAL);
     video.play();
 }

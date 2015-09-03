@@ -15,6 +15,9 @@ void VisionManager::setup() {
     input = inputs[inputIndex];
     input->start();
     
+    // tracker
+    contourTracker.setup();
+    
     // calibration
     FileStorage settings(ofToDataPath("camera/settings.yml"), FileStorage::READ);
     if(settings.isOpened()) {
@@ -38,6 +41,7 @@ void VisionManager::setup() {
     inputSelector.addListener(this, &VisionManager::onInputChange);
     inputSelector.set("input", 0, 0, inputs.size()-1);
     debugDraw.set("debug draw", false);
+    isCalibrating.set("calibrating", false);
 }
 
 void VisionManager::update() {
@@ -50,31 +54,37 @@ void VisionManager::update() {
             imitate(previous, inputImage);
             imitate(diff, inputImage);
         }
-        
-        Mat camMat = toCv(inputImage);
-        Mat prevMat = toCv(previous);
-        Mat diffMat = toCv(diff);
-        
-        absdiff(prevMat, camMat, diffMat);
-        camMat.copyTo(prevMat);
-        
-        diffMean = mean(Mat(mean(diffMat)))[0];
-        
-        float curTime = ofGetElapsedTimef();
-        if(ofGetKeyPressed('a')) {
-            if(calibration.add(camMat)) {
-                cout << "re-calibrating" << endl;
-                calibration.calibrate();
-                if(calibration.size() > 10) {
-                    calibration.clean();
+        if (isCalibrating) {
+            Mat camMat = toCv(inputImage);
+            Mat prevMat = toCv(previous);
+            Mat diffMat = toCv(diff);
+            
+            absdiff(prevMat, camMat, diffMat);
+            camMat.copyTo(prevMat);
+            
+            diffMean = mean(Mat(mean(diffMat)))[0];
+            
+            float curTime = ofGetElapsedTimef();
+            if(ofGetKeyPressed('a')) {
+                if(calibration.add(camMat)) {
+                    cout << "re-calibrating" << endl;
+                    calibration.calibrate();
+                    if(calibration.size() > 10) {
+                        calibration.clean();
+                    }
+                    calibration.save("camera/calibration.yml");
+                    lastTime = curTime;
                 }
-                calibration.save("camera/calibration.yml");
-                lastTime = curTime;
             }
         }
         
+        // undistort input into the output image
         calibration.undistort(toCv(inputImage), toCv(outputImage));
         outputImage.update();
+        
+        // TODO: use outputImage with contour tracker
+        contourTracker.image = &inputImage;
+        contourTracker.update();
     }
 }
 
@@ -85,14 +95,26 @@ void VisionManager::draw() {
     inputImage.draw(0, 0, w, h);
     outputImage.draw(w, 0, w, h);
     
-    stringstream intrinsics;
-    intrinsics << "fov: " << toOf(calibration.getDistortedIntrinsics().getFov()) << " distCoeffs: " << calibration.getDistCoeffs();
-    drawHighlightString(intrinsics.str(), 10, 20, yellowPrint, ofColor(0));
-    drawHighlightString("movement: " + ofToString(diffMean), 10, 40, cyanPrint);
-    drawHighlightString("reproj error: " + ofToString(calibration.getReprojectionError()) + " from " + ofToString(calibration.size()), 10, 60, magentaPrint);
-    for(int i = 0; i < calibration.size(); i++) {
-        //drawHighlightString(ofToString(i) + ": " + ofToString(calibration.getReprojectionError(i)), 10, 80 + 16 * i, magentaPrint);
+    if (isCalibrating) {
+        stringstream intrinsics;
+        intrinsics << "fov: " << toOf(calibration.getDistortedIntrinsics().getFov()) << " distCoeffs: " << calibration.getDistCoeffs();
+        drawHighlightString(intrinsics.str(), 10, 20, yellowPrint, ofColor(0));
+        drawHighlightString("movement: " + ofToString(diffMean), 10, 40, cyanPrint);
+        drawHighlightString("reproj error: " + ofToString(calibration.getReprojectionError()) + " from " + ofToString(calibration.size()), 10, 60, magentaPrint);
+        for(int i = 0; i < calibration.size(); i++) {
+            //drawHighlightString(ofToString(i) + ": " + ofToString(calibration.getReprojectionError(i)), 10, 80 + 16 * i, magentaPrint);
+        }
     }
+    
+    // draw contour tracking
+    ofPushMatrix();
+    {
+        ofTranslate(0, h);
+        float scale = h/contourTracker.thresholded.height;
+        ofScale(scale, scale);
+        contourTracker.draw();
+    }
+    ofPopMatrix();
 }
 
 void VisionManager::exit() {
@@ -102,10 +124,15 @@ void VisionManager::exit() {
 // public
 //////////////////////////////////////////////////////////////////////////////////
 void VisionManager::setupGui() {
+    // child guis
+    contourTracker.setupGui();
+    
     guiName = "Vision";
     panel.setup(guiName, "settings/vision.xml");
     panel.add(inputSelector);
     panel.add(debugDraw);
+    panel.add(isCalibrating);
+    panel.add(contourTracker.parameters);
     panel.loadFromFile("settings/vision.xml");
 }
 
@@ -141,6 +168,9 @@ void VisionManager::onInputChange(int & i) {
 void VisionManager::keyPressed (int key) {
     if(key == 'c') {
         calibration.reset();
+    }
+    if (key == 'b') {
+        contourTracker.resetBg();
     }
     if (key == OF_KEY_UP) {
         input->stop();
