@@ -1,38 +1,25 @@
 //
-//  LightboxScene.cpp
+//  AppModel.cpp
 //  show
 //
-//  Created by Chris Mullany on 02/09/2015.
+//  Created by Chris Mullany on 03/09/2015.
 //
 //
 
-#include "LightboxScene.h"
+#include "AppModel.h"
 
-LightboxScene::LightboxScene() {
-    name = "Lightbox";
+AppModel::AppModel() {
 }
 
-void LightboxScene::setup() {
+void AppModel::setup() {
 }
 
-void LightboxScene::update() {
-    SceneBase::update();
-}
-
-void LightboxScene::draw() {
-    SceneBase::draw();
+void AppModel::update() {
 }
 
 //////////////////////////////////////////////////////////////////////////////////
 // public
 //////////////////////////////////////////////////////////////////////////////////
-void LightboxScene::play(){
-    setState(INTRO);
-}
-
-void LightboxScene::stop(){
-    setState(OUTRO);
-}
 
 //////////////////////////////////////////////////////////////////////////////////
 // protected
@@ -49,21 +36,3 @@ void LightboxScene::stop(){
 //////////////////////////////////////////////////////////////////////////////////
 // oF event handlers
 //////////////////////////////////////////////////////////////////////////////////
-
-void LightboxScene::keyPressed (int key) {}
-
-void LightboxScene::keyReleased (int key) {}
-
-void LightboxScene::mouseMoved(int x, int y) {}
-
-void LightboxScene::mouseDragged(int x, int y, int button) {}
-
-void LightboxScene::mousePressed(int x, int y, int button) {}
-
-void LightboxScene::mouseReleased(int x, int y, int button) {}
-
-void LightboxScene::windowResized(int w, int h) {}
-
-void LightboxScene::dragEvent(ofDragInfo dragInfo) {}
-
-void LightboxScene::gotMessage(ofMessage msg) {}

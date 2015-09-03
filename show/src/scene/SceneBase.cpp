@@ -10,6 +10,7 @@
 
 SceneBase::SceneBase() {
     state = INACTIVE;
+    isDebugMode = true;
 }
 
 void SceneBase::setup() {
@@ -24,6 +25,17 @@ void SceneBase::update() {
 }
 
 void SceneBase::draw() {
+    
+    if (isDebugMode) {
+        //ofSetColor(10, 10, 200);
+        //ofRect(0, 0, ofGetWidth(), ofGetHeight());
+        ofSetColor(255);
+        string s = name  + " (" + modeLabel + ")";
+        ofRectangle rect = font->getStringBoundingBox(s, 0, 0);
+        font->drawString(s, (ofGetWidth()/2) - (rect.width/2), ofGetHeight()/2);
+    }
+    
+    // Generic intro/outro fade to black
     if (state == INTRO) {
         ofSetColor(0,0,0, (1-progress)*255);
         ofRect(0, 0, ofGetWidth(), ofGetHeight());

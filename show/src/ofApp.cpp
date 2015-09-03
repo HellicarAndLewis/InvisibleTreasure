@@ -13,10 +13,8 @@ ofApp::ofApp(ofxArgs* args) {
     int id = args->getInt("-id", 0);
     
     // Mode can be "MASTER", "WINDOW", "SLAVE"
-    modeString = ofToUpper(args->getString("-mode", "WINDOW"));
-    if (modeString == "MASTER") mode = MASTER;
-    else if (modeString == "SLAVE") mode = SLAVE;
-    else mode = WINDOW;
+    string modeString = ofToUpper(args->getString("-mode", "MASTER"));
+    appModel.setMode(modeString);
     
     // logging
     ofSetLogLevel((ofLogLevel)logLevel);
@@ -31,30 +29,24 @@ ofApp::ofApp(ofxArgs* args) {
 }
 
 void ofApp::setup() {
+    ofBackground(0);
     osc.setup();
     vision.setup();
-    if (mode == WINDOW) sceneManager.setup();
-    if (mode == SLAVE) led.setup();
+    sceneManager.setup(&appModel, &osc);
 }
 
 void ofApp::update() {
     osc.update();
-    if (mode == WINDOW) {
-        vision.update();
-        sceneManager.update();
-    }
-    else if (mode == SLAVE) led.update();
+    vision.update();
+    sceneManager.update();
 }
 
 void ofApp::draw() {
-    if (mode == WINDOW) {
-        vision.draw();
-        sceneManager.draw();
-    }
-    else if (mode == SLAVE) led.draw();
+    //vision.draw();
+    sceneManager.draw();
     osc.draw();
     // debug
-    string s = modeString;
+    string s = appModel.modeString;
     s += "\n" + ofToString(ofGetFrameRate());
     ofDrawBitmapStringHighlight(s, 10, ofGetHeight() - 20);
 }
@@ -62,7 +54,7 @@ void ofApp::draw() {
 void ofApp::keyPressed (int key) {
     osc.keyPressed(key);
     vision.keyPressed(key);
-    if (mode == WINDOW) sceneManager.keyPressed(key);
+    sceneManager.keyPressed(key);
     switch (key) {
         case 'f':
             ofToggleFullscreen();

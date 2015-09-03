@@ -2,14 +2,13 @@
 
 #include "ofMain.h"
 #include "ofxArgs.h"
-#include "led/LedDisplay.h"
+#include "AppModel.h"
 #include "input/VisionManager.h"
 #include "scene/SceneManager.h"
 #include "network/OscClient.h"
 
 class ofApp : public ofBaseApp {
 public:
-    enum MODE {MASTER, SLAVE, WINDOW} mode;
     ofApp(ofxArgs* args);
 	void setup();
 	void update();
@@ -23,9 +22,8 @@ public:
     void mouseReleased(int x, int y, int button);
     void windowResized(int w, int h);
 private:
-    string modeString;
+    AppModel appModel;
     VisionManager vision;
     SceneManager sceneManager;
-    LedDisplay led;
     OscClient osc;
 };

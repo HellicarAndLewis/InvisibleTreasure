@@ -57,6 +57,7 @@
 		8366F9591B974242006B9D74 /* ofxArgs.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8366F9541B974242006B9D74 /* ofxArgs.cpp */; };
 		8366F9611B974EF2006B9D74 /* LedDisplay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8366F95F1B974EF2006B9D74 /* LedDisplay.cpp */; };
 		8366F9661B97574F006B9D74 /* OscClient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8366F9641B97574F006B9D74 /* OscClient.cpp */; };
+		8366F96A1B984E27006B9D74 /* AppModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8366F9681B984E27006B9D74 /* AppModel.cpp */; };
 		83D8F3341B95CDBC00C12951 /* ETF.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 83D8F3181B95CDBC00C12951 /* ETF.cpp */; };
 		83D8F3351B95CDBC00C12951 /* fdog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 83D8F3191B95CDBC00C12951 /* fdog.cpp */; };
 		83D8F3361B95CDBC00C12951 /* Calibration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 83D8F3291B95CDBC00C12951 /* Calibration.cpp */; };
@@ -228,6 +229,8 @@
 		8366F9601B974EF2006B9D74 /* LedDisplay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LedDisplay.h; path = led/LedDisplay.h; sourceTree = "<group>"; };
 		8366F9641B97574F006B9D74 /* OscClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = OscClient.cpp; path = network/OscClient.cpp; sourceTree = "<group>"; };
 		8366F9651B97574F006B9D74 /* OscClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OscClient.h; path = network/OscClient.h; sourceTree = "<group>"; };
+		8366F9681B984E27006B9D74 /* AppModel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AppModel.cpp; sourceTree = "<group>"; };
+		8366F9691B984E27006B9D74 /* AppModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppModel.h; sourceTree = "<group>"; };
 		83D8F30F1B95CDBC00C12951 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		83D8F3131B95CDBC00C12951 /* ETF.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ETF.h; sourceTree = "<group>"; };
 		83D8F3141B95CDBC00C12951 /* fdog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = fdog.h; sourceTree = "<group>"; };
@@ -551,6 +554,7 @@
 		8366F91A1B970490006B9D74 /* scene */ = {
 			isa = PBXGroup;
 			children = (
+				8366F96B1B985276006B9D74 /* common */,
 				8366F9411B97326E006B9D74 /* shadows */,
 				8366F9421B97327E006B9D74 /* ignite */,
 				8366F9491B9732EF006B9D74 /* lightbox */,
@@ -637,6 +641,13 @@
 				8366F9651B97574F006B9D74 /* OscClient.h */,
 			);
 			name = network;
+			sourceTree = "<group>";
+		};
+		8366F96B1B985276006B9D74 /* common */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = common;
 			sourceTree = "<group>";
 		};
 		83D8F30E1B95CDBC00C12951 /* libs */ = {
@@ -853,6 +864,8 @@
 				E4B69E1D0A3A1BDC003C02F2 /* main.cpp */,
 				E4B69E1E0A3A1BDC003C02F2 /* ofApp.cpp */,
 				E4B69E1F0A3A1BDC003C02F2 /* ofApp.h */,
+				8366F9681B984E27006B9D74 /* AppModel.cpp */,
+				8366F9691B984E27006B9D74 /* AppModel.h */,
 			);
 			path = src;
 			sourceTree = SOURCE_ROOT;
@@ -975,6 +988,7 @@
 				8366F9331B972CA9006B9D74 /* SceneManager.cpp in Sources */,
 				83D8F3391B95CDBC00C12951 /* Flow.cpp in Sources */,
 				83D8F3401B95CDBC00C12951 /* Wrappers.cpp in Sources */,
+				8366F96A1B984E27006B9D74 /* AppModel.cpp in Sources */,
 				8366F9471B9732EA006B9D74 /* IgniteScene.cpp in Sources */,
 				8366F8CB1B970339006B9D74 /* ofxOscParameterSync.cpp in Sources */,
 				83D8F3341B95CDBC00C12951 /* ETF.cpp in Sources */,

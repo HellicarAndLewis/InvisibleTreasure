@@ -9,6 +9,7 @@
 #include "ShadowsScene.h"
 
 ShadowsScene::ShadowsScene() {
+    name = "Shadows";
 }
 
 void ShadowsScene::setup() {
@@ -19,12 +20,9 @@ void ShadowsScene::update() {
 }
 
 void ShadowsScene::draw() {
-    ofSetColor(10, 10, 200);
-    ofRect(0, 0, ofGetWidth(), ofGetHeight());
-    ofSetColor(255);
-    string s = "Scene 1:Shadows";
-    ofRectangle rect = font->getStringBoundingBox(s, 0, 0);
-    font->drawString(s, (ofGetWidth()/2) - (rect.width/2), ofGetHeight()/2);
+    if (mode == AppModel::SLAVE) {
+        // Draw video
+    }
     SceneBase::draw();
 }
 

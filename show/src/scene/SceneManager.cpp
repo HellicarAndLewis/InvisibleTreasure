@@ -11,19 +11,26 @@
 SceneManager::SceneManager() {
 }
 
-void SceneManager::setup() {
+void SceneManager::setup(AppModel* model, OscClient* osc) {
+    
+    this->model = model;
+    this->osc = osc;
+    ofAddListener(this->osc->playSceneEvent, this, &SceneManager::onPlayScene);
+    
     scenes.push_back(&shadows);
     scenes.push_back(&ignite);
     scenes.push_back(&lightbox);
-    sceneIndex = 0;
-    sceneIn = scenes[sceneIndex];
+    sceneIn = NULL;
     sceneOut = NULL;
     font.loadFont("fonts/verdana.ttf", 30);
     for (auto scene: scenes) {
         scene->font = &font;
+        scene->mode = model->mode;
+        scene->modeLabel = model->modeString;
         scene->setup();
         ofAddListener(scene->stateChangeEvent, this, &SceneManager::onSceneChange);
     }
+    playScene(0);
 }
 
 void SceneManager::update() {
@@ -44,12 +51,18 @@ void SceneManager::exit() {
 //////////////////////////////////////////////////////////////////////////////////
 void SceneManager::playScene(int id) {
     // if sceneOut is not NULL we're already animating out a scene
-    // TODO: check for sceneOut != NULL and handle?
     if (id >= 0 && id < scenes.size()) {
         sceneIndex = id;
-        sceneOut = sceneIn;
-        sceneIn = scenes[id];
-        sceneOut->stop();
+        if (sceneIn == NULL) {
+            sceneIn = scenes[id];
+            sceneIn->play();
+        }
+        else {
+            sceneOut = sceneIn;
+            sceneIn = scenes[id];
+            sceneOut->stop();
+        }
+        if (model->mode == AppModel::MASTER) osc->sendPlayScene(id);
     }
     else ofLogWarning() << "in SceneManager::playScene, " << id << " is out of bounds";
     
@@ -78,6 +91,11 @@ void SceneManager::onSceneChange(SceneBase::State & state) {
             sceneIn->play();
             sceneOut = NULL;
         }
+    }
+}
+void SceneManager::onPlayScene(int& id) {
+    if (model->mode != AppModel::MASTER) {
+        playScene(id);
     }
 }
 

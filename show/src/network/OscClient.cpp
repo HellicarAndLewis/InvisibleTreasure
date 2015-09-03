@@ -7,6 +7,7 @@
 //
 
 #include "OscClient.h"
+#define PLAY_SCENE_ADRESS "/playscene"
 
 OscClient::OscClient() {
 }
@@ -35,6 +36,12 @@ void OscClient::update() {
         receiver.getNextMessage(&m);
         string msg_string;
         msg_string = m.getAddress();
+        
+        if (msg_string == PLAY_SCENE_ADRESS) {
+            int id = m.getArgAsInt32(0);
+            ofNotifyEvent(playSceneEvent, id, this);
+        }
+        
         msg_string += ": ";
         for(int i = 0; i < m.getNumArgs(); i++){
             // get the argument type
@@ -75,7 +82,12 @@ void OscClient::exit() {
 //////////////////////////////////////////////////////////////////////////////////
 // public
 //////////////////////////////////////////////////////////////////////////////////
-
+void OscClient::sendPlayScene(int id) {
+    ofxOscMessage m;
+    m.setAddress(PLAY_SCENE_ADRESS);
+    m.addIntArg(id);
+    sender.sendMessage(m);
+}
 //////////////////////////////////////////////////////////////////////////////////
 // protected
 //////////////////////////////////////////////////////////////////////////////////

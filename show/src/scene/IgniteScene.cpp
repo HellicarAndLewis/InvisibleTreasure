@@ -9,6 +9,7 @@
 #include "IgniteScene.h"
 
 IgniteScene::IgniteScene() {
+    name = "Ignite";
 }
 
 void IgniteScene::setup() {
@@ -19,12 +20,6 @@ void IgniteScene::update() {
 }
 
 void IgniteScene::draw() {
-    ofSetColor(10, 200, 10);
-    ofRect(0, 0, ofGetWidth(), ofGetHeight());
-    ofSetColor(255);
-    string s = "Scene 2: Ignite";
-    ofRectangle rect = font->getStringBoundingBox(s, 0, 0);
-    font->drawString(s, (ofGetWidth()/2) - (rect.width/2), ofGetHeight()/2);
     SceneBase::draw();
 }
 

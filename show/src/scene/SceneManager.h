@@ -13,12 +13,15 @@
 #include "ShadowsScene.h"
 #include "IgniteScene.h"
 #include "LightboxScene.h"
+#include "LedDisplay.h"
+#include "AppModel.h"
+#include "OscClient.h"
 
 class SceneManager {
 public:
     SceneManager();
     
-	void setup();
+    void setup(AppModel* model, OscClient* osc);
 	void update();
 	void draw();
 	void exit();
@@ -38,6 +41,12 @@ public:
 
 protected:  
 private:
+    OscClient* osc;
+    AppModel* model;
+    
+    // common views
+    LedDisplay led;
+    
     // Scenes
     ShadowsScene shadows;
     IgniteScene ignite;
@@ -50,4 +59,5 @@ private:
     ofTrueTypeFont font;
     
     void onSceneChange(SceneBase::State & state);
+    void onPlayScene(int& id);
 };

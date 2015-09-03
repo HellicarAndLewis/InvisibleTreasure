@@ -9,6 +9,7 @@
 #pragma once
 #include "ofMain.h"
 #include "ofxTween.h"
+#include "AppModel.h"
 
 struct SceneEventArgs {
     float time;
@@ -41,6 +42,11 @@ public:
     
     ofEvent<State> stateChangeEvent;
     ofTrueTypeFont* font;
+    AppModel::Mode mode;
+    
+    bool isDebugMode;
+    string name;
+    string modeLabel;
 
 protected:
     ofxTween tween;
