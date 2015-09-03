@@ -10,14 +10,14 @@
 #define PLAY_SCENE_ADRESS "/playscene"
 
 OscClient::OscClient() {
+    sendAddress = "192.168.0.255";
+    sendPort = "12345";
+    receivePort = "12345";
 }
 
 void OscClient::setup() {
-    sendAddress = "192.168.0.255";
-    sendPort = 12345;
-    receivePort = 12345;
-    sender.setup(sendAddress, sendPort);
-    receiver.setup(receivePort);
+    sender.setup(sendAddress, ofToInt(sendPort));
+    receiver.setup(ofToInt(receivePort));
     current_msg_string = 0;
 }
 
@@ -79,15 +79,30 @@ void OscClient::draw() {
 void OscClient::exit() {
 }
 
+
 //////////////////////////////////////////////////////////////////////////////////
 // public
 //////////////////////////////////////////////////////////////////////////////////
+
+void OscClient::setupGui() {
+    guiName = "OSC";
+    parameters.setName(guiName);
+    parameters.add(sendAddress.set("to IP", "192.168.0.255"));
+    parameters.add(sendPort.set("to port", "12345"));
+    panel.setup(parameters, "settings/osc.xml");
+    vector<GuiableBase*> guiables;
+    guiables.push_back(this);
+    return guiables;
+}
+
 void OscClient::sendPlayScene(int id) {
     ofxOscMessage m;
     m.setAddress(PLAY_SCENE_ADRESS);
     m.addIntArg(id);
     sender.sendMessage(m);
 }
+
+
 //////////////////////////////////////////////////////////////////////////////////
 // protected
 //////////////////////////////////////////////////////////////////////////////////

@@ -56,7 +56,7 @@ void VisionManager::update() {
         diffMean = mean(Mat(mean(diffMat)))[0];
         
         float curTime = ofGetElapsedTimef();
-        if(ofGetKeyPressed(' ')) {
+        if(ofGetKeyPressed('a')) {
             if(calibration.add(camMat)) {
                 cout << "re-calibrating" << endl;
                 calibration.calibrate();

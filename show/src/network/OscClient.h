@@ -9,9 +9,10 @@
 #pragma once
 #include "ofMain.h"
 #include "ofxOsc.h"
+#include "GuiableBase.h"
 #define NUM_MSG_STRINGS 20
 
-class OscClient {
+class OscClient : public GuiableBase {
 public:
     OscClient();
     
@@ -30,20 +31,20 @@ public:
 	void dragEvent(ofDragInfo dragInfo);
 	void gotMessage(ofMessage msg);
     
+    void setupGui();
     void sendPlayScene(int id);
     
     ofEvent<int> playSceneEvent;
-
+    
 protected:  
 private:
-    string sendAddress;
-    int sendPort;
     ofxOscSender sender;
-    
-    int receivePort;
     ofxOscReceiver receiver;
     int current_msg_string;
     string msg_strings[NUM_MSG_STRINGS];
     float timers[NUM_MSG_STRINGS];
     
+    ofParameter<string> sendAddress;
+    ofParameter<string> sendPort;
+    ofParameter<string> receivePort;
 };

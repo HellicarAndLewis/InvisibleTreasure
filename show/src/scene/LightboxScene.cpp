@@ -16,6 +16,11 @@ void LightboxScene::setup() {
 }
 
 void LightboxScene::update() {
+    if (mode == AppModel::MASTER) {
+        // get vision image
+        // do cv tracking
+        // fire off OSC when blobs enter certain areas
+    }
     SceneBase::update();
 }
 

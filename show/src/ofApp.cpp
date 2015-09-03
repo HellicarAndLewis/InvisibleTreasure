@@ -29,6 +29,7 @@ ofApp::ofApp(ofxArgs* args) {
 }
 
 void ofApp::setup() {
+    setupGui();
     ofBackground(0);
     osc.setup();
     vision.setup();
@@ -42,13 +43,53 @@ void ofApp::update() {
 }
 
 void ofApp::draw() {
+    
     //vision.draw();
     sceneManager.draw();
     osc.draw();
-    // debug
-    string s = appModel.modeString;
-    s += "\n" + ofToString(ofGetFrameRate());
-    ofDrawBitmapStringHighlight(s, 10, ofGetHeight() - 20);
+    
+    // GUI panels
+    drawGui();
+    
+    // debug draw
+    if (debug) {
+        string s = appModel.modeString;
+        s += "\n" + ofToString(ofGetFrameRate());
+        ofDrawBitmapStringHighlight(s, 10, ofGetHeight() - 20);
+    }
+    
+}
+
+void ofApp::setupGui() {
+    // setup panels
+    // OSC
+    osc.setupGui();
+    guiables.push_back(&osc);
+    
+    // global panel
+    panel.setDefaultWidth(250);
+    parameters.setName("Global");
+    parameters.add(debug.set("debug", true));
+    for (auto guiable: guiables) {
+        parameters.add(guiable->guiEnabled.set(guiable->guiName, false));
+        guiable->panel.setPosition(270, 10);
+    }
+    
+    // Setup and load GUI
+    panel.setup(parameters, "settings/global.xml");
+    panel.loadFromFile("settings/global.xml");
+    
+    // setup the RemoteUIServer
+    RUI_SETUP();
+    ruiBridge.setup(parameters);
+    
+    
+    if (appModel.mode == AppModel::MASTER) guiEnabled = true;
+}
+
+void ofApp::drawGui() {
+    GuiableBase::drawGui();
+    for (auto guiable: guiables) guiable->drawGui();
 }
 
 void ofApp::keyPressed (int key) {
@@ -67,6 +108,9 @@ void ofApp::keyPressed (int key) {
             break;
         case 's':
             appModel.setMode("SLAVE");
+            break;
+        case ' ':
+            guiEnabled = !guiEnabled;
             break;
     }
 }

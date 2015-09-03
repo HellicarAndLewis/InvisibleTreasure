@@ -19,22 +19,17 @@ fi
 # git clone specific revision of the addons
 # this ensures that things won't break if repositories are updated
 
-${CLONE}elliotwoods/ofxLiquidEvent
-cd ofxLiquidEvent
+${CLONE}brucelane/ofxImGui
+cd ofxImGui
 # git checkout ???
 cd ..
 
-${CLONE}gameoverhack/ofxBezierWarp
-cd ofxBezierWarp
-# git checkout ???
-cd ..
-
-${CLONE}bakercp/ofxIpVideoGrabber.git
+${CLONE}bakercp/ofxIpVideoGrabber
 cd ofxIpVideoGrabber
 # git checkout ???
 cd ..
 
-${CLONE}kylemcdonald/ofxCv.git
+${CLONE}kylemcdonald/ofxCv
 cd ofxCv
 # git checkout ???
 cd ..
