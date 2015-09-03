@@ -22,7 +22,7 @@ void LedDisplay::draw() {
     ofSetColor(250);
     ofRect(0, 0, ofGetWidth(), ofGetHeight());
     ofSetColor(20);
-    string s = ofToString(ofGetElapsedTimeMillis());
+    string s = label;//ofToString(ofGetElapsedTimeMillis());
     ofRectangle rect = font.getStringBoundingBox(s, 0, 0);
     font.drawString(s, (ofGetWidth()/2) - (rect.width/2), ofGetHeight()/2);
 }

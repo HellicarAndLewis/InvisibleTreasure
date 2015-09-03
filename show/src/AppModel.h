@@ -19,11 +19,14 @@ public:
     enum Mode {MASTER, SLAVE, WINDOW} mode;
     string modeString;
     
+    ofEvent<Mode> modeChangeEvent;
+    
     void setMode(string modeString) {
         this->modeString = modeString;
         if (modeString == "MASTER") mode = MASTER;
         else if (modeString == "SLAVE") mode = SLAVE;
         else mode = WINDOW;
+        ofNotifyEvent(modeChangeEvent, mode, this);
     }
 
 protected:  

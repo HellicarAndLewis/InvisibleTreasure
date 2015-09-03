@@ -16,12 +16,15 @@ void ShadowsScene::setup() {
 }
 
 void ShadowsScene::update() {
+    video.update();
     SceneBase::update();
 }
 
 void ShadowsScene::draw() {
     if (mode == AppModel::SLAVE) {
-        // Draw video
+        // display 1 is LED
+        // diplay 2 is wall projector
+        video.draw(ofGetWidth()/2, 0, ofGetWidth()/2, ofGetHeight());
     }
     SceneBase::draw();
 }
@@ -30,6 +33,9 @@ void ShadowsScene::draw() {
 // public
 //////////////////////////////////////////////////////////////////////////////////
 void ShadowsScene::play(){
+    video.loadMovie("videos/15peopletest_sm2.mov");
+    video.setLoopState(OF_LOOP_NORMAL);
+    video.play();
     setState(INTRO);
 }
 

@@ -10,6 +10,8 @@
 #include "ofMain.h"
 #include "ofxTween.h"
 #include "AppModel.h"
+#include "LedDisplay.h"
+#include "Mic.h"
 
 struct SceneEventArgs {
     float time;
@@ -41,6 +43,8 @@ public:
 	void gotMessage(ofMessage msg);
     
     ofEvent<State> stateChangeEvent;
+    LedDisplay* led;
+    Mic* mic;
     ofTrueTypeFont* font;
     AppModel::Mode mode;
     

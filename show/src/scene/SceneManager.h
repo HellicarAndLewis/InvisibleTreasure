@@ -16,6 +16,7 @@
 #include "LedDisplay.h"
 #include "AppModel.h"
 #include "OscClient.h"
+#include "Mic.h"
 
 class SceneManager {
 public:
@@ -46,6 +47,7 @@ private:
     
     // common views
     LedDisplay led;
+    Mic mic;
     
     // Scenes
     ShadowsScene shadows;
@@ -58,6 +60,7 @@ private:
     
     ofTrueTypeFont font;
     
+    void onModeChange(AppModel::Mode& mode);
     void onSceneChange(SceneBase::State & state);
     void onPlayScene(int& id);
 };

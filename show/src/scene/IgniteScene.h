@@ -32,5 +32,9 @@ public:
 
 protected:  
 private:
+    vector<float> levels;
+    vector<float> previousLevels;
+    bool audioMirror;
+    float averageVolume;
     
 };

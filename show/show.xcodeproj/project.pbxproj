@@ -58,6 +58,11 @@
 		8366F9611B974EF2006B9D74 /* LedDisplay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8366F95F1B974EF2006B9D74 /* LedDisplay.cpp */; };
 		8366F9661B97574F006B9D74 /* OscClient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8366F9641B97574F006B9D74 /* OscClient.cpp */; };
 		8366F96A1B984E27006B9D74 /* AppModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8366F9681B984E27006B9D74 /* AppModel.cpp */; };
+		8366F9701B9877A0006B9D74 /* Mic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8366F96E1B9877A0006B9D74 /* Mic.cpp */; };
+		8366F97C1B9877BA006B9D74 /* fft.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8366F9731B9877BA006B9D74 /* fft.cpp */; };
+		8366F97D1B9877BA006B9D74 /* ofxFFTBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8366F9761B9877BA006B9D74 /* ofxFFTBase.cpp */; };
+		8366F97E1B9877BA006B9D74 /* ofxFFTFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8366F9781B9877BA006B9D74 /* ofxFFTFile.cpp */; };
+		8366F97F1B9877BA006B9D74 /* ofxFFTLive.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8366F97A1B9877BA006B9D74 /* ofxFFTLive.cpp */; };
 		83D8F3341B95CDBC00C12951 /* ETF.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 83D8F3181B95CDBC00C12951 /* ETF.cpp */; };
 		83D8F3351B95CDBC00C12951 /* fdog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 83D8F3191B95CDBC00C12951 /* fdog.cpp */; };
 		83D8F3361B95CDBC00C12951 /* Calibration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 83D8F3291B95CDBC00C12951 /* Calibration.cpp */; };
@@ -231,6 +236,16 @@
 		8366F9651B97574F006B9D74 /* OscClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OscClient.h; path = network/OscClient.h; sourceTree = "<group>"; };
 		8366F9681B984E27006B9D74 /* AppModel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AppModel.cpp; sourceTree = "<group>"; };
 		8366F9691B984E27006B9D74 /* AppModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppModel.h; sourceTree = "<group>"; };
+		8366F96E1B9877A0006B9D74 /* Mic.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Mic.cpp; path = input/Mic.cpp; sourceTree = "<group>"; };
+		8366F96F1B9877A0006B9D74 /* Mic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Mic.h; path = input/Mic.h; sourceTree = "<group>"; };
+		8366F9731B9877BA006B9D74 /* fft.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = fft.cpp; sourceTree = "<group>"; };
+		8366F9741B9877BA006B9D74 /* fft.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = fft.h; sourceTree = "<group>"; };
+		8366F9761B9877BA006B9D74 /* ofxFFTBase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxFFTBase.cpp; sourceTree = "<group>"; };
+		8366F9771B9877BA006B9D74 /* ofxFFTBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxFFTBase.h; sourceTree = "<group>"; };
+		8366F9781B9877BA006B9D74 /* ofxFFTFile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxFFTFile.cpp; sourceTree = "<group>"; };
+		8366F9791B9877BA006B9D74 /* ofxFFTFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxFFTFile.h; sourceTree = "<group>"; };
+		8366F97A1B9877BA006B9D74 /* ofxFFTLive.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxFFTLive.cpp; sourceTree = "<group>"; };
+		8366F97B1B9877BA006B9D74 /* ofxFFTLive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxFFTLive.h; sourceTree = "<group>"; };
 		83D8F30F1B95CDBC00C12951 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		83D8F3131B95CDBC00C12951 /* ETF.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ETF.h; sourceTree = "<group>"; };
 		83D8F3141B95CDBC00C12951 /* fdog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = fdog.h; sourceTree = "<group>"; };
@@ -569,6 +584,8 @@
 		8366F91B1B97049B006B9D74 /* input */ = {
 			isa = PBXGroup;
 			children = (
+				8366F96E1B9877A0006B9D74 /* Mic.cpp */,
+				8366F96F1B9877A0006B9D74 /* Mic.h */,
 				8366F91F1B9706C1006B9D74 /* VisionManager.cpp */,
 				8366F9201B9706C1006B9D74 /* VisionManager.h */,
 				8366F91C1B970584006B9D74 /* IPCamInput.cpp */,
@@ -648,6 +665,47 @@
 			children = (
 			);
 			name = common;
+			sourceTree = "<group>";
+		};
+		8366F96C1B986444006B9D74 /* common */ = {
+			isa = PBXGroup;
+			children = (
+				8366F95B1B974EB4006B9D74 /* led */,
+			);
+			name = common;
+			sourceTree = "<group>";
+		};
+		8366F9711B9877B0006B9D74 /* ofxFFT */ = {
+			isa = PBXGroup;
+			children = (
+				8366F9721B9877BA006B9D74 /* libs */,
+				8366F9751B9877BA006B9D74 /* src */,
+			);
+			name = ofxFFT;
+			sourceTree = "<group>";
+		};
+		8366F9721B9877BA006B9D74 /* libs */ = {
+			isa = PBXGroup;
+			children = (
+				8366F9731B9877BA006B9D74 /* fft.cpp */,
+				8366F9741B9877BA006B9D74 /* fft.h */,
+			);
+			name = libs;
+			path = ../../../addons/ofxFFT/libs;
+			sourceTree = "<group>";
+		};
+		8366F9751B9877BA006B9D74 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				8366F9761B9877BA006B9D74 /* ofxFFTBase.cpp */,
+				8366F9771B9877BA006B9D74 /* ofxFFTBase.h */,
+				8366F9781B9877BA006B9D74 /* ofxFFTFile.cpp */,
+				8366F9791B9877BA006B9D74 /* ofxFFTFile.h */,
+				8366F97A1B9877BA006B9D74 /* ofxFFTLive.cpp */,
+				8366F97B1B9877BA006B9D74 /* ofxFFTLive.h */,
+			);
+			name = src;
+			path = ../../../addons/ofxFFT/src;
 			sourceTree = "<group>";
 		};
 		83D8F30E1B95CDBC00C12951 /* libs */ = {
@@ -781,6 +839,7 @@
 		BB4B014C10F69532006C3DED /* addons */ = {
 			isa = PBXGroup;
 			children = (
+				8366F9711B9877B0006B9D74 /* ofxFFT */,
 				8366F94C1B974242006B9D74 /* ofxArgs */,
 				8366F90C1B97038C006B9D74 /* ofxXmlSettings */,
 				8366F8FA1B970383006B9D74 /* ofxNetwork */,
@@ -857,8 +916,8 @@
 		E4B69E1C0A3A1BDC003C02F2 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				8366F96C1B986444006B9D74 /* common */,
 				8366F9631B975731006B9D74 /* network */,
-				8366F95B1B974EB4006B9D74 /* led */,
 				8366F91B1B97049B006B9D74 /* input */,
 				8366F91A1B970490006B9D74 /* scene */,
 				E4B69E1D0A3A1BDC003C02F2 /* main.cpp */,
@@ -983,6 +1042,7 @@
 				8366F8F21B970351006B9D74 /* ofxEasingExpo.cpp in Sources */,
 				8366F8CD1B970339006B9D74 /* ofxOscSender.cpp in Sources */,
 				8366F9081B970383006B9D74 /* ofxTCPClient.cpp in Sources */,
+				8366F9701B9877A0006B9D74 /* Mic.cpp in Sources */,
 				8366F8F31B970351006B9D74 /* ofxEasingLinear.cpp in Sources */,
 				8366F92B1B9716FC006B9D74 /* VideoInput.cpp in Sources */,
 				8366F9331B972CA9006B9D74 /* SceneManager.cpp in Sources */,
@@ -990,6 +1050,7 @@
 				83D8F3401B95CDBC00C12951 /* Wrappers.cpp in Sources */,
 				8366F96A1B984E27006B9D74 /* AppModel.cpp in Sources */,
 				8366F9471B9732EA006B9D74 /* IgniteScene.cpp in Sources */,
+				8366F97D1B9877BA006B9D74 /* ofxFFTBase.cpp in Sources */,
 				8366F8CB1B970339006B9D74 /* ofxOscParameterSync.cpp in Sources */,
 				83D8F3341B95CDBC00C12951 /* ETF.cpp in Sources */,
 				8366F8C51B970339006B9D74 /* OscOutboundPacketStream.cpp in Sources */,
@@ -1017,7 +1078,10 @@
 				8366F8C61B970339006B9D74 /* OscPrintReceivedElements.cpp in Sources */,
 				83D8F3361B95CDBC00C12951 /* Calibration.cpp in Sources */,
 				E4B69E210A3A1BDC003C02F2 /* ofApp.cpp in Sources */,
+				8366F97C1B9877BA006B9D74 /* fft.cpp in Sources */,
 				83D8F3381B95CDBC00C12951 /* Distance.cpp in Sources */,
+				8366F97E1B9877BA006B9D74 /* ofxFFTFile.cpp in Sources */,
+				8366F97F1B9877BA006B9D74 /* ofxFFTLive.cpp in Sources */,
 				8366F9391B972D04006B9D74 /* SceneBase.cpp in Sources */,
 				8366F9211B9706C1006B9D74 /* VisionManager.cpp in Sources */,
 				8366F8C01B970339006B9D74 /* IpEndpointName.cpp in Sources */,

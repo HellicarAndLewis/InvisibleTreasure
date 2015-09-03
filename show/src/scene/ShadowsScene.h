@@ -32,5 +32,5 @@ public:
 
 protected:  
 private:
-    
+    ofVideoPlayer video;
 };

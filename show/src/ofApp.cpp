@@ -59,8 +59,14 @@ void ofApp::keyPressed (int key) {
         case 'f':
             ofToggleFullscreen();
             break;
-            
-        default:
+        case 'm':
+            appModel.setMode("MASTER");
+            break;
+        case 'w':
+            appModel.setMode("WINDOW");
+            break;
+        case 's':
+            appModel.setMode("SLAVE");
             break;
     }
 }

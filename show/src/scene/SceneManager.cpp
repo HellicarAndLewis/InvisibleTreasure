@@ -14,8 +14,12 @@ SceneManager::SceneManager() {
 void SceneManager::setup(AppModel* model, OscClient* osc) {
     
     this->model = model;
+    ofAddListener(this->model->modeChangeEvent, this, &SceneManager::onModeChange);
     this->osc = osc;
     ofAddListener(this->osc->playSceneEvent, this, &SceneManager::onPlayScene);
+    
+    mic.setup();
+    led.setup();
     
     scenes.push_back(&shadows);
     scenes.push_back(&ignite);
@@ -24,6 +28,8 @@ void SceneManager::setup(AppModel* model, OscClient* osc) {
     sceneOut = NULL;
     font.loadFont("fonts/verdana.ttf", 30);
     for (auto scene: scenes) {
+        scene->mic = &mic;
+        scene->led = &led;
         scene->font = &font;
         scene->mode = model->mode;
         scene->modeLabel = model->modeString;
@@ -35,7 +41,7 @@ void SceneManager::setup(AppModel* model, OscClient* osc) {
 
 void SceneManager::update() {
     for (auto scene: scenes)
-        scene->update();
+        if (scene->state != SceneBase::INACTIVE) scene->update();
 }
 
 void SceneManager::draw() {
@@ -84,6 +90,13 @@ void SceneManager::nextScene(){
 //////////////////////////////////////////////////////////////////////////////////
 // custom event handlers
 //////////////////////////////////////////////////////////////////////////////////
+void SceneManager::onModeChange(AppModel::Mode& mode){
+    for (auto scene: scenes) {
+        scene->mode = model->mode;
+        scene->modeLabel = model->modeString;
+    }
+}
+
 void SceneManager::onSceneChange(SceneBase::State & state) {
     if (state == SceneBase::INACTIVE) {
         ofLogNotice() << "SceneManager::onSceneChange: INACTIVE, play next scene";
@@ -93,6 +106,7 @@ void SceneManager::onSceneChange(SceneBase::State & state) {
         }
     }
 }
+
 void SceneManager::onPlayScene(int& id) {
     if (model->mode != AppModel::MASTER) {
         playScene(id);
