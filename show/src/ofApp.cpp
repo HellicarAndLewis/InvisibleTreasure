@@ -32,7 +32,7 @@ void ofApp::setup() {
     ofBackground(0);
     osc.setup();
     vision.setup();
-    sceneManager.setup(&appModel, &osc);
+    sceneManager.setup(&appModel, &osc, &vision);
     setupGui();
 }
 
@@ -46,17 +46,17 @@ void ofApp::draw() {
     
     if (vision.debugDraw) vision.draw();
     sceneManager.draw();
-    osc.draw();
-    
-    // GUI panels
-    drawGui();
     
     // debug draw
     if (debug) {
+        osc.draw();
         string s = appModel.modeString;
         s += "\n" + ofToString(ofGetFrameRate());
         ofDrawBitmapStringHighlight(s, 10, ofGetHeight() - 20);
     }
+    
+    // GUI panels
+    drawGui();
     
 }
 

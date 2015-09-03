@@ -13,6 +13,7 @@
 #include "LedDisplay.h"
 #include "Mic.h"
 #include "GuiableBase.h"
+#include "VisionManager.h"
 
 struct SceneEventArgs {
     float time;
@@ -44,14 +45,17 @@ public:
 	void gotMessage(ofMessage msg);
     
     ofEvent<State> stateChangeEvent;
+    
+    // common pointers
+    VisionManager* vision;
     LedDisplay* led;
     Mic* mic;
     ofTrueTypeFont* font;
-    AppModel::Mode mode;
     
     bool isDebugMode;
     string name;
     string modeLabel;
+    AppModel::Mode mode;
 
 protected:
     ofxTween tween;

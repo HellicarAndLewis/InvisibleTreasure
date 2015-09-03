@@ -12,7 +12,7 @@ SceneManager::SceneManager() {
     sceneIndex = 0;
 }
 
-void SceneManager::setup(AppModel* model, OscClient* osc) {
+void SceneManager::setup(AppModel* model, OscClient* osc, VisionManager* vision) {
     
     this->model = model;
     ofAddListener(this->model->modeChangeEvent, this, &SceneManager::onModeChange);
@@ -25,10 +25,12 @@ void SceneManager::setup(AppModel* model, OscClient* osc) {
     scenes.push_back(&shadows);
     scenes.push_back(&ignite);
     scenes.push_back(&lightbox);
+    scenes.push_back(&darkShapes);
     sceneIn = NULL;
     sceneOut = NULL;
-    font.loadFont("fonts/verdana.ttf", 30);
+    font.loadFont("fonts/verdana.ttf", 20);
     for (auto scene: scenes) {
+        scene->vision = vision;
         scene->mic = &mic;
         scene->led = &led;
         scene->font = &font;
@@ -64,8 +66,9 @@ void SceneManager::exit() {
 //////////////////////////////////////////////////////////////////////////////////
 void SceneManager::playScene(int id) {
     // if sceneOut is not NULL we're already animating out a scene
-    if (id >= 0 && id < scenes.size()) {
+    if (id >= 0 && id < scenes.size() && id != sceneIndex) {
         sceneIndex = id;
+        sceneSelctor = id;
         if (sceneIn == NULL) {
             sceneIn = scenes[id];
             sceneIn->play();
@@ -82,9 +85,7 @@ void SceneManager::playScene(int id) {
 }
 
 void SceneManager::nextScene(){
-    if (++sceneIndex < scenes.size()-1) {
-        playScene(sceneIndex);
-    }
+    playScene(sceneIndex+1);
 }
 
 void SceneManager::setupGui() {
@@ -131,7 +132,7 @@ void SceneManager::onModeChange(AppModel::Mode& mode){
 
 void SceneManager::onSceneChange(SceneBase::State & state) {
     if (state == SceneBase::INACTIVE) {
-        ofLogNotice() << "SceneManager::onSceneChange: INACTIVE, play next scene";
+        ofLogVerbose() << "SceneManager::onSceneChange: INACTIVE, play next scene";
         if (sceneIn != NULL) {
             sceneIn->play();
             sceneOut = NULL;

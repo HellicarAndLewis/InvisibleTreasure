@@ -13,6 +13,7 @@
 #include "ShadowsScene.h"
 #include "IgniteScene.h"
 #include "LightboxScene.h"
+#include "DarkShapesScene.h"
 #include "LedDisplay.h"
 #include "AppModel.h"
 #include "OscClient.h"
@@ -23,7 +24,7 @@ class SceneManager : public GuiableBase {
 public:
     SceneManager();
     
-    void setup(AppModel* model, OscClient* osc);
+    void setup(AppModel* model, OscClient* osc, VisionManager* vision);
 	void update();
 	void draw();
 	void exit();
@@ -65,6 +66,7 @@ private:
     ShadowsScene shadows;
     IgniteScene ignite;
     LightboxScene lightbox;
+    DarkShapesScene darkShapes;
     vector<SceneBase*> scenes;
     int sceneIndex;
     SceneBase* sceneIn;

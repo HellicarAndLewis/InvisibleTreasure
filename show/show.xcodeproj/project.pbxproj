@@ -77,6 +77,7 @@
 		8366F9C81B989CD3006B9D74 /* ofxRemoteUIofParamaterSync.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8366F9BA1B989CD3006B9D74 /* ofxRemoteUIofParamaterSync.cpp */; };
 		8366F9C91B989CD3006B9D74 /* ofxRemoteUIServer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8366F9BC1B989CD3006B9D74 /* ofxRemoteUIServer.cpp */; };
 		8366F9CA1B989CD3006B9D74 /* uriencode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8366F9C31B989CD3006B9D74 /* uriencode.cpp */; };
+		8366F9DE1B98D67D006B9D74 /* DarkShapesScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8366F9DC1B98D67D006B9D74 /* DarkShapesScene.cpp */; };
 		83D8F3341B95CDBC00C12951 /* ETF.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 83D8F3181B95CDBC00C12951 /* ETF.cpp */; };
 		83D8F3351B95CDBC00C12951 /* fdog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 83D8F3191B95CDBC00C12951 /* fdog.cpp */; };
 		83D8F3361B95CDBC00C12951 /* Calibration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 83D8F3291B95CDBC00C12951 /* Calibration.cpp */; };
@@ -296,6 +297,8 @@
 		8366F9C31B989CD3006B9D74 /* uriencode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = uriencode.cpp; sourceTree = "<group>"; };
 		8366F9C41B989CD3006B9D74 /* uriencode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = uriencode.h; sourceTree = "<group>"; };
 		8366F9D21B98B357006B9D74 /* GuiableBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GuiableBase.h; sourceTree = "<group>"; };
+		8366F9DC1B98D67D006B9D74 /* DarkShapesScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DarkShapesScene.cpp; path = scene/DarkShapesScene.cpp; sourceTree = "<group>"; };
+		8366F9DD1B98D67D006B9D74 /* DarkShapesScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DarkShapesScene.h; path = scene/DarkShapesScene.h; sourceTree = "<group>"; };
 		83D8F30F1B95CDBC00C12951 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		83D8F3131B95CDBC00C12951 /* ETF.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ETF.h; sourceTree = "<group>"; };
 		83D8F3141B95CDBC00C12951 /* fdog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = fdog.h; sourceTree = "<group>"; };
@@ -619,6 +622,7 @@
 		8366F91A1B970490006B9D74 /* scene */ = {
 			isa = PBXGroup;
 			children = (
+				8366F9DB1B98D559006B9D74 /* dark shapes */,
 				8366F9411B97326E006B9D74 /* shadows */,
 				8366F9421B97327E006B9D74 /* ignite */,
 				8366F9491B9732EF006B9D74 /* lightbox */,
@@ -824,6 +828,15 @@
 				8366F9D21B98B357006B9D74 /* GuiableBase.h */,
 			);
 			name = gui;
+			sourceTree = "<group>";
+		};
+		8366F9DB1B98D559006B9D74 /* dark shapes */ = {
+			isa = PBXGroup;
+			children = (
+				8366F9DC1B98D67D006B9D74 /* DarkShapesScene.cpp */,
+				8366F9DD1B98D67D006B9D74 /* DarkShapesScene.h */,
+			);
+			name = "dark shapes";
 			sourceTree = "<group>";
 		};
 		83D8F30E1B95CDBC00C12951 /* libs */ = {
@@ -1188,6 +1201,7 @@
 				8366F9171B97038C006B9D74 /* tinyxmlparser.cpp in Sources */,
 				8366F9AD1B9899AB006B9D74 /* ofxSliderGroup.cpp in Sources */,
 				8366F8F51B970351006B9D74 /* ofxEasingQuart.cpp in Sources */,
+				8366F9DE1B98D67D006B9D74 /* DarkShapesScene.cpp in Sources */,
 				83D8F33F1B95CDBC00C12951 /* Utilities.cpp in Sources */,
 				8366F9C51B989CD3006B9D74 /* ofxRemoteUI.cpp in Sources */,
 				8366F9A81B9899AB006B9D74 /* ofxButton.cpp in Sources */,

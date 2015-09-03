@@ -12,7 +12,7 @@ LedDisplay::LedDisplay() {
 }
 
 void LedDisplay::setup() {
-    font.loadFont("fonts/led_board-7.ttf", 50);
+    font.loadFont("fonts/led_board-7.ttf", 30);
 }
 
 void LedDisplay::update() {

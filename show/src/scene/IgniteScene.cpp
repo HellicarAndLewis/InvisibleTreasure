@@ -14,7 +14,7 @@ IgniteScene::IgniteScene() {
 }
 
 void IgniteScene::setup() {
-    audioMirror = true;
+    audioMirror = true  ;
     int n = 10;
     levels.assign(n, 0.0);
     previousLevels.assign(n, 0.0);
@@ -111,7 +111,7 @@ void IgniteScene::setupGui() {
     panel.add(noiseScale);
     panel.add(threshold);
     panel.add(debugDraw);
-    panel.loadFromFile("settings/ignite");
+    panel.loadFromFile("settings/ignite.xml");
 }
 
 void IgniteScene::drawGui() {
