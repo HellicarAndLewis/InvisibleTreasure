@@ -34,7 +34,7 @@ cd ofxCv
 # git checkout ???
 cd ..
 
-${CLONE}armadillu/ofxRemoteUI
+${CLONE}outsidecontext/ofxRemoteUI
 cd ofxRemoteUI
 # git checkout 3c73fbed1e004c8bd0c542985088b14a6969a648
 cd ..
