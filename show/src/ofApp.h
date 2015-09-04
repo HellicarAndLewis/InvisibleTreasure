@@ -37,7 +37,6 @@ private:
     SceneManager sceneManager;
     OscClient osc;
     
-    vector<GuiableBase*> guiables;
     ofParameter<bool> debug;
     ofxRemoteUIofParamaterSync ruiBridge;
 };

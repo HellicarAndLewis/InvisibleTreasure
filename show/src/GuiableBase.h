@@ -10,6 +10,18 @@
 #include "ofMain.h"
 #include "ofxGui.h"
 
+// Inherit from this to add GUI support
+// allows for a nested GUI structure:
+//  - add child.paramters to parent's panel or
+//  - have a parent toggle a child.panel using child.guiEnabled
+//
+// override setupGUI and setup paramaters or panel e.g.
+//    guiName = "YOUR GUI NAME";
+//    panel.setup(guiName, "SETTINGS_NAME.xml");
+//    panel.add(thing1);
+//    panel.add(thing1);
+//    panel.loadFromFile("SETTINGS_NAME.xml.xml");
+//
 class GuiableBase {
 public:
     virtual void setupGui(){};

@@ -9,6 +9,8 @@
 #pragma once
 #include "ofMain.h"
 
+// App level properties and states
+//
 class AppModel {
 public:
     

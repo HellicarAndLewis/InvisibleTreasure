@@ -32,7 +32,7 @@ void SceneBase::draw() {
         ofSetColor(255);
         string s = name  + " (" + modeLabel + ")";
         ofRectangle rect = font->getStringBoundingBox(s, 0, 0);
-        font->drawString(s, (ofGetWidth()/2) - (rect.width/2), ofGetHeight()/2);
+        font->drawString(s, (ofGetWidth()/2) - (rect.width/2), ofGetHeight()*.6);
     }
     
     // Generic intro/outro fade to black

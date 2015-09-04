@@ -58,6 +58,7 @@ void ContourTracker::draw() {
     if(showLabels) {
         ofSetColor(255);
         thresholded.draw(0, 0);
+        ofSetColor(255, 0, 0);
         contourFinder.draw();
         for(int i = 0; i < contourFinder.size(); i++) {
             ofPoint center = toOf(contourFinder.getCenter(i));

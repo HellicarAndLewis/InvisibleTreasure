@@ -20,11 +20,11 @@ if [ -d "$dir" ]; then
   cd "$dir"
 fi
 
-open ./master.command
+open ./window.command
+open ./window.command
+open ./window.command
+open ./window.command
 open ./slave.command
-open ./window.command
-open ./window.command
-open ./window.command
-open ./window.command
+open ./master.command
 
 exit 0

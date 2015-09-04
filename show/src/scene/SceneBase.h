@@ -19,6 +19,9 @@ struct SceneEventArgs {
     float time;
 };
 
+// Each Scene shoud inherit from SceneBase
+// provides common pointers, tweening, state management and drawing
+//
 class SceneBase : public GuiableBase  {
 public:
     enum State {

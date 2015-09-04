@@ -20,6 +20,12 @@
 #include "Mic.h"
 #include "GuiableBase.h"
 
+// Scene Manager
+// - Setup and sequence of each scene
+// - Common things such as mic input, vision input and fonts
+//   are setup and passed to each scene as pointers
+// - creates a GUI panel that allows each scene GUI to be toggled
+//
 class SceneManager : public GuiableBase {
 public:
     SceneManager();
@@ -48,6 +54,7 @@ public:
 
 protected:  
 private:
+    
     // passed in from app
     OscClient* osc;
     AppModel* model;
@@ -71,7 +78,6 @@ private:
     int sceneIndex;
     SceneBase* sceneIn;
     SceneBase* sceneOut;
-    
     
     // event listeners
     void onModeChange(AppModel::Mode& mode);

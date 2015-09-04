@@ -25,6 +25,6 @@ sleep $initial_wait_time
 # start master application
 echo "Launching application"
 # logLevel: 0=verbose, 1=notice, 2=warning, 3=error, 4=fatal, 5=silent
-../../show.app/Contents/MacOS/show --args  -mode="WINDOW" -fullScreen=false -logLevel=3 -logLevel=3 -logToFile=true -appendToLog=false
+../../show.app/Contents/MacOS/show --args  -mode="WINDOW"  -width=640 -height=480 -fullScreen=false -logLevel=1 -logToFile=false -appendToLog=false
 
 exit 0

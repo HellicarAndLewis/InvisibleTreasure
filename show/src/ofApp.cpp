@@ -4,28 +4,31 @@ ofApp::ofApp(ofxArgs* args) {
     // handle args passed in
     args->printArgs();
     args->printOpts();
-    bool logToFile  = args->getInt("-logToFile", false);
-    bool appendToLog  = args->getInt("-appendToLog", false);
-    int logLevel = args->getInt("-logLevel", 1); //OF_LOG_VERBOSE,OF_LOG_NOTICE,OF_LOG_WARNING,OF_LOG_ERROR,OF_LOG_FATAL_ERROR,OF_LOG_SILENT
-    
-    // TODO: store id and mode and do something with them
-    // Numerical ID, will probabl come in handy at some point
-    int id = args->getInt("-id", 0);
-    
-    // Mode can be "MASTER", "WINDOW", "SLAVE"
-    string modeString = ofToUpper(args->getString("-mode", "MASTER"));
-    appModel.setMode(modeString);
     
     // logging
+    // log level is enum:
+    // OF_LOG_VERBOSE,OF_LOG_NOTICE,OF_LOG_WARNING,OF_LOG_ERROR,OF_LOG_FATAL_ERROR,OF_LOG_SILENT
+    bool logToFile  = args->getBool("-logToFile", false);
+    bool appendToLog  = args->getBool("-appendToLog", false);
+    int logLevel = args->getInt("-logLevel", 1);
     ofSetLogLevel((ofLogLevel)logLevel);
     string toFileString = (logToFile) ? "log to file" : "log to cout";
-    ofLogNotice() << "Setting log level " << logLevel << ", " << toFileString;
+    ofLogNotice() << "in ofApp::ofApp Setting log level " << logLevel << ", " << toFileString << "\n\n";
     if (logToFile) {
         string format = "log-%Y-%m";
         string timestamp = ofGetTimestampString(format);
         string filename = "logs/" + timestamp + ".txt";
         ofLogToFile(filename, appendToLog);
     }
+    
+    // TODO: store id and do something with it?
+    // Numerical ID, will probabl come in handy at some point
+    int id = args->getInt("-id", 0);
+    
+    // Mode is a string that can be "MASTER", "WINDOW", "SLAVE"
+    // each string is matched to an enum in AppModel
+    string modeString = ofToUpper(args->getString("-mode", "MASTER"));
+    appModel.setMode(modeString);
 }
 
 void ofApp::setup() {

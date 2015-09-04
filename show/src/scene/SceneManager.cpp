@@ -9,7 +9,7 @@
 #include "SceneManager.h"
 
 SceneManager::SceneManager() {
-    sceneIndex = 0;
+    sceneIndex = -1;
 }
 
 void SceneManager::setup(AppModel* model, OscClient* osc, VisionManager* vision) {
@@ -22,13 +22,17 @@ void SceneManager::setup(AppModel* model, OscClient* osc, VisionManager* vision)
     mic.setup();
     led.setup();
     
+    // push each scene onto scenes
+    // this will determine the scene order
     scenes.push_back(&shadows);
     scenes.push_back(&ignite);
     scenes.push_back(&lightbox);
     scenes.push_back(&darkShapes);
     sceneIn = NULL;
     sceneOut = NULL;
-    font.loadFont("fonts/verdana.ttf", 20);
+    font.loadFont("fonts/verdana.ttf", 14);
+    
+    // setup each scene, passing pointers to common/shared things
     for (auto scene: scenes) {
         scene->vision = vision;
         scene->mic = &mic;
@@ -65,7 +69,6 @@ void SceneManager::exit() {
 // public
 //////////////////////////////////////////////////////////////////////////////////
 void SceneManager::playScene(int id) {
-    // if sceneOut is not NULL we're already animating out a scene
     if (id >= 0 && id < scenes.size() && id != sceneIndex) {
         sceneIndex = id;
         sceneSelctor = id;
@@ -73,6 +76,9 @@ void SceneManager::playScene(int id) {
             sceneIn = scenes[id];
             sceneIn->play();
         }
+        // if sceneOut is not NULL we're already animating out a scene
+        // animate that scene out first
+        // animate the new one in later when onSceneChange is called
         else {
             sceneOut = sceneIn;
             sceneIn = scenes[id];
@@ -80,8 +86,6 @@ void SceneManager::playScene(int id) {
         }
         if (model->mode == AppModel::MASTER) osc->sendPlayScene(id);
     }
-    else ofLogWarning() << "in SceneManager::playScene, " << id << " is out of bounds";
-    
 }
 
 void SceneManager::nextScene(){
