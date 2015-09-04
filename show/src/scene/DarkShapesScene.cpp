@@ -58,7 +58,7 @@ void DarkShapesScene::stop(){
 }
 
 void DarkShapesScene::setupGui() {
-    guiName = "Ignite";
+    guiName = "Dark Shapes";
     panel.setup(guiName, "settings/darkshapes.xml");
     panel.add(radiusMin);
     panel.add(radiusMax);

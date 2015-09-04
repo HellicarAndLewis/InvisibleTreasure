@@ -43,6 +43,10 @@ void ShadowsScene::stop(){
     setState(OUTRO);
 }
 
+void ShadowsScene::setupGui() {
+    guiName = "Shadows";
+}
+
 //////////////////////////////////////////////////////////////////////////////////
 // protected
 //////////////////////////////////////////////////////////////////////////////////
@@ -58,21 +62,3 @@ void ShadowsScene::stop(){
 //////////////////////////////////////////////////////////////////////////////////
 // oF event handlers
 //////////////////////////////////////////////////////////////////////////////////
-
-void ShadowsScene::keyPressed (int key) {}
-
-void ShadowsScene::keyReleased (int key) {}
-
-void ShadowsScene::mouseMoved(int x, int y) {}
-
-void ShadowsScene::mouseDragged(int x, int y, int button) {}
-
-void ShadowsScene::mousePressed(int x, int y, int button) {}
-
-void ShadowsScene::mouseReleased(int x, int y, int button) {}
-
-void ShadowsScene::windowResized(int w, int h) {}
-
-void ShadowsScene::dragEvent(ofDragInfo dragInfo) {}
-
-void ShadowsScene::gotMessage(ofMessage msg) {}

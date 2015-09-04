@@ -32,6 +32,10 @@ public:
     ofParameter<float> blurAmount;
     ofParameter<float> bgLearningTime;
     ofParameter<float> bgThreshold;
+    
+    // tracking
+    ofxCv::ContourFinder contourFinder;
+    bool showLabels;
 
 protected:  
 private:
@@ -39,8 +43,5 @@ private:
     // bg
     ofxCv::RunningBackground background;
     
-    // tracking
-    ofxCv::ContourFinder contourFinder;
-    bool showLabels;
     
 };

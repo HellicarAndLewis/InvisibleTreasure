@@ -34,11 +34,12 @@ void SceneManager::setup(AppModel* model, OscClient* osc, VisionManager* vision)
     
     // setup each scene, passing pointers to common/shared things
     for (auto scene: scenes) {
+        scene->mode = model->mode;
+        scene->osc = osc;
         scene->vision = vision;
         scene->mic = &mic;
         scene->led = &led;
         scene->font = &font;
-        scene->mode = model->mode;
         scene->modeLabel = model->modeString;
         scene->setup();
         ofAddListener(scene->stateChangeEvent, this, &SceneManager::onSceneChange);
@@ -99,7 +100,10 @@ void SceneManager::setupGui() {
     panel.add(sceneSelctor);
     
     // child panels
-    guiables.push_back(&ignite);
+    for (auto scene: scenes) {
+        guiables.push_back((GuiableBase*)scene);
+    }
+    
     for (auto guiable: guiables) {
         guiable->setupGui();
         panel.add(guiable->guiEnabled.set(guiable->guiName, false));

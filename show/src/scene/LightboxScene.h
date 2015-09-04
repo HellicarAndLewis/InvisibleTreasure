@@ -12,6 +12,20 @@
 
 class LightboxScene : public SceneBase {
 public:
+    
+    struct HitArea {
+        HitArea(string name, ofVec2f position=ofVec2f(.5, .5), float size=.01) : name(name) {
+            this->position.set(name+" pos", position, ofVec2f(0,0), ofVec2f(1,1));
+            this->size.set(name+" size", size, 0, 1);
+        }
+        ofParameter<ofPoint> position;
+        ofParameter<float> size;
+        ofRectangle rect;
+        string name;
+        int id;
+        int blobCount;
+    };
+    
     LightboxScene();
     
 	void setup();
@@ -19,18 +33,11 @@ public:
 	void draw();
     void play();
     void stop();
-	
-	void keyPressed(int key);
-	void keyReleased(int key);
-	void mouseMoved(int x, int y );
-	void mouseDragged(int x, int y, int button);
-	void mousePressed(int x, int y, int button);
-	void mouseReleased(int x, int y, int button);
-	void windowResized(int w, int h);
-	void dragEvent(ofDragInfo dragInfo);
-	void gotMessage(ofMessage msg);
+    void setupGui();
+    void drawGui();
 
 protected:  
 private:
+    vector<HitArea> hitAreas;
     
 };

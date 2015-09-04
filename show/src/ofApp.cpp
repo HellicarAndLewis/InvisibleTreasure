@@ -36,6 +36,7 @@ void ofApp::setup() {
     osc.setup();
     vision.setup();
     sceneManager.setup(&appModel, &osc, &vision);
+    // call this last!
     setupGui();
 }
 

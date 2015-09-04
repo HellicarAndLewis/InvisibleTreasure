@@ -39,6 +39,8 @@ public:
     
     void setupGui();
     void drawGui();
+    ContourTracker* getTracker();
+    
     
     // gui
     ofParameter<int> inputSelector;

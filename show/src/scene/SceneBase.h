@@ -14,6 +14,7 @@
 #include "Mic.h"
 #include "GuiableBase.h"
 #include "VisionManager.h"
+#include "OscClient.h"
 
 struct SceneEventArgs {
     float time;
@@ -50,6 +51,7 @@ public:
     ofEvent<State> stateChangeEvent;
     
     // common pointers
+    OscClient * osc;
     VisionManager* vision;
     LedDisplay* led;
     Mic* mic;

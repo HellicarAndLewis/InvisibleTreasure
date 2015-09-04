@@ -7,7 +7,9 @@
 //
 
 #include "OscClient.h"
-#define PLAY_SCENE_ADRESS "/playscene"
+
+#define PLAY_SCENE_ADRESS "/scene/playscene"
+#define PRESENCE_ADRESS "/tracking/presence"
 
 OscClient::OscClient() {
     sendAddress = "192.168.0.255";
@@ -91,9 +93,6 @@ void OscClient::setupGui() {
     parameters.add(sendPort.set("to port", "12345"));
     panel.setup(parameters, "settings/osc.xml");
     panel.loadFromFile("settings/osc.xml");
-    //vector<GuiableBase*> guiables;
-    //guiables.push_back(this);
-    //return guiables;
 }
 
 void OscClient::sendPlayScene(int id) {
@@ -103,6 +102,14 @@ void OscClient::sendPlayScene(int id) {
     sender.sendMessage(m);
 }
 
+void OscClient::sendPresence(string areaName, int count){
+    // TODO: send OSC message to sound + lighting
+    ofxOscMessage m;
+    m.setAddress(PRESENCE_ADRESS);
+    m.addStringArg(areaName);
+    m.addIntArg(count);
+    sender.sendMessage(m);
+}
 
 //////////////////////////////////////////////////////////////////////////////////
 // protected
