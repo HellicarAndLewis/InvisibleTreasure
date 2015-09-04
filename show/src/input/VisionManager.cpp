@@ -53,6 +53,7 @@ void VisionManager::update() {
             imitate(outputImage, inputImage);
             imitate(previous, inputImage);
             imitate(diff, inputImage);
+            contourTracker.resetBg();
         }
         if (isCalibrating) {
             Mat camMat = toCv(inputImage);
