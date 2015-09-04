@@ -95,12 +95,12 @@ void IgniteScene::draw() {
 //////////////////////////////////////////////////////////////////////////////////
 void IgniteScene::play(){
     mic->start();
-    setState(INTRO);
+    SceneBase::play();
 }
 
 void IgniteScene::stop(){
     mic->stop();
-    setState(OUTRO);
+    SceneBase::stop();
 }
 
 void IgniteScene::setupGui() {

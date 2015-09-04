@@ -19,7 +19,7 @@
 // Each Scene shoud inherit from SceneBase
 // provides pointers to common objects
 //
-class SceneBase : public GuiableBase, public Sequencable  {
+class SceneBase : public GuiableBase, public Sequencable {
 public:
     
     SceneBase();

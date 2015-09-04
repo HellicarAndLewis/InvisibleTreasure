@@ -20,6 +20,8 @@ public:
     } state = INACTIVE;
     
     virtual void update();
+    virtual void play();
+    virtual void stop();
     void setState(State state);
     
     ofEvent<State> stateChangeEvent;

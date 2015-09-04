@@ -15,9 +15,19 @@ DarkShapesScene::DarkShapesScene() {
 }
 
 void DarkShapesScene::setup() {
+    shapeRenderer.setup();
 }
 
 void DarkShapesScene::update() {
+    if (mode==AppModel::SLAVE) {
+    }
+    else if (mode==AppModel::WINDOW) {
+        shapeRenderer.update();
+    }
+    else if (mode==AppModel::MASTER) {
+        // TODO: draw CV debug in window 1
+        // TODO: draw tracked blobs/shapes in window 2
+    }
     SceneBase::update();
 }
 
@@ -27,8 +37,7 @@ void DarkShapesScene::draw() {
         led->draw();
     }
     else if (mode==AppModel::WINDOW) {
-        // TODO: draw shapes
-        
+        shapeRenderer.draw();
     }
     else if (mode==AppModel::MASTER) {
         // TODO: draw CV debug in window 1
@@ -41,13 +50,14 @@ void DarkShapesScene::draw() {
 // public
 //////////////////////////////////////////////////////////////////////////////////
 void DarkShapesScene::play(){
-    mic->start();
-    setState(INTRO);
+    //if (mode==AppModel::WINDOW) {
+    shapeRenderer.showShape(0);
+    //}
+    SceneBase::play();
 }
 
 void DarkShapesScene::stop(){
-    mic->stop();
-    setState(OUTRO);
+    SceneBase::stop();
 }
 
 void DarkShapesScene::setupGui() {

@@ -305,6 +305,7 @@
 		8366F9DD1B98D67D006B9D74 /* DarkShapesScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DarkShapesScene.h; path = scene/DarkShapesScene.h; sourceTree = "<group>"; };
 		83D00FD41B99E8C70036E424 /* Sequencable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Sequencable.cpp; sourceTree = "<group>"; };
 		83D00FD51B99E8C70036E424 /* Sequencable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sequencable.h; sourceTree = "<group>"; };
+		83D00FD81B99EB7A0036E424 /* ShapeRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ShapeRenderer.h; path = scene/ShapeRenderer.h; sourceTree = "<group>"; };
 		83D8F30F1B95CDBC00C12951 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		83D8F3131B95CDBC00C12951 /* ETF.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ETF.h; sourceTree = "<group>"; };
 		83D8F3141B95CDBC00C12951 /* fdog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = fdog.h; sourceTree = "<group>"; };
@@ -844,6 +845,7 @@
 			children = (
 				8366F9DC1B98D67D006B9D74 /* DarkShapesScene.cpp */,
 				8366F9DD1B98D67D006B9D74 /* DarkShapesScene.h */,
+				83D00FD81B99EB7A0036E424 /* ShapeRenderer.h */,
 			);
 			name = "dark shapes";
 			sourceTree = "<group>";

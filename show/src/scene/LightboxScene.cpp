@@ -104,11 +104,11 @@ void LightboxScene::draw() {
 // public
 //////////////////////////////////////////////////////////////////////////////////
 void LightboxScene::play(){
-    setState(INTRO);
+    SceneBase::play();
 }
 
 void LightboxScene::stop(){
-    setState(OUTRO);
+    SceneBase::stop();
 }
 
 void LightboxScene::setupGui() {

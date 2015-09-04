@@ -36,11 +36,13 @@ void ShadowsScene::play(){
     video.loadMovie("videos/15peopletest_sm2.mov");
     video.setLoopState(OF_LOOP_NORMAL);
     video.play();
-    setState(INTRO);
+    SceneBase::play();
 }
 
 void ShadowsScene::stop(){
-    setState(OUTRO);
+    video.stop();
+    video.close();
+    SceneBase::stop();
 }
 
 void ShadowsScene::setupGui() {

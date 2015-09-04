@@ -9,6 +9,7 @@
 #pragma once
 #include "ofMain.h"
 #include "SceneBase.h"
+#include "ShapeRenderer.h"
 
 // TODO: create a class/struct for each window shape
 // inherit from common shapeBase, implement INTRO,OUTRO,ACTIVE,INACTIVE states
@@ -34,7 +35,8 @@ public:
     // gui
     ofParameter<int> modeSelector;
 
-protected:  
+protected:
 private:
+    ShapeRenderer shapeRenderer;
     
 };
