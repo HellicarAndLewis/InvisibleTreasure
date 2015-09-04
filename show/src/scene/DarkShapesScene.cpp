@@ -15,7 +15,10 @@ DarkShapesScene::DarkShapesScene() {
 }
 
 void DarkShapesScene::setup() {
+    ofSetCircleResolution(100);
     shapeRenderer.setup();
+    modeSelector.addListener(this, &DarkShapesScene::onShapeModeSelect);
+    modeSelector.set("Shape Mode", 0, 0, shapeRenderer.shapes.size()-1);
 }
 
 void DarkShapesScene::update() {
@@ -50,9 +53,7 @@ void DarkShapesScene::draw() {
 // public
 //////////////////////////////////////////////////////////////////////////////////
 void DarkShapesScene::play(){
-    //if (mode==AppModel::WINDOW) {
     shapeRenderer.showShape(0);
-    //}
     SceneBase::play();
 }
 
@@ -63,6 +64,7 @@ void DarkShapesScene::stop(){
 void DarkShapesScene::setupGui() {
     guiName = "Dark Shapes";
     panel.setup(guiName, "settings/darkshapes.xml");
+    panel.add(modeSelector);
     panel.loadFromFile("settings/darkshapes.xml");
 }
 
@@ -81,7 +83,9 @@ void DarkShapesScene::drawGui() {
 //////////////////////////////////////////////////////////////////////////////////
 // custom event handlers
 //////////////////////////////////////////////////////////////////////////////////
-
+void DarkShapesScene::onShapeModeSelect(int & i) {
+    shapeRenderer.showShape(i);
+}
 //////////////////////////////////////////////////////////////////////////////////
 // oF event handlers
 //////////////////////////////////////////////////////////////////////////////////

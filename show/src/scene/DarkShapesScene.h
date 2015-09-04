@@ -34,6 +34,7 @@ public:
     
     // gui
     ofParameter<int> modeSelector;
+    void onShapeModeSelect(int & i);
 
 protected:
 private:
