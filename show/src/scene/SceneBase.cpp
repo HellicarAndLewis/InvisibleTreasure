@@ -17,11 +17,7 @@ void SceneBase::setup() {
 }
 
 void SceneBase::update() {
-    progress = tween.update();
-    if (tween.isCompleted()) {
-        if (state == INTRO) setState(INTERACTIVE);
-        if (state == OUTRO) setState(INACTIVE);
-    }
+    Sequencable::update();
 }
 
 void SceneBase::draw() {
@@ -54,18 +50,6 @@ void SceneBase::play(){
 }
 
 void SceneBase::stop(){
-}
-
-void SceneBase::setState(State state) {
-    this->state = state;
-    ofNotifyEvent(stateChangeEvent, state, this);
-    if (state == INTRO || state == OUTRO) {
-        progress = 0;
-        unsigned delay = 0;
-        unsigned duration = 1000;
-        tween.setParameters(easinglinear,ofxTween::easeOut,0,1,duration,delay);
-        tween.start();
-    }
 }
 
 //////////////////////////////////////////////////////////////////////////////////

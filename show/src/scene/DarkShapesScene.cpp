@@ -7,22 +7,14 @@
 //
 
 #include "DarkShapesScene.h"
+using namespace ofxCv;
+using namespace cv;
 
 DarkShapesScene::DarkShapesScene() {
     name = "Dark Shapes";
-    averageVolume = 0;
 }
 
 void DarkShapesScene::setup() {
-    audioMirror = true  ;
-    int n = 10;
-    levels.assign(n, 0.0);
-    previousLevels.assign(n, 0.0);
-    radiusMin.set("radius min", 10, 0, 500);
-    radiusMax.set("radius max", 200, 0, 500);
-    noiseScale.set("noise scale", 80, 0, 500);
-    threshold.set("threshold", 0.5, 0.0, 1.0);
-    debugDraw.set("debug draw", false);
 }
 
 void DarkShapesScene::update() {
@@ -36,6 +28,7 @@ void DarkShapesScene::draw() {
     }
     else if (mode==AppModel::WINDOW) {
         // TODO: draw shapes
+        
     }
     else if (mode==AppModel::MASTER) {
         // TODO: draw CV debug in window 1
@@ -60,11 +53,6 @@ void DarkShapesScene::stop(){
 void DarkShapesScene::setupGui() {
     guiName = "Dark Shapes";
     panel.setup(guiName, "settings/darkshapes.xml");
-    panel.add(radiusMin);
-    panel.add(radiusMax);
-    panel.add(noiseScale);
-    panel.add(threshold);
-    panel.add(debugDraw);
     panel.loadFromFile("settings/darkshapes.xml");
 }
 

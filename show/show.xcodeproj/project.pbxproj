@@ -79,6 +79,7 @@
 		8366F9C91B989CD3006B9D74 /* ofxRemoteUIServer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8366F9BC1B989CD3006B9D74 /* ofxRemoteUIServer.cpp */; };
 		8366F9CA1B989CD3006B9D74 /* uriencode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8366F9C31B989CD3006B9D74 /* uriencode.cpp */; };
 		8366F9DE1B98D67D006B9D74 /* DarkShapesScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8366F9DC1B98D67D006B9D74 /* DarkShapesScene.cpp */; };
+		83D00FD61B99E8C70036E424 /* Sequencable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 83D00FD41B99E8C70036E424 /* Sequencable.cpp */; };
 		83D8F3341B95CDBC00C12951 /* ETF.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 83D8F3181B95CDBC00C12951 /* ETF.cpp */; };
 		83D8F3351B95CDBC00C12951 /* fdog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 83D8F3191B95CDBC00C12951 /* fdog.cpp */; };
 		83D8F3361B95CDBC00C12951 /* Calibration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 83D8F3291B95CDBC00C12951 /* Calibration.cpp */; };
@@ -302,6 +303,8 @@
 		8366F9D21B98B357006B9D74 /* GuiableBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GuiableBase.h; sourceTree = "<group>"; };
 		8366F9DC1B98D67D006B9D74 /* DarkShapesScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DarkShapesScene.cpp; path = scene/DarkShapesScene.cpp; sourceTree = "<group>"; };
 		8366F9DD1B98D67D006B9D74 /* DarkShapesScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DarkShapesScene.h; path = scene/DarkShapesScene.h; sourceTree = "<group>"; };
+		83D00FD41B99E8C70036E424 /* Sequencable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Sequencable.cpp; sourceTree = "<group>"; };
+		83D00FD51B99E8C70036E424 /* Sequencable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sequencable.h; sourceTree = "<group>"; };
 		83D8F30F1B95CDBC00C12951 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		83D8F3131B95CDBC00C12951 /* ETF.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ETF.h; sourceTree = "<group>"; };
 		83D8F3141B95CDBC00C12951 /* fdog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = fdog.h; sourceTree = "<group>"; };
@@ -625,10 +628,10 @@
 		8366F91A1B970490006B9D74 /* scene */ = {
 			isa = PBXGroup;
 			children = (
-				8366F9DB1B98D559006B9D74 /* dark shapes */,
 				8366F9411B97326E006B9D74 /* shadows */,
 				8366F9421B97327E006B9D74 /* ignite */,
 				8366F9491B9732EF006B9D74 /* lightbox */,
+				8366F9DB1B98D559006B9D74 /* dark shapes */,
 				8366F9311B972CA9006B9D74 /* SceneManager.cpp */,
 				8366F9321B972CA9006B9D74 /* SceneManager.h */,
 				8366F9371B972D04006B9D74 /* SceneBase.cpp */,
@@ -721,6 +724,7 @@
 		8366F96C1B986444006B9D74 /* common */ = {
 			isa = PBXGroup;
 			children = (
+				83D00FD31B99E8660036E424 /* sequence */,
 				8366F9D01B98B339006B9D74 /* gui */,
 				8366F95B1B974EB4006B9D74 /* led */,
 			);
@@ -842,6 +846,15 @@
 				8366F9DD1B98D67D006B9D74 /* DarkShapesScene.h */,
 			);
 			name = "dark shapes";
+			sourceTree = "<group>";
+		};
+		83D00FD31B99E8660036E424 /* sequence */ = {
+			isa = PBXGroup;
+			children = (
+				83D00FD41B99E8C70036E424 /* Sequencable.cpp */,
+				83D00FD51B99E8C70036E424 /* Sequencable.h */,
+			);
+			name = sequence;
 			sourceTree = "<group>";
 		};
 		83D8F30E1B95CDBC00C12951 /* libs */ = {
@@ -1193,6 +1206,7 @@
 				8366F9471B9732EA006B9D74 /* IgniteScene.cpp in Sources */,
 				8366F97D1B9877BA006B9D74 /* ofxFFTBase.cpp in Sources */,
 				8366F8CB1B970339006B9D74 /* ofxOscParameterSync.cpp in Sources */,
+				83D00FD61B99E8C70036E424 /* Sequencable.cpp in Sources */,
 				83D8F3341B95CDBC00C12951 /* ETF.cpp in Sources */,
 				8366F8C51B970339006B9D74 /* OscOutboundPacketStream.cpp in Sources */,
 				8366F9AC1B9899AB006B9D74 /* ofxSlider.cpp in Sources */,

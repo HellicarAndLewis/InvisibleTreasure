@@ -8,26 +8,19 @@
 
 #pragma once
 #include "ofMain.h"
-#include "ofxTween.h"
 #include "AppModel.h"
 #include "LedDisplay.h"
 #include "Mic.h"
 #include "GuiableBase.h"
 #include "VisionManager.h"
 #include "OscClient.h"
-
-struct SceneEventArgs {
-    float time;
-};
+#include "Sequencable.h"
 
 // Each Scene shoud inherit from SceneBase
-// provides common pointers, tweening, state management and drawing
+// provides pointers to common objects
 //
-class SceneBase : public GuiableBase  {
+class SceneBase : public GuiableBase, public Sequencable  {
 public:
-    enum State {
-        INACTIVE, INTRO, INTERACTIVE, OUTRO
-    } state;
     
     SceneBase();
     
@@ -36,7 +29,6 @@ public:
 	virtual void draw();
     virtual void play();
     virtual void stop();
-    void setState(State state);
 	
 	void keyPressed(int key);
 	void keyReleased(int key);
@@ -48,7 +40,6 @@ public:
 	void dragEvent(ofDragInfo dragInfo);
 	void gotMessage(ofMessage msg);
     
-    ofEvent<State> stateChangeEvent;
     
     // common pointers
     OscClient * osc;
@@ -63,10 +54,6 @@ public:
     AppModel::Mode mode;
 
 protected:
-    ofxTween tween;
-    ofxEasingLinear easinglinear;
-    float progress;
-    
 private:
     
 };

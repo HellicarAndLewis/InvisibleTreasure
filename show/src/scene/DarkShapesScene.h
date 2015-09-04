@@ -10,8 +10,16 @@
 #include "ofMain.h"
 #include "SceneBase.h"
 
+// TODO: create a class/struct for each window shape
+// inherit from common shapeBase, implement INTRO,OUTRO,ACTIVE,INACTIVE states
+//
 class DarkShapesScene : public SceneBase {
 public:
+    
+    enum ShapeMode {
+        TRIANGLE=0,CIRCLE,SQUARE,SHAPE_MODE_COUNT
+    } shapeMode;
+    
     DarkShapesScene();
     
 	void setup();
@@ -24,17 +32,9 @@ public:
     void drawGui();
     
     // gui
-    ofParameter<int> radiusMin;
-    ofParameter<int> radiusMax;
-    ofParameter<int> noiseScale;
-    ofParameter<float> threshold;
-    ofParameter<bool> debugDraw;
+    ofParameter<int> modeSelector;
 
 protected:  
 private:
-    vector<float> levels;
-    vector<float> previousLevels;
-    bool audioMirror;
-    float averageVolume;
     
 };
