@@ -19,6 +19,8 @@ void DarkShapesScene::setup() {
     shapeRenderer.setup();
     modeSelector.addListener(this, &DarkShapesScene::onShapeModeSelect);
     modeSelector.set("Shape Mode", 0, 0, shapeRenderer.shapes.size()-1);
+    
+    // TODO: listen to OSC events for shape mode changes
 }
 
 void DarkShapesScene::update() {
