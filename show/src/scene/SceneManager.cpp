@@ -28,6 +28,11 @@ void SceneManager::setup(AppModel* model, OscClient* osc, VisionManager* vision)
     scenes.push_back(&ignite);
     scenes.push_back(&lightbox);
     scenes.push_back(&darkShapes);
+    scenes.push_back(&flants);
+    scenes.push_back(&paintbox);
+    scenes.push_back(&dancingDark);
+    scenes.push_back(&cassandra);
+    scenes.push_back(&sitin);
     sceneIn = NULL;
     sceneOut = NULL;
     font.loadFont("fonts/verdana.ttf", 14);
@@ -100,15 +105,16 @@ void SceneManager::setupGui() {
     panel.add(sceneSelctor);
     
     // child panels
-    for (auto scene: scenes) {
+    for (auto scene: scenes)
         guiables.push_back((GuiableBase*)scene);
-    }
     
+    parameters.setName("Scene GUIs");
     for (auto guiable: guiables) {
         guiable->setupGui();
-        panel.add(guiable->guiEnabled.set(guiable->guiName, false));
+        parameters.add(guiable->guiEnabled.set(guiable->guiName, false));
         guiable->panel.setPosition(270*2, 10);
     }
+    panel.add(parameters);
     
     panel.loadFromFile("settings/scenes.xml");
 }

@@ -8,17 +8,11 @@
 
 #pragma once
 #include "ofMain.h"
-#include "ofEvents.h"
-#include "SceneBase.h"
-#include "ShadowsScene.h"
-#include "IgniteScene.h"
-#include "LightboxScene.h"
-#include "DarkShapesScene.h"
+#include "AllSceneIncludes.h"
 #include "LedDisplay.h"
 #include "AppModel.h"
 #include "OscClient.h"
 #include "Mic.h"
-#include "GuiableBase.h"
 
 // Scene Manager
 // - Setup and sequence of each scene
@@ -74,6 +68,12 @@ private:
     IgniteScene ignite;
     LightboxScene lightbox;
     DarkShapesScene darkShapes;
+    FlantsScene flants;
+    PaintboxScene paintbox;
+    DancingDarkScene dancingDark;
+    CassandraScene cassandra;
+    SitinScene sitin;
+    
     vector<SceneBase*> scenes;
     int sceneIndex;
     SceneBase* sceneIn;

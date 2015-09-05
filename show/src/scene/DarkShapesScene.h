@@ -11,8 +11,7 @@
 #include "SceneBase.h"
 #include "ShapeRenderer.h"
 
-// TODO: create a class/struct for each window shape
-// inherit from common shapeBase, implement INTRO,OUTRO,ACTIVE,INACTIVE states
+// TODO: cv blob tracking and shape detection
 //
 class DarkShapesScene : public SceneBase {
 public:

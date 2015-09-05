@@ -88,10 +88,10 @@ void OscClient::exit() {
 
 void OscClient::setupGui() {
     guiName = "OSC";
-    parameters.setName(guiName);
-    parameters.add(sendAddress.set("to IP", "192.168.0.255"));
-    parameters.add(sendPort.set("to port", "12345"));
-    panel.setup(parameters, "settings/osc.xml");
+    panel.setup(guiName, "settings/osc.xml");
+    panel.add(info.set("to change", "Edit XML + restart"));
+    panel.add(sendAddress.set("to IP", "192.168.0.255"));
+    panel.add(sendPort.set("to port", "12345"));
     panel.loadFromFile("settings/osc.xml");
 }
 

@@ -45,6 +45,7 @@ private:
     string msg_strings[NUM_MSG_STRINGS];
     float timers[NUM_MSG_STRINGS];
     
+    ofParameter<string> info;
     ofParameter<string> sendAddress;
     ofParameter<string> sendPort;
     ofParameter<string> receivePort;

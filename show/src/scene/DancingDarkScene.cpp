@@ -1,57 +1,55 @@
 //
-//  ShadowsScene.cpp
+//  DancingDarkScene.cpp
 //  show
 //
-//  Created by Chris Mullany on 02/09/2015.
+//  Created by Chris Mullany on 05/09/2015.
 //
 //
 
-#include "ShadowsScene.h"
+#include "DancingDarkScene.h"
+using namespace ofxCv;
+using namespace cv;
 
-ShadowsScene::ShadowsScene() {
-    name = "Shadows";
+DancingDarkScene::DancingDarkScene() {
+    name = "Dancing in the Dark";
 }
 
-void ShadowsScene::setup() {
+void DancingDarkScene::setup() {
 }
 
-void ShadowsScene::update() {
-    video.update();
+void DancingDarkScene::update() {
+    if (mode==AppModel::SLAVE) {}
+    else if (mode==AppModel::WINDOW) {}
+    else if (mode==AppModel::MASTER) {}
     SceneBase::update();
 }
 
-void ShadowsScene::draw() {
-    if (mode == AppModel::SLAVE) {
-        // display 1 is LED
-        // diplay 2 is wall projector
-        video.draw(ofGetWidth()/2, 0, ofGetWidth()/2, ofGetHeight());
-    }
+void DancingDarkScene::draw() {
+    if (mode==AppModel::SLAVE) {}
+    else if (mode==AppModel::WINDOW) {}
+    else if (mode==AppModel::MASTER) {}
     SceneBase::draw();
 }
 
 //////////////////////////////////////////////////////////////////////////////////
 // public
 //////////////////////////////////////////////////////////////////////////////////
-void ShadowsScene::play(){
-    video.loadMovie("videos/15peopletest_sm2.mov");
-    video.setLoopState(OF_LOOP_NORMAL);
-    video.play();
+void DancingDarkScene::play(){
+    // start/load/kick things off
     SceneBase::play();
 }
 
-void ShadowsScene::stop(){
-    video.stop();
-    video.close();
+void DancingDarkScene::stop(){
+    // stop/unload/clear things
     SceneBase::stop();
 }
 
-void ShadowsScene::setupGui() {
-    guiName = "Shadows";
-    panel.setup(guiName, "settings/shadows.xml");
+void DancingDarkScene::setupGui() {
+    guiName = "Dancing Dark";
+    panel.setup(guiName, "settings/dancingdark.xml");
     // add parameters
-    panel.loadFromFile("settings/shadows.xml");
+    panel.loadFromFile("settings/dancingdark.xml");
 }
-
 //////////////////////////////////////////////////////////////////////////////////
 // protected
 //////////////////////////////////////////////////////////////////////////////////

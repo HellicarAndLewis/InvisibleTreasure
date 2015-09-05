@@ -79,6 +79,11 @@
 		8366F9C91B989CD3006B9D74 /* ofxRemoteUIServer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8366F9BC1B989CD3006B9D74 /* ofxRemoteUIServer.cpp */; };
 		8366F9CA1B989CD3006B9D74 /* uriencode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8366F9C31B989CD3006B9D74 /* uriencode.cpp */; };
 		8366F9DE1B98D67D006B9D74 /* DarkShapesScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8366F9DC1B98D67D006B9D74 /* DarkShapesScene.cpp */; };
+		83C5A3E31B9AE14500753092 /* FlantsScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 83C5A3E11B9AE14500753092 /* FlantsScene.cpp */; };
+		83C5A3E61B9AE15A00753092 /* PaintboxScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 83C5A3E41B9AE15A00753092 /* PaintboxScene.cpp */; };
+		83C5A3E91B9AE16800753092 /* DancingDarkScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 83C5A3E71B9AE16800753092 /* DancingDarkScene.cpp */; };
+		83C5A3ED1B9AE17C00753092 /* CassandraScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 83C5A3EB1B9AE17C00753092 /* CassandraScene.cpp */; };
+		83C5A3F01B9AE18B00753092 /* SitinScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 83C5A3EE1B9AE18B00753092 /* SitinScene.cpp */; };
 		83D00FD61B99E8C70036E424 /* Sequencable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 83D00FD41B99E8C70036E424 /* Sequencable.cpp */; };
 		83D8F3341B95CDBC00C12951 /* ETF.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 83D8F3181B95CDBC00C12951 /* ETF.cpp */; };
 		83D8F3351B95CDBC00C12951 /* fdog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 83D8F3191B95CDBC00C12951 /* fdog.cpp */; };
@@ -303,6 +308,17 @@
 		8366F9D21B98B357006B9D74 /* GuiableBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GuiableBase.h; sourceTree = "<group>"; };
 		8366F9DC1B98D67D006B9D74 /* DarkShapesScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DarkShapesScene.cpp; path = scene/DarkShapesScene.cpp; sourceTree = "<group>"; };
 		8366F9DD1B98D67D006B9D74 /* DarkShapesScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DarkShapesScene.h; path = scene/DarkShapesScene.h; sourceTree = "<group>"; };
+		83C5A3E11B9AE14500753092 /* FlantsScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FlantsScene.cpp; path = scene/FlantsScene.cpp; sourceTree = "<group>"; };
+		83C5A3E21B9AE14500753092 /* FlantsScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FlantsScene.h; path = scene/FlantsScene.h; sourceTree = "<group>"; };
+		83C5A3E41B9AE15A00753092 /* PaintboxScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PaintboxScene.cpp; path = scene/PaintboxScene.cpp; sourceTree = "<group>"; };
+		83C5A3E51B9AE15A00753092 /* PaintboxScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PaintboxScene.h; path = scene/PaintboxScene.h; sourceTree = "<group>"; };
+		83C5A3E71B9AE16800753092 /* DancingDarkScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DancingDarkScene.cpp; path = scene/DancingDarkScene.cpp; sourceTree = "<group>"; };
+		83C5A3E81B9AE16800753092 /* DancingDarkScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DancingDarkScene.h; path = scene/DancingDarkScene.h; sourceTree = "<group>"; };
+		83C5A3EB1B9AE17C00753092 /* CassandraScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CassandraScene.cpp; path = scene/CassandraScene.cpp; sourceTree = "<group>"; };
+		83C5A3EC1B9AE17C00753092 /* CassandraScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CassandraScene.h; path = scene/CassandraScene.h; sourceTree = "<group>"; };
+		83C5A3EE1B9AE18B00753092 /* SitinScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SitinScene.cpp; path = scene/SitinScene.cpp; sourceTree = "<group>"; };
+		83C5A3EF1B9AE18B00753092 /* SitinScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SitinScene.h; path = scene/SitinScene.h; sourceTree = "<group>"; };
+		83C5A3F21B9AE55800753092 /* AllSceneIncludes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AllSceneIncludes.h; path = scene/AllSceneIncludes.h; sourceTree = "<group>"; };
 		83D00FD41B99E8C70036E424 /* Sequencable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Sequencable.cpp; sourceTree = "<group>"; };
 		83D00FD51B99E8C70036E424 /* Sequencable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sequencable.h; sourceTree = "<group>"; };
 		83D00FD81B99EB7A0036E424 /* ShapeRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ShapeRenderer.h; path = scene/ShapeRenderer.h; sourceTree = "<group>"; };
@@ -633,10 +649,16 @@
 				8366F9421B97327E006B9D74 /* ignite */,
 				8366F9491B9732EF006B9D74 /* lightbox */,
 				8366F9DB1B98D559006B9D74 /* dark shapes */,
+				83C5A3DC1B9AE0CA00753092 /* flants */,
+				83C5A3DD1B9AE0D800753092 /* paintbox */,
+				83C5A3DE1B9AE0E700753092 /* dancing dark */,
+				83C5A3DF1B9AE0F800753092 /* cassandra */,
+				83C5A3E01B9AE10000753092 /* sitin */,
 				8366F9311B972CA9006B9D74 /* SceneManager.cpp */,
 				8366F9321B972CA9006B9D74 /* SceneManager.h */,
 				8366F9371B972D04006B9D74 /* SceneBase.cpp */,
 				8366F9381B972D04006B9D74 /* SceneBase.h */,
+				83C5A3F21B9AE55800753092 /* AllSceneIncludes.h */,
 			);
 			name = scene;
 			sourceTree = "<group>";
@@ -848,6 +870,51 @@
 				83D00FD81B99EB7A0036E424 /* ShapeRenderer.h */,
 			);
 			name = "dark shapes";
+			sourceTree = "<group>";
+		};
+		83C5A3DC1B9AE0CA00753092 /* flants */ = {
+			isa = PBXGroup;
+			children = (
+				83C5A3E11B9AE14500753092 /* FlantsScene.cpp */,
+				83C5A3E21B9AE14500753092 /* FlantsScene.h */,
+			);
+			name = flants;
+			sourceTree = "<group>";
+		};
+		83C5A3DD1B9AE0D800753092 /* paintbox */ = {
+			isa = PBXGroup;
+			children = (
+				83C5A3E41B9AE15A00753092 /* PaintboxScene.cpp */,
+				83C5A3E51B9AE15A00753092 /* PaintboxScene.h */,
+			);
+			name = paintbox;
+			sourceTree = "<group>";
+		};
+		83C5A3DE1B9AE0E700753092 /* dancing dark */ = {
+			isa = PBXGroup;
+			children = (
+				83C5A3E71B9AE16800753092 /* DancingDarkScene.cpp */,
+				83C5A3E81B9AE16800753092 /* DancingDarkScene.h */,
+			);
+			name = "dancing dark";
+			sourceTree = "<group>";
+		};
+		83C5A3DF1B9AE0F800753092 /* cassandra */ = {
+			isa = PBXGroup;
+			children = (
+				83C5A3EB1B9AE17C00753092 /* CassandraScene.cpp */,
+				83C5A3EC1B9AE17C00753092 /* CassandraScene.h */,
+			);
+			name = cassandra;
+			sourceTree = "<group>";
+		};
+		83C5A3E01B9AE10000753092 /* sitin */ = {
+			isa = PBXGroup;
+			children = (
+				83C5A3EE1B9AE18B00753092 /* SitinScene.cpp */,
+				83C5A3EF1B9AE18B00753092 /* SitinScene.h */,
+			);
+			name = sitin;
 			sourceTree = "<group>";
 		};
 		83D00FD31B99E8660036E424 /* sequence */ = {
@@ -1203,6 +1270,7 @@
 				8366F92B1B9716FC006B9D74 /* VideoInput.cpp in Sources */,
 				8366F9331B972CA9006B9D74 /* SceneManager.cpp in Sources */,
 				83D8F3391B95CDBC00C12951 /* Flow.cpp in Sources */,
+				83C5A3E91B9AE16800753092 /* DancingDarkScene.cpp in Sources */,
 				83D8F3401B95CDBC00C12951 /* Wrappers.cpp in Sources */,
 				8366F96A1B984E27006B9D74 /* AppModel.cpp in Sources */,
 				8366F9471B9732EA006B9D74 /* IgniteScene.cpp in Sources */,
@@ -1223,6 +1291,7 @@
 				8366F9171B97038C006B9D74 /* tinyxmlparser.cpp in Sources */,
 				8366F9AD1B9899AB006B9D74 /* ofxSliderGroup.cpp in Sources */,
 				8366F8F51B970351006B9D74 /* ofxEasingQuart.cpp in Sources */,
+				83C5A3F01B9AE18B00753092 /* SitinScene.cpp in Sources */,
 				8366F9DE1B98D67D006B9D74 /* DarkShapesScene.cpp in Sources */,
 				83D8F33F1B95CDBC00C12951 /* Utilities.cpp in Sources */,
 				8366F9C51B989CD3006B9D74 /* ofxRemoteUI.cpp in Sources */,
@@ -1232,6 +1301,7 @@
 				8366F9AE1B9899AB006B9D74 /* ofxToggle.cpp in Sources */,
 				83D8F3491B95CF7400C12951 /* IPVideoGrabber.cpp in Sources */,
 				8366F9611B974EF2006B9D74 /* LedDisplay.cpp in Sources */,
+				83C5A3E31B9AE14500753092 /* FlantsScene.cpp in Sources */,
 				8366F8C11B970339006B9D74 /* NetworkingUtils.cpp in Sources */,
 				8366F9A71B9899AB006B9D74 /* ofxBaseGui.cpp in Sources */,
 				8366F9C81B989CD3006B9D74 /* ofxRemoteUIofParamaterSync.cpp in Sources */,
@@ -1249,6 +1319,7 @@
 				E4B69E210A3A1BDC003C02F2 /* ofApp.cpp in Sources */,
 				8366F97C1B9877BA006B9D74 /* fft.cpp in Sources */,
 				83D8F3381B95CDBC00C12951 /* Distance.cpp in Sources */,
+				83C5A3E61B9AE15A00753092 /* PaintboxScene.cpp in Sources */,
 				8366F97E1B9877BA006B9D74 /* ofxFFTFile.cpp in Sources */,
 				8366F97F1B9877BA006B9D74 /* ofxFFTLive.cpp in Sources */,
 				8366F9391B972D04006B9D74 /* SceneBase.cpp in Sources */,
@@ -1263,6 +1334,7 @@
 				83D8F33C1B95CDBC00C12951 /* ObjectFinder.cpp in Sources */,
 				8366F9591B974242006B9D74 /* ofxArgs.cpp in Sources */,
 				8366F9481B9732EA006B9D74 /* LightboxScene.cpp in Sources */,
+				83C5A3ED1B9AE17C00753092 /* CassandraScene.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

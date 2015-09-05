@@ -75,16 +75,17 @@ void ofApp::setupGui() {
     
     // global panel
     panel.setDefaultWidth(250);
-    parameters.setName("Global");
-    parameters.add(debug.set("debug", true));
+    panel.setup("Show", "settings/global.xml");
+    panel.add(debug.set("debug", true));
+    parameters.setName("More GUIs");
     for (auto guiable: guiables) {
         guiable->setupGui();
         parameters.add(guiable->guiEnabled.set(guiable->guiName, false));
         guiable->panel.setPosition(270, 10);
     }
+    panel.add(parameters);
     
     // Setup and load GUI
-    panel.setup(parameters, "settings/global.xml");
     panel.loadFromFile("settings/global.xml");
     
     // setup the RemoteUIServer
