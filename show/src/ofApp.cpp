@@ -66,11 +66,8 @@ void ofApp::draw() {
 
 void ofApp::setupGui() {
     // setup panels
-    // OSC
     guiables.push_back(&osc);
-    // scene manager
     guiables.push_back(&sceneManager);
-    // vision
     guiables.push_back(&vision);
     
     // global panel

@@ -15,12 +15,10 @@ OscClient::OscClient() {
     sendAddress = "192.168.0.255";
     sendPort = "12345";
     receivePort = "12345";
+    current_msg_string = 0;
 }
 
 void OscClient::setup() {
-    sender.setup(sendAddress, ofToInt(sendPort));
-    receiver.setup(ofToInt(receivePort));
-    current_msg_string = 0;
 }
 
 void OscClient::update() {
@@ -93,6 +91,9 @@ void OscClient::setupGui() {
     panel.add(sendAddress.set("to IP", "192.168.0.255"));
     panel.add(sendPort.set("to port", "12345"));
     panel.loadFromFile("settings/osc.xml");
+    
+    sender.setup(sendAddress, ofToInt(sendPort));
+    receiver.setup(ofToInt(receivePort));
 }
 
 void OscClient::sendPlayScene(int id) {

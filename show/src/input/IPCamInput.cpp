@@ -4,26 +4,22 @@ IPCamInput::IPCamInput() {
 }
 
 void IPCamInput::setup() {
-    // setup IP cam
-    loadCamera();
-    IPCameraDef& cam = getCamera();
-    SharedIPVideoGrabber c = IPVideoGrabber::makeShared();
-    c->setCameraName(cam.getName());
-    c->setURI(cam.getURL());
-    grabber = c;
-    hasImg = false;
 }
 
 void IPCamInput::update() {
-    grabber->update();
-    if(grabber->isFrameNew() && !hasImg) hasImg = true;
+    if (grabber) {
+        grabber->update();
+        if(grabber->isFrameNew() && !hasImg) hasImg = true;
+    }
 }
 
 void IPCamInput::draw() {
-    ofSetColor(255);
-    float w = ofGetWidth()/2;
-    float h = grabber->getHeight() * (w / grabber->getWidth());
-    grabber->draw(0, 0, w, h);
+    if (grabber) {
+        ofSetColor(255);
+        float w = ofGetWidth()/2;
+        float h = grabber->getHeight() * (w / grabber->getWidth());
+        grabber->draw(0, 0, w, h);
+    }
 }
 
 void IPCamInput::exit() {
@@ -32,6 +28,18 @@ void IPCamInput::exit() {
 //////////////////////////////////////////////////////////////////////////////////
 // public
 //////////////////////////////////////////////////////////////////////////////////
+
+void IPCamInput::load(string url){
+    ipcam = IPCameraDef("Dome", url, "", "");
+    IPCameraDef& cam = getCamera();
+    SharedIPVideoGrabber c = IPVideoGrabber::makeShared();
+    c->setCameraName(cam.getName());
+    c->setURI(cam.getURL());
+    grabber = c;
+    hasImg = false;
+    start();
+}
+
 ofPixelsRef IPCamInput::getPixelsRef() {
     if (!getIsReady()) ofLogWarning() << "IPCamInput::getPixelsRef grabber is not ready";
     return grabber->getFrame()->getPixelsRef();
@@ -47,12 +55,12 @@ bool IPCamInput::getIsReady() {
 
 void IPCamInput::start(){
     ofLogNotice() << "IPCamInput::start";
-    grabber->connect();
+    if (grabber) grabber->connect();
 }
 
 void IPCamInput::stop(){
     ofLogNotice() << "IPCamInput::stop";
-    grabber->disconnect();
+    if (grabber) grabber->disconnect();
     hasImg = false;
 }
 
@@ -69,7 +77,7 @@ IPCameraDef& IPCamInput::getCamera() {
 }
 
 void IPCamInput::loadCamera() {
-    ipcam = IPCameraDef("Dome", CAM_URL, "", "");
+    
 }
 
 //////////////////////////////////////////////////////////////////////////////////

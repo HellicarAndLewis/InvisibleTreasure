@@ -3,17 +3,16 @@ using namespace ofxCv;
 using namespace cv;
 
 VisionManager::VisionManager() {
+    input = NULL;
+    inputIndex = -1;
 }
 
 void VisionManager::setup() {
     // inputs
-    inputIndex = 0;
     ipcam.setup();
     inputs.push_back(&ipcam);
     video.setup();
     inputs.push_back(&video);
-    input = inputs[inputIndex];
-    input->start();
     
     // tracker
     contourTracker.setup();
@@ -45,6 +44,7 @@ void VisionManager::setup() {
 }
 
 void VisionManager::update() {
+    if (input == NULL) return;
     input->update();
     if (input->getIsReady() && input->isFrameNew()) {
         inputImage.setFromPixels(input->getPixelsRef());
@@ -138,8 +138,13 @@ void VisionManager::setupGui() {
     panel.add(inputSelector);
     panel.add(debugDraw);
     panel.add(isCalibrating);
+    panel.add(camURL.set("IP Cam URL", "http://169.254.37.207/axis-cgi/mjpg/video.cgi"));
     panel.add(contourTracker.parameters);
     panel.loadFromFile("settings/vision.xml");
+    
+    // TODO: add stop/start to GUI
+    // TODO: only start by default if master?
+    ipcam.load(camURL);
 }
 
 void VisionManager::drawGui() {
@@ -159,7 +164,7 @@ void VisionManager::drawGui() {
 void VisionManager::onInputChange(int & i) {
     if (i >= 0 && i < inputs.size() && i != inputIndex) {
         ofLogNotice() << "VisionManager::onInputChange to " << i;
-        input->stop();
+        if (input != NULL) input->stop();
         inputIndex = i;
         isFirstImage = true;
         input = inputs[i];

@@ -72,6 +72,7 @@ public:
 	ofPixelsRef getPixelsRef();
     bool isFrameNew();
     bool getIsReady();
+    void load(string url = CAM_URL);
     void start();
     void stop();
 

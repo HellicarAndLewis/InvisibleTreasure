@@ -46,6 +46,7 @@ public:
     ofParameter<int> inputSelector;
     ofParameter<bool> debugDraw;
     ofParameter<bool> isCalibrating;
+    ofParameter<string> camURL;
     void onInputChange(int & i);
 
 protected:  

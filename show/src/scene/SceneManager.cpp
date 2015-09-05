@@ -49,13 +49,6 @@ void SceneManager::setup(AppModel* model, OscClient* osc, VisionManager* vision)
         scene->setup();
         ofAddListener(scene->stateChangeEvent, this, &SceneManager::onSceneChange);
     }
-    
-    // setup GUI elements
-    nextSceneButton.addListener(this, &SceneManager::nextScene);
-    sceneSelctor.addListener(this, &SceneManager::onSceneSelect);
-    sceneSelctor.set("scene number", 0, 0, scenes.size()-1);
-    
-    playScene(sceneIndex);
 }
 
 void SceneManager::update() {
@@ -100,6 +93,10 @@ void SceneManager::nextScene(){
 
 void SceneManager::setupGui() {
     guiName = "Scene Manager";
+    // setup GUI elements
+    nextSceneButton.addListener(this, &SceneManager::nextScene);
+    sceneSelctor.addListener(this, &SceneManager::onSceneSelect);
+    sceneSelctor.set("scene number", 0, 0, scenes.size()-1);
     panel.setup(guiName, "settings/scenes.xml");
     panel.add(nextSceneButton.setup("next"));
     panel.add(sceneSelctor);
