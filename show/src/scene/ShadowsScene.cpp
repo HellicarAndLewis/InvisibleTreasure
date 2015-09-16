@@ -13,16 +13,22 @@ ShadowsScene::ShadowsScene() {
 }
 
 void ShadowsScene::setup() {
+    subsceneStart = 1;
+    subsceneEnd = 2;
 }
 
 void ShadowsScene::update() {
     video.update();
     SceneBase::update();
+    if (mode == AppModel::SLAVE) {
+        led->update();
+    }
 }
 
 void ShadowsScene::draw() {
     if (mode == AppModel::SLAVE) {
         // display 1 is LED
+        led->draw();
         // diplay 2 is wall projector
         video.draw(ofGetWidth()/2, 0, ofGetWidth()/2, ofGetHeight());
     }
@@ -32,11 +38,23 @@ void ShadowsScene::draw() {
 //////////////////////////////////////////////////////////////////////////////////
 // public
 //////////////////////////////////////////////////////////////////////////////////
-void ShadowsScene::play(){
-    video.loadMovie("videos/15peopletest_sm2.mov");
-    video.setLoopState(OF_LOOP_NORMAL);
-    video.play();
-    SceneBase::play();
+void ShadowsScene::play(int i){
+    if (i==1) {
+        // welcome
+        led->show("Welcome");
+        if (!video.isPlaying()) {
+            video.loadMovie("videos/15peopletest_sm2.mov");
+            video.setLoopState(OF_LOOP_NORMAL);
+            video.play();
+        }
+    }
+    else if (i==2) {
+        // countdown
+        led->show("Going Dark", 10);
+    }
+    
+    // lastly
+    SceneBase::play(i);
 }
 
 void ShadowsScene::stop(){

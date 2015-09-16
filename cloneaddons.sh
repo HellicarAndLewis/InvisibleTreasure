@@ -54,6 +54,11 @@ cd ofxTween
 # git checkout ???
 cd ..
 
+${CLONE}Flightphase/ofxFTGL
+cd ofxFTGL
+# git checkout ???
+cd ..
+
 
 # final step is to cd back to the start dir
 cd ../apps/invisibleTreasure

@@ -11,6 +11,8 @@
 SceneBase::SceneBase() {
     state = INACTIVE;
     isDebugMode = true;
+    subsceneStart = 0;
+    subsceneEnd = 0;
 }
 
 void SceneBase::setup() {
@@ -25,8 +27,8 @@ void SceneBase::draw() {
     if (isDebugMode) {
         //ofSetColor(10, 10, 200);
         //ofRect(0, 0, ofGetWidth(), ofGetHeight());
-        ofSetColor(255);
-        string s = name  + " (" + modeLabel + ")";
+        ofSetColor(150);
+        string s = name + " scene " + ofToString(subsceneI) + " (" + modeLabel + ")";
         ofRectangle rect = font->getStringBoundingBox(s, 0, 0);
         font->drawString(s, (ofGetWidth()/2) - (rect.width/2), ofGetHeight()*.6);
     }
@@ -48,6 +50,15 @@ void SceneBase::draw() {
 //////////////////////////////////////////////////////////////////////////////////
 void SceneBase::play(){
     Sequencable::play();
+}
+
+void SceneBase::play(int i){
+    // playing a sub scene
+    // close existing one if it exists
+    // open new open after
+    subsceneI = i;
+    setState(INTERACTIVE);
+    //Sequencable::play();
 }
 
 void SceneBase::stop(){

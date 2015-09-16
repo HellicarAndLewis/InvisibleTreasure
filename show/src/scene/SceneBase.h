@@ -26,8 +26,9 @@ public:
     
 	virtual void setup();
 	virtual void update();
-	virtual void draw();
+    virtual void draw();
     virtual void play();
+    virtual void play(int i);
     virtual void stop();
 	
 	void keyPressed(int key);
@@ -47,6 +48,13 @@ public:
     LedDisplay* led;
     Mic* mic;
     ofTrueTypeFont* font;
+    AppModel* appModel;
+    
+    // scenes can have child scenes
+    map<int, SceneBase> subscenes;
+    int subsceneStart;
+    int subsceneEnd;
+    int subsceneI;
     
     bool isDebugMode;
     string name;

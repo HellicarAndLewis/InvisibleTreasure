@@ -17,7 +17,7 @@ public:
 	void setup();
 	void update();
 	void draw();
-    void play();
+    void play(int i);
     void stop();
 	
 	void keyPressed(int key);
@@ -46,5 +46,7 @@ private:
     vector<float> previousLevels;
     bool audioMirror;
     float averageVolume;
+    
+    bool getWindowActive();
     
 };

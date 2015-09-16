@@ -23,8 +23,8 @@ fi
 open ./master.command
 open ./slave.command
 open ./window.command
-open ./window.command
-open ./window.command
-open ./window.command
+open ./window2.command
+open ./window3.command
+open ./window4.command
 
 exit 0

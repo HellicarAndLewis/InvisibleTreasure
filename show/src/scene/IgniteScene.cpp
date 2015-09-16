@@ -14,6 +14,10 @@ IgniteScene::IgniteScene() {
 }
 
 void IgniteScene::setup() {
+    // subscenes
+    subsceneStart = 3;
+    subsceneEnd = 9;
+    
     audioMirror = true  ;
     int n = 10;
     levels.assign(n, 0.0);
@@ -26,7 +30,7 @@ void IgniteScene::setup() {
 }
 
 void IgniteScene::update() {
-    if (mode == AppModel::WINDOW) {
+    if (mode == AppModel::WINDOW && getWindowActive()) {
         //setMaxDecay(0.995);
         //setPeakDecay(0.96);
         //mic->fftLive.setPeakDecay(0.5);
@@ -51,10 +55,10 @@ void IgniteScene::update() {
 
 void IgniteScene::draw() {
     if (mode==AppModel::SLAVE) {
-        led->label = "MAKE SOME NOISE";
+        led->title = "MAKE SOME NOISE";
         led->draw();
     }
-    if (mode==AppModel::WINDOW) {
+    if (mode==AppModel::WINDOW && getWindowActive()) {
         // draw a blob based on the average volume of the mic input
         float x = ofGetWidth()/2;
         float y = ofGetHeight()/2;
@@ -93,9 +97,10 @@ void IgniteScene::draw() {
 //////////////////////////////////////////////////////////////////////////////////
 // public
 //////////////////////////////////////////////////////////////////////////////////
-void IgniteScene::play(){
+void IgniteScene::play(int i){
+    led->show("Ignite The Space " + ofToString(i));
     mic->start();
-    SceneBase::play();
+    SceneBase::play(i);
 }
 
 void IgniteScene::stop(){
@@ -125,7 +130,17 @@ void IgniteScene::drawGui() {
 //////////////////////////////////////////////////////////////////////////////////
 // private
 //////////////////////////////////////////////////////////////////////////////////
-
+bool IgniteScene::getWindowActive() {
+    bool active = false;
+    if (mode==AppModel::WINDOW) {
+        if (appModel->windowId == 1 && subsceneI == 4) active = true;
+        if (appModel->windowId == 2 && subsceneI == 5) active = true;
+        if (appModel->windowId == 3 && subsceneI == 6) active = true;
+        if (appModel->windowId == 4 && subsceneI == 7) active = true;
+        if (subsceneI == 8) active = true;
+    }
+    return active;
+}
 //////////////////////////////////////////////////////////////////////////////////
 // custom event handlers
 //////////////////////////////////////////////////////////////////////////////////

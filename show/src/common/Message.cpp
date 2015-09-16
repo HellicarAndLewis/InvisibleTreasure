@@ -1,48 +1,47 @@
 //
-//  LedDisplay.cpp
+//  Message.cpp
 //  show
 //
-//  Created by Chris Mullany on 02/09/2015.
+//  Created by Chris Mullany on 16/09/2015.
 //
 //
 
-#include "LedDisplay.h"
+#include "Message.h"
 
-LedDisplay::LedDisplay() {
+Message::Message() {
+    //layout.setLineLength(0.0f);
+    //layout.setLineSpacing(0.0f);
+    timeIn = 1;
+    timeHold = 5;
+    timeOut = 1;
+    
 }
 
-void LedDisplay::setup() {
-    message.setup("fonts/led_board-7.ttf", 30);
+void Message::setup(string fontPath, int fontSize) {
+    layout.loadFont(fontPath, fontSize);
+    layout.setAlignment(FTGL_ALIGN_CENTER);
+    layout.setLineLength(ofGetWidth()/2);
 }
 
-void LedDisplay::update() {
-    message.messageString = title;
-    if (showCountdown) {
-        int elapsed = ofGetElapsedTimeMillis() - countdownStart;
-        int timer = ceil((countdownDuration - elapsed)/1000);
-        if (timer > 0)
-            message.messageString += "\n" + ofToString(timer);
-    }
+void Message::update() {
 }
 
-void LedDisplay::draw() {
-    ofSetColor(250);
-    ofRect(0, 0, ofGetWidth()/2, ofGetHeight()/2);
-    ofSetColor(20);
-    message.draw();
+void Message::draw() {
+    ofRectangle bounds = layout.getStringBoundingBox(messageString, 0, 0);
+    layout.drawString(messageString, (ofGetWidth()/2 - layout.stringWidth(messageString))/2, (ofGetHeight()/4) -  (layout.stringHeight(messageString)/2));
 }
 
 //////////////////////////////////////////////////////////////////////////////////
 // public
 //////////////////////////////////////////////////////////////////////////////////
-
-void LedDisplay::show(string title, float countdown) {
-    message.show(title, 1);
-    this->title = title;
-    showCountdown = (countdown > 0);
-    countdownDuration = countdown * 1000;
-    countdownStart = ofGetElapsedTimeMillis();
+void Message::show(string message, float timeIn, float timeHold, float timeOut, bool loop) {
+    this->messageString = message;
+    this->timeIn = timeIn;
+    this->timeHold = timeHold;
+    this->timeOut = timeOut;
+    Sequencable::play();
 }
+
 //////////////////////////////////////////////////////////////////////////////////
 // protected
 //////////////////////////////////////////////////////////////////////////////////

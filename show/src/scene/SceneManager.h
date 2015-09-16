@@ -31,6 +31,8 @@ public:
     
     void playScene(int id);
     void nextScene();
+    void playSubScene(int id);
+    void nextSubScene();
 	
 	void keyPressed(int key);
 	void keyReleased(int key);
@@ -60,6 +62,7 @@ private:
     
     // gui
     ofxButton nextSceneButton;
+    ofxButton nextSubSceneButton;
     ofParameter<int> sceneSelctor;
     void onSceneSelect(int & i);
     
@@ -73,11 +76,14 @@ private:
     DancingDarkScene dancingDark;
     CassandraScene cassandra;
     SitinScene sitin;
+    int getSceneForSubscene(int subsceneI);
     
     vector<SceneBase*> scenes;
     int sceneIndex;
+    int subSceneIndex;
     SceneBase* sceneIn;
     SceneBase* sceneOut;
+    bool subSceneQueued;
     
     // event listeners
     void onModeChange(AppModel::Mode& mode);

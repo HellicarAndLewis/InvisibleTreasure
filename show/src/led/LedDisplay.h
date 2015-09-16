@@ -8,30 +8,25 @@
 
 #pragma once
 #include "ofMain.h"
+#include "Message.h"
 
 class LedDisplay {
 public:
     LedDisplay();
-    
 	void setup();
 	void update();
-	void draw();
-	void exit();
-	
-	void keyPressed(int key);
-	void keyReleased(int key);
-	void mouseMoved(int x, int y );
-	void mouseDragged(int x, int y, int button);
-	void mousePressed(int x, int y, int button);
-	void mouseReleased(int x, int y, int button);
-	void windowResized(int w, int h);
-	void dragEvent(ofDragInfo dragInfo);
-	void gotMessage(ofMessage msg);
+    void draw();
+    void show(string title, float countdown=-1.0f);
     
-    string label;
-
+    Message message;
+    string title;
+    
+    bool showCountdown;
+    int countdownStart;
+    int countdownDuration;
+    string countdownString;
+    
 protected:  
 private:
-    ofTrueTypeFont font;
     
 };

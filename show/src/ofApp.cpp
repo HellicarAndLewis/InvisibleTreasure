@@ -23,7 +23,8 @@ ofApp::ofApp(ofxArgs* args) {
     
     // TODO: store id and do something with it?
     // Numerical ID, will probabl come in handy at some point
-    int id = args->getInt("-id", 0);
+    int id = args->getInt("-windowId", 0);
+    appModel.windowId = id;
     
     // Mode is a string that can be "MASTER", "WINDOW", "SLAVE"
     // each string is matched to an enum in AppModel

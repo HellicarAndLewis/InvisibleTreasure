@@ -12,6 +12,7 @@ void Sequencable::update() {
     progress = tween.update();
     if (tween.isCompleted()) {
         if (state == INTRO) setState(INTERACTIVE);
+        if (state == INTERACTIVE && timeHold > 0) setState(OUTRO);
         if (state == OUTRO) setState(INACTIVE);
     }
 }
@@ -22,13 +23,17 @@ void Sequencable::update() {
 void Sequencable::setState(State state) {
     this->state = state;
     ofNotifyEvent(stateChangeEvent, state, this);
-    if (state == INTRO || state == OUTRO) {
-        progress = 0;
-        unsigned delay = 0;
-        unsigned duration = 1000;
-        tween.setParameters(easinglinear,ofxTween::easeOut,0,1,duration,delay);
-        tween.start();
+    if (state == INTRO) {
+        tween.setParameters(easinglinear,ofxTween::easeOut,0,1,timeIn*1000,0);
     }
+    else if (state == INTERACTIVE && timeHold > 0) {
+        tween.setParameters(easinglinear,ofxTween::easeOut,0,1,timeHold*1000,0);
+    }
+    else if (state == OUTRO) {
+        tween.setParameters(easinglinear,ofxTween::easeOut,0,1,timeOut*1000,0);
+    }
+    tween.start();
+    progress = 0;
 }
 
 void Sequencable::play() {

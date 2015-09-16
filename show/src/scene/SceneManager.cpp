@@ -10,6 +10,8 @@
 
 SceneManager::SceneManager() {
     sceneIndex = -1;
+    subSceneIndex = 0;
+    subSceneQueued = false;
 }
 
 void SceneManager::setup(AppModel* model, OscClient* osc, VisionManager* vision) {
@@ -38,8 +40,10 @@ void SceneManager::setup(AppModel* model, OscClient* osc, VisionManager* vision)
     font.loadFont("fonts/verdana.ttf", 14);
     
     // setup each scene, passing pointers to common/shared things
+    // TODO: pass pointer to app model, have scene listen for mode change
     for (auto scene: scenes) {
         scene->mode = model->mode;
+        scene->appModel = model;
         scene->osc = osc;
         scene->vision = vision;
         scene->mic = &mic;
@@ -73,7 +77,7 @@ void SceneManager::playScene(int id) {
         sceneSelctor = id;
         if (sceneIn == NULL) {
             sceneIn = scenes[id];
-            sceneIn->play();
+            sceneIn->play(sceneIn->subsceneStart);
         }
         // if sceneOut is not NULL we're already animating out a scene
         // animate that scene out first
@@ -91,14 +95,40 @@ void SceneManager::nextScene(){
     playScene(sceneIndex+1);
 }
 
+void SceneManager::playSubScene(int id) {
+    if (id > 0) {
+        subSceneIndex = id;
+        // get the subscene's parent scene
+        int sceneI = getSceneForSubscene(id);
+        // if it's the current scene, scene->playSubScene(id);
+        // if not, stop current scene, set next scene and next subscene
+        if (sceneI == this->sceneIndex) {
+            sceneIn->play(id);
+        }
+        else {
+            // this will animate the old scene before animating in the new one
+            subSceneQueued = true;
+            playScene(sceneI);
+        }
+        if (model->mode == AppModel::MASTER) osc->sendPlayScene(id);
+    }
+}
+
+void SceneManager::nextSubScene(){
+    subSceneIndex++;
+    playSubScene(subSceneIndex);
+}
+
 void SceneManager::setupGui() {
     guiName = "Scene Manager";
     // setup GUI elements
     nextSceneButton.addListener(this, &SceneManager::nextScene);
+    nextSubSceneButton.addListener(this, &SceneManager::nextSubScene);
     sceneSelctor.addListener(this, &SceneManager::onSceneSelect);
     sceneSelctor.set("scene number", 0, 0, scenes.size()-1);
     panel.setup(guiName, "settings/scenes.xml");
     panel.add(nextSceneButton.setup("next"));
+    panel.add(nextSubSceneButton.setup("next subscene"));
     panel.add(sceneSelctor);
     
     // child panels
@@ -130,6 +160,17 @@ void SceneManager::drawGui() {
 //////////////////////////////////////////////////////////////////////////////////
 // private
 //////////////////////////////////////////////////////////////////////////////////
+int SceneManager::getSceneForSubscene(int subsceneI) {
+    int sceneI = -1;
+    int i = 0;
+    for (auto scene: scenes) {
+        if (subsceneI >= scene->subsceneStart && subsceneI <= scene->subsceneEnd) {
+            sceneI = i;
+        }
+        i++;
+    }
+    return sceneI;
+}
 
 //////////////////////////////////////////////////////////////////////////////////
 // custom event handlers
@@ -142,11 +183,15 @@ void SceneManager::onModeChange(AppModel::Mode& mode){
 }
 
 void SceneManager::onSceneChange(SceneBase::State & state) {
+    // if scene has changed to INACTIVE, it's just closed
+    // if there's a scene waiting to play next, play it
     if (state == SceneBase::INACTIVE) {
         ofLogVerbose() << "SceneManager::onSceneChange: INACTIVE, play next scene";
         if (sceneIn != NULL) {
-            sceneIn->play();
+            if (!subSceneQueued) subSceneIndex = sceneIn->subsceneStart;
+            sceneIn->play(subSceneIndex);
             sceneOut = NULL;
+            subSceneQueued = false;
         }
     }
 }
@@ -176,6 +221,8 @@ void SceneManager::keyPressed (int key) {
         case '3':
             playScene(2);
             break;
+        case OF_KEY_RIGHT:
+            nextSubScene();
         default:
             break;
     }

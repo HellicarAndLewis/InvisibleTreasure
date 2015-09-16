@@ -38,7 +38,7 @@ void DarkShapesScene::update() {
 
 void DarkShapesScene::draw() {
     if (mode==AppModel::SLAVE) {
-        led->label = "MAKE SOME SHAPES";
+        led->title = "MAKE SOME SHAPES";
         led->draw();
     }
     else if (mode==AppModel::WINDOW) {

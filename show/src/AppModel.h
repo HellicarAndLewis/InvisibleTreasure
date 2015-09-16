@@ -21,6 +21,8 @@ public:
     enum Mode {MASTER, SLAVE, WINDOW} mode;
     string modeString;
     
+    int windowId;
+    
     ofEvent<Mode> modeChangeEvent;
     
     void setMode(string modeString) {

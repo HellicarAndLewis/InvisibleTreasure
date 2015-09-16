@@ -15,6 +15,9 @@ LightboxScene::LightboxScene() {
 }
 
 void LightboxScene::setup() {
+    // subscenes
+    subsceneStart = 10;
+    subsceneEnd = 16;
     // add hit areas
     // positions and sizes are normalized
     // so they can later be mapped to the tracking rect
@@ -103,8 +106,8 @@ void LightboxScene::draw() {
 //////////////////////////////////////////////////////////////////////////////////
 // public
 //////////////////////////////////////////////////////////////////////////////////
-void LightboxScene::play(){
-    SceneBase::play();
+void LightboxScene::play(int i){
+    SceneBase::play(i);
 }
 
 void LightboxScene::stop(){
