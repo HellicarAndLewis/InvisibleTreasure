@@ -22,6 +22,7 @@
 		834E01521BA9B7670068D276 /* ftgl_static_D.lib in Frameworks */ = {isa = PBXBuildFile; fileRef = 834E01381BA9B7670068D276 /* ftgl_static_D.lib */; };
 		834E01541BA9B7670068D276 /* ofxFTGLFont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 834E013C1BA9B7670068D276 /* ofxFTGLFont.cpp */; };
 		834E01551BA9B7670068D276 /* ofxFTGLSimpleLayout.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 834E013E1BA9B7670068D276 /* ofxFTGLSimpleLayout.cpp */; };
+		834E01651BAA9EC00068D276 /* ImageDisplay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 834E01631BAA9EC00068D276 /* ImageDisplay.cpp */; };
 		8366F8C01B970339006B9D74 /* IpEndpointName.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8366F89A1B970339006B9D74 /* IpEndpointName.cpp */; };
 		8366F8C11B970339006B9D74 /* NetworkingUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8366F89F1B970339006B9D74 /* NetworkingUtils.cpp */; };
 		8366F8C21B970339006B9D74 /* UdpSocket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8366F8A01B970339006B9D74 /* UdpSocket.cpp */; };
@@ -204,6 +205,8 @@
 		834E013D1BA9B7670068D276 /* ofxFTGLFont.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxFTGLFont.h; sourceTree = "<group>"; };
 		834E013E1BA9B7670068D276 /* ofxFTGLSimpleLayout.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxFTGLSimpleLayout.cpp; sourceTree = "<group>"; };
 		834E013F1BA9B7670068D276 /* ofxFTGLSimpleLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxFTGLSimpleLayout.h; sourceTree = "<group>"; };
+		834E01631BAA9EC00068D276 /* ImageDisplay.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ImageDisplay.cpp; path = common/ImageDisplay.cpp; sourceTree = "<group>"; };
+		834E01641BAA9EC00068D276 /* ImageDisplay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ImageDisplay.h; path = common/ImageDisplay.h; sourceTree = "<group>"; };
 		8366F89A1B970339006B9D74 /* IpEndpointName.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = IpEndpointName.cpp; sourceTree = "<group>"; };
 		8366F89B1B970339006B9D74 /* IpEndpointName.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IpEndpointName.h; sourceTree = "<group>"; };
 		8366F89C1B970339006B9D74 /* NetworkingUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkingUtils.h; sourceTree = "<group>"; };
@@ -477,9 +480,12 @@
 		834E00C51BA9B6ED0068D276 /* display */ = {
 			isa = PBXGroup;
 			children = (
-				8366F95B1B974EB4006B9D74 /* led */,
+				8366F95F1B974EF2006B9D74 /* LedDisplay.cpp */,
+				8366F9601B974EF2006B9D74 /* LedDisplay.h */,
 				834E00C61BA9B73A0068D276 /* Message.cpp */,
 				834E00C71BA9B73A0068D276 /* Message.h */,
+				834E01631BAA9EC00068D276 /* ImageDisplay.cpp */,
+				834E01641BAA9EC00068D276 /* ImageDisplay.h */,
 			);
 			name = display;
 			sourceTree = "<group>";
@@ -919,15 +925,6 @@
 				8366F9551B974242006B9D74 /* ofxArgs.h */,
 			);
 			path = src;
-			sourceTree = "<group>";
-		};
-		8366F95B1B974EB4006B9D74 /* led */ = {
-			isa = PBXGroup;
-			children = (
-				8366F95F1B974EF2006B9D74 /* LedDisplay.cpp */,
-				8366F9601B974EF2006B9D74 /* LedDisplay.h */,
-			);
-			name = led;
 			sourceTree = "<group>";
 		};
 		8366F9631B975731006B9D74 /* network */ = {
@@ -1495,6 +1492,7 @@
 				8366F9C51B989CD3006B9D74 /* ofxRemoteUI.cpp in Sources */,
 				8366F9A81B9899AB006B9D74 /* ofxButton.cpp in Sources */,
 				8366F9C71B989CD3006B9D74 /* ofxRemoteUINeigbors.cpp in Sources */,
+				834E01651BAA9EC00068D276 /* ImageDisplay.cpp in Sources */,
 				8366F8C21B970339006B9D74 /* UdpSocket.cpp in Sources */,
 				8366F9AE1B9899AB006B9D74 /* ofxToggle.cpp in Sources */,
 				83D8F3491B95CF7400C12951 /* IPVideoGrabber.cpp in Sources */,

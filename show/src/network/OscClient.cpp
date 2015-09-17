@@ -9,7 +9,9 @@
 #include "OscClient.h"
 
 #define PLAY_SCENE_ADRESS "/scene/playscene"
+#define PLAY_SUBSCENE_ADRESS "/scene/playsubscene"
 #define PRESENCE_ADRESS "/tracking/presence"
+
 
 OscClient::OscClient() {
     sendAddress = "192.168.0.255";
@@ -40,6 +42,10 @@ void OscClient::update() {
         if (msg_string == PLAY_SCENE_ADRESS) {
             int id = m.getArgAsInt32(0);
             ofNotifyEvent(playSceneEvent, id, this);
+        }
+        else if (msg_string == PLAY_SUBSCENE_ADRESS) {
+            int id = m.getArgAsInt32(0);
+            ofNotifyEvent(playSubSceneEvent, id, this);
         }
         
         msg_string += ": ";
@@ -99,6 +105,14 @@ void OscClient::setupGui() {
 void OscClient::sendPlayScene(int id) {
     ofxOscMessage m;
     m.setAddress(PLAY_SCENE_ADRESS);
+    m.addIntArg(id);
+    sender.sendMessage(m);
+}
+
+
+void OscClient::sendPlaySubScene(int id) {
+    ofxOscMessage m;
+    m.setAddress(PLAY_SUBSCENE_ADRESS);
     m.addIntArg(id);
     sender.sendMessage(m);
 }

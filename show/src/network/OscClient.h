@@ -33,9 +33,11 @@ public:
     
     void setupGui();
     void sendPlayScene(int id);
+    void sendPlaySubScene(int id);
     void sendPresence(string areaName, int count);
     
     ofEvent<int> playSceneEvent;
+    ofEvent<int> playSubSceneEvent;
     
 protected:  
 private:

@@ -14,11 +14,7 @@ IgniteScene::IgniteScene() {
 }
 
 void IgniteScene::setup() {
-    // subscenes
-    subsceneStart = 3;
-    subsceneEnd = 9;
-    
-    audioMirror = true  ;
+    audioMirror = true;
     int n = 10;
     levels.assign(n, 0.0);
     previousLevels.assign(n, 0.0);
@@ -27,6 +23,11 @@ void IgniteScene::setup() {
     noiseScale.set("noise scale", 80, 0, 500);
     threshold.set("threshold", 0.5, 0.0, 1.0);
     debugDraw.set("debug draw", false);
+    
+    // subscenes
+    subsceneStart = 3;
+    subsceneEnd = 9;
+    SceneBase::setup();
 }
 
 void IgniteScene::update() {

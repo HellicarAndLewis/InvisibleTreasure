@@ -21,6 +21,11 @@ void DarkShapesScene::setup() {
     modeSelector.set("Shape Mode", 0, 0, shapeRenderer.shapes.size()-1);
     
     // TODO: listen to OSC events for shape mode changes
+    
+    // subscenes
+    subsceneStart = 17;
+    subsceneEnd = 50;
+    SceneBase::setup();
 }
 
 void DarkShapesScene::update() {

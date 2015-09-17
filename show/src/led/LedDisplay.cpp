@@ -27,9 +27,10 @@ void LedDisplay::update() {
 
 void LedDisplay::draw() {
     ofSetColor(250);
-    ofRect(0, 0, ofGetWidth()/2, ofGetHeight()/2);
+    ofRect(0, 0, ofGetWidth()/2, ofGetHeight());
     ofSetColor(20);
     message.draw();
+    ofSetColor(255);
 }
 
 //////////////////////////////////////////////////////////////////////////////////

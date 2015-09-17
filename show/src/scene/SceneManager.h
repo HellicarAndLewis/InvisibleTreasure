@@ -64,7 +64,9 @@ private:
     ofxButton nextSceneButton;
     ofxButton nextSubSceneButton;
     ofParameter<int> sceneSelctor;
-    void onSceneSelect(int & i);
+    ofParameter<int> subSceneIndex;
+    void onSceneSelect(int& i);
+    void onSubSceneSelect(int& i);
     
     // Scenes
     ShadowsScene shadows;
@@ -80,7 +82,7 @@ private:
     
     vector<SceneBase*> scenes;
     int sceneIndex;
-    int subSceneIndex;
+    //int subSceneIndex;
     SceneBase* sceneIn;
     SceneBase* sceneOut;
     bool subSceneQueued;
@@ -89,4 +91,5 @@ private:
     void onModeChange(AppModel::Mode& mode);
     void onSceneChange(SceneBase::State & state);
     void onPlayScene(int& id);
+    void onPlaySubScene(int& id);
 };

@@ -72,6 +72,7 @@ void ofApp::setupGui() {
     guiables.push_back(&vision);
     
     // global panel
+    ofxGuiSetFont("fonts/Andale Mono.ttf", 12);
     panel.setDefaultWidth(250);
     panel.setup("Show", "settings/global.xml");
     panel.add(debug.set("debug", true));

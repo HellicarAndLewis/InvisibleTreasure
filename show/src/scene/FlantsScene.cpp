@@ -15,6 +15,10 @@ FlantsScene::FlantsScene() {
 }
 
 void FlantsScene::setup() {
+    // subscenes
+    subsceneStart = 51;
+    subsceneEnd = 62;
+    SceneBase::setup();
 }
 
 void FlantsScene::update() {

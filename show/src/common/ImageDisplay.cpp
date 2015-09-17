@@ -1,46 +1,36 @@
 //
-//  Message.cpp
+//  ImageDisplay.cpp
 //  show
 //
-//  Created by Chris Mullany on 16/09/2015.
+//  Created by Chris Mullany on 17/09/2015.
 //
 //
 
-#include "Message.h"
+#include "ImageDisplay.h"
 
-Message::Message() {
-    //layout.setLineLength(0.0f);
-    //layout.setLineSpacing(0.0f);
-    timeIn = 1;
-    timeHold = 5;
-    timeOut = 1;
+ImageDisplay::ImageDisplay() {
+}
+
+void ImageDisplay::setup() {
+}
+
+void ImageDisplay::update() {
+}
+
+void ImageDisplay::draw() {
+}
+
+void ImageDisplay::show(float duration) {
     
 }
 
-void Message::setup(string fontPath, int fontSize) {
-    layout.loadFont(fontPath, fontSize);
-    layout.setAlignment(FTGL_ALIGN_CENTER);
-    layout.setLineLength(ofGetWidth()/2);
-}
-
-void Message::update() {
-}
-
-void Message::draw() {
-    ofRectangle bounds = layout.getStringBoundingBox(messageString, 0, 0);
-    layout.drawString(messageString, (ofGetWidth()/2 - layout.stringWidth(messageString))/2 - 80, (ofGetHeight()/2) -  (layout.stringHeight(messageString)/2));
+void ImageDisplay::hide(float duration) {
+    
 }
 
 //////////////////////////////////////////////////////////////////////////////////
 // public
 //////////////////////////////////////////////////////////////////////////////////
-void Message::show(string message, float timeIn, float timeHold, float timeOut, bool loop) {
-    this->messageString = message;
-    this->timeIn = timeIn;
-    this->timeHold = timeHold;
-    this->timeOut = timeOut;
-    Sequencable::play();
-}
 
 //////////////////////////////////////////////////////////////////////////////////
 // protected

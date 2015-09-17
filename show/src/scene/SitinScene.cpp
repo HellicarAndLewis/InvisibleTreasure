@@ -15,6 +15,10 @@ SitinScene::SitinScene() {
 }
 
 void SitinScene::setup() {
+    // subscenes
+    subsceneStart = 83;
+    subsceneEnd = 86;
+    SceneBase::setup();
 }
 
 void SitinScene::update() {

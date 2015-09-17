@@ -62,6 +62,7 @@ public:
     AppModel::Mode mode;
 
 protected:
+    virtual void onModeChange(AppModel::Mode& mode){};
 private:
     
 };

@@ -22,7 +22,8 @@ public:
 	
     void setupGui();
 
-protected:  
+protected:
 private:
+    void onModeChange(AppModel::Mode& mode);
     ofVideoPlayer video;
 };

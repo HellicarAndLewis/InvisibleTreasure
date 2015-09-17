@@ -15,6 +15,10 @@ DancingDarkScene::DancingDarkScene() {
 }
 
 void DancingDarkScene::setup() {
+    // subscenes
+    subsceneStart = 67;
+    subsceneEnd = 76;
+    SceneBase::setup();
 }
 
 void DancingDarkScene::update() {

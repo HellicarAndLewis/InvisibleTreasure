@@ -16,6 +16,7 @@ SceneBase::SceneBase() {
 }
 
 void SceneBase::setup() {
+    ofAddListener(this->appModel->modeChangeEvent, this, &SceneBase::onModeChange);
 }
 
 void SceneBase::update() {

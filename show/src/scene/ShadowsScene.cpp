@@ -15,6 +15,7 @@ ShadowsScene::ShadowsScene() {
 void ShadowsScene::setup() {
     subsceneStart = 1;
     subsceneEnd = 2;
+    SceneBase::setup();
 }
 
 void ShadowsScene::update() {
@@ -39,21 +40,24 @@ void ShadowsScene::draw() {
 // public
 //////////////////////////////////////////////////////////////////////////////////
 void ShadowsScene::play(int i){
-    if (i==1) {
-        // welcome
-        led->show("Welcome");
-        if (!video.isPlaying()) {
-            video.loadMovie("videos/15peopletest_sm2.mov");
-            video.setLoopState(OF_LOOP_NORMAL);
-            video.play();
+    // Slave
+    if (mode == AppModel::SLAVE) {
+        if (i==1) {
+            // LED: Welcome
+            led->show("Welcome");
+            // TODO: replace video with fixed-name image
+            if (!video.isPlaying()) {
+                video.loadMovie("videos/15peopletest_sm2.mov");
+                video.setLoopState(OF_LOOP_NORMAL);
+                video.play();
+            }
+        }
+        else if (i==2) {
+            // LED: Going Dark and 10 second countdown
+            led->show("Going Dark", 10);
         }
     }
-    else if (i==2) {
-        // countdown
-        led->show("Going Dark", 10);
-    }
-    
-    // lastly
+    // general/common/base
     SceneBase::play(i);
 }
 
@@ -77,7 +81,9 @@ void ShadowsScene::setupGui() {
 //////////////////////////////////////////////////////////////////////////////////
 // private
 //////////////////////////////////////////////////////////////////////////////////
-
+void ShadowsScene::onModeChange(AppModel::Mode& mode) {
+    play(subsceneI);
+}
 //////////////////////////////////////////////////////////////////////////////////
 // custom event handlers
 //////////////////////////////////////////////////////////////////////////////////

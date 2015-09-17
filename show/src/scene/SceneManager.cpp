@@ -20,6 +20,7 @@ void SceneManager::setup(AppModel* model, OscClient* osc, VisionManager* vision)
     ofAddListener(this->model->modeChangeEvent, this, &SceneManager::onModeChange);
     this->osc = osc;
     ofAddListener(this->osc->playSceneEvent, this, &SceneManager::onPlayScene);
+    ofAddListener(this->osc->playSubSceneEvent, this, &SceneManager::onPlaySubScene);
     
     mic.setup();
     led.setup();
@@ -77,7 +78,8 @@ void SceneManager::playScene(int id) {
         sceneSelctor = id;
         if (sceneIn == NULL) {
             sceneIn = scenes[id];
-            sceneIn->play(sceneIn->subsceneStart);
+            subSceneIndex = sceneIn->subsceneStart;
+            sceneIn->play(subSceneIndex);
         }
         // if sceneOut is not NULL we're already animating out a scene
         // animate that scene out first
@@ -98,6 +100,7 @@ void SceneManager::nextScene(){
 void SceneManager::playSubScene(int id) {
     if (id > 0) {
         subSceneIndex = id;
+
         // get the subscene's parent scene
         int sceneI = getSceneForSubscene(id);
         // if it's the current scene, scene->playSubScene(id);
@@ -110,7 +113,7 @@ void SceneManager::playSubScene(int id) {
             subSceneQueued = true;
             playScene(sceneI);
         }
-        if (model->mode == AppModel::MASTER) osc->sendPlayScene(id);
+        if (model->mode == AppModel::MASTER) osc->sendPlaySubScene(id);
     }
 }
 
@@ -121,14 +124,20 @@ void SceneManager::nextSubScene(){
 
 void SceneManager::setupGui() {
     guiName = "Scene Manager";
+    
     // setup GUI elements
     nextSceneButton.addListener(this, &SceneManager::nextScene);
-    nextSubSceneButton.addListener(this, &SceneManager::nextSubScene);
     sceneSelctor.addListener(this, &SceneManager::onSceneSelect);
-    sceneSelctor.set("scene number", 0, 0, scenes.size()-1);
+    sceneSelctor.set("scene", 0, 0, scenes.size()-1);
+    nextSubSceneButton.addListener(this, &SceneManager::nextSubScene);
+    subSceneIndex.addListener(this, &SceneManager::onSubSceneSelect);
+    int subSceneMax = scenes.back()->subsceneEnd;
+    subSceneIndex.set("sub scene", 0, 0, subSceneMax);
+    // add to panel
     panel.setup(guiName, "settings/scenes.xml");
-    panel.add(nextSceneButton.setup("next"));
     panel.add(nextSubSceneButton.setup("next subscene"));
+    panel.add(subSceneIndex);
+    panel.add(nextSceneButton.setup("next scene"));
     panel.add(sceneSelctor);
     
     // child panels
@@ -202,8 +211,17 @@ void SceneManager::onPlayScene(int& id) {
     }
 }
 
+void SceneManager::onPlaySubScene(int& id) {
+    if (model->mode != AppModel::MASTER) {
+        playSubScene(id);
+    }
+}
+
 void SceneManager::onSceneSelect(int & i) {
     playScene(i);
+}
+void SceneManager::onSubSceneSelect(int & i) {
+    playSubScene(i);
 }
 
 //////////////////////////////////////////////////////////////////////////////////

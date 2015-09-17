@@ -15,6 +15,10 @@ PaintboxScene::PaintboxScene() {
 }
 
 void PaintboxScene::setup() {
+    // subscenes
+    subsceneStart = 63;
+    subsceneEnd = 66;
+    SceneBase::setup();
 }
 
 void PaintboxScene::update() {

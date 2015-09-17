@@ -15,6 +15,10 @@ CassandraScene::CassandraScene() {
 }
 
 void CassandraScene::setup() {
+    // subscenes
+    subsceneStart = 77;
+    subsceneEnd = 82;
+    SceneBase::setup();
 }
 
 void CassandraScene::update() {
