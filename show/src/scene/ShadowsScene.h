@@ -13,14 +13,16 @@
 class ShadowsScene : public SceneBase {
 public:
     ShadowsScene();
-    
 	void setup();
 	void update();
 	void draw();
     void play(int i);
     void stop();
-	
     void setupGui();
+    
+    ofParameter<string> welcomeTitle;
+    ofParameter<string> goingDarkTitle;
+    ofParameter<int> countdownDuration;
 
 protected:
 private:

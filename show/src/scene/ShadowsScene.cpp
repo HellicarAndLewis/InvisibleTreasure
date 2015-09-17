@@ -71,6 +71,9 @@ void ShadowsScene::setupGui() {
     guiName = "Shadows";
     panel.setup(guiName, "settings/shadows.xml");
     // add parameters
+    panel.add(welcomeTitle.set("title1", "Welcome"));
+    panel.add(goingDarkTitle.set("title2", "Going Dark"));
+    panel.add(countdownDuration.set("countdown", 10, 0, 20));
     panel.loadFromFile("settings/shadows.xml");
 }
 
