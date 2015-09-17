@@ -43,6 +43,9 @@ void LightboxScene::draw() {
         ContourTracker& tracker = *vision->getTracker();
         ofxCv::ContourFinder& contourFinder = tracker.contourFinder;
         
+        
+        displays->masterScreen.begin();
+        
         ofPushMatrix();
         ofTranslate(10, 10);
         ofSetColor(120);
@@ -100,6 +103,8 @@ void LightboxScene::draw() {
         ofSetLineWidth(1);
         ofFill();
         ofPopMatrix();
+        
+        displays->masterScreen.end();
         
     }
     SceneBase::draw();

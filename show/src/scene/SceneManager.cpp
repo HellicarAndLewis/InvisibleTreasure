@@ -14,7 +14,7 @@ SceneManager::SceneManager() {
     subSceneQueued = false;
 }
 
-void SceneManager::setup(AppModel* model, OscClient* osc, VisionManager* vision) {
+void SceneManager::setup(AppModel* model, OscClient* osc, VisionManager* vision, DisplayManager * displays) {
     
     this->model = model;
     ofAddListener(this->model->modeChangeEvent, this, &SceneManager::onModeChange);
@@ -43,6 +43,7 @@ void SceneManager::setup(AppModel* model, OscClient* osc, VisionManager* vision)
     // setup each scene, passing pointers to common/shared things
     // TODO: pass pointer to app model, have scene listen for mode change
     for (auto scene: scenes) {
+        scene->displays = displays;
         scene->mode = model->mode;
         scene->appModel = model;
         scene->osc = osc;

@@ -36,7 +36,8 @@ void ofApp::setup() {
     ofBackground(0);
     osc.setup();
     vision.setup();
-    sceneManager.setup(&appModel, &osc, &vision);
+    displayManager.setup();
+    sceneManager.setup(&appModel, &osc, &vision, &displayManager);
     // call this last!
     setupGui();
 }
@@ -45,12 +46,19 @@ void ofApp::update() {
     osc.update();
     vision.update();
     sceneManager.update();
+    displayManager.update();
 }
 
 void ofApp::draw() {
     
     if (vision.debugDraw) vision.draw();
     sceneManager.draw();
+    
+    if (appModel.mode == AppModel::MASTER) {
+        displayManager.drawMaster();
+    } else if (appModel.mode == AppModel::SLAVE) {
+        displayManager.drawSlave();
+    }
     
     // debug draw
     if (debug) {
@@ -70,6 +78,7 @@ void ofApp::setupGui() {
     guiables.push_back(&osc);
     guiables.push_back(&sceneManager);
     guiables.push_back(&vision);
+    guiables.push_back(&displayManager);
     
     // global panel
     ofxGuiSetFont("fonts/Andale Mono.ttf", 12);

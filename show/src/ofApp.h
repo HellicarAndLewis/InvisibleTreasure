@@ -10,6 +10,7 @@
 #include "scene/SceneManager.h"
 #include "network/OscClient.h"
 #include "GuiableBase.h"
+#include "DisplayManager.h"
 
 
 class ofApp : public ofBaseApp, GuiableBase {
@@ -33,6 +34,7 @@ private:
     void drawGui();
     
     AppModel appModel;
+    DisplayManager displayManager;
     VisionManager vision;
     SceneManager sceneManager;
     OscClient osc;

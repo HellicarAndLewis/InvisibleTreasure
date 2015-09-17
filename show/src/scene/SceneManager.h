@@ -24,7 +24,7 @@ class SceneManager : public GuiableBase {
 public:
     SceneManager();
     
-    void setup(AppModel* model, OscClient* osc, VisionManager* vision);
+    void setup(AppModel* model, OscClient* osc, VisionManager* vision, DisplayManager * displays);
 	void update();
 	void draw();
 	void exit();

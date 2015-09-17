@@ -15,6 +15,7 @@
 #include "VisionManager.h"
 #include "OscClient.h"
 #include "Sequencable.h"
+#include "DisplayManager.h"
 
 // Each Scene shoud inherit from SceneBase
 // provides pointers to common objects
@@ -43,6 +44,7 @@ public:
     
     
     // common pointers
+    DisplayManager * displays;
     OscClient * osc;
     VisionManager* vision;
     LedDisplay* led;
