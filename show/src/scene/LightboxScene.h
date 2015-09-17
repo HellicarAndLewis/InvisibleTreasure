@@ -18,7 +18,7 @@ public:
             this->position.set(name+" pos", position, ofVec2f(0,0), ofVec2f(1,1));
             this->size.set(name+" size", size, 0, 1);
         }
-        ofParameter<ofPoint> position;
+        ofParameter<ofVec2f> position;
         ofParameter<float> size;
         ofRectangle rect;
         string name;

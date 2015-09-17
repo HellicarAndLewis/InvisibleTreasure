@@ -88,8 +88,8 @@ void ofApp::setupGui() {
     panel.loadFromFile("settings/global.xml");
     
     // setup the RemoteUIServer
-    RUI_SETUP();
-    ruiBridge.setup(parameters);
+    //RUI_SETUP();
+    //ruiBridge.setup(parameters);
     
     
     if (appModel.mode == AppModel::MASTER) guiEnabled = true;
