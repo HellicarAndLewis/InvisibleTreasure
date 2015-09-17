@@ -9,6 +9,7 @@
 #pragma once
 #include "ofMain.h"
 #include "SceneBase.h"
+#include "ImageDisplay.h"
 
 class ShadowsScene : public SceneBase {
 public:
@@ -27,5 +28,5 @@ public:
 protected:
 private:
     void onModeChange(AppModel::Mode& mode);
-    ofVideoPlayer video;
+    ImageDisplay imageDisplay;
 };

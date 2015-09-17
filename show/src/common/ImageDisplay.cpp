@@ -11,21 +11,32 @@
 ImageDisplay::ImageDisplay() {
 }
 
-void ImageDisplay::setup() {
-}
-
-void ImageDisplay::update() {
+void ImageDisplay::setup(string path) {
+    image.loadImage(path);
 }
 
 void ImageDisplay::draw() {
+    image.draw(0,0);
+}
+
+
+void ImageDisplay::draw(ofRectangle& rect) {
+    if (state == INACTIVE) return;
+    else if (state == INTRO)  ofSetColor(255, 255, 255, progress*255);
+    else if (state == OUTRO) ofSetColor(255, 255, 255, (1-progress)*255);
+    else ofSetColor(255);
+    image.draw(rect);
+    ofSetColor(255);
 }
 
 void ImageDisplay::show(float duration) {
-    
+    timeIn = duration;
+    setState(INTRO);
 }
 
 void ImageDisplay::hide(float duration) {
-    
+    timeOut = duration;
+    setState(OUTRO);
 }
 
 //////////////////////////////////////////////////////////////////////////////////

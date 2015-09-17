@@ -13,13 +13,13 @@
 class ImageDisplay : public Sequencable  {
 public:
     ImageDisplay();
-    
-	void setup();
-	void update();
-	void draw();
-    
+	void setup(string path);
+    void draw();
+    void draw(ofRectangle& rect);
     void show(float duration = 1.0f);
     void hide(float duration = 1.0f);
+    
+    ofImage image;
 
 protected:  
 private:
