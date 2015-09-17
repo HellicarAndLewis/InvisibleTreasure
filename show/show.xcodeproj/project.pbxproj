@@ -22,7 +22,8 @@
 		834E01521BA9B7670068D276 /* ftgl_static_D.lib in Frameworks */ = {isa = PBXBuildFile; fileRef = 834E01381BA9B7670068D276 /* ftgl_static_D.lib */; };
 		834E01541BA9B7670068D276 /* ofxFTGLFont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 834E013C1BA9B7670068D276 /* ofxFTGLFont.cpp */; };
 		834E01551BA9B7670068D276 /* ofxFTGLSimpleLayout.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 834E013E1BA9B7670068D276 /* ofxFTGLSimpleLayout.cpp */; };
-		834E01651BAA9EC00068D276 /* ImageDisplay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 834E01631BAA9EC00068D276 /* ImageDisplay.cpp */; };
+		834E01651BAA9EC00068D276 /* ImageElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 834E01631BAA9EC00068D276 /* ImageElement.cpp */; };
+		834E01691BAACE4C0068D276 /* DisplayManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 834E01671BAACE4C0068D276 /* DisplayManager.cpp */; };
 		8366F8C01B970339006B9D74 /* IpEndpointName.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8366F89A1B970339006B9D74 /* IpEndpointName.cpp */; };
 		8366F8C11B970339006B9D74 /* NetworkingUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8366F89F1B970339006B9D74 /* NetworkingUtils.cpp */; };
 		8366F8C21B970339006B9D74 /* UdpSocket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8366F8A01B970339006B9D74 /* UdpSocket.cpp */; };
@@ -205,8 +206,10 @@
 		834E013D1BA9B7670068D276 /* ofxFTGLFont.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxFTGLFont.h; sourceTree = "<group>"; };
 		834E013E1BA9B7670068D276 /* ofxFTGLSimpleLayout.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxFTGLSimpleLayout.cpp; sourceTree = "<group>"; };
 		834E013F1BA9B7670068D276 /* ofxFTGLSimpleLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxFTGLSimpleLayout.h; sourceTree = "<group>"; };
-		834E01631BAA9EC00068D276 /* ImageDisplay.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ImageDisplay.cpp; path = common/ImageDisplay.cpp; sourceTree = "<group>"; };
-		834E01641BAA9EC00068D276 /* ImageDisplay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ImageDisplay.h; path = common/ImageDisplay.h; sourceTree = "<group>"; };
+		834E01631BAA9EC00068D276 /* ImageElement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ImageElement.cpp; path = common/ImageElement.cpp; sourceTree = "<group>"; };
+		834E01641BAA9EC00068D276 /* ImageElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ImageElement.h; path = common/ImageElement.h; sourceTree = "<group>"; };
+		834E01671BAACE4C0068D276 /* DisplayManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DisplayManager.cpp; path = common/DisplayManager.cpp; sourceTree = "<group>"; };
+		834E01681BAACE4C0068D276 /* DisplayManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DisplayManager.h; path = common/DisplayManager.h; sourceTree = "<group>"; };
 		8366F89A1B970339006B9D74 /* IpEndpointName.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = IpEndpointName.cpp; sourceTree = "<group>"; };
 		8366F89B1B970339006B9D74 /* IpEndpointName.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IpEndpointName.h; sourceTree = "<group>"; };
 		8366F89C1B970339006B9D74 /* NetworkingUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkingUtils.h; sourceTree = "<group>"; };
@@ -477,17 +480,18 @@
 			name = ofxCv;
 			sourceTree = "<group>";
 		};
-		834E00C51BA9B6ED0068D276 /* display */ = {
+		834E00C51BA9B6ED0068D276 /* ui */ = {
 			isa = PBXGroup;
 			children = (
+				8366F9D21B98B357006B9D74 /* GuiableBase.h */,
 				8366F95F1B974EF2006B9D74 /* LedDisplay.cpp */,
 				8366F9601B974EF2006B9D74 /* LedDisplay.h */,
 				834E00C61BA9B73A0068D276 /* Message.cpp */,
 				834E00C71BA9B73A0068D276 /* Message.h */,
-				834E01631BAA9EC00068D276 /* ImageDisplay.cpp */,
-				834E01641BAA9EC00068D276 /* ImageDisplay.h */,
+				834E01631BAA9EC00068D276 /* ImageElement.cpp */,
+				834E01641BAA9EC00068D276 /* ImageElement.h */,
 			);
-			name = display;
+			name = ui;
 			sourceTree = "<group>";
 		};
 		834E00C91BA9B7660068D276 /* ofxFTGL */ = {
@@ -619,6 +623,15 @@
 				834E013F1BA9B7670068D276 /* ofxFTGLSimpleLayout.h */,
 			);
 			path = src;
+			sourceTree = "<group>";
+		};
+		834E01661BAACDF00068D276 /* display */ = {
+			isa = PBXGroup;
+			children = (
+				834E01671BAACE4C0068D276 /* DisplayManager.cpp */,
+				834E01681BAACE4C0068D276 /* DisplayManager.h */,
+			);
+			name = display;
 			sourceTree = "<group>";
 		};
 		8366F8951B970339006B9D74 /* ofxOsc */ = {
@@ -939,9 +952,9 @@
 		8366F96C1B986444006B9D74 /* common */ = {
 			isa = PBXGroup;
 			children = (
-				834E00C51BA9B6ED0068D276 /* display */,
+				834E01661BAACDF00068D276 /* display */,
+				834E00C51BA9B6ED0068D276 /* ui */,
 				83D00FD31B99E8660036E424 /* sequence */,
-				8366F9D01B98B339006B9D74 /* gui */,
 			);
 			name = common;
 			sourceTree = "<group>";
@@ -1044,14 +1057,6 @@
 			);
 			name = src;
 			path = ../../../addons/ofxRemoteUI/src;
-			sourceTree = "<group>";
-		};
-		8366F9D01B98B339006B9D74 /* gui */ = {
-			isa = PBXGroup;
-			children = (
-				8366F9D21B98B357006B9D74 /* GuiableBase.h */,
-			);
-			name = gui;
 			sourceTree = "<group>";
 		};
 		8366F9DB1B98D559006B9D74 /* dark shapes */ = {
@@ -1441,6 +1446,7 @@
 				83D8F33A1B95CDBC00C12951 /* Helpers.cpp in Sources */,
 				8366F9151B97038C006B9D74 /* tinyxml.cpp in Sources */,
 				8366F9091B970383006B9D74 /* ofxTCPManager.cpp in Sources */,
+				834E01691BAACE4C0068D276 /* DisplayManager.cpp in Sources */,
 				8366F8EE1B970351006B9D74 /* ofxEasingBounce.cpp in Sources */,
 				8366F8C41B970339006B9D74 /* UdpSocketWin.cpp in Sources */,
 				8366F8F01B970351006B9D74 /* ofxEasingCubic.cpp in Sources */,
@@ -1492,7 +1498,7 @@
 				8366F9C51B989CD3006B9D74 /* ofxRemoteUI.cpp in Sources */,
 				8366F9A81B9899AB006B9D74 /* ofxButton.cpp in Sources */,
 				8366F9C71B989CD3006B9D74 /* ofxRemoteUINeigbors.cpp in Sources */,
-				834E01651BAA9EC00068D276 /* ImageDisplay.cpp in Sources */,
+				834E01651BAA9EC00068D276 /* ImageElement.cpp in Sources */,
 				8366F8C21B970339006B9D74 /* UdpSocket.cpp in Sources */,
 				8366F9AE1B9899AB006B9D74 /* ofxToggle.cpp in Sources */,
 				83D8F3491B95CF7400C12951 /* IPVideoGrabber.cpp in Sources */,

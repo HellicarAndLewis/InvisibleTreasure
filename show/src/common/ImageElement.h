@@ -1,5 +1,5 @@
 //
-//  ImageDisplay.h
+//  ImageElement.h
 //  show
 //
 //  Created by Chris Mullany on 17/09/2015.
@@ -10,9 +10,9 @@
 #include "ofMain.h"
 #include "Sequencable.h"
 
-class ImageDisplay : public Sequencable  {
+class ImageElement : public Sequencable  {
 public:
-    ImageDisplay();
+    ImageElement();
 	void setup(string path);
     void draw();
     void draw(ofRectangle& rect);

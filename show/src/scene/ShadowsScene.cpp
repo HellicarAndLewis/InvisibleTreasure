@@ -22,7 +22,7 @@ void ShadowsScene::update() {
     SceneBase::update();
     if (mode == AppModel::SLAVE) {
         led->update();
-        imageDisplay.update();
+        imageElement.update();
     }
 }
 
@@ -32,7 +32,7 @@ void ShadowsScene::draw() {
         led->draw();
         // diplay 2 is wall projector
         ofRectangle rect = ofRectangle(ofGetWidth()/2, 0, ofGetWidth()/2, ofGetHeight());
-        imageDisplay.draw(rect);
+        imageElement.draw(rect);
     }
     SceneBase::draw();
 }
@@ -47,14 +47,14 @@ void ShadowsScene::play(int i){
             // LED: Welcome
             led->show(welcomeTitle);
             // TODO: replace video with fixed-name image
-            imageDisplay.setup("images/static.jpg");
-            imageDisplay.show();
+            imageElement.setup("images/static.jpg");
+            imageElement.show();
         }
         else if (i==2) {
             // LED: Going Dark and 10 second countdown
             int time = countdownDuration;
             led->show(goingDarkTitle, time);
-            imageDisplay.hide(time);
+            imageElement.hide(time);
         }
     }
     // general/common/base

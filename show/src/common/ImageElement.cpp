@@ -1,26 +1,26 @@
 //
-//  ImageDisplay.cpp
+//  ImageElement.cpp
 //  show
 //
 //  Created by Chris Mullany on 17/09/2015.
 //
 //
 
-#include "ImageDisplay.h"
+#include "ImageElement.h"
 
-ImageDisplay::ImageDisplay() {
+ImageElement::ImageElement() {
 }
 
-void ImageDisplay::setup(string path) {
+void ImageElement::setup(string path) {
     image.loadImage(path);
 }
 
-void ImageDisplay::draw() {
+void ImageElement::draw() {
     image.draw(0,0);
 }
 
 
-void ImageDisplay::draw(ofRectangle& rect) {
+void ImageElement::draw(ofRectangle& rect) {
     if (state == INACTIVE) return;
     else if (state == INTRO)  ofSetColor(255, 255, 255, progress*255);
     else if (state == OUTRO) ofSetColor(255, 255, 255, (1-progress)*255);
@@ -29,12 +29,12 @@ void ImageDisplay::draw(ofRectangle& rect) {
     ofSetColor(255);
 }
 
-void ImageDisplay::show(float duration) {
+void ImageElement::show(float duration) {
     timeIn = duration;
     setState(INTRO);
 }
 
-void ImageDisplay::hide(float duration) {
+void ImageElement::hide(float duration) {
     timeOut = duration;
     setState(OUTRO);
 }
