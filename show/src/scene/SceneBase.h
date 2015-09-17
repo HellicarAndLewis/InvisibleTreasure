@@ -64,6 +64,20 @@ public:
     AppModel::Mode mode;
 
 protected:
+    bool isMaster();
+    bool isSlave();
+    bool isWindow();
+
+    bool beginMasterScreenDraw();
+    bool endMasterScreenDraw();
+    bool beginMasterProjectionDraw();
+    bool endMasterProjectionDraw();
+    
+    bool beginSlaveScreenDraw();
+    bool endSlaveScreenDraw();
+    bool beginSlaveProjectionDraw();
+    bool endSlaveProjectionDraw();
+    
     virtual void onModeChange(AppModel::Mode& mode){};
 private:
     

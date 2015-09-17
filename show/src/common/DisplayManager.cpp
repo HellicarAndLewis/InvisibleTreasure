@@ -50,8 +50,8 @@ void DisplayManager::setupGui() {
     // add parameters
     scaleToWindow.addListener(this, &DisplayManager::onScaleToWindow);
     panel.add(scaleToWindow.set("scale to window", true));
-    panel.add(drawOutput.set("draw projector output", true));
-    panel.add(drawTestPattern.set("draw test pattern", true));
+    panel.add(drawOutput.set("master projector output", true));
+    panel.add(drawTestPattern.set("master test pattern", true));
     panel.add(slaveScreen.params);
     panel.add(slaveProjection.params);
     panel.add(masterScreen.params);
@@ -65,8 +65,8 @@ void DisplayManager::drawSlave() {
     if (scaleToWindow) {
         scale = ofGetWidth() / (slaveScreen.out.getWidth() + slaveProjection.out.getWidth());
     }
-    slaveScreen.draw();
-    slaveProjection.draw();
+    slaveScreen.draw(scale);
+    slaveProjection.draw(scale);
 }
 
 void DisplayManager::drawMaster() {

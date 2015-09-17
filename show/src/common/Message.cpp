@@ -9,8 +9,6 @@
 #include "Message.h"
 
 Message::Message() {
-    //layout.setLineLength(0.0f);
-    //layout.setLineSpacing(0.0f);
     timeIn = 1;
     timeHold = 5;
     timeOut = 1;
@@ -19,16 +17,22 @@ Message::Message() {
 
 void Message::setup(string fontPath, int fontSize) {
     layout.loadFont(fontPath, fontSize);
-    layout.setAlignment(FTGL_ALIGN_CENTER);
-    layout.setLineLength(ofGetWidth()/2);
+    layout.setAlignment(FTGL_ALIGN_LEFT);
 }
 
 void Message::update() {
 }
 
 void Message::draw() {
-    ofRectangle bounds = layout.getStringBoundingBox(messageString, 0, 0);
-    layout.drawString(messageString, (ofGetWidth()/2 - layout.stringWidth(messageString))/2 - 80, (ofGetHeight()/2) -  (layout.stringHeight(messageString)/2));
+    draw(0, 0);
+}
+
+void Message::draw(int x, int y) {
+    //ofPushStyle();
+    //ofSetColor(255, 0, 0);
+    //ofRect(x, y, getWidth(), getHeight());
+    //ofPopStyle();
+    layout.drawString(messageString, x, y + layout.getAscender());
 }
 
 //////////////////////////////////////////////////////////////////////////////////
@@ -40,6 +44,15 @@ void Message::show(string message, float timeIn, float timeHold, float timeOut, 
     this->timeHold = timeHold;
     this->timeOut = timeOut;
     Sequencable::play();
+}
+
+float Message::getWidth(){
+    return layout.getStringBoundingBox(messageString, 0, 0).getWidth();
+}
+
+float Message::getHeight(){
+    float height = layout.getStringBoundingBox(messageString, 0, 0).getHeight();
+    return height;
 }
 
 //////////////////////////////////////////////////////////////////////////////////

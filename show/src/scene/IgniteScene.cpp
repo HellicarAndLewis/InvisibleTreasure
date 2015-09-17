@@ -56,7 +56,6 @@ void IgniteScene::update() {
 
 void IgniteScene::draw() {
     if (mode==AppModel::SLAVE) {
-        led->title = "MAKE SOME NOISE";
         led->draw();
     }
     if (mode==AppModel::WINDOW && getWindowActive()) {

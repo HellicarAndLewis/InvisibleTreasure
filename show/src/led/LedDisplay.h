@@ -9,8 +9,9 @@
 #pragma once
 #include "ofMain.h"
 #include "Message.h"
+#include "Displayable.h"
 
-class LedDisplay {
+class LedDisplay : public Displayable {
 public:
     LedDisplay();
 	void setup();
@@ -18,7 +19,8 @@ public:
     void draw();
     void show(string title, float countdown=-1.0f);
     
-    Message message;
+    Message title1;
+    Message title2;
     string title;
     
     bool showCountdown;

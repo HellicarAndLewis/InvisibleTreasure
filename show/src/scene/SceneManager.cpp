@@ -24,6 +24,7 @@ void SceneManager::setup(AppModel* model, OscClient* osc, VisionManager* vision,
     
     mic.setup();
     led.setup();
+    led.setDisplay(&displays->slaveScreen);
     
     // push each scene onto scenes
     // this will determine the scene order

@@ -210,6 +210,7 @@
 		834E01641BAA9EC00068D276 /* ImageElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ImageElement.h; path = common/ImageElement.h; sourceTree = "<group>"; };
 		834E01671BAACE4C0068D276 /* DisplayManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DisplayManager.cpp; path = common/DisplayManager.cpp; sourceTree = "<group>"; };
 		834E01681BAACE4C0068D276 /* DisplayManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DisplayManager.h; path = common/DisplayManager.h; sourceTree = "<group>"; };
+		834E016D1BAB495C0068D276 /* Displayable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Displayable.h; path = common/Displayable.h; sourceTree = "<group>"; };
 		8366F89A1B970339006B9D74 /* IpEndpointName.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = IpEndpointName.cpp; sourceTree = "<group>"; };
 		8366F89B1B970339006B9D74 /* IpEndpointName.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IpEndpointName.h; sourceTree = "<group>"; };
 		8366F89C1B970339006B9D74 /* NetworkingUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkingUtils.h; sourceTree = "<group>"; };
@@ -483,13 +484,14 @@
 		834E00C51BA9B6ED0068D276 /* ui */ = {
 			isa = PBXGroup;
 			children = (
-				8366F9D21B98B357006B9D74 /* GuiableBase.h */,
+				834E01631BAA9EC00068D276 /* ImageElement.cpp */,
+				834E01641BAA9EC00068D276 /* ImageElement.h */,
 				8366F95F1B974EF2006B9D74 /* LedDisplay.cpp */,
 				8366F9601B974EF2006B9D74 /* LedDisplay.h */,
 				834E00C61BA9B73A0068D276 /* Message.cpp */,
 				834E00C71BA9B73A0068D276 /* Message.h */,
-				834E01631BAA9EC00068D276 /* ImageElement.cpp */,
-				834E01641BAA9EC00068D276 /* ImageElement.h */,
+				834E016D1BAB495C0068D276 /* Displayable.h */,
+				8366F9D21B98B357006B9D74 /* GuiableBase.h */,
 			);
 			name = ui;
 			sourceTree = "<group>";

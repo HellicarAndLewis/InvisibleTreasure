@@ -107,6 +107,7 @@ void LightboxScene::draw() {
         displays->masterScreen.end();
         
     }
+    if (isSlave()) led->draw();
     SceneBase::draw();
 }
 
@@ -114,6 +115,7 @@ void LightboxScene::draw() {
 // public
 //////////////////////////////////////////////////////////////////////////////////
 void LightboxScene::play(int i){
+    led->show("Lightbox " + ofToString(i));
     SceneBase::play(i);
 }
 

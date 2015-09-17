@@ -20,19 +20,22 @@ void ShadowsScene::setup() {
 
 void ShadowsScene::update() {
     SceneBase::update();
-    if (mode == AppModel::SLAVE) {
+    if (isSlave()) {
         led->update();
         imageElement.update();
     }
 }
 
 void ShadowsScene::draw() {
-    if (mode == AppModel::SLAVE) {
+    if (isSlave()) {
         // display 1 is LED
         led->draw();
         // diplay 2 is wall projector
-        ofRectangle rect = ofRectangle(ofGetWidth()/2, 0, ofGetWidth()/2, ofGetHeight());
-        imageElement.draw(rect);
+        beginSlaveProjectionDraw();
+        {
+            imageElement.draw();
+        }
+        endSlaveProjectionDraw();
     }
     SceneBase::draw();
 }
@@ -42,12 +45,13 @@ void ShadowsScene::draw() {
 //////////////////////////////////////////////////////////////////////////////////
 void ShadowsScene::play(int i){
     // Slave
-    if (mode == AppModel::SLAVE) {
+    if (isSlave()) {
         if (i==1) {
             // LED: Welcome
             led->show(welcomeTitle);
             // TODO: replace video with fixed-name image
-            imageElement.setup("images/static.jpg");
+            imageElement.setup("images/testpattern.png");
+            imageElement.setDisplay(&displays->slaveProjection);
             imageElement.show();
         }
         else if (i==2) {

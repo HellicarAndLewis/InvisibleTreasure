@@ -9,8 +9,9 @@
 #pragma once
 #include "ofMain.h"
 #include "Sequencable.h"
+#include "Displayable.h"
 
-class ImageElement : public Sequencable  {
+class ImageElement : public Sequencable, public Displayable {
 public:
     ImageElement();
 	void setup(string path);

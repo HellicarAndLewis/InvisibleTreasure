@@ -69,6 +69,77 @@ void SceneBase::stop(){
 //////////////////////////////////////////////////////////////////////////////////
 // protected
 //////////////////////////////////////////////////////////////////////////////////
+bool SceneBase::isMaster(){
+    return (mode == AppModel::MASTER);
+}
+bool SceneBase::isSlave(){
+    return (mode == AppModel::SLAVE);
+}
+bool SceneBase::isWindow(){
+    return (mode == AppModel::WINDOW);
+}
+
+// Master screen
+bool SceneBase::beginMasterScreenDraw(){
+    if (isMaster()) {
+        displays->masterScreen.begin();
+        return true;
+    }
+    else return false;
+}
+bool SceneBase::endMasterScreenDraw(){
+    if (isMaster()) {
+        displays->masterScreen.end();
+        return true;
+    }
+    else return false;
+}
+
+// Master projector
+bool SceneBase::beginMasterProjectionDraw(){
+    if (isMaster()) {
+        displays->masterProjection.begin();
+        return true;
+    }
+    else return false;
+}
+bool SceneBase::endMasterProjectionDraw(){
+    if (isMaster()) {
+        displays->masterProjection.end();
+        return true;
+    }
+    else return false;
+}
+
+
+bool SceneBase::beginSlaveScreenDraw(){
+    if (isSlave()) {
+        displays->slaveScreen.begin();
+        return true;
+    }
+    else return false;
+}
+bool SceneBase::endSlaveScreenDraw(){
+    if (isSlave()) {
+        displays->slaveScreen.end();
+        return true;
+    }
+    else return false;
+}
+bool SceneBase::beginSlaveProjectionDraw(){
+    if (isSlave()) {
+        displays->slaveProjection.begin();
+        return true;
+    }
+    else return false;
+}
+bool SceneBase::endSlaveProjectionDraw(){
+    if (isSlave()) {
+        displays->slaveProjection.end();
+        return true;
+    }
+    else return false;
+}
 
 //////////////////////////////////////////////////////////////////////////////////
 // private

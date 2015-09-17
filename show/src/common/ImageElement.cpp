@@ -16,7 +16,7 @@ void ImageElement::setup(string path) {
 }
 
 void ImageElement::draw() {
-    image.draw(0,0);
+    image.draw(getDisplayRect());
 }
 
 
@@ -25,7 +25,9 @@ void ImageElement::draw(ofRectangle& rect) {
     else if (state == INTRO)  ofSetColor(255, 255, 255, progress*255);
     else if (state == OUTRO) ofSetColor(255, 255, 255, (1-progress)*255);
     else ofSetColor(255);
-    image.draw(rect);
+    ofRectangle imageRect = ofRectangle(0, 0, image.getWidth(), image.getHeight());
+    imageRect.scaleTo(rect, OF_SCALEMODE_CENTER);
+    image.draw(imageRect);
     ofSetColor(255);
 }
 
