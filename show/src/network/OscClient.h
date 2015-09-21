@@ -29,27 +29,28 @@ public:
         }
     };
     
-    OscClient();
+    struct VolumeEventArgs {
+        float volume;
+        int windowId;
+        VolumeEventArgs(float volume, int windowId) {
+            this->volume = volume;
+            this->windowId = windowId;
+        }
+    };
     
-	void setup();
+    OscClient();
+	void setup(int id);
 	void update();
 	void draw();
-	void exit();
 	
 	void keyPressed(int key);
-	void keyReleased(int key);
-	void mouseMoved(int x, int y );
-	void mouseDragged(int x, int y, int button);
-	void mousePressed(int x, int y, int button);
-	void mouseReleased(int x, int y, int button);
-	void windowResized(int w, int h);
-	void dragEvent(ofDragInfo dragInfo);
-	void gotMessage(ofMessage msg);
     
     void setupGui();
     void sendPlayScene(int id);
     void sendPlaySubScene(int id);
     void sendPresence(string areaName, int count);
+    void sendVolume(float volume, int windowId);
+    void sendVolumeTrigger(int windowId);
     
     void sendLightSoundCue(CueParams cue);
     void sendLightingCue(float cue, float list = 1);
@@ -57,9 +58,13 @@ public:
     
     ofEvent<int> playSceneEvent;
     ofEvent<int> playSubSceneEvent;
+    ofEvent<VolumeEventArgs> volumeEvent;
+    ofEvent<VolumeEventArgs> volumeTriggerEvent;
     
 protected:  
 private:
+    int id;
+    
     ofxOscSender sender;
     ofxOscReceiver receiver;
     int current_msg_string;

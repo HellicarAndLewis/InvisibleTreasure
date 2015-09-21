@@ -1,25 +1,44 @@
 //
-//  AppModel.cpp
+//  Countdown.cpp
 //  show
 //
-//  Created by Chris Mullany on 03/09/2015.
+//  Created by Chris Mullany on 21/09/2015.
 //
 //
 
-#include "AppModel.h"
+#include "Countdown.h"
 
-void AppModel::setMode(string modeString) {
-    this->modeString = modeString;
-    if (modeString == "MASTER") mode = MASTER;
-    else if (modeString == "SLAVE") mode = SLAVE;
-    else mode = WINDOW;
-    ofNotifyEvent(modeChangeEvent, mode, this);
+Countdown::Countdown() {
+}
+
+void Countdown::setup() {
+}
+
+void Countdown::update() {
+    if (tween.isRunning() && enabled) {
+        progress = tween.update();
+        if (tween.isCompleted()) {
+            ofLogVerbose() << "countdown tween.isCompleted()";
+            int i = 0;
+            ofNotifyEvent(countdownCompleteEvent, i, this);
+        }
+    }
+}
+
+void Countdown::draw() {
 }
 
 //////////////////////////////////////////////////////////////////////////////////
 // public
 //////////////////////////////////////////////////////////////////////////////////
-
+void Countdown::start(float duration) {
+    enabled = true;
+    tween.setParameters(easinglinear, ofxTween::easeOut, duration, 0, duration*1000, 0);
+    tween.start();
+}
+void Countdown::stop() {
+    enabled = false;
+}
 //////////////////////////////////////////////////////////////////////////////////
 // protected
 //////////////////////////////////////////////////////////////////////////////////

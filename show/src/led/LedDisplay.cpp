@@ -11,7 +11,8 @@
 LedDisplay::LedDisplay() {
 }
 
-void LedDisplay::setup() {
+void LedDisplay::setup(Countdown * countdown) {
+    this->countdown = countdown;
     title1.setup("fonts/led_board-7.ttf", 60);
     title2.setup("fonts/led_board-7.ttf", 60);
 }
@@ -20,9 +21,8 @@ void LedDisplay::update() {
     title1.messageString = title;
     title2.messageString = "";
     if (showCountdown) {
-        float elapsed = ofGetElapsedTimeMillis() - countdownStart;
-        int timer = ceil((countdownDuration - elapsed)/1000);
-        if (timer > 0) title2.messageString = ofToString(timer);
+        int progress = ceil(countdown->progress);
+        if (progress > 0) title2.messageString = ofToString(progress);
     }
 }
 
@@ -47,12 +47,11 @@ void LedDisplay::draw() {
 // public
 //////////////////////////////////////////////////////////////////////////////////
 
-void LedDisplay::show(string title, float countdown) {
+void LedDisplay::show(string title, float countdownDuration) {
     title1.show(title, 1);
     this->title = title;
-    showCountdown = (countdown > 0);
-    countdownDuration = countdown * 1000;
-    countdownStart = ofGetElapsedTimeMillis();
+    showCountdown = (countdownDuration > 0);
+    countdown->start(countdownDuration);
 }
 //////////////////////////////////////////////////////////////////////////////////
 // protected

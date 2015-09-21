@@ -33,17 +33,6 @@ public:
     virtual void play();
     virtual void play(int i);
     virtual void stop();
-	
-	void keyPressed(int key);
-	void keyReleased(int key);
-	void mouseMoved(int x, int y );
-	void mouseDragged(int x, int y, int button);
-	void mousePressed(int x, int y, int button);
-	void mouseReleased(int x, int y, int button);
-	void windowResized(int w, int h);
-	void dragEvent(ofDragInfo dragInfo);
-	void gotMessage(ofMessage msg);
-    
     
     // common pointers
     // passed into each scene by SceneManager
@@ -51,15 +40,18 @@ public:
     OscClient * osc;
     VisionManager* vision;
     LedDisplay* led;
+    Countdown* countdown;
     Mic* mic;
     ofTrueTypeFont* font;
     AppModel* appModel;
     
-    // scenes can have child scenes
-    map<int, SceneBase> subscenes;
+    // scenes can have child scenes (subscenes)
+    // a subscene is more like a state, but each has a unique int id
+    // ids are counted globally across all scenes
     int subsceneStart;
     int subsceneEnd;
     int subsceneI;
+    ofEvent<int> nextSubsceneEvent;
     
     bool isDebugMode;
     string name;
@@ -67,21 +59,26 @@ public:
     AppModel::Mode mode;
 
 protected:
+    void nextSubscene();
     bool isMaster();
     bool isSlave();
     bool isWindow();
-
+    
+    // Master / Slave display drawing methods
     bool beginMasterScreenDraw();
     bool endMasterScreenDraw();
     bool beginMasterProjectionDraw();
     bool endMasterProjectionDraw();
-    
     bool beginSlaveScreenDraw();
     bool endSlaveScreenDraw();
     bool beginSlaveProjectionDraw();
     bool endSlaveProjectionDraw();
     
-    virtual void onModeChange(AppModel::Mode& mode){};
+    // App mode change listner
+    // only used for dev/debugging when switching modes at runtime
+    void onModeChange(AppModel::Mode& mode);
+    
+    void onCountdownComlete(int& i);
     
     // common scene params
     ofParameter<int> countdownDuration;

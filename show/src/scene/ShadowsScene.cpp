@@ -37,9 +37,10 @@ void ShadowsScene::drawSlaveProjection() {
 // public
 //////////////////////////////////////////////////////////////////////////////////
 void ShadowsScene::play(int i){
-    // Slave
-    if (isSlave()) {
-        if (i==1) {
+    
+    // Subscene 1: Welcome
+    if (i==1) {
+        if (isSlave()) {
             // LED: Welcome
             // fixed-name image
             // Cues
@@ -47,18 +48,28 @@ void ShadowsScene::play(int i){
             imageElement.setup("images/static.jpg");
             imageElement.setDisplay(&displays->slaveProjection);
             imageElement.show();
+        }
+        if (isMaster()) {
             osc->sendLightSoundCue(cue1);
         }
-        else if (i==2) {
+    }
+    
+    // Subscene 2: going dark, ready for Ignite Scene
+    else if (i==2) {
+        int time = countdownDuration;
+        if (isSlave()) {
             // LED: Going Dark and 10 second countdown
             // hide image
             // Cues
-            int time = countdownDuration;
             led->show(goingDarkTitle, time);
             imageElement.hide(time);
+        }
+        if (isMaster()) {
+            countdown->start(time);
             osc->sendLightSoundCue(cue2);
         }
     }
+    
     // general/common/base
     SceneBase::play(i);
 }
@@ -88,9 +99,7 @@ void ShadowsScene::setupGui() {
 //////////////////////////////////////////////////////////////////////////////////
 // private
 //////////////////////////////////////////////////////////////////////////////////
-void ShadowsScene::onModeChange(AppModel::Mode& mode) {
-    play(subsceneI);
-}
+
 //////////////////////////////////////////////////////////////////////////////////
 // custom event handlers
 //////////////////////////////////////////////////////////////////////////////////

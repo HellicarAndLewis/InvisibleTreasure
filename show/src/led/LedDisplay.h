@@ -10,25 +10,24 @@
 #include "ofMain.h"
 #include "Message.h"
 #include "Displayable.h"
+#include "Countdown.h"
 
 class LedDisplay : public Displayable {
 public:
     LedDisplay();
-	void setup();
+	void setup(Countdown * countdown);
 	void update();
     void draw();
-    void show(string title, float countdown=-1.0f);
+    void show(string title, float countdownDuration=-1.0f);
     
     Message title1;
     Message title2;
     string title;
     
     bool showCountdown;
-    int countdownStart;
-    int countdownDuration;
-    string countdownString;
+    Countdown * countdown;
     
-protected:  
+protected:
 private:
     
 };

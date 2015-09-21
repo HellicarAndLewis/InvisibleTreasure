@@ -23,10 +23,12 @@ void IgniteScene::setup() {
     noiseScale.set("noise scale", 80, 0, 500);
     threshold.set("threshold", 0.5, 0.0, 1.0);
     debugDraw.set("debug draw", false);
-    
     // subscenes
     subsceneStart = 3;
     subsceneEnd = 9;
+    // master needs to listen out for window volumes
+    ofAddListener(this->osc->volumeEvent, this, &IgniteScene::onWindowVolume);
+    ofAddListener(this->osc->volumeTriggerEvent, this, &IgniteScene::onWindowVolumeTrigger);
     SceneBase::setup();
 }
 
@@ -49,8 +51,27 @@ void IgniteScene::update() {
             float audioValue = audioData[i];
             levels[i] = audioValue;
         }
+        
+        osc->sendVolume(averageVolume, appModel->windowId);
+        
         delete[] audioData;
     }
+    
+    // In Subscene 8, each window is active
+    // master listens to volumes sent over OSC
+    // and triggers next scene when all have reached max
+    if (subsceneI == 8 && isMaster()) {
+        // Every window is active, need to get overall average/max
+        bool allActive = true;
+        for (int i = 0; i<WINDOW_COUNT; i++) {
+            if (!windowTriggers[i]) allActive = false;
+        }
+        if (allActive) {
+            ofLogNotice() << "IgniteScene::update target volume reached FOR ALL";
+            nextSubscene();
+        }
+    }
+    
     SceneBase::update();
 }
 
@@ -85,6 +106,17 @@ void IgniteScene::draw() {
         path.close();
         path.draw();
     }
+    
+    if (isMaster()) {
+        for (int i = 0; i<WINDOW_COUNT; i++) {
+            if (windowTriggers[i]) ofSetColor(255);
+            else ofSetColor(150);
+            float h = windowVolumes[i] * (ofGetHeight()/2);
+            ofRect(i*40, ofGetHeight(), 40, -h);
+        }
+        ofSetColor(255);
+    }
+    
     SceneBase::draw();
     if (debugDraw) {
         mic->draw();
@@ -96,23 +128,41 @@ void IgniteScene::draw() {
 //////////////////////////////////////////////////////////////////////////////////
 void IgniteScene::play(int i){
     
-    // init the LED display
-    if (isSlave()) {
-        if (i == 3) {
-            led->show("");
-        }
-        else if (i > 3 && i < 9) {
+    // Initial subscene is blank
+    if (i == 3) {
+        if (isSlave()) led->show("");
+    }
+    
+    // Active mic scenes, 1 to 4, then all 4
+    else if (i >= 4 && i <= 8) {
+        if (isSlave()) {
             led->show(title1.get() + ofToString(i));
-            //osc->sendLightSoundCue(cue2);
         }
-        else if (i == 9) {
-            led->show(title2, (int)countdownDuration);
-            //osc->sendLightSoundCue(cue2);
+        if (isMaster()) {
+            int cueI = i - 4;
+            osc->sendLightSoundCue(cues[cueI]);
+            // reset values
+            for (int i = 0; i<WINDOW_COUNT; i++) {
+                windowTriggers[i] = false;
+                windowVolumes[i] = 0;
+            }
+        }
+        // start audio input if this is the active window
+        if (isWindow() && getWindowActive()) {
+            targetHitCount = 0;
+            mic->start();
         }
     }
     
-    // start audio input if this is the active window
-    if (isWindow() && getWindowActive()) mic->start();
+    // countdown outro
+    else if (i == 9) {
+        if (isSlave()) {
+            led->show(title2, (int)countdownDuration);
+        }
+        if (isMaster()) {
+            osc->sendLightSoundCue(nextCue);
+        }
+    }
     
     SceneBase::play(i);
 }
@@ -134,7 +184,12 @@ void IgniteScene::setupGui() {
         cues[i].lightList = 2;
         panel.add(cues[i].setup("Cue " + ofToString(i)));
     }
+    nextCue.lightCue = 2;
+    panel.add(nextCue.setup("Cue Next"));
     // audio
+    panel.add(targetVolume.set("target volume", 0.8, 0, 1));
+    panel.add(targetFrames.set("target frames", 60, 1, 180));
+    
     panel.add(radiusMin);
     panel.add(radiusMax);
     panel.add(noiseScale);
@@ -165,6 +220,40 @@ bool IgniteScene::getWindowActive() {
     }
     return active;
 }
+
+void IgniteScene::onWindowVolume(OscClient::VolumeEventArgs& args) {
+    if (isMaster()) {
+        int i = args.windowId - 1;
+        if (i >= 0 && i < WINDOW_COUNT) {
+            //ofLogVerbose() << "window : " + ofToString(i) + " vol : " + ofToString(args.volume);
+            float vol = args.volume;
+            windowVolumes[i] = vol;
+            // If volume exceeds upper limit, trigger next scene
+            if (vol > targetVolume) {
+                if (targetHitCount++ > targetFrames) {
+                    if (subsceneI == 8) {
+                        //osc->sendVolumeTrigger(appModel->windowId);
+                        windowTriggers[i] = true;
+                    } else {
+                        ofLogNotice() << "IgniteScene::update target volume reached, triggering next scene";
+                        targetHitCount = 0;
+                        nextSubscene();
+                    }
+                }
+            }
+        }
+    }
+}
+
+void IgniteScene::onWindowVolumeTrigger(OscClient::VolumeEventArgs& args) {
+//    if (isMaster()) {
+//        int i = args.windowId - 1;
+//        if (i >= 0 && i < WINDOW_COUNT) {
+//            windowTriggers[i] = true;
+//        }
+//    }
+}
+
 //////////////////////////////////////////////////////////////////////////////////
 // custom event handlers
 //////////////////////////////////////////////////////////////////////////////////

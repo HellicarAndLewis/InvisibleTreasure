@@ -13,6 +13,7 @@
 #include "AppModel.h"
 #include "OscClient.h"
 #include "Mic.h"
+#include "Countdown.h"
 
 // Scene Manager
 // - Setup and sequence of each scene
@@ -29,23 +30,15 @@ public:
 	void draw();
 	void exit();
     
-    void playScene(int id);
+    void playScene(int id, bool notifyOthers = false);
     void nextScene();
-    void playSubScene(int id);
+    void playSubScene(int id, bool notifyOthers = false);
     void nextSubScene();
-	
-	void keyPressed(int key);
-	void keyReleased(int key);
-	void mouseMoved(int x, int y );
-	void mouseDragged(int x, int y, int button);
-	void mousePressed(int x, int y, int button);
-	void mouseReleased(int x, int y, int button);
-	void windowResized(int w, int h);
-	void dragEvent(ofDragInfo dragInfo);
-	void gotMessage(ofMessage msg);
-    
     void setupGui();
     void drawGui();
+    
+	void keyPressed(int key);
+    
     
 
 protected:  
@@ -56,6 +49,7 @@ private:
     AppModel* model;
     
     // common display things
+    Countdown countdown;
     LedDisplay led;
     Mic mic;
     ofTrueTypeFont font;
@@ -65,6 +59,7 @@ private:
     ofxButton nextSubSceneButton;
     ofParameter<int> sceneSelctor;
     ofParameter<int> subSceneIndex;
+    ofParameter<bool> autoPlay;
     void onSceneSelect(int& i);
     void onSubSceneSelect(int& i);
     
@@ -92,4 +87,5 @@ private:
     void onSceneChange(SceneBase::State & state);
     void onPlayScene(int& id);
     void onPlaySubScene(int& id);
+    void onNextSubScene(int& id);
 };

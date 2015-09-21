@@ -29,6 +29,5 @@ public:
 
 protected:
 private:
-    void onModeChange(AppModel::Mode& mode);
     ImageElement imageElement;
 };

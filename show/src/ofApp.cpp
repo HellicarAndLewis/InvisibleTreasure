@@ -10,7 +10,7 @@ ofApp::ofApp(ofxArgs* args) {
     // OF_LOG_VERBOSE,OF_LOG_NOTICE,OF_LOG_WARNING,OF_LOG_ERROR,OF_LOG_FATAL_ERROR,OF_LOG_SILENT
     bool logToFile  = args->getBool("-logToFile", false);
     bool appendToLog  = args->getBool("-appendToLog", false);
-    int logLevel = args->getInt("-logLevel", 1);
+    int logLevel = args->getInt("-logLevel", 0);
     ofSetLogLevel((ofLogLevel)logLevel);
     string toFileString = (logToFile) ? "log to file" : "log to cout";
     ofLogNotice() << "in ofApp::ofApp Setting log level " << logLevel << ", " << toFileString << "\n\n";
@@ -23,8 +23,10 @@ ofApp::ofApp(ofxArgs* args) {
     
     // TODO: store id and do something with it?
     // Numerical ID, will probabl come in handy at some point
-    int id = args->getInt("-windowId", 0);
-    appModel.windowId = id;
+    int windowId = args->getInt("-windowId", 1);
+    appModel.windowId = windowId;
+    int id = args->getInt("-id", 0);
+    appModel.id = id;
     
     // Mode is a string that can be "MASTER", "WINDOW", "SLAVE"
     // each string is matched to an enum in AppModel
@@ -34,7 +36,7 @@ ofApp::ofApp(ofxArgs* args) {
 
 void ofApp::setup() {
     ofBackground(0);
-    osc.setup();
+    osc.setup(appModel.id);
     vision.setup();
     displayManager.setup();
     sceneManager.setup(&appModel, &osc, &vision, &displayManager);

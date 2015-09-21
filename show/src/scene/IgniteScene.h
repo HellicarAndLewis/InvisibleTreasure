@@ -9,7 +9,8 @@
 #pragma once
 #include "ofMain.h"
 #include "SceneBase.h"
-#define CUE_COUNT 4
+#define CUE_COUNT 5
+#define WINDOW_COUNT 4
 
 class IgniteScene : public SceneBase {
 public:
@@ -38,7 +39,11 @@ public:
     ofParameter<string> title1;
     ofParameter<string> title2;
     OscClient::CueParams cues[CUE_COUNT];
-
+    OscClient::CueParams nextCue;
+    
+    ofParameter<float> targetVolume;
+    ofParameter<int> targetFrames;
+    
     ofParameter<int> radiusMin;
     ofParameter<int> radiusMax;
     ofParameter<int> noiseScale;
@@ -51,7 +56,13 @@ private:
     vector<float> previousLevels;
     bool audioMirror;
     float averageVolume;
+    int targetHitCount;
+    
+    float windowVolumes[WINDOW_COUNT];
+    bool windowTriggers[WINDOW_COUNT];
     
     bool getWindowActive();
+    void onWindowVolume(OscClient::VolumeEventArgs& args);
+    void onWindowVolumeTrigger(OscClient::VolumeEventArgs& args);
     
 };

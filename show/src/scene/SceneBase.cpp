@@ -21,6 +21,7 @@ void SceneBase::setup() {
 
 void SceneBase::update() {
     if (isSlave()) led->update();
+    countdown->update();
     Sequencable::update();
 }
 
@@ -75,16 +76,26 @@ void SceneBase::play(int i){
     // open new open after
     subsceneI = i;
     setState(INTERACTIVE);
+    ofAddListener(this->countdown->countdownCompleteEvent, this, &SceneBase::onCountdownComlete);
     //Sequencable::play();
 }
 
 void SceneBase::stop(){
+    ofRemoveListener(this->countdown->countdownCompleteEvent, this, &SceneBase::onCountdownComlete);
     Sequencable::stop();
+    countdown->stop();
 }
 
 //////////////////////////////////////////////////////////////////////////////////
 // protected
 //////////////////////////////////////////////////////////////////////////////////
+void SceneBase::nextSubscene() {
+    if (state == INTERACTIVE) {
+        int i = 0;
+        ofNotifyEvent(nextSubsceneEvent, i, this);
+    }
+}
+
 bool SceneBase::isMaster(){
     return (mode == AppModel::MASTER);
 }
@@ -164,25 +175,15 @@ bool SceneBase::endSlaveProjectionDraw(){
 //////////////////////////////////////////////////////////////////////////////////
 // custom event handlers
 //////////////////////////////////////////////////////////////////////////////////
-
+void SceneBase::onModeChange(AppModel::Mode& mode) {
+    if (state == INTERACTIVE) {
+        play(subsceneI);
+    }
+}
+void SceneBase::onCountdownComlete(int& i) {
+    ofLogVerbose() << "SceneBase::onCountdownComlete for " << name;
+    nextSubscene();
+}
 //////////////////////////////////////////////////////////////////////////////////
 // oF event handlers
 //////////////////////////////////////////////////////////////////////////////////
-
-void SceneBase::keyPressed (int key) {}
-
-void SceneBase::keyReleased (int key) {}
-
-void SceneBase::mouseMoved(int x, int y) {}
-
-void SceneBase::mouseDragged(int x, int y, int button) {}
-
-void SceneBase::mousePressed(int x, int y, int button) {}
-
-void SceneBase::mouseReleased(int x, int y, int button) {}
-
-void SceneBase::windowResized(int w, int h) {}
-
-void SceneBase::dragEvent(ofDragInfo dragInfo) {}
-
-void SceneBase::gotMessage(ofMessage msg) {}

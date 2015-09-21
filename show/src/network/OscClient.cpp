@@ -11,7 +11,8 @@
 #define PLAY_SCENE_ADRESS "/scene/playscene"
 #define PLAY_SUBSCENE_ADRESS "/scene/playsubscene"
 #define PRESENCE_ADRESS "/tracking/presence"
-
+#define VOLUME_ADRESS "/window/volume"
+#define VOLUME_TRIGGER_ADRESS "/window/volumetrigger"
 
 OscClient::OscClient() {
     sendAddress = "192.168.0.255";
@@ -20,7 +21,8 @@ OscClient::OscClient() {
     current_msg_string = 0;
 }
 
-void OscClient::setup() {
+void OscClient::setup(int id) {
+    this->id = id;
 }
 
 void OscClient::update() {
@@ -40,13 +42,29 @@ void OscClient::update() {
         msg_string = m.getAddress();
         
         if (msg_string == PLAY_SCENE_ADRESS) {
-            int id = m.getArgAsInt32(0);
-            ofNotifyEvent(playSceneEvent, id, this);
+            int sceneId = m.getArgAsInt32(0);
+            int senderId = m.getArgAsInt32(1);
+            if (senderId != this->id) ofNotifyEvent(playSceneEvent, sceneId, this);
         }
         else if (msg_string == PLAY_SUBSCENE_ADRESS) {
-            int id = m.getArgAsInt32(0);
-            ofNotifyEvent(playSubSceneEvent, id, this);
+            int sceneId = m.getArgAsInt32(0);
+            int senderId = m.getArgAsInt32(1);
+            if (senderId != this->id) ofNotifyEvent(playSubSceneEvent, sceneId, this);
         }
+        else if (msg_string == VOLUME_ADRESS) {
+            float volume = m.getArgAsFloat(0);
+            int windowId = m.getArgAsInt32(1);
+            int senderId = m.getArgAsInt32(2);
+            VolumeEventArgs args = VolumeEventArgs(volume, windowId);
+            if (senderId != this->id) ofNotifyEvent(volumeEvent, args, this);
+        }
+        else if (msg_string == VOLUME_TRIGGER_ADRESS) {
+            int windowId = m.getArgAsInt32(0);
+            int senderId = m.getArgAsInt32(1);
+            VolumeEventArgs args = VolumeEventArgs(1, windowId);
+            if (senderId != this->id) ofNotifyEvent(volumeTriggerEvent, args, this);
+        }
+        
         
         msg_string += ": ";
         for(int i = 0; i < m.getNumArgs(); i++){
@@ -82,10 +100,6 @@ void OscClient::draw() {
     }
 }
 
-void OscClient::exit() {
-}
-
-
 //////////////////////////////////////////////////////////////////////////////////
 // public
 //////////////////////////////////////////////////////////////////////////////////
@@ -103,29 +117,51 @@ void OscClient::setupGui() {
 }
 
 void OscClient::sendPlayScene(int id) {
+    ofLogNotice("OscClient::sendPlayScene: " + (string)PLAY_SCENE_ADRESS + " " + ofToString(id));
     ofxOscMessage m;
     m.setAddress(PLAY_SCENE_ADRESS);
     m.addIntArg(id);
+    m.addIntArg(this->id);
     sender.sendMessage(m);
 }
 
 
 void OscClient::sendPlaySubScene(int id) {
+    ofLogNotice("OscClient::sendPlaySubScene: " + (string)PLAY_SUBSCENE_ADRESS + " " + ofToString(id));
     ofxOscMessage m;
     m.setAddress(PLAY_SUBSCENE_ADRESS);
     m.addIntArg(id);
+    m.addIntArg(this->id);
     sender.sendMessage(m);
 }
 
 void OscClient::sendPresence(string areaName, int count){
-    // TODO: send OSC message to sound + lighting
     ofxOscMessage m;
     m.setAddress(PRESENCE_ADRESS);
     m.addStringArg(areaName);
     m.addIntArg(count);
+    m.addIntArg(this->id);
     sender.sendMessage(m);
 }
 
+void OscClient::sendVolume(float volume, int windowId){
+    ofLogNotice("OscClient::sendVolume: " + (string)VOLUME_ADRESS + " " + ofToString(volume));
+    ofxOscMessage m;
+    m.setAddress(VOLUME_ADRESS);
+    m.addFloatArg(volume);
+    m.addIntArg(windowId);
+    m.addIntArg(this->id);
+    sender.sendMessage(m);
+}
+
+void OscClient::sendVolumeTrigger(int windowId) {
+    ofLogNotice("OscClient::sendVolumeTrigger: " + (string)VOLUME_ADRESS + " " + ofToString(windowId));
+    ofxOscMessage m;
+    m.setAddress(VOLUME_TRIGGER_ADRESS);
+    m.addIntArg(windowId);
+    m.addIntArg(this->id);
+    sender.sendMessage(m);
+}
 
 void OscClient::sendLightSoundCue(CueParams cue) {
     if (cue.lightCue > 0) {
@@ -184,19 +220,3 @@ void OscClient::keyPressed (int key) {
         sender.sendMessage(m);
     }
 }
-
-void OscClient::keyReleased (int key) {}
-
-void OscClient::mouseMoved(int x, int y) {}
-
-void OscClient::mouseDragged(int x, int y, int button) {}
-
-void OscClient::mousePressed(int x, int y, int button) {}
-
-void OscClient::mouseReleased(int x, int y, int button) {}
-
-void OscClient::windowResized(int w, int h) {}
-
-void OscClient::dragEvent(ofDragInfo dragInfo) {}
-
-void OscClient::gotMessage(ofMessage msg) {}

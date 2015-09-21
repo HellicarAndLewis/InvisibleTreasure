@@ -23,7 +23,8 @@ void SceneManager::setup(AppModel* model, OscClient* osc, VisionManager* vision,
     ofAddListener(this->osc->playSubSceneEvent, this, &SceneManager::onPlaySubScene);
     
     mic.setup();
-    led.setup();
+    countdown.setup();
+    led.setup(&countdown);
     led.setDisplay(&displays->slaveScreen);
     
     // push each scene onto scenes
@@ -51,9 +52,11 @@ void SceneManager::setup(AppModel* model, OscClient* osc, VisionManager* vision,
         scene->vision = vision;
         scene->mic = &mic;
         scene->led = &led;
+        scene->countdown = &countdown;
         scene->font = &font;
         scene->modeLabel = model->modeString;
         scene->setup();
+        ofAddListener(scene->nextSubsceneEvent, this, &SceneManager::onNextSubScene);
         ofAddListener(scene->stateChangeEvent, this, &SceneManager::onSceneChange);
     }
 }
@@ -74,7 +77,7 @@ void SceneManager::exit() {
 //////////////////////////////////////////////////////////////////////////////////
 // public
 //////////////////////////////////////////////////////////////////////////////////
-void SceneManager::playScene(int id) {
+void SceneManager::playScene(int id, bool notifyOthers) {
     if (id >= 0 && id < scenes.size() && id != sceneIndex) {
         sceneIndex = id;
         sceneSelctor = id;
@@ -91,7 +94,7 @@ void SceneManager::playScene(int id) {
             sceneIn = scenes[id];
             sceneOut->stop();
         }
-        if (model->mode == AppModel::MASTER) osc->sendPlayScene(id);
+        if (model->mode == AppModel::MASTER || notifyOthers) osc->sendPlayScene(id);
     }
 }
 
@@ -99,7 +102,7 @@ void SceneManager::nextScene(){
     playScene(sceneIndex+1);
 }
 
-void SceneManager::playSubScene(int id) {
+void SceneManager::playSubScene(int id, bool notifyOthers) {
     if (id > 0) {
         subSceneIndex = id;
 
@@ -115,7 +118,7 @@ void SceneManager::playSubScene(int id) {
             subSceneQueued = true;
             playScene(sceneI);
         }
-        if (model->mode == AppModel::MASTER) osc->sendPlaySubScene(id);
+        if (model->mode == AppModel::MASTER || notifyOthers) osc->sendPlaySubScene(id);
     }
 }
 
@@ -123,6 +126,7 @@ void SceneManager::nextSubScene(){
     subSceneIndex++;
     playSubScene(subSceneIndex);
 }
+
 
 void SceneManager::setupGui() {
     guiName = "Scene Manager";
@@ -135,17 +139,18 @@ void SceneManager::setupGui() {
     subSceneIndex.addListener(this, &SceneManager::onSubSceneSelect);
     int subSceneMax = scenes.back()->subsceneEnd;
     subSceneIndex.set("sub scene", 0, 0, subSceneMax);
+    
     // add to panel
     panel.setup(guiName, "settings/scenes.xml");
     panel.add(nextSubSceneButton.setup("next subscene"));
     panel.add(subSceneIndex);
     panel.add(nextSceneButton.setup("next scene"));
     panel.add(sceneSelctor);
+    panel.add(autoPlay.set("auto play", true));
     
     // child panels
     for (auto scene: scenes)
         guiables.push_back((GuiableBase*)scene);
-    
     parameters.setName("Scene GUIs");
     for (auto guiable: guiables) {
         guiable->setupGui();
@@ -193,9 +198,10 @@ void SceneManager::onModeChange(AppModel::Mode& mode){
     }
 }
 
+// Listener for scene state change events
+// if scene has changed to INACTIVE, it's just closed
+// if there's a scene waiting to play next, play it
 void SceneManager::onSceneChange(SceneBase::State & state) {
-    // if scene has changed to INACTIVE, it's just closed
-    // if there's a scene waiting to play next, play it
     if (state == SceneBase::INACTIVE) {
         ofLogVerbose() << "SceneManager::onSceneChange: INACTIVE, play next scene";
         if (sceneIn != NULL) {
@@ -207,15 +213,30 @@ void SceneManager::onSceneChange(SceneBase::State & state) {
     }
 }
 
+// Listener for play scene events dispatched by OSC
+// this allows the master to control scene playback in others
 void SceneManager::onPlayScene(int& id) {
+    // If we're master, we send this so we can ignore it
     if (model->mode != AppModel::MASTER) {
         playScene(id);
     }
 }
 
+// Listener for play subscene events dispatched by OSC
+// this allows the master to control scene playback in others
 void SceneManager::onPlaySubScene(int& id) {
+    // If we're master, we send this so we can ignore it
     if (model->mode != AppModel::MASTER) {
         playSubScene(id);
+    }
+}
+
+// Listener for next subscene events dispatched by scenes
+// this allows scenes to progress automatically based on timers and interaction
+void SceneManager::onNextSubScene(int& id) {
+    if (autoPlay) {
+        subSceneIndex++;
+        playSubScene(subSceneIndex, true);
     }
 }
 
@@ -251,19 +272,3 @@ void SceneManager::keyPressed (int key) {
             break;
     }
 }
-
-void SceneManager::keyReleased (int key) {}
-
-void SceneManager::mouseMoved(int x, int y) {}
-
-void SceneManager::mouseDragged(int x, int y, int button) {}
-
-void SceneManager::mousePressed(int x, int y, int button) {}
-
-void SceneManager::mouseReleased(int x, int y, int button) {}
-
-void SceneManager::windowResized(int w, int h) {}
-
-void SceneManager::dragEvent(ofDragInfo dragInfo) {}
-
-void SceneManager::gotMessage(ofMessage msg) {}
