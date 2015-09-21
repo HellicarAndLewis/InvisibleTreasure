@@ -55,6 +55,7 @@ public:
     void sendLightSoundCue(CueParams cue);
     void sendLightingCue(float cue, float list = 1);
     void sendSoundCue(float cue);
+    void sendSoundVolume(float id, float volume);
     
     ofEvent<int> playSceneEvent;
     ofEvent<int> playSubSceneEvent;

@@ -58,6 +58,7 @@ private:
     float averageVolume;
     int targetHitCount;
     
+    // TODO: tidy this into array of structs
     float windowVolumes[WINDOW_COUNT];
     bool windowTriggers[WINDOW_COUNT];
     

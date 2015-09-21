@@ -156,10 +156,9 @@ void IgniteScene::play(int i){
     
     // countdown outro
     else if (i == 9) {
-        if (isSlave()) {
-            led->show(title2, (int)countdownDuration);
-        }
+        if (isSlave()) led->show(title2, countdownDuration);
         if (isMaster()) {
+            countdown->start(countdownDuration);
             osc->sendLightSoundCue(nextCue);
         }
     }
@@ -221,6 +220,8 @@ bool IgniteScene::getWindowActive() {
     return active;
 }
 
+// Master only
+// listener for window volume OSC messages
 void IgniteScene::onWindowVolume(OscClient::VolumeEventArgs& args) {
     if (isMaster()) {
         int i = args.windowId - 1;
@@ -228,11 +229,12 @@ void IgniteScene::onWindowVolume(OscClient::VolumeEventArgs& args) {
             //ofLogVerbose() << "window : " + ofToString(i) + " vol : " + ofToString(args.volume);
             float vol = args.volume;
             windowVolumes[i] = vol;
-            // If volume exceeds upper limit, trigger next scene
             if (vol > targetVolume) {
                 if (targetHitCount++ > targetFrames) {
                     if (subsceneI == 8) {
-                        //osc->sendVolumeTrigger(appModel->windowId);
+                        // this is the final mode in which all windows are active
+                        // mark this window as triggered
+                        // when all are triggered, next scene will be called
                         windowTriggers[i] = true;
                     } else {
                         ofLogNotice() << "IgniteScene::update target volume reached, triggering next scene";

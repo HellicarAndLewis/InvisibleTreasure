@@ -37,7 +37,13 @@ void SceneBase::draw() {
     }
     
     if (isMaster()) {
+        beginMasterScreenDraw();
+        ofClear(0);
+        drawMasterScreen();
+        endMasterScreenDraw();
+        
         beginMasterProjectionDraw();
+        ofClear(0);
         drawMasterProjection();
         endMasterProjectionDraw();
     }

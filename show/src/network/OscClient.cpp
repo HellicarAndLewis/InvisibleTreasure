@@ -196,6 +196,18 @@ void OscClient::sendSoundCue(float cue) {
     sender.sendMessage(m);
 }
 
+//
+// Send audio cue to QLab Mac
+// '/cue/{number}/start'
+//
+void OscClient::sendSoundVolume(float id, float volume) {
+    string address = "/volume/" + ofToString(id) + "/" + ofToString(volume);
+    ofLogNotice("OscClient::sendSoundVolume: " + address);
+    ofxOscMessage m;
+    m.setAddress(address);
+    sender.sendMessage(m);
+}
+
 //////////////////////////////////////////////////////////////////////////////////
 // protected
 //////////////////////////////////////////////////////////////////////////////////
