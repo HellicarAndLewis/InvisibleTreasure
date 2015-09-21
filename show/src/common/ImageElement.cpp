@@ -16,11 +16,11 @@ void ImageElement::setup(string path) {
 }
 
 void ImageElement::draw() {
-    image.draw(getDisplayRect());
+    draw(getDisplayRect());
 }
 
 
-void ImageElement::draw(ofRectangle& rect) {
+void ImageElement::draw(ofRectangle rect) {
     if (state == INACTIVE) return;
     else if (state == INTRO)  ofSetColor(255, 255, 255, progress*255);
     else if (state == OUTRO) ofSetColor(255, 255, 255, (1-progress)*255);

@@ -16,7 +16,7 @@ public:
     ImageElement();
 	void setup(string path);
     void draw();
-    void draw(ofRectangle& rect);
+    void draw(ofRectangle rect);
     void show(float duration = 1.0f);
     void hide(float duration = 1.0f);
     

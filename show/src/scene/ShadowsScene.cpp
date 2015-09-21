@@ -49,8 +49,8 @@ void ShadowsScene::play(int i){
         if (i==1) {
             // LED: Welcome
             led->show(welcomeTitle);
-            // TODO: replace video with fixed-name image
-            imageElement.setup("images/testpattern.png");
+            // fixed-name image
+            imageElement.setup("images/static.jpg");
             imageElement.setDisplay(&displays->slaveProjection);
             imageElement.show();
         }
