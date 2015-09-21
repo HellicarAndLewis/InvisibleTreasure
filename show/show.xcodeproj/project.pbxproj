@@ -13,6 +13,7 @@
 		6474CBF819BCE019003C94E2 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6474CBF219BCE00B003C94E2 /* QuartzCore.framework */; };
 		830CAAFD1B98F57A00217859 /* ContourTracker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 830CAAFB1B98F57A00217859 /* ContourTracker.cpp */; };
 		834242371BB05064004A2A11 /* Countdown.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 834242351BB05064004A2A11 /* Countdown.cpp */; };
+		8342423A1BB0969F004A2A11 /* VideoGrabberInput.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 834242381BB0969F004A2A11 /* VideoGrabberInput.cpp */; };
 		834E00C81BA9B73A0068D276 /* Message.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 834E00C61BA9B73A0068D276 /* Message.cpp */; };
 		834E014C1BA9B7670068D276 /* libftgl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 834E012D1BA9B7670068D276 /* libftgl.a */; };
 		834E014D1BA9B7670068D276 /* libftgl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 834E012F1BA9B7670068D276 /* libftgl.a */; };
@@ -172,6 +173,8 @@
 		830CAAFC1B98F57A00217859 /* ContourTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ContourTracker.h; path = input/ContourTracker.h; sourceTree = "<group>"; };
 		834242351BB05064004A2A11 /* Countdown.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Countdown.cpp; sourceTree = "<group>"; };
 		834242361BB05064004A2A11 /* Countdown.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Countdown.h; sourceTree = "<group>"; };
+		834242381BB0969F004A2A11 /* VideoGrabberInput.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = VideoGrabberInput.cpp; path = input/VideoGrabberInput.cpp; sourceTree = "<group>"; };
+		834242391BB0969F004A2A11 /* VideoGrabberInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VideoGrabberInput.h; path = input/VideoGrabberInput.h; sourceTree = "<group>"; };
 		834E00C61BA9B73A0068D276 /* Message.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Message.cpp; path = common/Message.cpp; sourceTree = "<group>"; };
 		834E00C71BA9B73A0068D276 /* Message.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Message.h; path = common/Message.h; sourceTree = "<group>"; };
 		834E01151BA9B7670068D276 /* FTBBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FTBBox.h; sourceTree = "<group>"; };
@@ -896,6 +899,8 @@
 				8366F9261B970964006B9D74 /* IVisionInput.h */,
 				830CAAFB1B98F57A00217859 /* ContourTracker.cpp */,
 				830CAAFC1B98F57A00217859 /* ContourTracker.h */,
+				834242381BB0969F004A2A11 /* VideoGrabberInput.cpp */,
+				834242391BB0969F004A2A11 /* VideoGrabberInput.h */,
 			);
 			name = input;
 			sourceTree = "<group>";
@@ -1471,6 +1476,7 @@
 				830CAAFD1B98F57A00217859 /* ContourTracker.cpp in Sources */,
 				8366F9081B970383006B9D74 /* ofxTCPClient.cpp in Sources */,
 				8366F9701B9877A0006B9D74 /* Mic.cpp in Sources */,
+				8342423A1BB0969F004A2A11 /* VideoGrabberInput.cpp in Sources */,
 				8366F9AA1B9899AB006B9D74 /* ofxLabel.cpp in Sources */,
 				8366F8F31B970351006B9D74 /* ofxEasingLinear.cpp in Sources */,
 				8366F92B1B9716FC006B9D74 /* VideoInput.cpp in Sources */,

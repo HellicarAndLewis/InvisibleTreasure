@@ -11,6 +11,7 @@
 #include "ofxCv.h"
 #include "IPCamInput.h"
 #include "VideoInput.h"
+#include "VideoGrabberInput.h"
 #include "GuiableBase.h"
 #include "ContourTracker.h"
 
@@ -53,6 +54,7 @@ protected:
 private:
     IPCamInput ipcam;
     VideoInput video;
+    VideoGrabberInput grabber;
     vector<IVisionInput*> inputs;
     int inputIndex;
     IVisionInput* input;

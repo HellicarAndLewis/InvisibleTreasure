@@ -13,6 +13,7 @@ void VisionManager::setup() {
     inputs.push_back(&ipcam);
     video.setup();
     inputs.push_back(&video);
+    inputs.push_back(&grabber);
     
     // tracker
     contourTracker.setup();
