@@ -28,6 +28,8 @@ public:
 	virtual void setup();
 	virtual void update();
     virtual void draw();
+    virtual void drawSlaveProjection(){}
+    virtual void drawMasterProjection(){}
     virtual void play();
     virtual void play(int i);
     virtual void stop();

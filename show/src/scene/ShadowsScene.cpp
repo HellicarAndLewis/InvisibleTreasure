@@ -27,17 +27,11 @@ void ShadowsScene::update() {
 }
 
 void ShadowsScene::draw() {
-    if (isSlave()) {
-        // display 1 is LED
-        led->draw();
-        // diplay 2 is wall projector
-        beginSlaveProjectionDraw();
-        {
-            imageElement.draw();
-        }
-        endSlaveProjectionDraw();
-    }
     SceneBase::draw();
+}
+
+void ShadowsScene::drawSlaveProjection() {
+    imageElement.draw();
 }
 
 //////////////////////////////////////////////////////////////////////////////////
@@ -81,6 +75,8 @@ void ShadowsScene::setupGui() {
     panel.add(welcomeTitle.set("title 1", "Welcome"));
     panel.add(goingDarkTitle.set("title 2", "Going Dark"));
     panel.add(countdownDuration.set("countdown", 10, 0, 20));
+    cue1.lightCue.set(0.5);
+    cue2.lightCue.set(1);
     panel.add(cue1.setup("Cue 1"));
     panel.add(cue2.setup("Cue 2"));
     panel.loadFromFile("settings/shadows.xml");

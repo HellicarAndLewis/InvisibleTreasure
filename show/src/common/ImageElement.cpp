@@ -32,13 +32,17 @@ void ImageElement::draw(ofRectangle rect) {
 }
 
 void ImageElement::show(float duration) {
-    timeIn = duration;
-    setState(INTRO);
+    if (state != INTERACTIVE) {
+        timeIn = duration;
+        setState(INTRO);
+    }
 }
 
 void ImageElement::hide(float duration) {
-    timeOut = duration;
-    setState(OUTRO);
+    if (state != INACTIVE) {
+        timeOut = duration;
+        setState(OUTRO);
+    }
 }
 
 //////////////////////////////////////////////////////////////////////////////////

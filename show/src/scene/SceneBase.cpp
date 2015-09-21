@@ -25,6 +25,21 @@ void SceneBase::update() {
 
 void SceneBase::draw() {
     
+    if (isSlave()) {
+        led->draw();
+        // slave projection
+        beginSlaveProjectionDraw();
+        ofClear(0);
+        drawSlaveProjection();
+        endSlaveProjectionDraw();
+    }
+    
+    if (isMaster()) {
+        beginMasterProjectionDraw();
+        drawMasterProjection();
+        endMasterProjectionDraw();
+    }
+    
     if (isDebugMode) {
         //ofSetColor(10, 10, 200);
         //ofRect(0, 0, ofGetWidth(), ofGetHeight());

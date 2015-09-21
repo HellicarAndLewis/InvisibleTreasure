@@ -17,6 +17,7 @@ public:
 	void setup();
 	void update();
 	void draw();
+    void drawSlaveProjection();
     void play(int i);
     void stop();
     void setupGui();
