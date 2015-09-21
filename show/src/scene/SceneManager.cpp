@@ -242,7 +242,11 @@ void SceneManager::keyPressed (int key) {
             playScene(2);
             break;
         case OF_KEY_RIGHT:
-            nextSubScene();
+            subSceneIndex++;
+            break;
+        case OF_KEY_LEFT:
+            subSceneIndex--;
+            break;
         default:
             break;
     }

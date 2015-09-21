@@ -97,7 +97,7 @@ void OscClient::setupGui() {
     panel.add(sendAddress.set("to IP", "192.168.0.255"));
     panel.add(sendPort.set("to port", "12345"));
     panel.loadFromFile("settings/osc.xml");
-    
+    // setup OSC clients after loading settings
     sender.setup(sendAddress, ofToInt(sendPort));
     receiver.setup(ofToInt(receivePort));
 }
@@ -123,6 +123,40 @@ void OscClient::sendPresence(string areaName, int count){
     m.setAddress(PRESENCE_ADRESS);
     m.addStringArg(areaName);
     m.addIntArg(count);
+    sender.sendMessage(m);
+}
+
+
+void OscClient::sendLightSoundCue(CueParams cue) {
+    if (cue.lightCue > 0) {
+        sendLightingCue(cue.lightCue, cue.lightList);
+    }
+    if (cue.soundCue > 0) {
+        sendSoundCue(cue.soundCue);
+    }
+}
+
+//
+// Send lighting LX cues to nomad lighting desk
+// which requires the format /eos/cue/<list number>/<cue number>/fire
+//
+void OscClient::sendLightingCue(float cue, float list) {
+    string address = "/eos/cue/" + ofToString(list) + "/" + ofToString(cue) + "/fire";
+    ofLogNotice("OscClient::sendLightingCue: " + address);
+    ofxOscMessage m;
+    m.setAddress(address);
+    sender.sendMessage(m);
+}
+
+//
+// Send audio cue to QLab Mac
+// '/cue/{number}/start'
+//
+void OscClient::sendSoundCue(float cue) {
+    string address = "/cue/" + ofToString(cue) + "/start";
+    ofLogNotice("OscClient::sendSoundCue: " + address);
+    ofxOscMessage m;
+    m.setAddress(address);
     sender.sendMessage(m);
 }
 

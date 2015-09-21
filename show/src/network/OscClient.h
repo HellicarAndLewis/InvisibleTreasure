@@ -14,6 +14,21 @@
 
 class OscClient : public GuiableBase {
 public:
+    
+    struct CueParams {
+        ofParameter<float> lightCue;
+        ofParameter<int> lightList;
+        ofParameter<int> soundCue;
+        ofParameterGroup params;
+        ofParameterGroup setup(string name) {
+            params.setName(name);
+            params.add(lightCue.set("light cue", 0, 0, 40));
+            params.add(lightList.set("light list", 1, 1, 2));
+            params.add(soundCue.set("sound cue", 0, 0, 40));
+            return params;
+        }
+    };
+    
     OscClient();
     
 	void setup();
@@ -35,6 +50,10 @@ public:
     void sendPlayScene(int id);
     void sendPlaySubScene(int id);
     void sendPresence(string areaName, int count);
+    
+    void sendLightSoundCue(CueParams cue);
+    void sendLightingCue(float cue, float list = 1);
+    void sendSoundCue(float cue);
     
     ofEvent<int> playSceneEvent;
     ofEvent<int> playSubSceneEvent;

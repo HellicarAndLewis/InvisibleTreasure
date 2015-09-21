@@ -24,6 +24,8 @@ public:
     ofParameter<string> welcomeTitle;
     ofParameter<string> goingDarkTitle;
     ofParameter<int> countdownDuration;
+    OscClient::CueParams cue1;
+    OscClient::CueParams cue2;
 
 protected:
 private:

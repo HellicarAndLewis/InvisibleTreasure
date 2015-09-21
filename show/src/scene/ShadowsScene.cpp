@@ -48,17 +48,22 @@ void ShadowsScene::play(int i){
     if (isSlave()) {
         if (i==1) {
             // LED: Welcome
-            led->show(welcomeTitle);
             // fixed-name image
+            // Cues
+            led->show(welcomeTitle);
             imageElement.setup("images/static.jpg");
             imageElement.setDisplay(&displays->slaveProjection);
             imageElement.show();
+            osc->sendLightSoundCue(cue1);
         }
         else if (i==2) {
             // LED: Going Dark and 10 second countdown
+            // hide image
+            // Cues
             int time = countdownDuration;
             led->show(goingDarkTitle, time);
             imageElement.hide(time);
+            osc->sendLightSoundCue(cue2);
         }
     }
     // general/common/base
@@ -73,9 +78,11 @@ void ShadowsScene::setupGui() {
     guiName = "Shadows";
     panel.setup(guiName, "settings/shadows.xml");
     // add parameters
-    panel.add(welcomeTitle.set("title1", "Welcome"));
-    panel.add(goingDarkTitle.set("title2", "Going Dark"));
+    panel.add(welcomeTitle.set("title 1", "Welcome"));
+    panel.add(goingDarkTitle.set("title 2", "Going Dark"));
     panel.add(countdownDuration.set("countdown", 10, 0, 20));
+    panel.add(cue1.setup("Cue 1"));
+    panel.add(cue2.setup("Cue 2"));
     panel.loadFromFile("settings/shadows.xml");
 }
 
