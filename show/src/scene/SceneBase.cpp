@@ -20,6 +20,7 @@ void SceneBase::setup() {
 }
 
 void SceneBase::update() {
+    if (isSlave()) led->update();
     Sequencable::update();
 }
 

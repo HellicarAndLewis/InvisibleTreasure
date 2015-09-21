@@ -31,7 +31,7 @@ void IgniteScene::setup() {
 }
 
 void IgniteScene::update() {
-    if (mode == AppModel::WINDOW && getWindowActive()) {
+    if (isWindow() && getWindowActive()) {
         //setMaxDecay(0.995);
         //setPeakDecay(0.96);
         //mic->fftLive.setPeakDecay(0.5);
@@ -55,10 +55,7 @@ void IgniteScene::update() {
 }
 
 void IgniteScene::draw() {
-    if (mode==AppModel::SLAVE) {
-        led->draw();
-    }
-    if (mode==AppModel::WINDOW && getWindowActive()) {
+    if (isWindow() && getWindowActive()) {
         // draw a blob based on the average volume of the mic input
         float x = ofGetWidth()/2;
         float y = ofGetHeight()/2;
@@ -98,8 +95,25 @@ void IgniteScene::draw() {
 // public
 //////////////////////////////////////////////////////////////////////////////////
 void IgniteScene::play(int i){
-    led->show("Ignite The Space " + ofToString(i));
-    mic->start();
+    
+    // init the LED display
+    if (isSlave()) {
+        if (i == 3) {
+            led->show("");
+        }
+        else if (i > 3 && i < 9) {
+            led->show(title1.get() + ofToString(i));
+            //osc->sendLightSoundCue(cue2);
+        }
+        else if (i == 9) {
+            led->show(title2, (int)countdownDuration);
+            //osc->sendLightSoundCue(cue2);
+        }
+    }
+    
+    // start audio input if this is the active window
+    if (isWindow() && getWindowActive()) mic->start();
+    
     SceneBase::play(i);
 }
 
@@ -111,6 +125,16 @@ void IgniteScene::stop(){
 void IgniteScene::setupGui() {
     guiName = "Ignite";
     panel.setup(guiName, "settings/ignite.xml");
+    // titles, times, cues
+    panel.add(title1.set("title 1", "Ignite The Space"));
+    panel.add(title2.set("title 2", "Next Level"));
+    panel.add(countdownDuration.set("countdown", 5, 0, 20));
+    for (int i=0; i<CUE_COUNT; i++) {
+        cues[i].lightCue = i;
+        cues[i].lightList = 2;
+        panel.add(cues[i].setup("Cue " + ofToString(i)));
+    }
+    // audio
     panel.add(radiusMin);
     panel.add(radiusMax);
     panel.add(noiseScale);

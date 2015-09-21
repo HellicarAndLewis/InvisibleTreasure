@@ -9,6 +9,7 @@
 #pragma once
 #include "ofMain.h"
 #include "SceneBase.h"
+#define CUE_COUNT 4
 
 class IgniteScene : public SceneBase {
 public:
@@ -34,6 +35,10 @@ public:
     void drawGui();
     
     // gui
+    ofParameter<string> title1;
+    ofParameter<string> title2;
+    OscClient::CueParams cues[CUE_COUNT];
+
     ofParameter<int> radiusMin;
     ofParameter<int> radiusMax;
     ofParameter<int> noiseScale;

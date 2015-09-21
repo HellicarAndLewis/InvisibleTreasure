@@ -20,7 +20,7 @@ void LedDisplay::update() {
     title1.messageString = title;
     title2.messageString = "";
     if (showCountdown) {
-        int elapsed = ofGetElapsedTimeMillis() - countdownStart;
+        float elapsed = ofGetElapsedTimeMillis() - countdownStart;
         int timer = ceil((countdownDuration - elapsed)/1000);
         if (timer > 0) title2.messageString = ofToString(timer);
     }
@@ -28,6 +28,7 @@ void LedDisplay::update() {
 
 void LedDisplay::draw() {
     title1.layout.setLineLength(getDisplayRect().width);
+    title2.layout.setLineLength(getDisplayRect().width);
     display->begin();
     ofClear(39, 36, 37);
     //ofSetColor(39, 36, 37);

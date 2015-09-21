@@ -21,7 +21,6 @@ void ShadowsScene::setup() {
 void ShadowsScene::update() {
     SceneBase::update();
     if (isSlave()) {
-        led->update();
         imageElement.update();
     }
 }
@@ -71,7 +70,7 @@ void ShadowsScene::stop(){
 void ShadowsScene::setupGui() {
     guiName = "Shadows";
     panel.setup(guiName, "settings/shadows.xml");
-    // add parameters
+    // titles, times, cues
     panel.add(welcomeTitle.set("title 1", "Welcome"));
     panel.add(goingDarkTitle.set("title 2", "Going Dark"));
     panel.add(countdownDuration.set("countdown", 10, 0, 20));

@@ -46,6 +46,7 @@ public:
     
     
     // common pointers
+    // passed into each scene by SceneManager
     DisplayManager * displays;
     OscClient * osc;
     VisionManager* vision;
@@ -81,6 +82,10 @@ protected:
     bool endSlaveProjectionDraw();
     
     virtual void onModeChange(AppModel::Mode& mode){};
+    
+    // common scene params
+    ofParameter<int> countdownDuration;
+    
 private:
     
 };
