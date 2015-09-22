@@ -38,8 +38,24 @@ void SceneBase::draw() {
     
     if (isMaster()) {
         beginMasterScreenDraw();
-        ofClear(0);
-        drawMasterScreen();
+        {
+            ofClear(0);
+            drawMasterScreen();
+            
+            // draw common UI for master screen
+            float x = displays->masterScreen.sizeIn.get().x - 200;
+            float y = displays->masterScreen.sizeIn.get().y;
+            string s;
+            ofRectangle rect;
+            if (countdown->progress > 0.001) {
+                s = "Next subscene in " + ofToString(countdown->progress);
+                y -= 20;
+                ofDrawBitmapStringHighlight(s, x, y, ofColor(200,0,0));
+            }
+            s = name + " subscene " + ofToString(subsceneI);
+            y -= 20;
+            ofDrawBitmapStringHighlight(s, x, y, ofColor(0,0,200));
+        }
         endMasterScreenDraw();
         
         beginMasterProjectionDraw();

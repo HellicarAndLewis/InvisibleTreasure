@@ -184,8 +184,11 @@ void LightboxScene::drawMasterScreen() {
     
     // Check to see if we need to send a new LX cue
     bool lastZonesActive = zonesActive;
-    if (playMode == ALL_ZONES && anyChanged) {
-        if (allBlobsInAreas && isHeroActive) zonesActive = true;
+    if ((playMode == ALL_ZONES || playMode == WAITING) && anyChanged) {
+        if (allBlobsInAreas && isHeroActive) {
+            if (playMode == WAITING) nextSubscene();
+            zonesActive = true;
+        }
         else zonesActive = false;
     }
     else if (playMode != ALL_ZONES && heroChanged) {
@@ -212,23 +215,42 @@ void LightboxScene::play(int i){
     if (i >= 10 && i <= 13) {
         if (isSlave()) led->show(title.get() + ofToString(i));
         if (isMaster()) {
-            if (i == 10) playMode = CENTRE;
-            else if (i == 11) playMode = WALL_1;
-            else if (i == 12) playMode = WALL_2;
-            else if (i == 13) playMode = WALLS_3_4;
+            if (i == 10) {
+                playMode = CENTRE;
+                countdown->start(30);
+            }
+            else if (i == 11) {
+                playMode = WALL_1;
+                countdown->start(60);
+            }
+            else if (i == 12) {
+                playMode = WALL_2;
+                countdown->start(60);
+            }
+            else if (i == 13) {
+                playMode = WALLS_3_4;
+                countdown->start(120);
+            }
         }
     }
     
     // Waiting for all players to be in trigger zones
     else if (i == 14) {
         if (isSlave()) led->show(waiting.get());
-        if (isMaster()) playMode = ALL_ZONES;
+        if (isMaster()) {
+            countdown->stop();
+            playMode = WAITING;
+        }
     }
     
     // All zones active
     // everyone must be in a zone
     else if (i == 15) {
         if (isSlave()) led->show(phase2.get());
+        if (isMaster()) {
+            countdown->start(5 * 60);
+            playMode = ALL_ZONES;
+        }
     }
     
     // outro
@@ -301,6 +323,7 @@ void LightboxScene::sendActiveCue() {
             osc->sendLightingCue(cues[3].soundCue);
             break;
         case WALLS_3_4:
+        case WAITING:
             osc->sendLightingCue(cues[4].soundCue);
             osc->sendLightingCue(cues[5].soundCue);
             break;
@@ -328,6 +351,7 @@ void LightboxScene::refreshHitAreas() {
             hitAreas[2].active = true;
             break;
         case WALLS_3_4:
+        case WAITING:
             for (auto & hitArea: hitAreas) hitArea.active = true;
             break;
         case ALL_ZONES:

@@ -37,6 +37,7 @@ void Countdown::start(float duration) {
     tween.start();
 }
 void Countdown::stop() {
+    progress = 0;
     enabled = false;
 }
 //////////////////////////////////////////////////////////////////////////////////
