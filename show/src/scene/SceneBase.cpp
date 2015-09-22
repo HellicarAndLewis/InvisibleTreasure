@@ -98,12 +98,12 @@ void SceneBase::play(int i){
     // open new open after
     subsceneI = i;
     setState(INTERACTIVE);
-    ofAddListener(this->countdown->countdownCompleteEvent, this, &SceneBase::onCountdownComlete);
+    ofAddListener(this->countdown->countdownCompleteEvent, this, &SceneBase::onCountdownComplete);
     //Sequencable::play();
 }
 
 void SceneBase::stop(){
-    ofRemoveListener(this->countdown->countdownCompleteEvent, this, &SceneBase::onCountdownComlete);
+    ofRemoveListener(this->countdown->countdownCompleteEvent, this, &SceneBase::onCountdownComplete);
     Sequencable::stop();
     countdown->stop();
 }
@@ -202,7 +202,7 @@ void SceneBase::onModeChange(AppModel::Mode& mode) {
         play(subsceneI);
     }
 }
-void SceneBase::onCountdownComlete(int& i) {
+void SceneBase::onCountdownComplete(int& i) {
     ofLogVerbose() << "SceneBase::onCountdownComlete for " << name;
     nextSubscene();
 }

@@ -56,10 +56,66 @@ void DarkShapesScene::draw() {
     SceneBase::draw();
 }
 
+void DarkShapesScene::drawMasterScreen() {
+    ContourTracker& tracker = *vision->getTracker();
+    ofxCv::ContourFinder& contourFinder = tracker.contourFinder;
+    
+    float scale = tracker.thresholded.width / displays->masterScreen.sizeIn->x;
+    
+    ofPushStyle();
+    ofPushMatrix();
+    ofTranslate(10, 10);
+    ofSetColor(255);
+    tracker.thresholded.draw(0, 0);
+    ofPopMatrix();
+    ofPopStyle();
+}
+
 //////////////////////////////////////////////////////////////////////////////////
 // public
 //////////////////////////////////////////////////////////////////////////////////
-void DarkShapesScene::play(){
+void DarkShapesScene::play(int i){
+    if (i == 17) {
+        if (isSlave()) led->show(title.get());
+        if (isMaster()) {
+            countdown->start(5);
+        }
+    }
+    else if (i <= 20) {
+        shapeMode == CIRCLE;
+    }
+    else if (i <= 24) {
+        shapeMode == RECTANGLE;
+    }
+    else if (i <= 28) {
+        shapeMode == TRIANGLE;
+    }
+    else if (i <= 32) {
+        shapeMode == STAR;
+    }
+    // Dark modes
+    else if (i <= 36) {
+        shapeMode == CIRCLE;
+    }
+    else if (i <= 40) {
+        shapeMode == RECTANGLE;
+    }
+    else if (i <= 44) {
+        shapeMode == TRIANGLE;
+    }
+    else if (i <= 48) {
+        shapeMode == STAR;
+    }
+    else if (i == 49) {
+        // lx cue 19, good sound
+    }
+    // outro
+    else if (i == 50) {
+        if (isSlave()) led->show(nextLevel.get(), 5);
+        if (isMaster()) {
+            countdown->start(5);
+        }
+    }
     shapeRenderer.showShape(0);
     SceneBase::play();
 }
