@@ -26,7 +26,7 @@ public:
         string label;
         ShapeRenderer::ShapeMode shapeMode;
         enum State {
-            INTRO=0, SHAPE=1, PLAY=2, OUTRO=3, INACTIVE=4
+            INTRO=0, PLAY=2, FAIL=3, PASS=4, INACTIVE=5
         } state;
         
         ShapeGame(ShapeRenderer::ShapeMode shapeMode, int startScene, int endScene) {
@@ -41,33 +41,44 @@ public:
         }
         void updateSceneI() {
             if (state == INTRO) sceneI = endScene - 3;
-            else if (state == SHAPE) sceneI = endScene - 2;
-            else if (state == PLAY) sceneI = endScene - 1;
-            else if (state == OUTRO) sceneI = endScene;
+            else if (state == PLAY) sceneI = endScene - 2;
+            else if (state == FAIL) sceneI = endScene - 1;
+            else if (state == PASS) sceneI = endScene;
         }
         void setScene(int scene) {
             int outroOffset = endScene - scene;
-            if (outroOffset == 0) state = OUTRO;
-            else if (outroOffset == 1) state = PLAY;
-            else if (outroOffset == 2) state = SHAPE;
+            if (outroOffset == 0) state = PASS;
+            else if (outroOffset == 1) state = FAIL;
+            else if (outroOffset == 2) state = PLAY;
             else if (outroOffset == 3) state = INTRO;
             updateSceneI();
         }
         State next() {
-            if (state == INTRO) state = SHAPE;
-            else if (state == SHAPE) state = PLAY;
-            else if (state == PLAY) state = OUTRO;
-            else if (state == OUTRO) {
+            if (state == INTRO) state = PLAY;
+            else if (state == PLAY) state = FAIL;
+            else if (state == FAIL) {
                 attemptNum++;
-                if (attemptNum >= MAX_ATTEMPTS) state = INACTIVE;
+                if (attemptNum > MAX_ATTEMPTS) state = INACTIVE;
                 else state = PLAY;
             }
+            else if (state == PASS) state = INACTIVE;
             updateSceneI();
             return state;
         }
+        void success() {
+            state = PASS;
+            updateSceneI();
+        }
         void draw() {
-            string s = label + " state: " + ofToString((int)state) + " attempt " + ofToString(attemptNum) + "/3";
-            ofDrawBitmapStringHighlight(s, 0, 0, ofColor(0,200,0));
+            string s = label + " state: " + getStateString() + " attempt " + ofToString(attemptNum) + "/3";
+            ofDrawBitmapStringHighlight(s, 5, 5);
+        }
+        string getStateString() {
+            if (state == INTRO) return "intro";
+            else if (state == PLAY) return "play";
+            else if (state == FAIL) return "fail";
+            else if (state == PASS) return "pass";
+            else if (state == INACTIVE) return "inactive";
         }
     };
     
@@ -98,6 +109,10 @@ private:
     ofParameter<string> nextLevel;
     // cues: reset, centre, wall1, wall2, wall3, wall4, all, outro
     OscClient::CueParams cues[DARK_SHAPES_CUE_COUNT];
+    
+    ofxPanel shapesPanel;
+    ofxButton shapeSuccess;
+    void onSuccess();
     
     vector<ShapeGame> shapeGames;
     ShapeGame * currentShapeGame;

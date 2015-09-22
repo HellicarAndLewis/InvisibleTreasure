@@ -20,14 +20,14 @@ void DarkShapesScene::setup() {
     modeSelector.addListener(this, &DarkShapesScene::onShapeModeSelect);
     modeSelector.set("Shape Mode", 0, 0, shapeRenderer.shapes.size()-1);
     
-    shapeGames.push_back(ShapeGame(ShapeRenderer::CIRCLE, 18, 20));
-    shapeGames.push_back(ShapeGame(ShapeRenderer::RECTANGLE, 21, 24));
-    shapeGames.push_back(ShapeGame(ShapeRenderer::TRIANGLE, 25, 28));
-    shapeGames.push_back(ShapeGame(ShapeRenderer::STAR, 29, 32));
-    shapeGames.push_back(ShapeGame(ShapeRenderer::CIRCLE, 33, 36));
-    shapeGames.push_back(ShapeGame(ShapeRenderer::RECTANGLE, 37, 40));
-    shapeGames.push_back(ShapeGame(ShapeRenderer::TRIANGLE, 41, 44));
-    shapeGames.push_back(ShapeGame(ShapeRenderer::STAR, 45, 48));
+    shapeGames.push_back(ShapeGame(ShapeRenderer::CIRCLE, 18, 21));
+    shapeGames.push_back(ShapeGame(ShapeRenderer::RECTANGLE, 22, 25));
+    shapeGames.push_back(ShapeGame(ShapeRenderer::TRIANGLE, 26, 29));
+    shapeGames.push_back(ShapeGame(ShapeRenderer::STAR, 30, 33));
+    shapeGames.push_back(ShapeGame(ShapeRenderer::CIRCLE, 34, 37));
+    shapeGames.push_back(ShapeGame(ShapeRenderer::RECTANGLE, 38, 41));
+    shapeGames.push_back(ShapeGame(ShapeRenderer::TRIANGLE, 42, 45));
+    shapeGames.push_back(ShapeGame(ShapeRenderer::STAR, 46, 49));
     currentShapeGame = NULL;
     
     // subscenes
@@ -45,6 +45,8 @@ void DarkShapesScene::draw() {
     if (isWindow()) {
         shapeRenderer.draw();
     }
+    if (isMaster()) {
+    }
     SceneBase::draw();
 }
 
@@ -52,23 +54,44 @@ void DarkShapesScene::drawMasterScreen() {
     ContourTracker& tracker = *vision->getTracker();
     ofxCv::ContourFinder& contourFinder = tracker.contourFinder;
     
-    float scale = tracker.thresholded.width / displays->masterScreen.sizeIn->x;
+    float targetWidth = MIN(ofGetWidth(), displays->masterScreen.sizeIn->x) * 0.7;
+    float scale = targetWidth / tracker.thresholded.width;
+    float col1Width;
     
     ofPushStyle();
     ofPushMatrix();
-    ofTranslate(10, 10);
-    ofSetColor(255);
-    tracker.thresholded.draw(0, 0);
-    
-    ofTranslate(tracker.thresholded.width, 0);
-    if (currentShapeGame != NULL) currentShapeGame->draw();
-    
-    ofTranslate(0, 100);
-    ofScale(0.3, 0.3);
-    shapeRenderer.draw();
-    
+    {
+        ofTranslate(10, 10);
+        ofPushMatrix();
+        {
+            ofScale(scale, scale);
+            ofSetColor(255);
+            tracker.thresholded.draw(0, 0);
+        }
+        ofPopMatrix();
+        
+        ofTranslate(tracker.thresholded.width*scale, 10);
+        col1Width = 10 + tracker.thresholded.width*scale;
+        if (currentShapeGame != NULL) currentShapeGame->draw();
+        
+        
+        ofTranslate(0, 20);
+        targetWidth = MIN(ofGetWidth(), displays->masterScreen.sizeIn->x) * 0.3;
+        if (shapeRenderer.getBgRect().width > 1) {
+            scale = targetWidth / shapeRenderer.getBgRect().width;
+            ofPushMatrix();
+            {
+                ofScale(scale, scale);
+                shapeRenderer.draw();
+            }
+            ofPopMatrix();
+        }
+    }
     ofPopMatrix();
     ofPopStyle();
+    
+    shapesPanel.setPosition(col1Width, 40 + shapeRenderer.getBgRect().height*scale);
+    shapesPanel.draw();
 }
 
 //////////////////////////////////////////////////////////////////////////////////
@@ -89,10 +112,6 @@ void DarkShapesScene::play(int i){
                 switch (game.state) {
                     case ShapeGame::INTRO:
                         shapeRenderer.showShape(game.shapeMode);
-                        if (isMaster()) countdown->start(3);
-                        break;
-                    case ShapeGame::SHAPE:
-                        shapeRenderer.showShape(game.shapeMode);
                         if (isMaster()) countdown->start(2);
                         break;
                     case ShapeGame::PLAY:
@@ -100,10 +119,20 @@ void DarkShapesScene::play(int i){
                         if (isSlave()) led->show("", 10);
                         if (isMaster()) countdown->start(10);
                         break;
-                    case ShapeGame::OUTRO:
+                    case ShapeGame::FAIL:
                         if (isSlave()) led->show(game.label);
                         shapeRenderer.hide();
-                        if (isMaster()) countdown->start(4);
+                        if (isMaster()) {
+                            // TODO: send bad sound
+                            countdown->start(4);
+                        }
+                        break;
+                    case ShapeGame::PASS:
+                        shapeRenderer.hide(true);
+                        if (isMaster()) {
+                            // TODO: send bad sound
+                            countdown->start(3);
+                        }
                         break;
                         
                     default:
@@ -132,6 +161,11 @@ void DarkShapesScene::setupGui() {
     panel.setup(guiName, "settings/darkshapes.xml");
     //panel.add(modeSelector);
     panel.loadFromFile("settings/darkshapes.xml");
+    
+    // add to panel
+    shapesPanel.setup("Shapes Control");
+    shapeSuccess.addListener(this, &DarkShapesScene::onSuccess);
+    shapesPanel.add(shapeSuccess.setup("Success"));
 }
 
 void DarkShapesScene::drawGui() {
@@ -159,7 +193,7 @@ void DarkShapesScene::onCountdownComplete(int& i) {
         // Shape game mode
         if (currentShapeGame != NULL) {
             ShapeGame::State state = currentShapeGame->next();
-            if (state == ShapeGame::INACTIVE) nextSubscene();
+            if (state == ShapeGame::INACTIVE) play(currentShapeGame->endScene + 1);
             else play(currentShapeGame->sceneI);
         }
     }
@@ -167,6 +201,14 @@ void DarkShapesScene::onCountdownComplete(int& i) {
         nextSubscene();
     }
     
+}
+
+void DarkShapesScene::onSuccess() {
+    ofLogNotice() << "DarkShapesScene::onSuccess";
+    if (currentShapeGame != NULL) {
+        currentShapeGame->success();
+        play(currentShapeGame->sceneI);
+    }
 }
 //////////////////////////////////////////////////////////////////////////////////
 // oF event handlers

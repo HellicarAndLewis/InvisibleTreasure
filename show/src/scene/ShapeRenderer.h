@@ -16,18 +16,19 @@
 class ShapeBase : public Sequencable {
 public:
     ofRectangle bounds;
+    bool success = false;
     ShapeBase() {
         bounds.setFromCenter(ofGetWidth()/2, ofGetHeight()/2, ofGetHeight()/3, ofGetHeight()/3);
     }
     virtual void draw() {
         if (state == INTRO) {
-            ofSetColor(255,255,255, progress*255);
+            ofSetColor(0,0,0, progress*255);
         }
         else if (state == OUTRO) {
-            ofSetColor(255,255,255, (1-progress)*255);
+            ofSetColor(0,0,0, (1-progress)*255);
         }
         else if (state == INTERACTIVE) {
-            ofSetColor(255,255,255,255);
+            ofSetColor(0,0,0,255);
         }
     }
 };
@@ -122,8 +123,10 @@ public:
     int shapeIndex;
     ShapeBase* shapeIn;
     ShapeBase* shapeOut;
+    ofRectangle bg;
     
     void setup() {
+        bg.set(0, 0, ofGetWidth(), ofGetHeight());
         shapeIndex = -1;
         shapes.push_back(&circle);
         shapes.push_back(&square);
@@ -144,10 +147,16 @@ public:
     }
     
     void draw() {
+        ofSetHexColor(0xFF62C2);
+        ofRect(bg);
         for (auto shape: shapes)
             if (shape->state != Sequencable::INACTIVE) {
                 shape->draw();
             }
+    }
+    
+    ofRectangle getBgRect() {
+        return bg;
     }
     
     void onShapeChange(Sequencable::State & state) {
@@ -174,7 +183,7 @@ public:
             }
         }
     }
-    void hide() {
+    void hide(bool success = false) {
         shapeIndex = -1;
         if (shapeIn != NULL) {
             shapeIn->stop();

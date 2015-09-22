@@ -39,12 +39,18 @@ void SceneBase::draw() {
     if (isMaster()) {
         beginMasterScreenDraw();
         {
+            float screenW = displays->masterScreen.sizeIn.get().x;
+            float screenH = displays->masterScreen.sizeIn.get().y;
             ofClear(0);
+            ofPushStyle();
+            ofSetColor(50);
+            ofRect(0, 0, screenW, screenH);
+            ofPopStyle();
             drawMasterScreen();
             
             // draw common UI for master screen
-            float x = MIN(ofGetWidth(), displays->masterScreen.sizeIn.get().x) - 200;
-            float y = MIN(ofGetHeight(), displays->masterScreen.sizeIn.get().y);
+            float x = MIN(ofGetWidth(), screenW) - 200;
+            float y = MIN(ofGetHeight(), screenH);
             string s;
             ofRectangle rect;
             if (countdown->progress > 0.001) {
