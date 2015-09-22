@@ -102,7 +102,6 @@ void LightboxScene::drawMasterScreen() {
     // Check central / hero area
     // this always controls lighting
     // also determines whether or not other areas are active
-    bool isHeroActive = false;
     
     // now check each hit area to see how many people are in it
     // hitArea[0] is centre/hero: this controls light state
@@ -111,6 +110,8 @@ void LightboxScene::drawMasterScreen() {
     ofSetColor(255, 255, 255, 100);
     float y = ofGetHeight() - 200;
     float volume = 0;
+    bool heroChanged = false;
+    bool anyChanged = false;
     
     for (auto & hitArea: hitAreas) {
         // cache this area's lx/sound cue params
@@ -119,21 +120,20 @@ void LightboxScene::drawMasterScreen() {
         
         if (hitArea.active) {
             hitArea.update();
+            if (hitArea.changed) anyChanged = true;
             
             // Blobs in this area
             // trigger zone is ACTIVE
-            if (hitArea.smoothed > 0.1) {
+            if (hitArea.getIsTriggered()) {
                 // is this the hero/centre? Send lighing cue based on the current mode
                 if (hitArea.name == "centre") {
                     isHeroActive = true;
-                    if (hitArea.changed) sendActiveCue();
+                    heroChanged = (hitArea.changed);
                 }
                 // this zone and hero are active
                 // set the volume
                 // TODO: add proximity to volume mapping
-                if (isHeroActive) {
-                    volume = 1.0f;
-                }
+                volume = 1.0f;
                 ofSetHexColor(0xF7D63E);
             }
             
@@ -143,7 +143,7 @@ void LightboxScene::drawMasterScreen() {
                 // if this is centre/hero send lx reset
                 if (hitArea.name == "centre") {
                     isHeroActive = false;
-                    if (hitArea.changed) osc->sendLightingCue(cues[0].lightCue);
+                    heroChanged = (hitArea.changed);
                 }
                 ofSetHexColor(0xA8912A);
             }
@@ -151,6 +151,17 @@ void LightboxScene::drawMasterScreen() {
             ofDrawBitmapString(hitArea.name, hitArea.rect.getCenter()-ofPoint(30,0));
             // reset the count to 0 ready for the next loop
             hitArea.blobCount = 0;
+        }
+        
+        // Check which OSC state to send
+        // if (mode == ALL_ZONES && allBlobsInAreas && isHeroActive = true) sendActiveCue(); OR osc->sendLightingCue(cues[0].lightCue);
+        // else if (mode != ALL_ZONES && isHeroActive = true) DO IT
+        
+        if (playMode == ALL_ZONES) {
+            if (!allBlobsInAreas || !isHeroActive) volume = 0.0f;
+        }
+        else {
+            if (!isHeroActive) volume = 0.0f;
         }
         
         // lerp to the new volume
@@ -169,6 +180,22 @@ void LightboxScene::drawMasterScreen() {
         ofDrawBitmapStringHighlight(hitArea.name + " volume:" + ofToString(hitArea.volume), 0, y+20);
         y+=40;
         ofPopStyle();
+    }
+    
+    // Check to see if we need to send a new LX cue
+    bool lastZonesActive = zonesActive;
+    if (playMode == ALL_ZONES && anyChanged) {
+        if (allBlobsInAreas && isHeroActive) zonesActive = true;
+        else zonesActive = false;
+    }
+    else if (playMode != ALL_ZONES && heroChanged) {
+        if (isHeroActive) zonesActive = true;
+        else zonesActive = false;
+    }
+    
+    if (zonesActive != lastZonesActive) {
+        if (zonesActive) sendActiveCue();
+        else osc->sendLightingCue(cues[0].lightCue);
     }
     
     ofPopMatrix();
@@ -265,20 +292,20 @@ void LightboxScene::sendActiveCue() {
     // cues: 0:reset, 1:centre, 2:wall1, 3:wall2, 4:wall3, 5:wall4, 6:all, 7:outro
     switch (playMode) {
         case CENTRE:
-            osc->sendLightSoundCue(cues[1]);
+            osc->sendLightingCue(cues[1].soundCue);
             break;
         case WALL_1:
-            osc->sendLightSoundCue(cues[2]);
+            osc->sendLightingCue(cues[2].soundCue);
             break;
         case WALL_2:
-            osc->sendLightSoundCue(cues[3]);
+            osc->sendLightingCue(cues[3].soundCue);
             break;
         case WALLS_3_4:
-            osc->sendLightSoundCue(cues[4]);
-            osc->sendLightSoundCue(cues[5]);
+            osc->sendLightingCue(cues[4].soundCue);
+            osc->sendLightingCue(cues[5].soundCue);
             break;
         case ALL_ZONES:
-            osc->sendLightSoundCue(cues[6]);
+            osc->sendLightingCue(cues[6].soundCue);
             break;
         default:
             break;

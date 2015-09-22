@@ -145,7 +145,7 @@ void OscClient::sendPresence(string areaName, int count){
 }
 
 void OscClient::sendVolume(float volume, int windowId){
-    ofLogNotice("OscClient::sendVolume: " + (string)VOLUME_ADRESS + " " + ofToString(volume));
+    ofLogVerbose("OscClient::sendVolume: " + (string)VOLUME_ADRESS + " " + ofToString(volume));
     ofxOscMessage m;
     m.setAddress(VOLUME_ADRESS);
     m.addFloatArg(volume);
@@ -202,7 +202,7 @@ void OscClient::sendSoundCue(float cue) {
 //
 void OscClient::sendSoundVolume(float id, float volume) {
     string address = "/volume/" + ofToString(id) + "/" + ofToString(volume);
-    ofLogNotice("OscClient::sendSoundVolume: " + address);
+    ofLogVerbose("OscClient::sendSoundVolume: " + address);
     ofxOscMessage m;
     m.setAddress(address);
     sender.sendMessage(m);

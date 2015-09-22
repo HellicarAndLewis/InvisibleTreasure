@@ -22,9 +22,12 @@ public:
             this->size.set(name+" size", size, 0, 1);
         }
         void update() {
-            changed = ( (lastBlobCount==0 && blobCount>0) || (lastBlobCount>0 && blobCount==0));
-            lastBlobCount = blobCount;
+            bool wasTriggered = getIsTriggered();
             smoothed = ofLerp(smoothed, blobCount, 0.1f);
+            changed = (getIsTriggered() != wasTriggered);
+        }
+        bool getIsTriggered() {
+            return (smoothed > 0.1);
         }
         bool changed = false;
         bool active = false;
@@ -74,6 +77,8 @@ private:
     // cues: reset, centre, wall1, wall2, wall3, wall4, all, outro
     OscClient::CueParams cues[LIGHTBOX_CUE_COUNT];
     
+    bool zonesActive = false;
+    bool isHeroActive = false;
     vector<HitArea> hitAreas;
     
 };
