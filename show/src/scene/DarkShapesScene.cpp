@@ -30,8 +30,6 @@ void DarkShapesScene::setup() {
     shapeGames.push_back(ShapeGame(ShapeRenderer::STAR, 45, 48));
     currentShapeGame = NULL;
     
-    // TODO: listen to OSC events for shape mode changes
-    
     // subscenes
     subsceneStart = 17;
     subsceneEnd = 50;
@@ -40,10 +38,6 @@ void DarkShapesScene::setup() {
 
 void DarkShapesScene::update() {
     shapeRenderer.update();
-    if (isMaster()) {
-        // TODO: draw CV debug in window 1
-        // TODO: draw tracked blobs/shapes in window 2
-    }
     SceneBase::update();
 }
 
@@ -118,36 +112,6 @@ void DarkShapesScene::play(int i){
             }
         }
     }
-    /*
-    else if (i <= 20) {
-        shapeMode == CIRCLE;
-    }
-    else if (i <= 24) {
-        shapeMode == RECTANGLE;
-    }
-    else if (i <= 28) {
-        shapeMode == TRIANGLE;
-    }
-    else if (i <= 32) {
-        shapeMode == STAR;
-    }
-    // Dark modes
-    else if (i <= 36) {
-        shapeMode == CIRCLE;
-    }
-    else if (i <= 40) {
-        shapeMode == RECTANGLE;
-    }
-    else if (i <= 44) {
-        shapeMode == TRIANGLE;
-    }
-    else if (i <= 48) {
-        shapeMode == STAR;
-    }
-    else if (i == 49) {
-        // lx cue 19, good sound
-    }
-     */
     // outro
     else if (i == 50) {
         if (isSlave()) led->show(nextLevel.get(), 5);

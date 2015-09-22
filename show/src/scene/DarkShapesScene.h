@@ -34,7 +34,7 @@ public:
             this->startScene = startScene;
             this->endScene = endScene;
             state = INACTIVE;
-            if (shapeMode == ShapeRenderer::CIRCLE) label = "Cirlce";
+            if (shapeMode == ShapeRenderer::CIRCLE) label = "Circle";
             else if (shapeMode == ShapeRenderer::RECTANGLE) label = "Rectangle";
             else if (shapeMode == ShapeRenderer::TRIANGLE) label = "Triangle";
             else if (shapeMode == ShapeRenderer::STAR) label = "Star";

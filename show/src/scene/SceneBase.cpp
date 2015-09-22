@@ -43,8 +43,8 @@ void SceneBase::draw() {
             drawMasterScreen();
             
             // draw common UI for master screen
-            float x = displays->masterScreen.sizeIn.get().x - 200;
-            float y = displays->masterScreen.sizeIn.get().y;
+            float x = MIN(ofGetWidth(), displays->masterScreen.sizeIn.get().x) - 200;
+            float y = MIN(ofGetHeight(), displays->masterScreen.sizeIn.get().y);
             string s;
             ofRectangle rect;
             if (countdown->progress > 0.001) {
@@ -65,12 +65,10 @@ void SceneBase::draw() {
     }
     
     if (isDebugMode) {
-        //ofSetColor(10, 10, 200);
-        //ofRect(0, 0, ofGetWidth(), ofGetHeight());
-        ofSetColor(150);
-        string s = name + " scene " + ofToString(subsceneI) + " (" + modeLabel + ")";
-        ofRectangle rect = font->getStringBoundingBox(s, 0, 0);
-        font->drawString(s, (ofGetWidth()/2) - (rect.width/2), ofGetHeight()*.6);
+        string mode = modeLabel;
+        if (isWindow()) mode += " " + ofToString(appModel->windowId);
+        string s = mode + "\n" + name + "/" + ofToString(subsceneI);
+        ofDrawBitmapStringHighlight(s, 10, ofGetHeight()-30);
     }
     
     // Generic intro/outro fade to black
