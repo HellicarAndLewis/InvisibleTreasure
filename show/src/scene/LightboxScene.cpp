@@ -39,6 +39,7 @@ void LightboxScene::draw() {
 }
 
 void LightboxScene::drawMasterScreen() {
+    
     // get vision image
     // do cv tracking
     // fire off OSC when blobs enter certain areas
@@ -47,6 +48,7 @@ void LightboxScene::drawMasterScreen() {
     
     float scale = tracker.thresholded.width / displays->masterScreen.sizeIn->x;
     
+    ofPushStyle();
     ofPushMatrix();
     ofTranslate(10, 10);
     ofSetColor(120);
@@ -60,6 +62,7 @@ void LightboxScene::drawMasterScreen() {
     ofSetLineWidth(4);
     
     // iterate over tracked blobs
+    bool allBlobsInAreas = true;
     for(int i = 0; i < contourFinder.size(); i++) {
         // blob rect and position
         auto rect = toOf(contourFinder.getBoundingRect(i));
@@ -84,8 +87,14 @@ void LightboxScene::drawMasterScreen() {
         }
         
         // draw the blob rect
-        if (isHit) ofSetHexColor(0x43E06D);
-        else ofSetHexColor(0x385BE0);
+        // brighter if it's in an area
+        if (isHit) {
+           ofSetHexColor(0x43E06D);
+        }
+        else {
+            ofSetHexColor(0x385BE0);
+            allBlobsInAreas = false;
+        }
         ofRect(rect);
     }
     
@@ -99,24 +108,31 @@ void LightboxScene::drawMasterScreen() {
     // hitArea[0] is centre/hero: this controls light state
     // hitArea[0] also determines whether or not other areas are active
     // all areas control sound volume
-    // TODO: add proximity to volume mapping
     ofSetColor(255, 255, 255, 100);
+    float y = ofGetHeight() - 200;
+    float volume = 0;
+    
     for (auto & hitArea: hitAreas) {
+        // cache this area's lx/sound cue params
+        OscClient::CueParams cue = getCueForArea(hitArea.name);
+        volume = 0;
+        
         if (hitArea.active) {
             hitArea.update();
-            OscClient::CueParams cue = getCueForArea(hitArea.name);
             
             // Blobs in this area
             // trigger zone is ACTIVE
-            if (hitArea.blobCount > 0) {
+            if (hitArea.smoothed > 0.1) {
                 // is this the hero/centre? Send lighing cue based on the current mode
                 if (hitArea.name == "centre") {
                     isHeroActive = true;
                     if (hitArea.changed) sendActiveCue();
                 }
-                // send volume for this area
+                // this zone and hero are active
+                // set the volume
+                // TODO: add proximity to volume mapping
                 if (isHeroActive) {
-                    osc->sendSoundVolume(cue.soundCue, 1.0f);
+                    volume = 1.0f;
                 }
                 ofSetHexColor(0xF7D63E);
             }
@@ -129,9 +145,6 @@ void LightboxScene::drawMasterScreen() {
                     isHeroActive = false;
                     if (hitArea.changed) osc->sendLightingCue(cues[0].lightCue);
                 }
-                if (isHeroActive) {
-                    osc->sendSoundVolume(cue.soundCue, 0.0f);
-                }
                 ofSetHexColor(0xA8912A);
             }
             ofRect(hitArea.rect);
@@ -139,10 +152,27 @@ void LightboxScene::drawMasterScreen() {
             // reset the count to 0 ready for the next loop
             hitArea.blobCount = 0;
         }
+        
+        // lerp to the new volume
+        // and send the lerped value over OSC
+        hitArea.volume = ofLerp(hitArea.volume, volume, 0.5);
+        if (hitArea.volume < 0.001) hitArea.volume = 0.0f;
+        osc->sendSoundVolume(cue.soundCue, hitArea.volume);
+        
+        // draw bars for volume levels
+        ofPushStyle();
+        ofFill();
+        ofSetColor(50);
+        ofRect(0, y, ofGetWidth()/2, 40);
+        ofSetColor(255);
+        ofRect(0, y, hitArea.volume*ofGetWidth()/2, 40);
+        ofDrawBitmapStringHighlight(hitArea.name + " volume:" + ofToString(hitArea.volume), 0, y+20);
+        y+=40;
+        ofPopStyle();
     }
-    ofSetLineWidth(1);
-    ofFill();
+    
     ofPopMatrix();
+    ofPopStyle();
 }
 
 //////////////////////////////////////////////////////////////////////////////////
@@ -221,6 +251,7 @@ void LightboxScene::setupGui() {
 void LightboxScene::drawGui() {
     GuiableBase::drawGui();
 }
+
 
 //////////////////////////////////////////////////////////////////////////////////
 // protected

@@ -26,12 +26,12 @@ public:
     ofImage thresholded;
     
     ofParameter<float> maxRadius;
-    ofParameter<float> threshold;
+    ofParameter<int> threshold;
     ofParameter<int> perstistence;
     ofParameter<float> maxDistance;
     ofParameter<float> blurAmount;
-    ofParameter<float> bgLearningTime;
-    ofParameter<float> bgThreshold;
+    ofParameter<int> bgLearningTime;
+    ofParameter<int> bgThreshold;
     
     // tracking
     ofxCv::ContourFinder contourFinder;

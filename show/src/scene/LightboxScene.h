@@ -14,6 +14,8 @@
 class LightboxScene : public SceneBase {
 public:
     
+    // Hit area is a trigger zone in the space
+    // It's defined by a rect which can be set via the GUI
     struct HitArea {
         HitArea(string name, ofVec2f position=ofVec2f(.5, .5), float size=.01) : name(name) {
             this->position.set(name+" pos", position, ofVec2f(0,0), ofVec2f(1,1));
@@ -22,19 +24,26 @@ public:
         void update() {
             changed = ( (lastBlobCount==0 && blobCount>0) || (lastBlobCount>0 && blobCount==0));
             lastBlobCount = blobCount;
+            smoothed = ofLerp(smoothed, blobCount, 0.1f);
         }
         bool changed = false;
         bool active = false;
+        // area pposition, size and resulting rectangle
         ofParameter<ofVec2f> position;
         ofParameter<float> size;
         ofRectangle rect;
-        string name;
-        int id;
-        int soundId;
+        // meaningful name
+        string name = "";
+        // volume resulting from blobs in this area
+        float volume = 0;
+        // blob tracking in this area
         int blobCount = 0;
         int lastBlobCount = 0;
+        float smoothed = 0;
     };
     
+    // Play mode determines which zones are active
+    // and how the trigger zones affect sound volume
     enum PLAY_MODE {
         CENTRE, WALL_1, WALL_2, WALLS_3_4, ALL_ZONES
     } playMode;
@@ -62,7 +71,7 @@ private:
     ofParameter<string> waiting;
     ofParameter<string> phase2;
     ofParameter<string> bonusGame;
-    // cues: reset, centre, wall1, wall2, walls3&4, all, outro
+    // cues: reset, centre, wall1, wall2, wall3, wall4, all, outro
     OscClient::CueParams cues[LIGHTBOX_CUE_COUNT];
     
     vector<HitArea> hitAreas;

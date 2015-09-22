@@ -16,16 +16,6 @@ ContourTracker::ContourTracker() {
 
 void ContourTracker::setup() {
     
-    //ofParameter<float> maxRadius;
-    //ofParameter<float> threhshold;
-    //ofParameter<int> perstistence;
-    //ofParameter<float> maxDistance;
-    //ofParameter<float> blurAmount;
-    //ofParameter<float> bgLearningTime;
-    //ofParameter<float> bgThreshold;
-    
-    threshold.set("threshold", 15, 0, 255);
-    
     contourFinder.setMinAreaRadius(10);
     contourFinder.setMaxAreaRadius(200);
     contourFinder.setThreshold(threshold);
@@ -34,16 +24,14 @@ void ContourTracker::setup() {
     // an object can move up to 32 pixels per frame
     contourFinder.getTracker().setMaximumDistance(32);
     
-    background.setLearningTime(900);
-    background.setThresholdValue(10);
-    
     showLabels = true;
-    
     image = NULL;
 }
 
 void ContourTracker::update() {
     // bg
+    background.setLearningTime(bgLearningTime);
+    background.setThresholdValue(bgThreshold);
     background.update(*image, thresholded);
     thresholded.update();
     // contours
@@ -127,9 +115,20 @@ void ContourTracker::resetBg() {
 }
 
 void ContourTracker::setupGui() {
+    
+    //ofParameter<float> maxRadius;
+    //ofParameter<float> threhshold;
+    //ofParameter<int> perstistence;
+    //ofParameter<float> maxDistance;
+    //ofParameter<float> blurAmount;
+    //ofParameter<float> bgLearningTime;
+    //ofParameter<float> bgThreshold;
+    
     guiName = "Contour Tracking";
     parameters.setName(guiName);
-    parameters.add(threshold);
+    parameters.add(threshold.set("threshold", 15, 0, 255));
+    parameters.add(bgLearningTime.set("bg learn time", 900, 100, 2000));
+    parameters.add(bgThreshold.set("bg threshold", 10, 0, 255));
 }
 
 //////////////////////////////////////////////////////////////////////////////////
