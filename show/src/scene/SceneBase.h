@@ -79,7 +79,7 @@ protected:
     // only used for dev/debugging when switching modes at runtime
     void onModeChange(AppModel::Mode& mode);
     
-    void onCountdownComplete(int& i);
+    virtual void onCountdownComplete(int& i);
     
     // common scene params
     ofParameter<int> countdownDuration;

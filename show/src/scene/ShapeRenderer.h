@@ -75,6 +75,10 @@ public:
 class ShapeRenderer {
 public:
     
+    enum ShapeMode {
+        CIRCLE=0,RECTANGLE,TRIANGLE,STAR
+    } shapeMode;
+    
     TriangleRenderer triangle;
     CircleRenderer circle;
     SquareRenderer square;
@@ -85,9 +89,10 @@ public:
     
     void setup() {
         shapeIndex = -1;
-        shapes.push_back(&triangle);
         shapes.push_back(&circle);
         shapes.push_back(&square);
+        shapes.push_back(&triangle);
+        shapes.push_back(&triangle);
         shapeIn = NULL;
         shapeOut = NULL;
         for (auto shape: shapes) {
@@ -118,7 +123,8 @@ public:
             }
         }
     }
-    void showShape(int id){
+    void showShape(ShapeMode shape){
+        int id = (int)shape;
         if (id >= 0 && id < shapes.size() && id != shapeIndex) {
             shapeIndex = id;
             if (shapeIn == NULL) {
@@ -130,6 +136,17 @@ public:
                 shapeIn = shapes[id];
                 shapeOut->stop();
             }
+        }
+    }
+    void hide() {
+        shapeIndex = -1;
+        if (shapeIn != NULL) {
+            shapeIn->stop();
+            shapeIn = NULL;
+        }
+        if (shapeOut != NULL) {
+            shapeOut->stop();
+            shapeOut = NULL;
         }
     }
 };
