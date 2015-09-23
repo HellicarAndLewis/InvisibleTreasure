@@ -40,10 +40,14 @@ public:
             else if (shapeMode == ShapeRenderer::STAR) label = "Star";
         }
         void updateSceneI() {
-            if (state == INTRO) sceneI = endScene - 3;
-            else if (state == PLAY) sceneI = endScene - 2;
-            else if (state == FAIL) sceneI = endScene - 1;
-            else if (state == PASS) sceneI = endScene;
+            sceneI = getSceneForState(state);
+        }
+        int getSceneForState(State state) {
+            if (state == INTRO) return endScene - 3;
+            else if (state == PLAY) return endScene - 2;
+            else if (state == FAIL) return endScene - 1;
+            else if (state == PASS) return endScene;
+            else return -1;
         }
         void setScene(int scene) {
             int outroOffset = endScene - scene;
@@ -53,17 +57,17 @@ public:
             else if (outroOffset == 3) state = INTRO;
             updateSceneI();
         }
-        State next() {
-            if (state == INTRO) state = PLAY;
-            else if (state == PLAY) state = FAIL;
+        State getNextState() {
+            State nextState;
+            if (state == INTRO) nextState = PLAY;
+            else if (state == PLAY) nextState = FAIL;
             else if (state == FAIL) {
                 attemptNum++;
-                if (attemptNum > MAX_ATTEMPTS) state = INACTIVE;
-                else state = PLAY;
+                if (attemptNum > MAX_ATTEMPTS) nextState = INACTIVE;
+                else nextState = PLAY;
             }
-            else if (state == PASS) state = INACTIVE;
-            updateSceneI();
-            return state;
+            else if (state == PASS) nextState = INACTIVE;
+            return nextState;
         }
         void success() {
             state = PASS;

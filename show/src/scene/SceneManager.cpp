@@ -235,8 +235,15 @@ void SceneManager::onPlaySubScene(int& id) {
 // this allows scenes to progress automatically based on timers and interaction
 void SceneManager::onNextSubScene(int& id) {
     if (autoPlay) {
-        subSceneIndex++;
-        playSubScene(subSceneIndex, true);
+        ofLogNotice() << "SceneManager::onNextSubScene " + ofToString(id);
+        if (id > 0) {
+            subSceneIndex = id;
+            playSubScene(id);
+        }
+        else {
+            subSceneIndex++;
+            playSubScene(subSceneIndex, true);
+        }
     }
 }
 

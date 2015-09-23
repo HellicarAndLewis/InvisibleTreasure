@@ -115,9 +115,14 @@ void SceneBase::stop(){
 //////////////////////////////////////////////////////////////////////////////////
 // protected
 //////////////////////////////////////////////////////////////////////////////////
-void SceneBase::nextSubscene() {
+void SceneBase::nextSubscene(int i) {
     if (state == INTERACTIVE) {
-        int i = 0;
+        ofNotifyEvent(nextSubsceneEvent, i, this);
+    }
+}
+
+void SceneBase::playSubscene(int i) {
+    if (state == INTERACTIVE) {
         ofNotifyEvent(nextSubsceneEvent, i, this);
     }
 }

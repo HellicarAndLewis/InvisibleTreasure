@@ -120,7 +120,7 @@ void DarkShapesScene::play(int i){
                         if (isMaster()) countdown->start(10);
                         break;
                     case ShapeGame::FAIL:
-                        if (isSlave()) led->show(game.label);
+                        if (isSlave()) led->show(game.label + "\n" + playAgain.get());
                         shapeRenderer.hide();
                         if (isMaster()) {
                             // TODO: send bad sound
@@ -129,6 +129,7 @@ void DarkShapesScene::play(int i){
                         break;
                     case ShapeGame::PASS:
                         shapeRenderer.hide(true);
+                        if (isSlave()) led->show("", 0);
                         if (isMaster()) {
                             // TODO: send bad sound
                             countdown->start(3);
@@ -194,9 +195,12 @@ void DarkShapesScene::onCountdownComplete(int& i) {
     if (subsceneI > 17 && subsceneI < 50) {
         // Shape game mode
         if (currentShapeGame != NULL) {
-            ShapeGame::State state = currentShapeGame->next();
-            if (state == ShapeGame::INACTIVE) play(currentShapeGame->endScene + 1);
-            else play(currentShapeGame->sceneI);
+            ShapeGame::State state = currentShapeGame->getNextState();
+            if (state == ShapeGame::INACTIVE) nextSubscene(currentShapeGame->endScene + 1);
+            else {
+                int id = currentShapeGame->getSceneForState(state);
+                nextSubscene(id);
+            }
         }
     }
     else {
@@ -206,10 +210,10 @@ void DarkShapesScene::onCountdownComplete(int& i) {
 }
 
 void DarkShapesScene::onSuccess() {
-    ofLogNotice() << "DarkShapesScene::onSuccess";
     if (currentShapeGame != NULL) {
         currentShapeGame->success();
-        play(currentShapeGame->sceneI);
+        ofLogNotice() << "DarkShapesScene::onSuccess, now play " + ofToString(currentShapeGame->sceneI);
+        nextSubscene(currentShapeGame->sceneI);
     }
 }
 //////////////////////////////////////////////////////////////////////////////////

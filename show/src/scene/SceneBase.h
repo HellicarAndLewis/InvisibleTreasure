@@ -60,7 +60,8 @@ public:
     AppModel::Mode mode;
 
 protected:
-    void nextSubscene();
+    void nextSubscene(int i = 0);
+    void playSubscene(int i);
     bool isMaster();
     bool isSlave();
     bool isWindow();
