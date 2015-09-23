@@ -159,9 +159,11 @@ void DarkShapesScene::stop(){
 void DarkShapesScene::setupGui() {
     guiName = "Dark Shapes";
     panel.setup(guiName, "settings/darkshapes.xml");
-    //panel.add(modeSelector);
+    panel.add(title.set("title1", "Bonus Game"));
+    panel.add(playAgain.set("title2", "Play Again"));
+    panel.add(goingDark.set("title3", "Going Dark"));
+    panel.add(nextLevel.set("title4", "Next Level"));
     panel.loadFromFile("settings/darkshapes.xml");
-    
     // add to panel
     shapesPanel.setup("Shapes Control");
     shapeSuccess.addListener(this, &DarkShapesScene::onSuccess);
