@@ -26,12 +26,12 @@ cd ..
 
 ${CLONE}bakercp/ofxIpVideoGrabber
 cd ofxIpVideoGrabber
-# git checkout ???
+git checkout 8f0775dc988175003d0aeb6d3795e6ff94293235
 cd ..
 
 ${CLONE}kylemcdonald/ofxCv
 cd ofxCv
-# git checkout ???
+git checkout 005c0a7ae35e45fc505546599e06ff3b9724ac11
 cd ..
 
 ${CLONE}outsidecontext/ofxRemoteUI
@@ -46,17 +46,17 @@ cd ..
 
 ${CLONE}julapy/ofxFFT
 cd ofxFFT
-# git checkout f33c6d581b9a912eb3d24d2413c5aced866cf5b9
+git checkout f33c6d581b9a912eb3d24d2413c5aced866cf5b9
 cd ..
 
 ${CLONE}arturoc/ofxTween
 cd ofxTween
-# git checkout ???
+git checkout 549da2d35ef8fbd9d7553f053c549a7c66312d3d
 cd ..
 
 ${CLONE}Flightphase/ofxFTGL
 cd ofxFTGL
-# git checkout ???
+git checkout 3a562f3ca3fb002b728f6949810169587bfa751b
 cd ..
 
 
