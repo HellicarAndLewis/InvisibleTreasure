@@ -101,7 +101,7 @@ void DarkShapesScene::play(int i){
     if (i == 17) {
         if (isSlave()) led->show(title.get());
         if (isMaster()) {
-            countdown->start(5);
+            countdown->start(timers[0]);
         }
     }
     else if (i > 17 && i < 50) {
@@ -112,19 +112,19 @@ void DarkShapesScene::play(int i){
                 switch (game.state) {
                     case ShapeGame::INTRO:
                         shapeRenderer.showShape(game.shapeMode);
-                        if (isMaster()) countdown->start(2);
+                        if (isMaster()) countdown->start(timers[1]);
                         break;
                     case ShapeGame::PLAY:
                         shapeRenderer.showShape(game.shapeMode);
-                        if (isSlave()) led->show("", 10);
-                        if (isMaster()) countdown->start(10);
+                        if (isSlave()) led->show("", timers[2]);
+                        if (isMaster()) countdown->start(timers[2]);
                         break;
                     case ShapeGame::FAIL:
                         if (isSlave()) led->show(game.label + "\n" + playAgain.get());
                         shapeRenderer.hide();
                         if (isMaster()) {
                             // TODO: send bad sound
-                            countdown->start(4);
+                            countdown->start(timers[3]);
                         }
                         break;
                     case ShapeGame::PASS:
@@ -132,7 +132,7 @@ void DarkShapesScene::play(int i){
                         if (isSlave()) led->show("", 0);
                         if (isMaster()) {
                             // TODO: send bad sound
-                            countdown->start(3);
+                            countdown->start(timers[4]);
                         }
                         break;
                         
@@ -144,9 +144,9 @@ void DarkShapesScene::play(int i){
     }
     // outro
     else if (i == 50) {
-        if (isSlave()) led->show(nextLevel.get(), 5);
+        if (isSlave()) led->show(nextLevel.get(), timers[5]);
         if (isMaster()) {
-            countdown->start(5);
+            countdown->start(timers[5]);
         }
     }
     SceneBase::play(i);
@@ -164,6 +164,18 @@ void DarkShapesScene::setupGui() {
     panel.add(playAgain.set("title2", "Play Again"));
     panel.add(goingDark.set("title3", "Going Dark"));
     panel.add(nextLevel.set("title4", "Next Level"));
+    
+    timerGroup.setName("Timers");
+    timerGroup.add(timers[0].set("intro", 5, 1, 20));
+    timerGroup.add(timers[1].set("shape intro", 2, 1, 20));
+    timerGroup.add(timers[2].set("shape play", 10, 1, 30));
+    timerGroup.add(timers[3].set("shape fail", 4, 1, 20));
+    timerGroup.add(timers[4].set("shape pass", 3, 1, 20));
+    timerGroup.add(timers[5].set("outro", 5, 1, 20));
+    panel.add(timerGroup);
+    
+    // TODO: add LX and sound cues to GUI
+    
     panel.loadFromFile("settings/darkshapes.xml");
     // add to panel
     shapesPanel.setup("Shapes Control");

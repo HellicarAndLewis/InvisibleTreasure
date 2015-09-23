@@ -12,6 +12,7 @@
 #include "ShapeRenderer.h"
 #define MAX_ATTEMPTS 3
 #define DARK_SHAPES_CUE_COUNT 11
+#define DARK_SHAPES_TIMER_COUNT 6
 
 // TODO: cv blob tracking and shape detection
 //
@@ -113,6 +114,9 @@ private:
     ofParameter<string> nextLevel;
     // cues: reset, centre, wall1, wall2, wall3, wall4, all, outro
     OscClient::CueParams cues[DARK_SHAPES_CUE_COUNT];
+    
+    ofParameterGroup timerGroup;
+    ofParameter<int> timers[DARK_SHAPES_TIMER_COUNT];
     
     ofxPanel shapesPanel;
     ofxButton shapeSuccess;
