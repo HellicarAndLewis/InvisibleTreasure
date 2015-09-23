@@ -53,14 +53,25 @@ void ofApp::update() {
 
 void ofApp::draw() {
     
-    if (vision.debugDraw) vision.draw();
-    sceneManager.draw();
-    
+    //
+    // Draw display manager first
+    // display manager draws FBOs for each display device e.g. screen and projectors
+    // only master and slave modes use this, walls are a single display device
     if (appModel.mode == AppModel::MASTER) {
         displayManager.drawMaster();
     } else if (appModel.mode == AppModel::SLAVE) {
         displayManager.drawSlave();
     }
+    
+    //
+    // Now draw scenes directly
+    // this will be wall mode only, plus any scene manager debug stuff
+    sceneManager.draw();
+    
+    //
+    // debug drawing for IP cam, webcam and video inputs
+    // plus contour tracking and background subtraction
+    if (vision.debugDraw) vision.draw();
     
     // debug draw
     if (debug) {

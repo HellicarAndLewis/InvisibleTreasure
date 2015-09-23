@@ -40,7 +40,7 @@ void Particles::resetParticles(){
     
 	for(int i = 0; i < p.size(); i++){
         p[i].id=i;
-        p[i].color=ofColor(200,200,0);
+        //p[i].color=ofColor(255,234,119);
 		p[i].setMode(currentMode);		
 		p[i].setAttractPoints(&attractPointsWithMovement);;
 		p[i].reset(bounds);
@@ -57,25 +57,37 @@ void Particles::updateAttractPoints(){
 
 void Particles::update(){
     
-    // TODO: swap this out for flann nearest neigbour?
+    bool flock = false;
+    if (attractPointsWithMovement.size() == 0) {
+        flock = true;
+    }
+    
     for(int i = 0; i < p.size(); ++i){
-        /*
-        ofPoint closestPt;
-        int closest = -1; 
-        float closestDist = 9999999;
-        for(int j = 0; j < p.size(); ++j){
-            float lenSq = p[j].pos.distanceSquared(p[i].pos);
-            if( lenSq < closestDist && p[i].id!=p[j].id){
-                closestDist = lenSq;
-                closest = j;
+        if (flock) {
+            /*
+            ofPoint closestPt;
+            int closest = -1; 
+            float closestDist = 9999999;
+            for(int j = 0; j < p.size(); ++j){
+                float lenSq = p[j].pos.distanceSquared(p[i].pos);
+                if( lenSq < closestDist && p[i].id!=p[j].id){
+                    closestDist = lenSq;
+                    closest = j;
+                }
             }
+            if (closest!=-1) {
+                closestPt=p[closest].pos;
+                p[i].attractPoints->clear();
+                p[i].attractPoints->push_back(closestPt);
+            }
+             */
+            /*
+            if (i != 0) {
+                p[i].attractPoints->clear();
+                p[i].attractPoints->push_back(p[0].pos);
+            }
+             */
         }
-        if (closest!=-1) {
-            closestPt=p[closest].pos;
-            p[i].attractPoints->clear();
-            p[i].attractPoints->push_back(closestPt);
-        }
-         */
         p[i].setMode(currentMode);
         p[i].update();
         
@@ -108,13 +120,15 @@ void Particles::draw(bool drawGrey){
     
 //    int n = p.size();
 //	glEnable(GL_POINT_SIZE);
-//	glPointSize(2);
+//	glPointSize(10);
 //	glBegin(GL_POINTS);
-//	for(int i = 0; i < n; i++)
-//		p[i].draw();
+//    for(int i = 0; i < n; i++){
+//        glVertex2f(p[i].pos.x, p[i].pos.y);
+//    }
 //	glEnd();
 //	glDisable(GL_POINT_SIZE);
     
+    /*
     ofSetColor(255, 255, 0);
     for(unsigned int i = 0; i < attractPoints.size(); i++){
         ofNoFill();
@@ -122,6 +136,7 @@ void Particles::draw(bool drawGrey){
         ofFill();
         ofCircle(attractPointsWithMovement[i], 4);
     }
+     */
     
     ofSetColor(150);
     string s = (p[0].flock) ? "flocking" : "not flocking";

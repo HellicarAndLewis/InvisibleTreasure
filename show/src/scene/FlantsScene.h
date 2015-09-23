@@ -35,7 +35,11 @@ private:
     void setMode(Mode state);
     Particles particles;
     
+    
+    ofParameter<int> eatRate;
+    
     // gui
+    ofParameterGroup titleGroup;
     ofParameter<string> title;
     ofParameter<string> boom;
     ofParameter<string> gameOver;

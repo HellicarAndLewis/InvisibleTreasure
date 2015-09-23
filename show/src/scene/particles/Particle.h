@@ -46,6 +46,7 @@ public:
     vector <Particle> * neighbours;
     ofPoint closestPt;
     bool flock;
+    bool isFull;
     
     float minUnique, maxUnique;
     float minDrag, maxDrag;

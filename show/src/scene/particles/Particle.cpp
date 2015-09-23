@@ -5,11 +5,12 @@ Particle::Particle(){
 	attractPoints = NULL;
     minUnique = -10000;
     maxUnique = 1000;
-    minDrag = 0.95;
-    maxDrag = 0.97;
+    minDrag = 0.90;
+    maxDrag = 0.95;
     flock = false;
     mode = PARTICLE_MODE_NEAREST_POINTS;
-    color.set(255, 255, 0);
+    color.set(255,234,119);
+    isFull = false;
 }
 
 
@@ -29,14 +30,16 @@ void Particle::reset(){
 
 
 void Particle::reset(ofRectangle bounds) {
+    float maxVel = 0.5;
     uniqueVal = ofRandom(minUnique, maxUnique);
     pos.x = ofRandom(bounds.getLeft(), bounds.getRight());
     pos.y = ofRandom(bounds.getTop(), bounds.getBottom());
-    vel.x = ofRandom(-1, 1);
-    vel.y = ofRandom(-1, 1);
+    vel.x = ofRandom(-maxVel, maxVel);
+    vel.y = ofRandom(-maxVel, maxVel);
     frc   = ofPoint(0,0,0);
     scale = ofRandom(0.5, 1.0);
     drag  = ofRandom(minDrag, maxDrag);
+    isFull = false;
 }
 
 
@@ -91,52 +94,39 @@ void Particle::update(){
                 // force proportional to distance
                 frc = closestPt - pos;
                 vel *= drag;
-                if( dist > 40 && !ofGetKeyPressed('l')){
+                if( dist > 40 && dist < 500 && !ofGetKeyPressed('l')){
                     frc *= 0.003;
                     frc.x += ofSignedNoise(uniqueVal,               pos.y * 0.01, ofGetElapsedTimef()*0.2);
                     frc.y += ofSignedNoise(ofGetElapsedTimef()*0.2, uniqueVal,    pos.x * 0.01);
                     vel += frc;
-                }else{
+                } else {
+                    if (dist < 40) {
+                        isFull = true;
+                        color.lerp( ofColor(67,224,109), 0.9 );
+                    }
                     frc.x = ofSignedNoise(uniqueVal,               pos.y * 0.01, ofGetElapsedTimef()*0.2);
                     frc.y = ofSignedNoise(ofGetElapsedTimef()*0.2, uniqueVal,    pos.x * 0.01);
                     vel += frc * 0.4;
                 }
                 
             }
+            else {
+                frc.x = ofSignedNoise(uniqueVal, pos.y * 0.1, ofGetElapsedTimef()*0.2);
+                frc.y = ofSignedNoise(uniqueVal, pos.x * 0.1, ofGetElapsedTimef()*0.2);
+                vel += frc * 0.4;
+                
+                float maxVel = 6.0;
+                vel.x = ofClamp(vel.x, -maxVel, maxVel);
+                vel.y = ofClamp(vel.y, -maxVel, maxVel);
+            }
             
         }
         
     }
 	
-    /*
-	// attract to nearest neighbour
-    if(flock && attractPoints->size()>0){
-        closestPt = attractPoints->operator[](0);
-        float closestDist = ( closestPt-pos ).length();
-        float dist = InvSqrt(closestDist);
-        frc = closestPt - pos;
-        vel *= drag;
-        float r=ofMap(dist, 1.5, 0, 255, 0);
-        float b=ofMap(dist, 0, 1.5, 255, 0);
-        float a=ofMap(dist, 0, 1.5, 50, 255);
-        a=60;
-        color.lerp( ofColor( 0, 40, b, a), 0.4 );
-        if( dist < 1.5 && dist > .1 && !ofGetKeyPressed('l') ){
-            vel += frc * 0.01;
-        }
-        else {
-            vel += frc * .001;
-        }
-    }
-     */
-    
     // update pos using velocity
 	pos += vel;
     
-    // trails
-    trail.push_back(pos);
-    if (trail.size() > 10) trail.erase(trail.begin());
-    if (trail.size() > 10) trail.erase(trail.begin());
     
 }
 
@@ -146,20 +136,7 @@ void Particle::setNeighbours(vector <Particle> * neighbours){
 
 
 void Particle::draw(){
-    //glVertex2f(pos.x, pos.y);
-//    ofSetColor(color.r,color.g,color.b, color.a);
     ofSetColor(color.r,color.g,color.b, 255);
-    // draw trails?
-    if (ofGetKeyPressed('t')) {
-        for (int i=1; i<trail.size()-1; i++) ofLine(trail[i], trail[i-1]);
-        //for (int i=1; i<trail.size()-1; i++) ofCircle(trail[i], scale * i);
-    }
-    else {
-        ofCircle(pos.x, pos.y, pos.z, scale * 8.0);
-    }
-    // connect neighbours?
-    if (flock) ofLine(closestPt, pos);
-    
-    
+    ofCircle(pos.x, pos.y, scale * 8.0);
 }
 

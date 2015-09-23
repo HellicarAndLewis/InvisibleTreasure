@@ -101,6 +101,7 @@ void SceneBase::draw() {
         string mode = modeLabel;
         if (isWindow()) mode += " " + ofToString(appModel->windowId);
         string s = mode + "\n" + name + "/" + ofToString(subsceneI);
+        s += "\n" + ofToString(ofGetFrameRate());
         ofDrawBitmapStringHighlight(s, 10, ofGetHeight()-30);
     }
     

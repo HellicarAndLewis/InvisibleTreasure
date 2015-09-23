@@ -127,7 +127,7 @@ void ContourTracker::setupGui() {
     guiName = "Contour Tracking";
     parameters.setName(guiName);
     parameters.add(threshold.set("threshold", 15, 0, 255));
-    parameters.add(bgLearningTime.set("bg learn time", 900, 100, 2000));
+    parameters.add(bgLearningTime.set("bg learn time", 900, 1, 2000));
     parameters.add(bgThreshold.set("bg threshold", 10, 0, 255));
 }
 

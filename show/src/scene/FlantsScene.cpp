@@ -19,7 +19,8 @@ void FlantsScene::setup() {
     subsceneStart = 51;
     subsceneEnd = 62;
     ofRectangle bounds = ofRectangle(0, 0, displays->masterProjection.sizeIn.get().x, displays->masterProjection.sizeIn.get().y);
-    particles.setup(1000, bounds);
+    bounds.scaleFromCenter(0.9);
+    particles.setup(2000, bounds);
     SceneBase::setup();
 }
 
@@ -28,6 +29,7 @@ void FlantsScene::update() {
         // contour tracker
         ContourTracker& tracker = *vision->getTracker();
         ofxCv::ContourFinder& contourFinder = tracker.contourFinder;
+        tracker.bgLearningTime = eatRate;
         float scale = displays->masterProjection.sizeIn->x / tracker.thresholded.width;
         particles.attractPointsWithMovement.clear();
         for(int i = 0; i < contourFinder.size(); i++) {
@@ -55,14 +57,8 @@ void FlantsScene::drawMasterProjection() {
     float scale = displays->masterProjection.sizeIn->x / tracker.thresholded.width;
     float targetW = displays->masterProjection.sizeIn->x;
     float targetH = tracker.thresholded.height * scale;
+    ofSetColor(200);
     tracker.thresholded.draw(0, 0, targetW, targetH);
-    ofNoFill();
-    ofSetColor(255, 255, 0);
-    for(int i = 0; i < contourFinder.size(); i++) {
-        auto rect = toOf(contourFinder.getBoundingRect(i));
-        ofRect(rect.position*scale, rect.getWidth()*scale, rect.getHeight()*scale);
-    }
-    ofFill();
     ofSetColor(255);
     
     // particles
@@ -133,12 +129,16 @@ void FlantsScene::setupGui() {
     guiName = "Flants";
     panel.setup(guiName, "settings/flants.xml");
     
-    panel.add(title.set("title1", "Flants"));
-    panel.add(boom.set("title2", "Boom"));
-    panel.add(gameOver.set("title3", "Game over"));
-    panel.add(playAgain.set("title4", "Play again"));
-    panel.add(tired.set("title5", "He is tired"));
-    panel.add(nextLevel.set("title6", "Next Level"));
+    panel.add(eatRate.set("Eat rate", 5, 1, 30));
+    
+    titleGroup.setName("Titles");
+    titleGroup.add(title.set("title1", "Flants"));
+    titleGroup.add(boom.set("title2", "Boom"));
+    titleGroup.add(gameOver.set("title3", "Game over"));
+    titleGroup.add(playAgain.set("title4", "Play again"));
+    titleGroup.add(tired.set("title5", "He is tired"));
+    titleGroup.add(nextLevel.set("title6", "Next Level"));
+    panel.add(titleGroup);
     
     timerGroup.setName("Timers");
     timerGroup.add(timerTransition.set("transition", 3, 1, 10));
@@ -147,6 +147,7 @@ void FlantsScene::setupGui() {
     timerGroup.add(timerAgain.set("again", 5, 1, 10));
     timerGroup.add(timerTired.set("tired", 3, 1, 10));
     timerGroup.add(timerNext.set("next", 5, 1, 10));
+    panel.add(timerGroup);
     
     panel.loadFromFile("settings/flants.xml");
 }

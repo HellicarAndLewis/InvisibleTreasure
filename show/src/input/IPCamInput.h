@@ -59,7 +59,6 @@ using ofx::Video::SharedIPVideoGrabber;
 
 // IP/network camera grabber
 // Uses the IPVideoGrabber ofxaddon
-// TODO: paramaterise CAM_URL
 //
 class IPCamInput : public IVisionInput {
 public:
