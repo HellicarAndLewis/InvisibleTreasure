@@ -7,7 +7,9 @@ Particle::Particle(){
     maxUnique = 1000;
     minDrag = 0.95;
     maxDrag = 0.97;
-    flock=true;
+    flock = false;
+    mode = PARTICLE_MODE_NEAREST_POINTS;
+    color.set(255, 255, 0);
 }
 
 
@@ -22,14 +24,19 @@ void Particle::setAttractPoints( vector <ofPoint> * attract ){
 
 
 void Particle::reset(){
-	uniqueVal = ofRandom(minUnique, maxUnique);
-	pos.x = ofRandom(0, 100);//ofRandomWidth();
-	pos.y = ofRandom(0, 100);;//ofRandomHeight();
-	vel.x = ofRandom(-1, 1);
-	vel.y = ofRandom(-1, 1);
-	frc   = ofPoint(0,0,0);
-	scale = ofRandom(0.5, 1.0);
-	drag  = ofRandom(minDrag, maxDrag);
+    reset(ofRectangle(0, 0, 100, 100));
+}
+
+
+void Particle::reset(ofRectangle bounds) {
+    uniqueVal = ofRandom(minUnique, maxUnique);
+    pos.x = ofRandom(bounds.getLeft(), bounds.getRight());
+    pos.y = ofRandom(bounds.getTop(), bounds.getBottom());
+    vel.x = ofRandom(-1, 1);
+    vel.y = ofRandom(-1, 1);
+    frc   = ofPoint(0,0,0);
+    scale = ofRandom(0.5, 1.0);
+    drag  = ofRandom(minDrag, maxDrag);
 }
 
 
@@ -62,8 +69,46 @@ void Particle::update(){
             frc.z = ofSignedNoise(uniqueVal, pos.z * 0.01, ofGetElapsedTimef()*0.8);
 			vel += frc * 0.6;
 		}
-	}
+    }
+    else if( mode == PARTICLE_MODE_NEAREST_POINTS ){
+        
+        if( attractPoints ){
+            // closest attractPoint
+            ofPoint closestPt;
+            int closest = -1;
+            float closestDist = 9999999;
+            for(unsigned int i = 0; i < attractPoints->size(); i++){
+                float lenSq = ( attractPoints->at(i)-pos ).lengthSquared();
+                if( lenSq < closestDist ){
+                    closestDist = lenSq;
+                    closest = i;
+                }
+            }
+            // attract
+            if( closest != -1 ){
+                closestPt = attractPoints->at(closest);
+                float dist = sqrt(closestDist);
+                // force proportional to distance
+                frc = closestPt - pos;
+                vel *= drag;
+                if( dist > 40 && !ofGetKeyPressed('l')){
+                    frc *= 0.003;
+                    frc.x += ofSignedNoise(uniqueVal,               pos.y * 0.01, ofGetElapsedTimef()*0.2);
+                    frc.y += ofSignedNoise(ofGetElapsedTimef()*0.2, uniqueVal,    pos.x * 0.01);
+                    vel += frc;
+                }else{
+                    frc.x = ofSignedNoise(uniqueVal,               pos.y * 0.01, ofGetElapsedTimef()*0.2);
+                    frc.y = ofSignedNoise(ofGetElapsedTimef()*0.2, uniqueVal,    pos.x * 0.01);
+                    vel += frc * 0.4;
+                }
+                
+            }
+            
+        }
+        
+    }
 	
+    /*
 	// attract to nearest neighbour
     if(flock && attractPoints->size()>0){
         closestPt = attractPoints->operator[](0);
@@ -83,28 +128,10 @@ void Particle::update(){
             vel += frc * .001;
         }
     }
+     */
     
     // update pos using velocity
 	pos += vel;
-	
-    // bounds check
-	if( pos.x > ofGetWidth() ){
-		pos.x = ofGetWidth();
-		vel.x *= -1.0;
-	}
-    else if( pos.x < 0 ){
-		pos.x = 0;
-		vel.x *= -1.0;
-	}
-	if( pos.y > ofGetHeight() ){
-		pos.y = ofGetHeight();
-		vel.y *= -1.0;
-	}
-	else if( pos.y < 0 ){
-		pos.y = 0;
-		vel.y *= -1.0;
-	}	
-    
     
     // trails
     trail.push_back(pos);

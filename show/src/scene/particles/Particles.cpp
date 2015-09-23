@@ -4,10 +4,15 @@
 Particles::Particles() {
 }
 
-void Particles::setup(){
-	int num = 1000;
-	p.assign(num, Particle());
-	currentMode = PARTICLE_MODE_ATTRACT;
+
+void Particles::setup(int count) {
+    setup(count, ofRectangle(0, 0, ofGetWidth(), ofGetHeight()));
+}
+
+void Particles::setup(int count, ofRectangle bounds){
+    this->bounds = bounds;
+	p.assign(count, Particle());
+	currentMode = PARTICLE_MODE_NEAREST_POINTS;
 	resetParticles();
 }
 
@@ -26,12 +31,19 @@ void Particles::applyParticleProps() {
 
 
 void Particles::resetParticles(){
+    
+    attractPoints.clear();
+    for(int i = 0; i < 4; i++){
+        attractPoints.push_back( ofPoint( ofMap(i, 0, 4, 100, ofGetWidth()-100) , ofRandom(100, ofGetHeight()-100) ) );
+    }
+    attractPointsWithMovement = attractPoints;
+    
 	for(int i = 0; i < p.size(); i++){
         p[i].id=i;
-        p[i].color=ofColor(60);
+        p[i].color=ofColor(200,200,0);
 		p[i].setMode(currentMode);		
 		p[i].setAttractPoints(&attractPointsWithMovement);;
-		p[i].reset();
+		p[i].reset(bounds);
 	}	
 }
 
@@ -44,15 +56,10 @@ void Particles::updateAttractPoints(){
 
 
 void Particles::update(){
-	
-//	for(int i = 0; i < attractPointsWithMovement.size(); i++){
-//		attractPointsWithMovement[i].x = attractPoints[i].x + ofSignedNoise(i * 10, ofGetElapsedTimef() * 0.7) * 12.0;
-//		attractPointsWithMovement[i].y = attractPoints[i].y + ofSignedNoise(i * -10, ofGetElapsedTimef() * 0.7) * 12.0;
-//		attractPointsWithMovement[i].z = attractPoints[i].z + ofSignedNoise(i * -10, ofGetElapsedTimef() * 0.7) * 12.0;
-//	}
     
     // TODO: swap this out for flann nearest neigbour?
     for(int i = 0; i < p.size(); ++i){
+        /*
         ofPoint closestPt;
         int closest = -1; 
         float closestDist = 9999999;
@@ -68,8 +75,27 @@ void Particles::update(){
             p[i].attractPoints->clear();
             p[i].attractPoints->push_back(closestPt);
         }
+         */
         p[i].setMode(currentMode);
         p[i].update();
+        
+        // bounds check
+        if (p[i].pos.x > bounds.getRight() ){
+            p[i].pos.x = bounds.getRight();
+            p[i].vel.x *= -1.0;
+        }
+        else if (p[i].pos.x < bounds.getLeft() ){
+            p[i].pos.x = bounds.getLeft();
+            p[i].vel.x *= -1.0;
+        }
+        if (p[i].pos.y > bounds.getBottom() ){
+            p[i].pos.y = bounds.getBottom();
+            p[i].vel.y *= -1.0;
+        }
+        else if (p[i].pos.y < bounds.getTop() ){
+            p[i].pos.y = bounds.getTop();
+            p[i].vel.y *= -1.0;
+        }
 	}
 }
 
@@ -89,10 +115,18 @@ void Particles::draw(bool drawGrey){
 //	glEnd();
 //	glDisable(GL_POINT_SIZE);
     
+    ofSetColor(255, 255, 0);
+    for(unsigned int i = 0; i < attractPoints.size(); i++){
+        ofNoFill();
+        ofCircle(attractPointsWithMovement[i], 10);
+        ofFill();
+        ofCircle(attractPointsWithMovement[i], 4);
+    }
+    
     ofSetColor(150);
     string s = (p[0].flock) ? "flocking" : "not flocking";
     ofDrawBitmapString(s, 10, 10);
-    
+    ofSetColor(255);
 }
 
 

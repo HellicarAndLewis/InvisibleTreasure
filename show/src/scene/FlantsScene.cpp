@@ -18,12 +18,25 @@ void FlantsScene::setup() {
     // subscenes
     subsceneStart = 51;
     subsceneEnd = 62;
-    particles.setup();
+    ofRectangle bounds = ofRectangle(0, 0, displays->masterProjection.sizeIn.get().x, displays->masterProjection.sizeIn.get().y);
+    particles.setup(1000, bounds);
     SceneBase::setup();
 }
 
 void FlantsScene::update() {
     if (isMaster()) {
+        // contour tracker
+        ContourTracker& tracker = *vision->getTracker();
+        ofxCv::ContourFinder& contourFinder = tracker.contourFinder;
+        float scale = displays->masterProjection.sizeIn->x / tracker.thresholded.width;
+        particles.attractPointsWithMovement.clear();
+        for(int i = 0; i < contourFinder.size(); i++) {
+            // blob rect and position
+            auto rect = toOf(contourFinder.getBoundingRect(i));
+            auto center = toOf(contourFinder.getCenter(i));
+            particles.attractPointsWithMovement.push_back(ofPoint(center.x*scale, center.y*scale));
+        }
+        
         particles.update();
     }
     SceneBase::update();
@@ -42,13 +55,15 @@ void FlantsScene::drawMasterProjection() {
     float scale = displays->masterProjection.sizeIn->x / tracker.thresholded.width;
     float targetW = displays->masterProjection.sizeIn->x;
     float targetH = tracker.thresholded.height * scale;
-    
     tracker.thresholded.draw(0, 0, targetW, targetH);
+    ofNoFill();
+    ofSetColor(255, 255, 0);
     for(int i = 0; i < contourFinder.size(); i++) {
-        // blob rect and position
         auto rect = toOf(contourFinder.getBoundingRect(i));
-        auto center = toOf(contourFinder.getCenter(i));
+        ofRect(rect.position*scale, rect.getWidth()*scale, rect.getHeight()*scale);
     }
+    ofFill();
+    ofSetColor(255);
     
     // particles
     particles.draw();

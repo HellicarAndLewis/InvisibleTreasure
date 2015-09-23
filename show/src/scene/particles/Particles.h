@@ -8,7 +8,8 @@ class Particles {
 public:
     
     Particles();
-    void setup();
+    void setup(int count=1000);
+    void setup(int count, ofRectangle bounds);
     void update();
     void draw(bool drawGrey=false);
     void resetParticles();
@@ -44,6 +45,8 @@ public:
     
     float colourLerpAmt;
     float minDrag, maxDrag;
+    
+    ofRectangle bounds;
     
 		
 };

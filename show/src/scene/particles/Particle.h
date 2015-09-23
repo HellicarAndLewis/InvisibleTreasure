@@ -3,7 +3,8 @@
 
 enum particleMode{
 	PARTICLE_MODE_ATTRACT = 0,
-	PARTICLE_MODE_REPEL
+	PARTICLE_MODE_REPEL,
+    PARTICLE_MODE_NEAREST_POINTS
 };
 
 class Particle{
@@ -16,6 +17,7 @@ public:
     void setNeighbours(vector <Particle> * neighbours);
     
     void reset();
+    void reset(ofRectangle bounds);
     void update();
     void draw();
 	
