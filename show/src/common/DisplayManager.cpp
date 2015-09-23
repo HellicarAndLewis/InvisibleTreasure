@@ -17,22 +17,18 @@ DisplayManager::DisplayManager() {
 void DisplayManager::setup() {
     testPattern.loadImage("images/testpattern.png");
     slaveScreen.params.setName("Slave screen");
-    slaveScreen.params.add(slaveScreen.pos.set("pos", ofVec2f(0,0), ofVec2f(0,0), ofVec2f(DISPLAY_W,DISPLAY_H)));
-    slaveScreen.params.add(slaveScreen.sizeIn.set("size in", ofVec2f(DISPLAY_W,DISPLAY_H), ofVec2f(0,0), ofVec2f(DISPLAY_W,DISPLAY_H)));
-    slaveScreen.params.add(slaveScreen.sizeOut.set("size out", ofVec2f(DISPLAY_W,DISPLAY_H), ofVec2f(0,0), ofVec2f(DISPLAY_W,DISPLAY_H)));
+    slaveScreen.params.add(slaveScreen.sizeIn.set("size in", ofVec2f(DISPLAY_W,DISPLAY_H), ofVec2f(0,0), ofVec2f(DISPLAY_W*2,DISPLAY_W*2)));
+    slaveScreen.params.add(slaveScreen.sizeOut.set("size out", ofVec2f(DISPLAY_W,DISPLAY_H), ofVec2f(0,0), ofVec2f(DISPLAY_W*2,DISPLAY_W*2)));
     
     slaveProjection.params.setName("Slave projection");
-    slaveProjection.params.add(slaveProjection.pos.set("pos", ofVec2f(DISPLAY_W,0), ofVec2f(0,0), ofVec2f(DISPLAY_W,DISPLAY_H)));
-    slaveProjection.params.add(slaveProjection.sizeIn.set("size in", ofVec2f(DISPLAY_W,DISPLAY_H), ofVec2f(0,0), ofVec2f(DISPLAY_W,DISPLAY_H)));
-    slaveProjection.params.add(slaveProjection.sizeOut.set("size out", ofVec2f(DISPLAY_W,DISPLAY_H), ofVec2f(0,0), ofVec2f(DISPLAY_W,DISPLAY_H)));
+    slaveProjection.params.add(slaveProjection.sizeIn.set("size in", ofVec2f(DISPLAY_W,DISPLAY_H), ofVec2f(0,0), ofVec2f(DISPLAY_W*2,DISPLAY_W*2)));
+    slaveProjection.params.add(slaveProjection.sizeOut.set("size out", ofVec2f(DISPLAY_W,DISPLAY_H), ofVec2f(0,0), ofVec2f(DISPLAY_W*2,DISPLAY_W*2)));
     
     masterScreen.params.setName("Master screen");
-    masterScreen.params.add(masterScreen.pos.set("pos", ofVec2f(0,0), ofVec2f(0,0), ofVec2f(DISPLAY_W,DISPLAY_H)));
-    masterScreen.params.add(masterScreen.sizeIn.set("size in", ofVec2f(DISPLAY_W,DISPLAY_H), ofVec2f(0,0), ofVec2f(DISPLAY_W,DISPLAY_H)));
-    masterScreen.params.add(masterScreen.sizeOut.set("size out", ofVec2f(DISPLAY_W,DISPLAY_H), ofVec2f(0,0), ofVec2f(DISPLAY_W,DISPLAY_H)));
+    masterScreen.params.add(masterScreen.sizeIn.set("size in", ofVec2f(DISPLAY_W,DISPLAY_H), ofVec2f(0,0), ofVec2f(DISPLAY_W*2,DISPLAY_W*2)));
+    masterScreen.params.add(masterScreen.sizeOut.set("size out", ofVec2f(DISPLAY_W,DISPLAY_H), ofVec2f(0,0), ofVec2f(DISPLAY_W*2,DISPLAY_W*2)));
     
     masterProjection.params.setName("Master projection");
-    masterProjection.params.add(masterProjection.pos.set("pos", ofVec2f(DISPLAY_W,0), ofVec2f(0,0), ofVec2f(DISPLAY_W*2,DISPLAY_H*2)));
     masterProjection.params.add(masterProjection.sizeIn.set("size in", ofVec2f(DISPLAY_W*2,DISPLAY_H*2), ofVec2f(0,0), ofVec2f(DISPLAY_W*4,DISPLAY_H*4)));
     masterProjection.params.add(masterProjection.sizeOut.set("size out", ofVec2f(DISPLAY_W*4,DISPLAY_H), ofVec2f(0,0), ofVec2f(DISPLAY_W*4,DISPLAY_H*4)));
 }
@@ -65,26 +61,29 @@ void DisplayManager::drawSlave() {
     if (scaleToWindow) {
         scale = ofGetWidth() / (slaveScreen.out.getWidth() + slaveProjection.out.getWidth());
     }
-    slaveScreen.draw(scale);
-    slaveProjection.draw(scale);
+    float screenW = slaveScreen.out.getWidth() * scale;
+    slaveScreen.draw(0, 0, scale);
+    slaveProjection.draw(screenW, 0, scale);
 }
 
 void DisplayManager::drawMaster() {
-    float w = masterProjection.in.getWidth();
-    float h = masterProjection.in.getHeight();
+    float screenW = masterScreen.in.getWidth();
     float scale = 1.0f;
     if (scaleToWindow) {
-        if (drawOutput) scale = ofGetWidth() / (masterScreen.out.getWidth() + masterProjection.out.getWidth());
-        else scale = ofGetWidth() / (masterScreen.in.getWidth() + masterProjection.in.getWidth());
+        if (drawOutput) scale = ofGetWidth() / (screenW + masterProjection.out.getWidth());
+        else scale = ofGetWidth() / (screenW + masterProjection.in.getWidth());
     }
+    float screenWScaled = screenW * scale;
     
     // master screen first
-    masterScreen.draw(scale);
+    masterScreen.draw(0, 0, scale);
     
     // now master projection
     // this is an output for 4 projectors
     // input is a 2x2 matrix
     // output is 1x4
+    float w = masterProjection.in.getWidth();
+    float h = masterProjection.in.getHeight();
     if (drawTestPattern) {
         masterProjection.in.begin();
         testPattern.draw(0, 0, w, h);
@@ -97,8 +96,8 @@ void DisplayManager::drawMaster() {
     masterProjection.in.getTextureReference().drawSubsection(w, 0, w, h/2, 0, h/2);
     masterProjection.out.end();
     
-    if (drawOutput) masterProjection.drawOutput(scale);
-    else masterProjection.draw(scale);
+    if (drawOutput) masterProjection.drawOutput(screenWScaled, 0, scale);
+    else masterProjection.draw(screenWScaled, 0, scale);
 }
 
 void DisplayManager::refreshFbos() {

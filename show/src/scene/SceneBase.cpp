@@ -27,16 +27,31 @@ void SceneBase::update() {
 
 void SceneBase::draw() {
     
+    //
+    // Common slave drawing
+    //
     if (isSlave()) {
         led->draw();
         // slave projection
         beginSlaveProjectionDraw();
-        ofClear(0);
-        drawSlaveProjection();
+        {
+            ofClear(0);
+            float screenW = displays->slaveProjection.sizeIn.get().x;
+            float screenH = displays->slaveProjection.sizeIn.get().y;
+            ofPushStyle();
+            ofSetColor(0,0,200);
+            ofRect(0, 0, screenW, screenH);
+            ofPopStyle();
+            drawSlaveProjection();
+        }
         endSlaveProjectionDraw();
     }
     
+    //
+    // Common Master drawing
+    //
     if (isMaster()) {
+        // Screen
         beginMasterScreenDraw();
         {
             float screenW = displays->masterScreen.sizeIn.get().x;
@@ -63,13 +78,25 @@ void SceneBase::draw() {
             ofDrawBitmapStringHighlight(s, x, y, ofColor(0,0,200));
         }
         endMasterScreenDraw();
-        
+        // Projection
         beginMasterProjectionDraw();
-        ofClear(0);
-        drawMasterProjection();
+        {
+            ofClear(0);
+            float screenW = displays->masterProjection.sizeIn.get().x;
+            float screenH = displays->masterProjection.sizeIn.get().y;
+            ofPushStyle();
+            ofSetColor(0,0,200);
+            ofRect(0, 0, screenW, screenH);
+            ofPopStyle();
+            drawMasterProjection();
+        }
         endMasterProjectionDraw();
     }
     
+    
+    //
+    // Debug drawing
+    //
     if (isDebugMode) {
         string mode = modeLabel;
         if (isWindow()) mode += " " + ofToString(appModel->windowId);

@@ -272,6 +272,15 @@ void SceneManager::keyPressed (int key) {
         case '4':
             playScene(3);
             break;
+        case '5':
+            playScene(4);
+            break;
+        case '6':
+            playScene(5);
+            break;
+        case '7':
+            playScene(7);
+            break;
         case OF_KEY_RIGHT:
             subSceneIndex++;
             break;

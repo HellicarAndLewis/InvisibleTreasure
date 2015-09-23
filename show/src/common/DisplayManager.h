@@ -16,7 +16,6 @@ public:
     struct Display {
         ofFbo in;
         ofFbo out;
-        ofParameter<ofVec2f> pos;
         ofParameter<ofVec2f> sizeIn;
         ofParameter<ofVec2f> sizeOut;
         ofParameterGroup params;
@@ -38,12 +37,12 @@ public:
             else return true;
         }
         
-        void draw(float scale = 1.0f) {
-            in.draw(pos.get() * scale, in.getWidth()*scale, in.getHeight()*scale);
+        void draw(float x=0, float y=0, float scale = 1.0f) {
+            in.draw(x, y, in.getWidth()*scale, in.getHeight()*scale);
         }
         
-        void drawOutput(float scale = 1.0f) {
-            out.draw(pos.get() * scale, out.getWidth()*scale, out.getHeight()*scale);
+        void drawOutput(float x=0, float y=0, float scale = 1.0f) {
+            out.draw(x, y, out.getWidth()*scale, out.getHeight()*scale);
         }
         
         void begin() {
@@ -76,6 +75,7 @@ public:
     ofParameter<bool> scaleToWindow;
     ofParameter<bool> drawOutput;
     ofParameter<bool> drawTestPattern;
+    ofParameter<int> activeDisplay;
     //ofParameter<bool> drawBlended;
     
 

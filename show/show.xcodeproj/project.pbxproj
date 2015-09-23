@@ -93,6 +93,8 @@
 		8366F9C91B989CD3006B9D74 /* ofxRemoteUIServer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8366F9BC1B989CD3006B9D74 /* ofxRemoteUIServer.cpp */; };
 		8366F9CA1B989CD3006B9D74 /* uriencode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8366F9C31B989CD3006B9D74 /* uriencode.cpp */; };
 		8366F9DE1B98D67D006B9D74 /* DarkShapesScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8366F9DC1B98D67D006B9D74 /* DarkShapesScene.cpp */; };
+		8391ED661BB2A9E800704A84 /* Particle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8391ED601BB2A9E800704A84 /* Particle.cpp */; };
+		8391ED671BB2A9E800704A84 /* Particles.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8391ED621BB2A9E800704A84 /* Particles.cpp */; };
 		83C5A3E31B9AE14500753092 /* FlantsScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 83C5A3E11B9AE14500753092 /* FlantsScene.cpp */; };
 		83C5A3E61B9AE15A00753092 /* PaintboxScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 83C5A3E41B9AE15A00753092 /* PaintboxScene.cpp */; };
 		83C5A3E91B9AE16800753092 /* DancingDarkScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 83C5A3E71B9AE16800753092 /* DancingDarkScene.cpp */; };
@@ -368,6 +370,10 @@
 		8366F9D21B98B357006B9D74 /* GuiableBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GuiableBase.h; sourceTree = "<group>"; };
 		8366F9DC1B98D67D006B9D74 /* DarkShapesScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DarkShapesScene.cpp; path = scene/DarkShapesScene.cpp; sourceTree = "<group>"; };
 		8366F9DD1B98D67D006B9D74 /* DarkShapesScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DarkShapesScene.h; path = scene/DarkShapesScene.h; sourceTree = "<group>"; };
+		8391ED601BB2A9E800704A84 /* Particle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Particle.cpp; path = scene/particles/Particle.cpp; sourceTree = "<group>"; };
+		8391ED611BB2A9E800704A84 /* Particle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Particle.h; path = scene/particles/Particle.h; sourceTree = "<group>"; };
+		8391ED621BB2A9E800704A84 /* Particles.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Particles.cpp; path = scene/particles/Particles.cpp; sourceTree = "<group>"; };
+		8391ED631BB2A9E800704A84 /* Particles.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Particles.h; path = scene/particles/Particles.h; sourceTree = "<group>"; };
 		83C5A3E11B9AE14500753092 /* FlantsScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FlantsScene.cpp; path = scene/FlantsScene.cpp; sourceTree = "<group>"; };
 		83C5A3E21B9AE14500753092 /* FlantsScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FlantsScene.h; path = scene/FlantsScene.h; sourceTree = "<group>"; };
 		83C5A3E41B9AE15A00753092 /* PaintboxScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PaintboxScene.cpp; path = scene/PaintboxScene.cpp; sourceTree = "<group>"; };
@@ -1079,9 +1085,21 @@
 			name = "dark shapes";
 			sourceTree = "<group>";
 		};
+		8391ED5F1BB2A94500704A84 /* particles */ = {
+			isa = PBXGroup;
+			children = (
+				8391ED601BB2A9E800704A84 /* Particle.cpp */,
+				8391ED611BB2A9E800704A84 /* Particle.h */,
+				8391ED621BB2A9E800704A84 /* Particles.cpp */,
+				8391ED631BB2A9E800704A84 /* Particles.h */,
+			);
+			name = particles;
+			sourceTree = "<group>";
+		};
 		83C5A3DC1B9AE0CA00753092 /* flants */ = {
 			isa = PBXGroup;
 			children = (
+				8391ED5F1BB2A94500704A84 /* particles */,
 				83C5A3E11B9AE14500753092 /* FlantsScene.cpp */,
 				83C5A3E21B9AE14500753092 /* FlantsScene.h */,
 			);
@@ -1490,6 +1508,7 @@
 				8366F97D1B9877BA006B9D74 /* ofxFFTBase.cpp in Sources */,
 				8366F8CB1B970339006B9D74 /* ofxOscParameterSync.cpp in Sources */,
 				83D00FD61B99E8C70036E424 /* Sequencable.cpp in Sources */,
+				8391ED661BB2A9E800704A84 /* Particle.cpp in Sources */,
 				83D8F3341B95CDBC00C12951 /* ETF.cpp in Sources */,
 				8366F8C51B970339006B9D74 /* OscOutboundPacketStream.cpp in Sources */,
 				8366F9AC1B9899AB006B9D74 /* ofxSlider.cpp in Sources */,
@@ -1544,6 +1563,7 @@
 				8366F8C01B970339006B9D74 /* IpEndpointName.cpp in Sources */,
 				8366F8C31B970339006B9D74 /* NetworkingUtilsWin.cpp in Sources */,
 				8366F8EC1B970351006B9D74 /* ofxEasing.cpp in Sources */,
+				8391ED671BB2A9E800704A84 /* Particles.cpp in Sources */,
 				8366F9181B97038C006B9D74 /* ofxXmlSettings.cpp in Sources */,
 				8366F91E1B970584006B9D74 /* IPCamInput.cpp in Sources */,
 				8366F8F41B970351006B9D74 /* ofxEasingQuad.cpp in Sources */,
