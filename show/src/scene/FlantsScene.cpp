@@ -23,6 +23,7 @@ void FlantsScene::setup() {
     particles.setup(1000, bounds);
     SceneBase::setup();
     radius = 0;
+    alphaShader.load("shaders/greyscaleAlpha.vert", "shaders/greyscaleAlpha.frag");
 }
 
 void FlantsScene::update() {
@@ -37,8 +38,9 @@ void FlantsScene::update() {
         
         if (mode == YELLOW_SMALL || mode == RED_SMALL) {
             radius = ofLerp(radius, radiusSmall, 0.1);
-        }
-        else {
+        } else if (mode == EXPLODE) {
+            radius = radiusLarge * 2;
+        } else {
             radius = ofLerp(radius, radiusLarge, 0.1);
         }
         
@@ -49,11 +51,18 @@ void FlantsScene::update() {
             // blob rect and position
             auto rect = toOf(contourFinder.getBoundingRect(i));
             auto center = toOf(contourFinder.getCenter(i));
-            particles.attractPoints.push_back(ofPoint(center.x*scale, center.y*scale));
+            particles.attractPoints.push_back(ofRectangle(rect.x*scale, rect.y*scale, rect.width*scale, rect.height*scale));
         }
         ofPoint centre = ofPoint(displays->masterProjection.sizeIn.get().x/2, displays->masterProjection.sizeIn.get().y/2);
         particles.bounds.setFromCenter(centre, radius, radius);
         particles.update();
+        
+        if (mode == YELLOW_SMALL || mode == YELLOW_BLUE_SHAPES || mode == RED_SMALL || mode == RED_BLUE_SHAPES) {
+            if (particles.allFull) {
+                particles.resetEating();
+                nextSubscene();
+            }
+        }
     }
     SceneBase::update();
 }
@@ -74,7 +83,12 @@ void FlantsScene::drawMasterProjection() {
     tracker.thresholded.draw(0, 0, targetW, targetH);
 
     if (mode == YELLOW_BLUE_SHAPES || mode == RED_BLUE_SHAPES) {
+        // Draw the background shapes FBO into a shader
+        // Anything with r == 0 is made transparent
+        alphaShader.begin();
+        alphaShader.setUniformTexture("tex0", particles.background.getTextureReference(), 0);
         particles.background.draw(0,0);
+        alphaShader.end();
     }
     // particles
     particles.draw();
@@ -114,6 +128,7 @@ void FlantsScene::play(int i){
             countdown->start(timerBoom);
         }
         else if (i == 58) {
+            setMode(EXPLODE);
             countdown->start(timerGameOver + timerAgain);
         }
         else if (i == 62) {
@@ -190,6 +205,12 @@ void FlantsScene::setMode(Mode mode) {
         case RED_EXPAND:
             particles.currentMode = Particle::EAT_NOTHING;
             particles.resetEating();
+            particles.eatBackground = false;
+            break;
+        case EXPLODE:
+            particles.currentMode = Particle::EXPLODE;
+            particles.resetEating();
+            particles.eatBackground = false;
             break;
         case RED_SMALL:
         case RED_BLUE_SHAPES:
@@ -210,9 +231,10 @@ void FlantsScene::setMode(Mode mode) {
         particles.eatBackground = true;
         // draw into the particles FBO
         particles.background.begin();
-        ofClear(0, 0, 0, 0);
+        ofClear(0, 0, 0);
         particles.background.end();
         particles.backgroundShapes.clear();
+        particles.addShapesToBg();
     }
     else {
         particles.eatBackground = false;

@@ -11,13 +11,14 @@ void Particles::setup(int count) {
 
 void Particles::setup(int count, ofRectangle bounds){
     this->bounds = bounds;
-    background.allocate(bounds.width, bounds.height, GL_RGBA);
+    background.allocate(bounds.width, bounds.height);
     background.begin();
     ofClear(0);
     background.end();
 	p.assign(count, Particle());
     currentMode = Particle::EAT_GROW;
     eatBackground = false;
+    allFull = false;
 	resetParticles();
 }
 
@@ -69,6 +70,7 @@ void Particles::update(){
         }
     }
     
+    int fullParticles = 0;
     for(int i = 0; i < p.size(); ++i){
         // TODO: determine ambient behaviour
         if (flock) {
@@ -112,6 +114,9 @@ void Particles::update(){
         p[i].setMode(currentMode);
         p[i].eatBlobs = !eatBackground;
         p[i].update();
+        if (p[i].isFull) {
+            fullParticles++;
+        }
         
         // circular bounds check
         if (p[i].pos.distanceSquared(centre) > radius * radius) {
@@ -122,6 +127,10 @@ void Particles::update(){
     if (eatBackground) {
         ofSetColor(255);
         background.end();
+    }
+    
+    if (fullParticles / p.size() > 0.9) {
+        allFull = true;
     }
 }
 
@@ -142,15 +151,13 @@ void Particles::draw(bool drawGrey){
 //	glEnd();
 //	glDisable(GL_POINT_SIZE);
     
-    /*
-    ofSetColor(255, 255, 0);
+    ofSetColor(255, 0, 0);
     for(unsigned int i = 0; i < attractPoints.size(); i++){
         ofNoFill();
-        ofCircle(attractPointsWithMovement[i], 10);
+        ofRect(attractPoints[i]);
         ofFill();
-        ofCircle(attractPointsWithMovement[i], 4);
+        ofCircle(attractPoints[i].getCenter(), 4);
     }
-     */
     
     ofSetColor(255);
 }
@@ -158,7 +165,10 @@ void Particles::draw(bool drawGrey){
 void Particles::resetEating() {
     for (auto & particle : p) {
         particle.setScale(ofRandom(0.5, 1.0));
+        particle.fullness = 0;
+        particle.isFull = false;
     }
+    allFull = false;
 }
 
 void Particles::setColour(ofColor colour){

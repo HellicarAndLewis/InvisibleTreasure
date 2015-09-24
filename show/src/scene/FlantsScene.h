@@ -34,6 +34,7 @@ protected:
 private:
     void setMode(Mode state);
     Particles particles;
+    ofShader alphaShader;
     
     int radius;
     ofParameter<int> eatRate;

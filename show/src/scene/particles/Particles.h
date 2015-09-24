@@ -21,8 +21,9 @@ public:
     void setColour(ofColor colour);
     
     Particle::Mode currentMode;
-    vector <ofPoint> attractPoints;
+    vector <ofRectangle> attractPoints;
     ofRectangle bounds;
+    bool allFull;
     
     ofFbo background;
     vector<ofRectangle> backgroundShapes;

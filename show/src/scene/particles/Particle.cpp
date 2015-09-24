@@ -13,6 +13,7 @@ Particle::Particle(){
     isFull = false;
     eatBlobs = true;
     inShape = false;
+    fullness = 0;
 }
 
 
@@ -21,7 +22,7 @@ void Particle::setMode(Mode newMode){
 }
 
 
-void Particle::setAttractPoints( vector <ofPoint> * attract ){
+void Particle::setAttractPoints( vector <ofRectangle> * attract ){
 	attractPoints = attract;
 }
 
@@ -32,6 +33,7 @@ void Particle::reset(){
 
 
 void Particle::reset(ofRectangle bounds) {
+    this->bounds = bounds;
     float maxVel = 0.5;
     uniqueVal = ofRandom(minUnique, maxUnique);
     pos.x = ofRandom(bounds.getLeft(), bounds.getRight());
@@ -47,49 +49,62 @@ void Particle::reset(ofRectangle bounds) {
 void Particle::update(){
     
     isEating = false;
-    if( attractPoints ){
-        // closest attractPoint
-        ofPoint closestPt;
-        int closest = -1;
-        float closestDist = 9999999;
-        for(unsigned int i = 0; i < attractPoints->size(); i++){
-            float lenSq = ( attractPoints->at(i)-pos ).lengthSquared();
-            if( lenSq < closestDist ){
-                closestDist = lenSq;
-                closest = i;
+    
+    if (mode == EXPLODE) {
+        frc = bounds.getCenter()-pos;
+        float dist = frc.length();
+        frc.normalize();
+        vel *= drag;
+        frc.x += ofSignedNoise(uniqueVal,               pos.y * 0.01, ofGetElapsedTimef()*0.2);
+        frc.y += ofSignedNoise(ofGetElapsedTimef()*0.2, uniqueVal,    pos.x * 0.01);
+        vel += -frc * 2.0; //notice the frc is negative
+    }
+    
+    else {
+        if( attractPoints ){
+            // closest attractPoint
+            ofPoint closestPt;
+            int closest = -1;
+            float closestDist = 9999999;
+            for(unsigned int i = 0; i < attractPoints->size(); i++){
+                float lenSq = ( attractPoints->at(i).getCenter() - pos ).lengthSquared();
+                if( lenSq < closestDist ){
+                    closestDist = lenSq;
+                    closest = i;
+                }
             }
-        }
-        // attract
-        if( closest != -1 && mode != EAT_NOTHING){
-            closestPt = attractPoints->at(closest);
-            float dist = sqrt(closestDist);
-            // force proportional to distance
-            frc = closestPt - pos;
-            vel *= drag;
-            if( dist > 40 && dist < 500 && !ofGetKeyPressed('l')){
-                frc *= 0.003;
-                frc.x += ofSignedNoise(uniqueVal,               pos.y * 0.01, ofGetElapsedTimef()*0.2);
-                frc.y += ofSignedNoise(ofGetElapsedTimef()*0.2, uniqueVal,    pos.x * 0.01);
-                vel += frc;
-            } else {
-                if (dist < 40 && (eatBlobs || inShape)) {
+            // attract
+            if( closest != -1 && mode != EAT_NOTHING){
+                closestPt = attractPoints->at(closest).getCenter();
+                float dist = sqrt(closestDist);
+                // force proportional to distance
+                frc = closestPt - pos;
+                vel *= drag;
+                if( dist > 40 && dist < 500 && !ofGetKeyPressed('l')){
+                    frc *= 0.003;
+                    frc.x += ofSignedNoise(uniqueVal,               pos.y * 0.01, ofGetElapsedTimef()*0.2);
+                    frc.y += ofSignedNoise(ofGetElapsedTimef()*0.2, uniqueVal,    pos.x * 0.01);
+                    vel += frc;
+                } else {
+                    frc.x = ofSignedNoise(uniqueVal,               pos.y * 0.01, ofGetElapsedTimef()*0.2);
+                    frc.y = ofSignedNoise(ofGetElapsedTimef()*0.2, uniqueVal,    pos.x * 0.01);
+                    vel += frc * 0.4;
+                }
+                
+                if ( attractPoints->at(closest).inside(pos) && (eatBlobs || inShape)) {
                     eat();
                 }
+                
+            }
+            else {
+                vel *= drag;
                 frc.x = ofSignedNoise(uniqueVal,               pos.y * 0.01, ofGetElapsedTimef()*0.2);
                 frc.y = ofSignedNoise(ofGetElapsedTimef()*0.2, uniqueVal,    pos.x * 0.01);
                 vel += frc * 0.4;
             }
             
         }
-        else {
-            vel *= drag;
-            frc.x = ofSignedNoise(uniqueVal,               pos.y * 0.01, ofGetElapsedTimef()*0.2);
-            frc.y = ofSignedNoise(ofGetElapsedTimef()*0.2, uniqueVal,    pos.x * 0.01);
-            vel += frc * 0.4;
-        }
-        
     }
-	
     // update pos using velocity
 	pos += vel;
     
@@ -99,11 +114,11 @@ void Particle::update(){
 void Particle::eat() {
     isEating = true;
     if (mode == EAT_GREEN) {
-        color.lerp( ofColor(67,224,109), 0.9 );
-        isFull = true;
+        color.lerp( ofColor(67,224,109), 0.01 );
+        if (color.g > 222) isFull = true;
     }
     else if (mode == EAT_GROW) {
-        setScale(scale + 0.05);
+        setScale(scale + 0.02);
         if (scale >= 2) {
             isFull = true;
         }

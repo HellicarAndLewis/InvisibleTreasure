@@ -5,13 +5,13 @@ class Particle{
     
 public:
     enum Mode {
-        EAT_GREEN, EAT_GROW, EAT_NOTHING
+        EAT_GREEN, EAT_GROW, EAT_NOTHING, EXPLODE
     };
     
     Particle();
     
     void setMode(Mode newMode);
-    void setAttractPoints( vector <ofPoint> * attract );
+    void setAttractPoints( vector <ofRectangle> * attract );
     void setNeighbours(vector <Particle> * neighbours);
     
     void reset();
@@ -43,7 +43,7 @@ public:
     ofColor color;
     
     vector <ofPoint> trail;
-    vector <ofPoint> * attractPoints;
+    vector <ofRectangle> * attractPoints;
     vector <Particle> * neighbours;
     ofPoint closestPt;
     bool flock;
@@ -54,6 +54,9 @@ public:
     
     float minUnique, maxUnique;
     float minDrag, maxDrag;
+    float fullness;
+    
+    ofRectangle bounds;
     
     int id;
 };
