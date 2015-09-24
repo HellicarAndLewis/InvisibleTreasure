@@ -12,7 +12,7 @@ void Particles::setup(int count) {
 void Particles::setup(int count, ofRectangle bounds){
     this->bounds = bounds;
 	p.assign(count, Particle());
-	currentMode = PARTICLE_MODE_NEAREST_POINTS;
+    currentMode = Particle::EAT_GROW;
 	resetParticles();
 }
 
@@ -31,26 +31,18 @@ void Particles::applyParticleProps() {
 
 
 void Particles::resetParticles(){
-    
-    attractPoints.clear();
-    for(int i = 0; i < 4; i++){
-        attractPoints.push_back( ofPoint( ofMap(i, 0, 4, 100, ofGetWidth()-100) , ofRandom(100, ofGetHeight()-100) ) );
-    }
-    attractPointsWithMovement = attractPoints;
-    
 	for(int i = 0; i < p.size(); i++){
         p[i].id=i;
         //p[i].color=ofColor(255,234,119);
 		p[i].setMode(currentMode);		
-		p[i].setAttractPoints(&attractPointsWithMovement);;
+		p[i].setAttractPoints(&attractPoints);;
 		p[i].reset(bounds);
 	}	
 }
 
 void Particles::updateAttractPoints(){
-    attractPointsWithMovement = attractPoints;
 	for(int i = 0; i < p.size(); i++){	
-		p[i].setAttractPoints(&attractPointsWithMovement);;
+		p[i].setAttractPoints(&attractPoints);;
 	}
 }
 
@@ -58,11 +50,14 @@ void Particles::updateAttractPoints(){
 void Particles::update(){
     
     bool flock = false;
-    if (attractPointsWithMovement.size() == 0) {
+    if (attractPoints.size() == 0) {
         flock = true;
     }
     
+    ofVec2f centre = bounds.getCenter();
+    float radius = bounds.getHeight()/2;
     for(int i = 0; i < p.size(); ++i){
+        // TODO: determine ambient behaviour
         if (flock) {
             /*
             ofPoint closestPt;
@@ -91,22 +86,9 @@ void Particles::update(){
         p[i].setMode(currentMode);
         p[i].update();
         
-        // bounds check
-        if (p[i].pos.x > bounds.getRight() ){
-            p[i].pos.x = bounds.getRight();
-            p[i].vel.x *= -1.0;
-        }
-        else if (p[i].pos.x < bounds.getLeft() ){
-            p[i].pos.x = bounds.getLeft();
-            p[i].vel.x *= -1.0;
-        }
-        if (p[i].pos.y > bounds.getBottom() ){
-            p[i].pos.y = bounds.getBottom();
-            p[i].vel.y *= -1.0;
-        }
-        else if (p[i].pos.y < bounds.getTop() ){
-            p[i].pos.y = bounds.getTop();
-            p[i].vel.y *= -1.0;
+        // circular bounds check
+        if (p[i].pos.distanceSquared(centre) > radius * radius) {
+            p[i].vel += (centre - p[i].pos) * 0.01;
         }
 	}
 }
@@ -138,10 +120,13 @@ void Particles::draw(bool drawGrey){
     }
      */
     
-    ofSetColor(150);
-    string s = (p[0].flock) ? "flocking" : "not flocking";
-    ofDrawBitmapString(s, 10, 10);
     ofSetColor(255);
+}
+
+void Particles::resetEating() {
+    for (auto & particle : p) {
+        particle.setScale(ofRandom(0.5, 1.0));
+    }
 }
 
 

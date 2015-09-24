@@ -35,8 +35,10 @@ private:
     void setMode(Mode state);
     Particles particles;
     
-    
+    int radius;
     ofParameter<int> eatRate;
+    ofParameter<int> radiusSmall;
+    ofParameter<int> radiusLarge;
     
     // gui
     ofParameterGroup titleGroup;

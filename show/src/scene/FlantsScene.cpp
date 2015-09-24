@@ -22,23 +22,31 @@ void FlantsScene::setup() {
     bounds.scaleFromCenter(0.9);
     particles.setup(2000, bounds);
     SceneBase::setup();
+    radius = 0;
 }
 
 void FlantsScene::update() {
     if (isMaster()) {
+        if (mode == YELLOW_SMALL || mode == RED_SMALL) {
+            radius = ofLerp(radius, radiusSmall, 0.1);
+        }
+        else {
+            radius = ofLerp(radius, radiusLarge, 0.1);
+        }
         // contour tracker
         ContourTracker& tracker = *vision->getTracker();
         ofxCv::ContourFinder& contourFinder = tracker.contourFinder;
         tracker.bgLearningTime = eatRate;
         float scale = displays->masterProjection.sizeIn->x / tracker.thresholded.width;
-        particles.attractPointsWithMovement.clear();
+        particles.attractPoints.clear();
         for(int i = 0; i < contourFinder.size(); i++) {
             // blob rect and position
             auto rect = toOf(contourFinder.getBoundingRect(i));
             auto center = toOf(contourFinder.getCenter(i));
-            particles.attractPointsWithMovement.push_back(ofPoint(center.x*scale, center.y*scale));
+            particles.attractPoints.push_back(ofPoint(center.x*scale, center.y*scale));
         }
-        
+        ofPoint centre = ofPoint(displays->masterProjection.sizeIn.get().x/2, displays->masterProjection.sizeIn.get().y/2);
+        particles.bounds.setFromCenter(centre, radius, radius);
         particles.update();
     }
     SceneBase::update();
@@ -130,6 +138,8 @@ void FlantsScene::setupGui() {
     panel.setup(guiName, "settings/flants.xml");
     
     panel.add(eatRate.set("Eat rate", 5, 1, 30));
+    panel.add(radiusSmall.set("Radius small", 500, 100, 768));
+    panel.add(radiusLarge.set("Radius large", 1536, 100, 1536));
     
     titleGroup.setName("Titles");
     titleGroup.add(title.set("title1", "Flants"));
@@ -160,6 +170,24 @@ void FlantsScene::setupGui() {
 //////////////////////////////////////////////////////////////////////////////////
 void FlantsScene::setMode(Mode mode) {
     this->mode = mode;
+    switch (mode) {
+        case YELLOW_SMALL:
+        case YELLOW_BLUE_SHAPES:
+            particles.currentMode = Particle::EAT_GREEN;
+            break;
+        case YELLOW_EXPAND:
+        case RED_EXPAND:
+            particles.currentMode = Particle::EAT_NOTHING;
+            particles.resetEating();
+            break;
+        case RED_SMALL:
+        case RED_BLUE_SHAPES:
+            particles.currentMode = Particle::EAT_GROW;
+            break;
+            
+        default:
+            break;
+    }
 }
 //////////////////////////////////////////////////////////////////////////////////
 // custom event handlers

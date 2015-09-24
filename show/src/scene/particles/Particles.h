@@ -16,6 +16,13 @@ public:
     void updateAttractPoints();
     void setParticleNum(int num);
     void applyParticleProps();
+    void resetEating();
+    
+    Particle::Mode currentMode;
+    vector <ofPoint> attractPoints;
+    ofRectangle bounds;
+
+private:
     
     void fastNormalize(ofVec3f& vec);
     float* normalizeData;
@@ -30,23 +37,9 @@ public:
         return x;
     }
     
-    particleMode currentMode;
-    string currentModeStr; 
-
+    string currentModeStr;
     vector <Particle> p;
-    vector <ofPoint> attractPoints;
-    vector <ofPoint> attractPointsWithMovement;
-
     ofImage particleTexture;
-
-    ofVbo vbo;
-    ofShader shader;
-    ofTexture texture;
-    
-    float colourLerpAmt;
     float minDrag, maxDrag;
-    
-    ofRectangle bounds;
-    
 		
 };

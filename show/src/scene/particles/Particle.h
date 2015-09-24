@@ -1,18 +1,16 @@
 #pragma once
 #include "ofMain.h"
 
-enum particleMode{
-	PARTICLE_MODE_ATTRACT = 0,
-	PARTICLE_MODE_REPEL,
-    PARTICLE_MODE_NEAREST_POINTS
-};
-
 class Particle{
     
 public:
+    enum Mode {
+        EAT_GREEN, EAT_GROW, EAT_NOTHING
+    };
+    
     Particle();
     
-    void setMode(particleMode newMode);	
+    void setMode(Mode newMode);
     void setAttractPoints( vector <ofPoint> * attract );
     void setNeighbours(vector <Particle> * neighbours);
     
@@ -30,6 +28,9 @@ public:
         return x;
     }
     
+    void eat();
+    void setScale(float scale);
+    
     ofPoint pos;
     ofPoint vel;
     ofPoint frc;
@@ -38,7 +39,7 @@ public:
     float uniqueVal;
     float scale;
     
-    particleMode mode;
+    Mode mode;
     ofColor color;
     
     vector <ofPoint> trail;
