@@ -40,9 +40,24 @@ void SitinScene::draw() {
 //////////////////////////////////////////////////////////////////////////////////
 // public
 //////////////////////////////////////////////////////////////////////////////////
-void SitinScene::play(){
-    // start/load/kick things off
-    SceneBase::play();
+void SitinScene::play(int i){
+    switch (i) {
+        case 83:
+            // title, manual cue
+            break;
+        case 84:
+            // the end, 10 seconds
+            break;
+        case 85:
+            // final audio track, 10 seconds
+            break;
+        case 86:
+            // image, manual cue
+            break;
+        default:
+            break;
+    }
+    SceneBase::play(i);
 }
 
 void SitinScene::stop(){
