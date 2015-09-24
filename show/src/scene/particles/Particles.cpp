@@ -151,6 +151,7 @@ void Particles::draw(bool drawGrey){
 //	glEnd();
 //	glDisable(GL_POINT_SIZE);
     
+    /*
     ofSetColor(255, 0, 0);
     for(unsigned int i = 0; i < attractPoints.size(); i++){
         ofNoFill();
@@ -158,6 +159,7 @@ void Particles::draw(bool drawGrey){
         ofFill();
         ofCircle(attractPoints[i].getCenter(), 4);
     }
+     */
     
     ofSetColor(255);
 }

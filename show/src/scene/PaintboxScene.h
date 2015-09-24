@@ -15,16 +15,50 @@
 class PaintboxScene : public SceneBase {
 public:
     
+    enum Mode {
+        INACTIVE, LINES, ERASER, FADE
+    } mode;
+    
     PaintboxScene();
     
     void setup();
     void update();
     void draw();
-    void play();
+    void drawMasterProjection();
+    void play(int i);
     void stop();
     void setupGui();
     
 protected:
 private:
+    void setMode(Mode state);
+    void clearCanvas();
+    ofColor getColour(int blob);
+    bool getIsActive();
+    
+    ofFbo canvas;
+    map<int, ofColor> colours;
+    ofImage brushImage;
+    float totalBlobArea;
+    
+    ofParameter<float> minAreaEraser;
+    ofParameter<float> minAreaBlack;
+    
+    // gui
+    ofParameterGroup titleGroup;
+    ofParameter<string> title;
+    ofParameter<string> sleeping;
+    ofParameter<string> back;
+    ofParameter<string> bonusTime;
+    ofParameter<string> bonusGame;
+    ofParameter<string> goingDark;
+    // timers
+    ofParameterGroup timerGroup;
+    ofParameter<int> timerIntro;
+    ofParameter<int> timerLines;
+    ofParameter<int> timerErase;
+    ofParameter<int> timerBack;
+    ofParameter<int> timerBonus;
+    ofParameter<int> timerOutro;
     
 };
