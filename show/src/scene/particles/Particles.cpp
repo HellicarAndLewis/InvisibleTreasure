@@ -11,8 +11,13 @@ void Particles::setup(int count) {
 
 void Particles::setup(int count, ofRectangle bounds){
     this->bounds = bounds;
+    background.allocate(bounds.width, bounds.height, GL_RGBA);
+    background.begin();
+    ofClear(0);
+    background.end();
 	p.assign(count, Particle());
     currentMode = Particle::EAT_GROW;
+    eatBackground = false;
 	resetParticles();
 }
 
@@ -33,7 +38,6 @@ void Particles::applyParticleProps() {
 void Particles::resetParticles(){
 	for(int i = 0; i < p.size(); i++){
         p[i].id=i;
-        //p[i].color=ofColor(255,234,119);
 		p[i].setMode(currentMode);		
 		p[i].setAttractPoints(&attractPoints);;
 		p[i].reset(bounds);
@@ -56,6 +60,15 @@ void Particles::update(){
     
     ofVec2f centre = bounds.getCenter();
     float radius = bounds.getHeight()/2;
+    
+    if (eatBackground) {
+        background.begin();
+        ofSetColor(0);
+        if (ofGetFrameNum() % (60*5) == 0) {
+            addShapesToBg();
+        }
+    }
+    
     for(int i = 0; i < p.size(); ++i){
         // TODO: determine ambient behaviour
         if (flock) {
@@ -83,7 +96,21 @@ void Particles::update(){
             }
              */
         }
+        
+        if (eatBackground) {
+            ofPoint pos = p[i].pos;
+            p[i].inShape = false;
+            for (auto & bounds: backgroundShapes) {
+                if (bounds.inside(pos)) {
+                    if (p[i].isEating) ofCircle(p[i].pos.x, p[i].pos.y, p[i].scale * 16.0);
+                    p[i].inShape = true;
+                }
+            }
+            
+        }
+        
         p[i].setMode(currentMode);
+        p[i].eatBlobs = !eatBackground;
         p[i].update();
         
         // circular bounds check
@@ -91,6 +118,11 @@ void Particles::update(){
             p[i].vel += (centre - p[i].pos) * 0.01;
         }
 	}
+    
+    if (eatBackground) {
+        ofSetColor(255);
+        background.end();
+    }
 }
 
 
@@ -129,6 +161,39 @@ void Particles::resetEating() {
     }
 }
 
+void Particles::setColour(ofColor colour){
+    this->colour = colour;
+    for (auto & particle : p) {
+        particle.color = colour;
+    }
+}
+
+void Particles::addShapesToBg() {
+    background.begin();
+    //ofClear(0, 0, 0, 0);
+    ofSetColor(0, 0, 200);
+    for (int i = 0; i < 6; i++) {
+        generateShape();
+    }
+    ofSetColor(255);
+    background.end();
+}
+
+void Particles::generateShape() {
+    float minX = bounds.getLeft() + 300;
+    float maxX = bounds.getRight() - 300;
+    float minY = bounds.getTop() + 300;
+    float maxY = bounds.getBottom() - 300;
+    float width = ofRandom(100, 200);
+    ofRectangle bounds = ofRectangle(ofRandom(minX, maxX), ofRandom(minY, maxY), width, width);
+    if (ofRandomuf() > 0.5) {
+        ofRect(bounds);
+    }
+    else {
+        ofCircle(bounds.getCenter(), bounds.getHeight()/2);
+    }
+    backgroundShapes.push_back(bounds);
+}
 
 inline void Particles::fastNormalize(ofVec3f &vec){
     float length2 = vec.x*vec.x+vec.y*vec.y+vec.z*vec.z;//calculate length^2

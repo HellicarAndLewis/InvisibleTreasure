@@ -62,20 +62,6 @@ void SceneBase::draw() {
             ofRect(0, 0, screenW, screenH);
             ofPopStyle();
             drawMasterScreen();
-            
-            // draw common UI for master screen
-            float x = MIN(ofGetWidth(), screenW) - 200;
-            float y = MIN(ofGetHeight(), screenH);
-            string s;
-            ofRectangle rect;
-            if (countdown->progress > 0.001) {
-                s = "Next subscene in " + ofToString(countdown->progress);
-                y -= 20;
-                ofDrawBitmapStringHighlight(s, x, y, ofColor(200,0,0));
-            }
-            s = name + " subscene " + ofToString(subsceneI);
-            y -= 20;
-            ofDrawBitmapStringHighlight(s, x, y, ofColor(0,0,200));
         }
         endMasterScreenDraw();
         // Projection
@@ -91,6 +77,22 @@ void SceneBase::draw() {
             drawMasterProjection();
         }
         endMasterProjectionDraw();
+        
+        // draw common UI for master screen
+        float screenW = displays->masterScreen.sizeIn.get().x;
+        float screenH = displays->masterScreen.sizeIn.get().y;
+        float x = MIN(ofGetWidth(), screenW) - 200;
+        float y = MIN(ofGetHeight(), screenH);
+        string s;
+        ofRectangle rect;
+        if (countdown->progress > 0.001) {
+            s = "Next subscene in " + ofToString(countdown->progress);
+            y -= 20;
+            ofDrawBitmapStringHighlight(s, x, y, ofColor(200,0,0));
+        }
+        s = name + " subscene " + ofToString(subsceneI);
+        y -= 20;
+        ofDrawBitmapStringHighlight(s, x, y, ofColor(0,0,200));
     }
     
     

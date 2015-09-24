@@ -18,9 +18,18 @@ public:
     void applyParticleProps();
     void resetEating();
     
+    void setColour(ofColor colour);
+    
     Particle::Mode currentMode;
     vector <ofPoint> attractPoints;
     ofRectangle bounds;
+    
+    ofFbo background;
+    vector<ofRectangle> backgroundShapes;
+    void addShapesToBg();
+    void generateShape();
+    
+    bool eatBackground;
 
 private:
     
@@ -41,5 +50,6 @@ private:
     vector <Particle> p;
     ofImage particleTexture;
     float minDrag, maxDrag;
+    ofColor colour;
 		
 };

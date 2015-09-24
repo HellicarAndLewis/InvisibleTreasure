@@ -48,6 +48,9 @@ public:
     ofPoint closestPt;
     bool flock;
     bool isFull;
+    bool isEating;
+    bool eatBlobs;
+    bool inShape;
     
     float minUnique, maxUnique;
     float minDrag, maxDrag;

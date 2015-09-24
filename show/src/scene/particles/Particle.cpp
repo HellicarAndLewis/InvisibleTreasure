@@ -5,12 +5,14 @@ Particle::Particle(){
 	attractPoints = NULL;
     minUnique = -10000;
     maxUnique = 1000;
-    minDrag = 0.82;
+    minDrag = 0.85;
     maxDrag = 0.95;
     flock = false;
     mode = EAT_GREEN;
     color.set(255,234,119);
     isFull = false;
+    eatBlobs = true;
+    inShape = false;
 }
 
 
@@ -44,10 +46,7 @@ void Particle::reset(ofRectangle bounds) {
 
 void Particle::update(){
     
-    if (mode == EAT_NOTHING || mode == EAT_GROW) {
-        color.lerp( ofColor(255,234,119), 0.4 );
-    }
-    
+    isEating = false;
     if( attractPoints ){
         // closest attractPoint
         ofPoint closestPt;
@@ -73,7 +72,7 @@ void Particle::update(){
                 frc.y += ofSignedNoise(ofGetElapsedTimef()*0.2, uniqueVal,    pos.x * 0.01);
                 vel += frc;
             } else {
-                if (dist < 40) {
+                if (dist < 40 && (eatBlobs || inShape)) {
                     eat();
                 }
                 frc.x = ofSignedNoise(uniqueVal,               pos.y * 0.01, ofGetElapsedTimef()*0.2);
@@ -98,6 +97,7 @@ void Particle::update(){
 }
 
 void Particle::eat() {
+    isEating = true;
     if (mode == EAT_GREEN) {
         color.lerp( ofColor(67,224,109), 0.9 );
         isFull = true;
@@ -112,7 +112,7 @@ void Particle::eat() {
 
 
 void Particle::setScale(float scale) {
-    this->scale = ofClamp(scale, 0, 2);
+    this->scale = scale;//ofClamp(scale, 0, 2);
     drag = ofMap(this->scale, 2, 0.5, minDrag, maxDrag);
 }
 
