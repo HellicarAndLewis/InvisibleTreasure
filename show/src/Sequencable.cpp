@@ -40,10 +40,13 @@ void Sequencable::setState(State state) {
 }
 
 void Sequencable::play() {
-    setState(INTRO);
+    if (timeIn > 0) setState(INTRO);
+    else setState(INTERACTIVE);
+    
 }
 void Sequencable::stop() {
-    setState(OUTRO);
+    if (timeOut > 0) setState(OUTRO);
+    else setState(INTERACTIVE);
 }
 
 //////////////////////////////////////////////////////////////////////////////////

@@ -120,7 +120,16 @@ void PaintboxScene::play(int i){
             }
             break;
         case 66:
-            if (isSlave()) led->show(title.get());
+            if (isSlave()) {
+                led->queue(LedDisplay::Params(back.get(), 0, 5, 0));
+                led->queue(LedDisplay::Params(bonusTime.get(), 0, 5, 0));
+                led->queue(LedDisplay::Params(bonusGame.get(), 0, 1, 0, false, 5));
+                led->queue(LedDisplay::Params(goingDark.get(), 0, 1, 0));
+                led->queue(LedDisplay::Params(bonusGame.get(), 0, 1, 0));
+                led->queue(LedDisplay::Params(goingDark.get(), 0, 1, 0));
+                led->queue(LedDisplay::Params(bonusGame.get(), 0, 1, 0));
+                led->playQueue();
+            }
             if (isMaster()) {
                 countdown->start(timerOutro);
                 setMode(FADE);
@@ -133,7 +142,6 @@ void PaintboxScene::play(int i){
 }
 
 void PaintboxScene::stop(){
-    // stop/unload/clear things
     SceneBase::stop();
 }
 
@@ -145,12 +153,12 @@ void PaintboxScene::setupGui() {
     panel.add(minAreaBlack.set("min area black", 0.3333, 0, 1));
     
     titleGroup.setName("Titles");
-    titleGroup.add(title.set("title1", "Flants"));
-    titleGroup.add(sleeping.set("title2", "Boom"));
-    titleGroup.add(back.set("title3", "Game over"));
-    titleGroup.add(bonusTime.set("title4", "Play again"));
-    titleGroup.add(bonusGame.set("title5", "He is tired"));
-    titleGroup.add(goingDark.set("title6", "Next Level"));
+    titleGroup.add(title.set("title1", "Paintbox"));
+    titleGroup.add(sleeping.set("title2", "He is sleeping"));
+    titleGroup.add(back.set("title3", "He's back"));
+    titleGroup.add(bonusTime.set("title4", "Bonus game time"));
+    titleGroup.add(bonusGame.set("title5", "Bonus game"));
+    titleGroup.add(goingDark.set("title6", "Going dark"));
     panel.add(titleGroup);
     
     timerGroup.setName("Timers");
@@ -159,7 +167,7 @@ void PaintboxScene::setupGui() {
     timerGroup.add(timerErase.set("draw eraser", 5*60, 1, 7*60));
     timerGroup.add(timerBack.set("hes back", 5, 1, 10));
     timerGroup.add(timerBonus.set("bonus", 5, 1, 10));
-    timerGroup.add(timerOutro.set("outro", 5, 1, 10));
+    timerGroup.add(timerOutro.set("outro", 15, 1, 20));
     panel.add(timerGroup);
     
     panel.loadFromFile("settings/paintbox.xml");

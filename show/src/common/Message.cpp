@@ -41,6 +41,10 @@ void Message::draw(int x, int y) {
 //////////////////////////////////////////////////////////////////////////////////
 // public
 //////////////////////////////////////////////////////////////////////////////////
+void Message::show(Params params) {
+    show(params.message, params.timeIn, params.timeHold, params.timeOut, params.loop);
+}
+
 void Message::show(string message, float timeIn, float timeHold, float timeOut, bool loop) {
     this->messageString = message;
     this->timeIn = timeIn;

@@ -78,21 +78,6 @@ void SceneBase::draw() {
         }
         endMasterProjectionDraw();
         
-        // draw common UI for master screen
-        float screenW = displays->masterScreen.sizeIn.get().x;
-        float screenH = displays->masterScreen.sizeIn.get().y;
-        float x = MIN(ofGetWidth(), screenW) - 200;
-        float y = MIN(ofGetHeight(), screenH);
-        string s;
-        ofRectangle rect;
-        if (countdown->progress > 0.001) {
-            s = "Next subscene in " + ofToString(countdown->progress);
-            y -= 20;
-            ofDrawBitmapStringHighlight(s, x, y, ofColor(200,0,0));
-        }
-        s = name + " subscene " + ofToString(subsceneI);
-        y -= 20;
-        ofDrawBitmapStringHighlight(s, x, y, ofColor(0,0,200));
     }
     
     
@@ -105,6 +90,28 @@ void SceneBase::draw() {
         string s = mode + "\n" + name + "/" + ofToString(subsceneI);
         s += "\n" + ofToString(ofGetFrameRate());
         ofDrawBitmapStringHighlight(s, 10, ofGetHeight()-30);
+        
+        
+        // draw common UI for master screen
+        float screenW = displays->masterScreen.sizeIn.get().x;
+        float screenH = displays->masterScreen.sizeIn.get().y;
+        float x = MIN(ofGetWidth(), screenW) - 300;
+        float y = MIN(ofGetHeight(), screenH);
+        ofRectangle rect;
+        
+        if (led->paramsQueue.size() > 0) {
+            s = "LED queue " + ofToString(led->paramsQueue.size());
+            y -= 20;
+            ofDrawBitmapStringHighlight(s, x, y, ofColor(200,100,0));
+        }
+        if (countdown->progress > 0.001) {
+            s = "Next subscene in " + ofToString(countdown->progress);
+            y -= 20;
+            ofDrawBitmapStringHighlight(s, x, y, ofColor(0,0,200));
+        }
+        s = name + " subscene " + ofToString(subsceneI);
+        y -= 20;
+        ofDrawBitmapStringHighlight(s, x, y, ofColor(0,0,100));
     }
     
     // Generic intro/outro fade to black

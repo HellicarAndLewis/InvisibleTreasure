@@ -17,6 +17,8 @@ void LedDisplay::setup(Countdown * countdown) {
     title2.setup("fonts/led_board-7.ttf", 60);
     title1.colour.set(226, 148, 57);
     title2.colour.set(226, 148, 57);
+    
+    ofAddListener(title1.stateChangeEvent, this, &LedDisplay::onTitleStateChange);
 }
 
 void LedDisplay::update() {
@@ -33,6 +35,7 @@ void LedDisplay::update() {
 void LedDisplay::draw() {
     title1.layout.setLineLength(getDisplayRect().width);
     title2.layout.setLineLength(getDisplayRect().width);
+    
     display->begin();
     ofClear(39, 36, 37);
     // title 1
@@ -52,15 +55,43 @@ void LedDisplay::draw() {
 // TODO: expand to allow queued messages
 // show(params).show(params) etc
 // LED params are Message params and float countdown
+// keep vector<LED::Params>, when messages ends, pop the next and show it
 //
+void LedDisplay::queue(Params params) {
+    paramsQueue.push_back(params);
+}
+
+
+void LedDisplay::playQueue() {
+    if (paramsQueue.size() > 0) {
+        Params params = paramsQueue.front();
+        show(params);
+        paramsQueue.erase(paramsQueue.begin());
+    }
+}
+
+void LedDisplay::show(Params params) {
+    if (!params.justCountdown) {
+        title1.show(params.messageParams);
+        this->title = params.messageParams.message;
+    }
+    if (params.countdownDuration > 0) {
+        title2.show("");
+        showCountdown = true;
+        countdown->start(params.countdownDuration);
+    }
+}
+
 void LedDisplay::show(string title, float countdownDuration) {
-    title1.show(title, 1);
+    title1.show(title);
     this->title = title;
+    title2.show("");
     showCountdown = (countdownDuration > 0);
     countdown->start(countdownDuration);
 }
 
 void LedDisplay::hide() {
+    paramsQueue.clear();
     title1.hide();
     title2.hide();
 }
@@ -71,6 +102,13 @@ void LedDisplay::hide() {
 //////////////////////////////////////////////////////////////////////////////////
 // private
 //////////////////////////////////////////////////////////////////////////////////
+
+void LedDisplay::onTitleStateChange(Sequencable::State & state) {
+    if (state == Sequencable::INACTIVE) {
+        ofLogVerbose() << "LedDisplay::onTitleStateChange: INACTIVE, play next message";
+        playQueue();
+    }
+}
 
 //////////////////////////////////////////////////////////////////////////////////
 // custom event handlers

@@ -21,6 +21,11 @@ public:
         float timeHold=-1;
         float timeOut=-1;
         bool loop=false;
+        
+        Params(string message, float timeIn=0, float timeHold=-1, float timeOut=0, bool loop=false) :
+        message(message), timeIn(timeIn), timeHold(timeHold), timeOut(timeOut), loop(loop){}
+        
+        Params(){}
     };
     
     Message();
@@ -29,7 +34,8 @@ public:
     void draw();
     void draw(int x, int y);
     
-    void show(string message, float timeIn=1, float timeHold=-1, float timeOut=1, bool loop=false);
+    void show(Params params);
+    void show(string message, float timeIn=0, float timeHold=-1, float timeOut=0, bool loop=false);
     void hide();
     float getWidth();
     float getHeight();
