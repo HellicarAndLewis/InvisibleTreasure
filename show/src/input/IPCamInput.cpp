@@ -37,7 +37,7 @@ void IPCamInput::load(string url){
     c->setURI(cam.getURL());
     grabber = c;
     hasImg = false;
-    start();
+    //start();
 }
 
 ofPixelsRef IPCamInput::getPixelsRef() {

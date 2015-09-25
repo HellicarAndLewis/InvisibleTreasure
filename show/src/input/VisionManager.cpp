@@ -9,11 +9,17 @@ VisionManager::VisionManager() {
 
 void VisionManager::setup() {
     // inputs
+    // 0: Main/Dome IP cam
     ipcam.setup();
     inputs.push_back(&ipcam);
+    // 1: Cassandra IP cam
+    ipcamCassandra.setup();
+    inputs.push_back(&ipcamCassandra);
+    // 2: iSight/webcam/ofVideoGrabber
+    inputs.push_back(&grabber);
+    // 3: video file
     video.setup();
     inputs.push_back(&video);
-    inputs.push_back(&grabber);
     
     // tracker
     contourTracker.setup();
@@ -36,12 +42,6 @@ void VisionManager::setup() {
     calibration.setFillFrame(false);
     calibration.load("camera/dome.yml");
     isFirstImage = true;
-    
-    // gui
-    inputSelector.addListener(this, &VisionManager::onInputChange);
-    inputSelector.set("input", 0, 0, inputs.size()-1);
-    debugDraw.set("debug draw", false);
-    isCalibrating.set("calibrating", false);
 }
 
 void VisionManager::update() {
@@ -92,7 +92,7 @@ void VisionManager::update() {
 
 void VisionManager::draw() {
     ofSetColor(255);
-    float w = ofGetWidth()/2;
+    float w = MAX(ofGetWidth()/4, 256);
     float h = inputImage.getHeight() * (w / inputImage.getWidth());
     inputImage.draw(0, 0, w, h);
     outputImage.draw(w, 0, w, h);
@@ -126,26 +126,43 @@ void VisionManager::exit() {
 // public
 //////////////////////////////////////////////////////////////////////////////////
 
+void VisionManager::setToIPCamMain() {
+    inputIndex = 0;
+}
+
+void VisionManager::setToIPCamCassandra() {
+    inputIndex = 2;
+    
+}
+
 ContourTracker* VisionManager::getTracker(){
     return &contourTracker;
 }
 
 void VisionManager::setupGui() {
-    // child guis
+    // contour tracker gui first
     contourTracker.setupGui();
-    
+    // vision next
     guiName = "Vision";
     panel.setup(guiName, "settings/vision.xml");
-    panel.add(inputSelector);
-    panel.add(debugDraw);
-    panel.add(isCalibrating);
-    panel.add(camURL.set("IP Cam URL", "http://169.254.37.207/axis-cgi/mjpg/video.cgi"));
+    panel.add(inputSelector.set("input", 0, 0, inputs.size()-1));
+    panel.add(debugDraw.set("debug draw", false));
+    panel.add(isCalibrating.set("calibrating", false));
+    panel.add(ipCamURLMain.set("Main cam URL", "http://10.0.0.50/axis-cgi/mjpg/video.cgi"));
+    panel.add(ipCamURLCassandra.set("Cassandra cam URL", "http://10.0.0.51/axis-cgi/mjpg/video.cgi"));
     panel.add(contourTracker.parameters);
     panel.loadFromFile("settings/vision.xml");
     
-    // TODO: add stop/start to GUI
-    // TODO: only start by default if master?
-    ipcam.load(camURL);
+    // load camera URLs with XML settings
+    ipcam.load(ipCamURLMain);
+    ipcamCassandra.load(ipCamURLCassandra);
+    
+    // set the input
+    int input = inputSelector.get();
+    onInputChange(input);
+    
+    // Add a listener to change inputs using the inputSelector slider
+    inputSelector.addListener(this, &VisionManager::onInputChange);
 }
 
 void VisionManager::drawGui() {
@@ -176,7 +193,6 @@ void VisionManager::onInputChange(int & i) {
 //////////////////////////////////////////////////////////////////////////////////
 // oF event handlers
 //////////////////////////////////////////////////////////////////////////////////
-
 void VisionManager::keyPressed (int key) {
     if(key == 'c') {
         calibration.reset();
@@ -192,19 +208,3 @@ void VisionManager::keyPressed (int key) {
         input->start();
     }
 }
-
-void VisionManager::keyReleased (int key) {}
-
-void VisionManager::mouseMoved(int x, int y) {}
-
-void VisionManager::mouseDragged(int x, int y, int button) {}
-
-void VisionManager::mousePressed(int x, int y, int button) {}
-
-void VisionManager::mouseReleased(int x, int y, int button) {}
-
-void VisionManager::windowResized(int w, int h) {}
-
-void VisionManager::dragEvent(ofDragInfo dragInfo) {}
-
-void VisionManager::gotMessage(ofMessage msg) {}

@@ -27,47 +27,45 @@ public:
 	void update();
 	void draw();
 	void exit();
-	
 	void keyPressed(int key);
-	void keyReleased(int key);
-	void mouseMoved(int x, int y );
-	void mouseDragged(int x, int y, int button);
-	void mousePressed(int x, int y, int button);
-	void mouseReleased(int x, int y, int button);
-	void windowResized(int w, int h);
-	void dragEvent(ofDragInfo dragInfo);
-    void gotMessage(ofMessage msg);
     
     void setupGui();
     void drawGui();
     ContourTracker* getTracker();
     
+    void setToIPCamMain();
+    void setToIPCamCassandra();
     
-    // gui
-    ofParameter<int> inputSelector;
     ofParameter<bool> debugDraw;
-    ofParameter<bool> isCalibrating;
-    ofParameter<string> camURL;
-    void onInputChange(int & i);
-
+    
 protected:  
 private:
+    
+    // inputs
     IPCamInput ipcam;
+    IPCamInput ipcamCassandra;
     VideoInput video;
     VideoGrabberInput grabber;
+    // input management
     vector<IVisionInput*> inputs;
     int inputIndex;
     IVisionInput* input;
     
+    // tracking and calibration
     ContourTracker contourTracker;
-    
     ofxCv::Calibration calibration;
     ofImage inputImage, outputImage;
     ofPixels previous;
     ofPixels diff;
     float diffMean;
     float lastTime;
-    
     bool isFirstImage;
+    
+    // gui
+    ofParameter<int> inputSelector;
+    ofParameter<bool> isCalibrating;
+    ofParameter<string> ipCamURLMain;
+    ofParameter<string> ipCamURLCassandra;
+    void onInputChange(int & i);
     
 };
