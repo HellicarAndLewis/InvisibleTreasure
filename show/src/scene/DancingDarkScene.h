@@ -20,9 +20,9 @@ public:
         ofParameter<int> duration;
         ofParameterGroup group;
         ofParameterGroup set(string title, string ledTitle, int duration, int soundCueNum) {
-            this->ledTitle.set("LED title", ledTitle);
-            this->duration.set("duration", duration, 1, 180);
-            this->soundCueNum.set("sound cue", soundCueNum, 1, 100);
+            group.add(this->ledTitle.set("LED title", ledTitle));
+            group.add(this->duration.set("duration", duration, 1, 180));
+            group.add(this->soundCueNum.set("sound cue", soundCueNum, 1, 100));
             group.setName(title);
             return  group;
         }
@@ -40,5 +40,6 @@ public:
 protected:
 private:
     Tune tunes[DANCING_TUNE_COUNT];
+    ofParameterGroup tunesGroup;
     
 };
