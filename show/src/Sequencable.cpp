@@ -13,7 +13,10 @@ void Sequencable::update() {
     if (tween.isCompleted()) {
         if (state == INTRO) setState(INTERACTIVE);
         if (state == INTERACTIVE && timeHold > 0) setState(OUTRO);
-        if (state == OUTRO) setState(INACTIVE);
+        if (state == OUTRO) {
+            if (loop) setState(INTRO);
+            else setState(INACTIVE);
+        }
     }
 }
 

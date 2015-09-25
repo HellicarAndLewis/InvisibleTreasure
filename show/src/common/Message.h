@@ -14,19 +14,29 @@
 
 class Message : public Sequencable, public Displayable {
 public:
+    
+    struct Params {
+        string message;
+        float timeIn;
+        float timeHold=-1;
+        float timeOut=-1;
+        bool loop=false;
+    };
+    
     Message();
 	void setup(string fontPath, int fontSize);
 	void update();
     void draw();
     void draw(int x, int y);
     
-    void show(string message, float timeIn, float timeHold=-1, float timeOut=-1, bool loop=false);
+    void show(string message, float timeIn=1, float timeHold=-1, float timeOut=1, bool loop=false);
+    void hide();
     float getWidth();
     float getHeight();
     
     ofxFTGLSimpleLayout layout;
     string messageString;
-    bool loop;
+    ofColor colour;
 
 protected:
 private:

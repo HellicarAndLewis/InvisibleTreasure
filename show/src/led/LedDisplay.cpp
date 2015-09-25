@@ -15,9 +15,13 @@ void LedDisplay::setup(Countdown * countdown) {
     this->countdown = countdown;
     title1.setup("fonts/led_board-7.ttf", 60);
     title2.setup("fonts/led_board-7.ttf", 60);
+    title1.colour.set(226, 148, 57);
+    title2.colour.set(226, 148, 57);
 }
 
 void LedDisplay::update() {
+    title1.update();
+    title2.update();
     title1.messageString = title;
     title2.messageString = "";
     if (showCountdown) {
@@ -31,12 +35,10 @@ void LedDisplay::draw() {
     title2.layout.setLineLength(getDisplayRect().width);
     display->begin();
     ofClear(39, 36, 37);
-    //ofSetColor(39, 36, 37);
-    //ofRect(getDisplayRect());
-    ofSetColor(226, 148, 57);
+    // title 1
     int stringW = title1.getWidth();
     title1.draw(getDisplayRect().getCenter().x-title1.getWidth()/2, getDisplayRect().getHeight()*0.3);
-    
+    // title 2  / countdown
     stringW = title2.getWidth();
     title2.draw(getDisplayRect().getCenter().x-title2.getWidth()/2, getDisplayRect().getHeight()*0.6);
     ofSetColor(255);
@@ -47,11 +49,20 @@ void LedDisplay::draw() {
 // public
 //////////////////////////////////////////////////////////////////////////////////
 
+// TODO: expand to allow queued messages
+// show(params).show(params) etc
+// LED params are Message params and float countdown
+//
 void LedDisplay::show(string title, float countdownDuration) {
     title1.show(title, 1);
     this->title = title;
     showCountdown = (countdownDuration > 0);
     countdown->start(countdownDuration);
+}
+
+void LedDisplay::hide() {
+    title1.hide();
+    title2.hide();
 }
 //////////////////////////////////////////////////////////////////////////////////
 // protected

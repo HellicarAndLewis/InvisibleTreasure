@@ -12,7 +12,7 @@ Message::Message() {
     timeIn = 1;
     timeHold = 5;
     timeOut = 1;
-    
+    colour.set(255);
 }
 
 void Message::setup(string fontPath, int fontSize) {
@@ -21,6 +21,7 @@ void Message::setup(string fontPath, int fontSize) {
 }
 
 void Message::update() {
+    Sequencable::update();
 }
 
 void Message::draw() {
@@ -28,11 +29,13 @@ void Message::draw() {
 }
 
 void Message::draw(int x, int y) {
-    //ofPushStyle();
-    //ofSetColor(255, 0, 0);
-    //ofRect(x, y, getWidth(), getHeight());
-    //ofPopStyle();
+    ofPushStyle();
+    if (state == INTRO) ofSetColor(colour, 255 * progress);
+    else if (state == OUTRO) ofSetColor(colour, 255 * (1-progress));
+    else if (state == INTERACTIVE) ofSetColor(colour, 255);
+    else ofSetColor(colour, 0);
     layout.drawString(messageString, x, y + layout.getAscender());
+    ofPopStyle();
 }
 
 //////////////////////////////////////////////////////////////////////////////////
@@ -43,7 +46,12 @@ void Message::show(string message, float timeIn, float timeHold, float timeOut, 
     this->timeIn = timeIn;
     this->timeHold = timeHold;
     this->timeOut = timeOut;
+    this->loop = loop;
     Sequencable::play();
+}
+
+void Message::hide() {
+    Sequencable::stop();
 }
 
 float Message::getWidth(){

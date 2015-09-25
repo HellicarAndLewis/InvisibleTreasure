@@ -35,10 +35,11 @@ void DancingDarkScene::draw() {
 void DancingDarkScene::play(int i){
     int tuneI = i - 67;
     if (tuneI >= 0 && tuneI < DANCING_TUNE_COUNT) {
-        if (isSlave()) led->show(tunes[tuneI].ledTitle);
+        Tune & tune = tunes[tuneI];
+        if (isSlave()) led->show(tune.ledTitle);
         if (isMaster()) {
-            countdown->start(tunes[tuneI].duration);
-            osc->sendSoundCue(tunes[tuneI].soundCueNum);
+            if (tune.duration > 0) countdown->start(tune.duration);
+            if (tune.soundCueNum > -1) osc->sendSoundCue(tune.soundCueNum);
         }
     }
     SceneBase::play(i);

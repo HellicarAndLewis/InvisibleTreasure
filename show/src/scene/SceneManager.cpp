@@ -205,8 +205,14 @@ void SceneManager::onSceneChange(SceneBase::State & state) {
     if (state == SceneBase::INACTIVE) {
         ofLogVerbose() << "SceneManager::onSceneChange: INACTIVE, play next scene";
         if (sceneIn != NULL) {
-            if (!subSceneQueued) subSceneIndex = sceneIn->subsceneStart;
-            sceneIn->play(subSceneIndex);
+            if (subSceneQueued)
+                // play the queued sub scene
+                sceneIn->play(subSceneIndex);
+            else {
+                // subSceneIndex parameter has a listener attached
+                // changing it will call onSubSceneSelect
+                subSceneIndex = sceneIn->subsceneStart;
+            }
             sceneOut = NULL;
             subSceneQueued = false;
         }

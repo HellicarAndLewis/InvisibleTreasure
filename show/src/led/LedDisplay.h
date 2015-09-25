@@ -14,11 +14,18 @@
 
 class LedDisplay : public Displayable {
 public:
+    
+    struct Params {
+        Message::Params messageParams;
+        float countdownDuration=-1.0f;
+    };
+    
     LedDisplay();
 	void setup(Countdown * countdown);
 	void update();
     void draw();
     void show(string title, float countdownDuration=-1.0f);
+    void hide();
     
     Message title1;
     Message title2;

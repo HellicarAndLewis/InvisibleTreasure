@@ -114,7 +114,11 @@ void SceneBase::draw() {
     }
     else if (state == OUTRO) {
         ofSetColor(0,0,0, progress*255);
-        ofRect(0, 0, ofGetWidth(), ofGetHeight());
+        //ofRect(0, 0, ofGetWidth(), ofGetHeight());
+    }
+    else if (state == INACTIVE) {
+        ofSetColor(0,0,0, 255);
+        //ofRect(0, 0, ofGetWidth(), ofGetHeight());
     }
     ofSetColor(255);
 }
@@ -139,6 +143,7 @@ void SceneBase::play(int i){
 void SceneBase::stop(){
     ofRemoveListener(this->countdown->countdownCompleteEvent, this, &SceneBase::onCountdownComplete);
     Sequencable::stop();
+    led->hide();
     countdown->stop();
 }
 

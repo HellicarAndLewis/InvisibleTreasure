@@ -33,6 +33,7 @@ protected:
     float timeIn = 0.5f;
     float timeHold = -1.0f;
     float timeOut = 0.5f;
+    bool loop = false;
     
 private:
     
