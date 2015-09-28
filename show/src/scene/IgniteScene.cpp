@@ -14,10 +14,6 @@ IgniteScene::IgniteScene() {
 }
 
 void IgniteScene::setup() {
-    audioMirror = true;
-    int n = 10;
-    levels.assign(n, 0.0);
-    previousLevels.assign(n, 0.0);
     radiusMin.set("radius min", 10, 0, 500);
     radiusMax.set("radius max", 200, 0, 500);
     noiseScale.set("noise scale", 80, 0, 500);
@@ -33,30 +29,15 @@ void IgniteScene::setup() {
 }
 
 void IgniteScene::update() {
+    
     if (isWindow() && getWindowActive()) {
-        //setMaxDecay(0.995);
-        //setPeakDecay(0.96);
-        //mic->fftLive.setPeakDecay(0.5);
-        //mic->fftLive.setMaxDecay(0.5);
         mic->fftLive.setThreshold(threshold);
         mic->update();
         averageVolume = ofLerp(averageVolume, mic->fftLive.getAveragePeak(), 0.3);
-        int n  = levels.size();
-        if (!audioMirror) n *= 2;
-        float * audioData = new float[n];
-        mic->fftLive.getFftPeakData(audioData, n);
-        // populate levels for mapping to blob?
-        for(int i=0; i<levels.size(); i++) {
-            previousLevels[i] = levels[i];
-            float audioValue = audioData[i];
-            levels[i] = audioValue;
-        }
-        
         osc->sendVolume(averageVolume, appModel->windowId);
-        
-        delete[] audioData;
     }
     
+    if (isMaster()) minTime.update();
     // In Subscene 8, each window is active
     // master listens to volumes sent over OSC
     // and triggers next scene when all have reached max
@@ -76,14 +57,12 @@ void IgniteScene::update() {
 }
 
 void IgniteScene::draw() {
+    /*
     if (isWindow() && getWindowActive()) {
         // draw a blob based on the average volume of the mic input
         float x = ofGetWidth()/2;
         float y = ofGetHeight()/2;
         int pointCount = 30;
-        //if (levels.size() > 0) {
-        //    pointCount = ofMap(levels[levels.size()-1], 0, 1, 10, 100, true);
-        //}
         float outerRadius = ofMap(averageVolume, 0, 0.8, radiusMin, radiusMax);
         ofPath path;
         path.newSubPath();
@@ -106,6 +85,7 @@ void IgniteScene::draw() {
         path.close();
         path.draw();
     }
+     */
     
     if (isMaster()) {
         for (int i = 0; i<WINDOW_COUNT; i++) {
@@ -114,10 +94,14 @@ void IgniteScene::draw() {
             float h = windowVolumes[i] * (ofGetHeight()/2);
             ofRect(i*40, ofGetHeight(), 40, -h);
         }
+        //int remaining = targetFrames - targetHitCount;
+        ofDrawBitmapStringHighlight("Min time remaining: " + ofToString(minTime.progress), 10, ofGetHeight() - 220, ofColor(200, 0, 0));
+        ofDrawBitmapStringHighlight("Audio peak count: " + ofToString(targetHitCount)+"/"+ofToString(targetFrames), 10, ofGetHeight() - 200, ofColor(200, 0, 0));
         ofSetColor(255);
     }
     
     SceneBase::draw();
+    
     if (debugDraw) {
         mic->draw();
     }
@@ -131,6 +115,9 @@ void IgniteScene::play(int i){
     // Initial subscene is blank
     if (i == 3) {
         if (isSlave()) led->show("");
+        if (isMaster()) {
+            countdown->start(timeIntro.get());
+        }
     }
     
     // Active mic scenes, 1 to 4, then all 4
@@ -141,6 +128,8 @@ void IgniteScene::play(int i){
         if (isMaster()) {
             int cueI = i - 4;
             osc->sendLightSoundCue(cues[cueI]);
+            countdown->stop();
+            minTime.start(minMicTime.get());
             // reset values
             for (int i = 0; i<WINDOW_COUNT; i++) {
                 windowTriggers[i] = false;
@@ -177,6 +166,8 @@ void IgniteScene::setupGui() {
     // titles, times, cues
     panel.add(title1.set("title 1", "Ignite The Space"));
     panel.add(title2.set("title 2", "Next Level"));
+    panel.add(minMicTime.set("min mic time", 20, 1, 60));
+    panel.add(timeIntro.set("intro time", 30, 1, 60));
     panel.add(countdownDuration.set("countdown", 5, 0, 20));
     for (int i=0; i<CUE_COUNT; i++) {
         cues[i].lightCue = i;
@@ -211,11 +202,11 @@ void IgniteScene::drawGui() {
 bool IgniteScene::getWindowActive() {
     bool active = false;
     if (mode==AppModel::WINDOW) {
-        if (appModel->windowId == 1 && subsceneI == 4) active = true;
-        if (appModel->windowId == 2 && subsceneI == 5) active = true;
-        if (appModel->windowId == 3 && subsceneI == 6) active = true;
-        if (appModel->windowId == 4 && subsceneI == 7) active = true;
-        if (subsceneI == 8) active = true;
+        if (appModel->windowId == 1 && subsceneI >= 4) active = true;
+        if (appModel->windowId == 2 && subsceneI >= 5) active = true;
+        if (appModel->windowId == 3 && subsceneI >= 6) active = true;
+        if (appModel->windowId == 4 && subsceneI >= 7) active = true;
+        if (subsceneI > 8) active = false;
     }
     return active;
 }
@@ -225,21 +216,21 @@ bool IgniteScene::getWindowActive() {
 void IgniteScene::onWindowVolume(OscClient::VolumeEventArgs& args) {
     if (isMaster()) {
         int i = args.windowId - 1;
-        if (i >= 0 && i < WINDOW_COUNT) {
-            //ofLogVerbose() << "window : " + ofToString(i) + " vol : " + ofToString(args.volume);
+        if (args.windowId == subsceneI - 3 || subsceneI == 8) {
+            ofLogVerbose() << "window : " + ofToString(i) + " vol : " + ofToString(args.volume);
             float vol = args.volume;
             windowVolumes[i] = vol;
             if (vol > targetVolume) {
-                if (targetHitCount++ > targetFrames) {
+                if (targetHitCount++ > targetFrames && minTime.isComplete()) {
                     if (subsceneI == 8) {
                         // this is the final mode in which all windows are active
                         // mark this window as triggered
                         // when all are triggered, next scene will be called
                         windowTriggers[i] = true;
                     } else {
+                        nextSubscene();
                         ofLogNotice() << "IgniteScene::update target volume reached, triggering next scene";
                         targetHitCount = 0;
-                        nextSubscene();
                     }
                 }
             }

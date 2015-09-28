@@ -40,6 +40,8 @@ public:
     ofParameter<string> title2;
     OscClient::CueParams cues[CUE_COUNT];
     OscClient::CueParams nextCue;
+    ofParameter<int> timeIntro;
+    ofParameter<int> minMicTime;
     
     ofParameter<float> targetVolume;
     ofParameter<int> targetFrames;
@@ -52,6 +54,9 @@ public:
 
 protected:  
 private:
+    
+    Countdown minTime;
+    
     vector<float> levels;
     vector<float> previousLevels;
     bool audioMirror;

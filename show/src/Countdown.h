@@ -20,6 +20,8 @@ public:
     void start(float duration);
     void stop();
     
+    bool isComplete();
+    
     float progress;
     ofEvent<int> countdownCompleteEvent;
 
