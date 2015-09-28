@@ -123,7 +123,7 @@ void IgniteScene::play(int i){
     // Active mic scenes, 1 to 4, then all 4
     else if (i >= 4 && i <= 8) {
         if (isSlave()) {
-            led->show(title1.get() + ofToString(i));
+            led->show(title1.get());
         }
         if (isMaster()) {
             int cueI = i - 4;

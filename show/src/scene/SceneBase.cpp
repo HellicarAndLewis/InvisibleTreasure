@@ -84,20 +84,14 @@ void SceneBase::draw() {
     //
     // Debug drawing
     //
-    if (isDebugMode) {
-        string mode = modeLabel;
-        if (isWindow()) mode += " " + ofToString(appModel->windowId);
-        string s = mode + "\n" + name + "/" + ofToString(subsceneI);
-        s += "\n" + ofToString(ofGetFrameRate());
-        ofDrawBitmapStringHighlight(s, 10, ofGetHeight()-30);
-        
+    if (isDebugMode || isMaster()) {
         
         // draw common UI for master screen
-        float screenW = displays->masterScreen.sizeIn.get().x;
         float screenH = displays->masterScreen.sizeIn.get().y;
-        float x = MIN(ofGetWidth(), screenW) - 300;
+        float x = 10;
         float y = MIN(ofGetHeight(), screenH);
         ofRectangle rect;
+        string s;
         
         if (led->paramsQueue.size() > 0) {
             s = "LED queue " + ofToString(led->paramsQueue.size());
@@ -110,6 +104,12 @@ void SceneBase::draw() {
             ofDrawBitmapStringHighlight(s, x, y, ofColor(0,0,200));
         }
         s = name + " subscene " + ofToString(subsceneI);
+        y -= 20;
+        ofDrawBitmapStringHighlight(s, x, y, ofColor(0,0,100));
+        // mode
+        s = modeLabel;
+        if (isWindow()) s += " " + ofToString(appModel->windowId);
+        s += "  (" + ofToString(ofGetFrameRate()) + " FPS)";
         y -= 20;
         ofDrawBitmapStringHighlight(s, x, y, ofColor(0,0,100));
     }

@@ -213,7 +213,7 @@ void LightboxScene::play(int i){
     // interactive / play modes
     // centre, wall 1, wall 2, walls 3 & 4
     if (i >= 10 && i <= 13) {
-        if (isSlave()) led->show(title.get() + ofToString(i));
+        if (isSlave()) led->show(title.get());
         if (isMaster()) {
             if (i == 10) {
                 playMode = CENTRE;
