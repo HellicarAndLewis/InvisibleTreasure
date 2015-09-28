@@ -9,9 +9,14 @@
 #pragma once
 #include "ofMain.h"
 #include "SceneBase.h"
+#include "ofxImageSequence.h"
 
 class CassandraScene : public SceneBase {
 public:
+    
+    enum Mode {
+        RECORD_CASSANDRA, RECORD_MAIN, PLAYBACK
+    } mode;
     
     CassandraScene();
     
@@ -24,6 +29,10 @@ public:
     
 protected:
 private:
+    
+    ofxImageSequence sequenceCassandra;
+    ofxImageSequence sequenceMain;
+    int fileCount;
     
     // gui
     ofParameterGroup titleGroup;

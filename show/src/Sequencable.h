@@ -25,11 +25,11 @@ public:
     void setState(State state);
     
     ofEvent<State> stateChangeEvent;
+    float progress;
     
 protected:
     ofxTween tween;
     ofxEasingLinear easinglinear;
-    float progress;
     float timeIn = 0.5f;
     float timeHold = -1.0f;
     float timeOut = 0.5f;

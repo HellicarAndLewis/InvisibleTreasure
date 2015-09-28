@@ -9,6 +9,8 @@
 #pragma once
 #include "ofMain.h"
 #include "Sequencable.h"
+#define PINK 0xFF62C2
+#define BLACK 0x222222
 
 //////////////////////////////////////////////////////////////////////////////////
 // Shape Renderers
@@ -16,20 +18,39 @@
 class ShapeBase : public Sequencable {
 public:
     ofRectangle bounds;
-    bool success = false;
+    bool filling = false;
+    ofColor colour;
+    
     ShapeBase() {
-        bounds.setFromCenter(ofGetWidth()/2, ofGetHeight()/2, ofGetHeight()/3, ofGetHeight()/3);
+        bounds.setFromCenter(ofGetWidth()/2, ofGetHeight()/2, ofGetHeight()*.8, ofGetHeight()*.8);
+    }
+    void fill() {
+        timeOut = 3;
+        filling = true;
+        Sequencable::stop();
     }
     virtual void draw() {
-        if (state == INTRO) {
-            ofSetColor(0,0,0, progress*255);
+        if (filling) {
+            ofSetColor(colour, 255);
+        }
+        else if (state == INTRO) {
+            ofSetColor(colour, progress*255);
         }
         else if (state == OUTRO) {
-            ofSetColor(0,0,0, (1-progress)*255);
+            ofSetColor(colour, (1-progress)*255);
         }
         else if (state == INTERACTIVE) {
-            ofSetColor(0,0,0,255);
+            ofSetColor(colour, 255);
         }
+    }
+    void play() {
+        filling = false;
+        Sequencable::play();
+    }
+    void stop() {
+        timeOut = 0.5;
+        filling = false;
+        Sequencable::stop();
     }
 };
 
@@ -58,8 +79,8 @@ public:
         float x = bounds.getCenter().x;
         float y = bounds.getCenter().y;
         int pointCount = 10;
-        float outerRadius = bounds.getWidth();
-        float innerRadius = bounds.getWidth()/2;
+        float outerRadius = bounds.getWidth()/2;
+        float innerRadius = bounds.getWidth()/4;
         ofPath path;
         path.newSubPath();
         auto angleChangePerPt = ((pi) * 2) / pointCount;
@@ -75,7 +96,15 @@ public:
             angle += angleChangePerPt;
         };
         path.curveTo(firstPoint);
-        path.setColor(ofColor(255));
+        if (ofGetFill() == OF_FILLED) {
+            path.setFilled(true);
+            path.setFillColor(ofGetStyle().color);
+        }
+        else {
+            path.setFilled(false);
+        }
+        path.setStrokeWidth(5);
+        path.setStrokeColor(ofGetStyle().color);
         path.close();
         path.draw();
         
@@ -89,7 +118,9 @@ class SquareRenderer : public ShapeBase {
 public:
     void draw() {
         ShapeBase::draw();
-        ofRect(bounds.getLeft(), bounds.getHeight()/4, bounds.getWidth(), bounds.getHeight()/2);
+        ofRectangle rect = bounds;
+        rect.scaleFromCenter(1, 0.6);
+        ofRect(rect);
     }
 };
 
@@ -125,6 +156,12 @@ public:
     ShapeBase* shapeOut;
     ofRectangle bg;
     
+    ofFbo maskFbo;
+    ofFbo fbo;
+    ofFbo shaderFbo;
+    ofShader shader;
+    bool invert;
+    
     void setup() {
         bg.set(0, 0, ofGetWidth(), ofGetHeight());
         shapeIndex = -1;
@@ -137,6 +174,78 @@ public:
         for (auto shape: shapes) {
             ofAddListener(shape->stateChangeEvent, this, &ShapeRenderer::onShapeChange);
         }
+        
+        int width = ofGetWidth()-1;
+        int height = ofGetHeight()-1;
+        maskFbo.allocate(width,height);
+        fbo.allocate(width,height);
+        shaderFbo.allocate(width,height);
+        
+        if(ofGetGLProgrammableRenderer()){
+            string vertex = "#version 150\n\
+            \n\
+            uniform mat4 projectionMatrix;\n\
+            uniform mat4 modelViewMatrix;\n\
+            uniform mat4 modelViewProjectionMatrix;\n\
+            \n\
+            \n\
+            in vec4  position;\n\
+            in vec2  texcoord;\n\
+            \n\
+            out vec2 texCoordVarying;\n\
+            \n\
+            void main()\n\
+            {\n\
+            texCoordVarying = texcoord;\
+            gl_Position = modelViewProjectionMatrix * position;\n\
+            }";
+            string fragment = "#version 150\n\
+            \n\
+            uniform sampler2DRect tex0;\
+            uniform sampler2DRect maskTex;\
+            in vec2 texCoordVarying;\n\
+            \
+            out vec4 fragColor;\n\
+            void main (void){\
+            vec2 pos = texCoordVarying;\
+            \
+            vec3 src = texture(tex0, pos).rgb;\
+            float mask = texture(maskTex, pos).r;\
+            \
+            fragColor = vec4( src , mask);\
+            }";
+            shader.setupShaderFromSource(GL_VERTEX_SHADER, vertex);
+            shader.setupShaderFromSource(GL_FRAGMENT_SHADER, fragment);
+            shader.bindDefaults();
+            shader.linkProgram();
+        }else{
+            string shaderProgram = "#version 120\n \
+            #extension GL_ARB_texture_rectangle : enable\n \
+            \
+            uniform sampler2DRect tex0;\
+            uniform sampler2DRect maskTex;\
+            \
+            void main (void){\
+            vec2 pos = gl_TexCoord[0].st;\
+            \
+            vec3 src = texture2DRect(tex0, pos).rgb;\
+            float mask = texture2DRect(maskTex, pos).r;\
+            \
+            gl_FragColor = vec4( src , mask);\
+            }";
+            shader.setupShaderFromSource(GL_FRAGMENT_SHADER, shaderProgram);
+            shader.linkProgram();
+        }
+    
+        maskFbo.begin();
+        ofClear(0,0,0,255);
+        maskFbo.end();
+        fbo.begin();
+        ofClear(0,0,0,255);
+        fbo.end();
+        shaderFbo.begin();
+        ofClear(0,0,0,255);
+        shaderFbo.end();
     }
     
     void update() {
@@ -147,12 +256,43 @@ public:
     }
     
     void draw() {
-        ofSetHexColor(0xFF62C2);
+        ofPushStyle();
+        if (invert) ofSetHexColor(BLACK);
+        else ofSetHexColor(PINK);
         ofRect(bg);
+        ofSetLineWidth(5);
         for (auto shape: shapes)
             if (shape->state != Sequencable::INACTIVE) {
+                if (invert) shape->colour.setHex(PINK);
+                else shape->colour.setHex(BLACK);
+                ofFill();
+                if (shape->filling) {
+                    // MASK
+                    maskFbo.begin();
+                    ofClear(0,0,0,255);
+                    ofSetColor(255);
+                    ofRect(0, maskFbo.getHeight(), maskFbo.getWidth(), -maskFbo.getHeight()*shape->progress);
+                    maskFbo.end();
+                    
+                    // Thing to mask: the filled shape
+                    fbo.begin();
+                    ofClear(0, 0);
+                    if (invert) ofSetHexColor(BLACK);
+                    else ofSetHexColor(PINK);
+                    ofRect(bg);
+                    shape->draw();
+                    fbo.end();
+                    
+                    // mask shader
+                    shader.begin();
+                    shader.setUniformTexture("maskTex", maskFbo.getTextureReference(), 1 );
+                    fbo.draw(0, 0);
+                    shader.end();
+                }
+                ofNoFill();
                 shape->draw();
             }
+        ofPopStyle();
     }
     
     ofRectangle getBgRect() {
@@ -186,7 +326,8 @@ public:
     void hide(bool success = false) {
         shapeIndex = -1;
         if (shapeIn != NULL) {
-            shapeIn->stop();
+            if (success) shapeIn->fill();
+            else shapeIn->stop();
             shapeIn = NULL;
         }
         if (shapeOut != NULL) {

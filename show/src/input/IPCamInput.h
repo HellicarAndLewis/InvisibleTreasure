@@ -74,10 +74,10 @@ public:
     void load(string url = CAM_URL);
     void start();
     void stop();
+    SharedIPVideoGrabber grabber;
 
 protected:  
 private:
-    SharedIPVideoGrabber grabber;
     void loadCamera();
     IPCameraDef& getCamera();
     IPCameraDef ipcam;

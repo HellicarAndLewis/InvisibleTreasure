@@ -127,16 +127,20 @@ void VisionManager::exit() {
 //////////////////////////////////////////////////////////////////////////////////
 
 void VisionManager::setToIPCamMain() {
-    inputIndex = 0;
+    inputSelector = 0;
 }
 
 void VisionManager::setToIPCamCassandra() {
-    inputIndex = 2;
+    inputSelector = 1;
     
 }
 
 ContourTracker* VisionManager::getTracker(){
     return &contourTracker;
+}
+
+IVisionInput* VisionManager::getInput(){
+    return input;
 }
 
 void VisionManager::setupGui() {

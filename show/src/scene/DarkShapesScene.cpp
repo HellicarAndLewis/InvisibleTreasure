@@ -105,6 +105,7 @@ void DarkShapesScene::play(int i){
         }
     }
     else if (i > 17 && i < 50) {
+        shapeRenderer.invert = (i >= 34);
         for (auto & game : shapeGames) {
             if (i >= game.startScene && i <= game.endScene) {
                 game.setScene(i);

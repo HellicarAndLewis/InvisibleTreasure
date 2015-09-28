@@ -35,15 +35,16 @@ public:
     
     void setToIPCamMain();
     void setToIPCamCassandra();
+    IVisionInput* getInput();
     
     ofParameter<bool> debugDraw;
+    IPCamInput ipcam;
+    IPCamInput ipcamCassandra;
     
 protected:  
 private:
     
     // inputs
-    IPCamInput ipcam;
-    IPCamInput ipcamCassandra;
     VideoInput video;
     VideoGrabberInput grabber;
     // input management

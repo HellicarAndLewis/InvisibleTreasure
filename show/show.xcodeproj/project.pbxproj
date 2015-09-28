@@ -12,6 +12,7 @@
 		6474CBF719BCE019003C94E2 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6474CBF119BCE00B003C94E2 /* CoreMedia.framework */; };
 		6474CBF819BCE019003C94E2 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6474CBF219BCE00B003C94E2 /* QuartzCore.framework */; };
 		830CAAFD1B98F57A00217859 /* ContourTracker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 830CAAFB1B98F57A00217859 /* ContourTracker.cpp */; };
+		83408D2F1BB9AF160015325C /* ofxImageSequence.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 83408D2D1BB9AF160015325C /* ofxImageSequence.cpp */; };
 		834242371BB05064004A2A11 /* Countdown.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 834242351BB05064004A2A11 /* Countdown.cpp */; };
 		8342423A1BB0969F004A2A11 /* VideoGrabberInput.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 834242381BB0969F004A2A11 /* VideoGrabberInput.cpp */; };
 		834E00C81BA9B73A0068D276 /* Message.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 834E00C61BA9B73A0068D276 /* Message.cpp */; };
@@ -173,6 +174,8 @@
 		6474CBF219BCE00B003C94E2 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		830CAAFB1B98F57A00217859 /* ContourTracker.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ContourTracker.cpp; path = input/ContourTracker.cpp; sourceTree = "<group>"; };
 		830CAAFC1B98F57A00217859 /* ContourTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ContourTracker.h; path = input/ContourTracker.h; sourceTree = "<group>"; };
+		83408D2D1BB9AF160015325C /* ofxImageSequence.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxImageSequence.cpp; sourceTree = "<group>"; };
+		83408D2E1BB9AF160015325C /* ofxImageSequence.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxImageSequence.h; sourceTree = "<group>"; };
 		834242351BB05064004A2A11 /* Countdown.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Countdown.cpp; sourceTree = "<group>"; };
 		834242361BB05064004A2A11 /* Countdown.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Countdown.h; sourceTree = "<group>"; };
 		834242381BB0969F004A2A11 /* VideoGrabberInput.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = VideoGrabberInput.cpp; path = input/VideoGrabberInput.cpp; sourceTree = "<group>"; };
@@ -491,6 +494,24 @@
 				271484CB19F2C37800DDC0F3 /* opencv.a */,
 			);
 			name = ofxCv;
+			sourceTree = "<group>";
+		};
+		83408D2B1BB9AF080015325C /* ofxImageSequence */ = {
+			isa = PBXGroup;
+			children = (
+				83408D2C1BB9AF160015325C /* src */,
+			);
+			name = ofxImageSequence;
+			sourceTree = "<group>";
+		};
+		83408D2C1BB9AF160015325C /* src */ = {
+			isa = PBXGroup;
+			children = (
+				83408D2D1BB9AF160015325C /* ofxImageSequence.cpp */,
+				83408D2E1BB9AF160015325C /* ofxImageSequence.h */,
+			);
+			name = src;
+			path = ../../../addons/ofxImageSequence/src;
 			sourceTree = "<group>";
 		};
 		834E00C51BA9B6ED0068D276 /* ui */ = {
@@ -1284,6 +1305,7 @@
 		BB4B014C10F69532006C3DED /* addons */ = {
 			isa = PBXGroup;
 			children = (
+				83408D2B1BB9AF080015325C /* ofxImageSequence */,
 				834E00C91BA9B7660068D276 /* ofxFTGL */,
 				8366F9B11B989C9A006B9D74 /* ofxRemoteUI */,
 				8366F9941B9899AB006B9D74 /* ofxGui */,
@@ -1483,6 +1505,7 @@
 				8366F90B1B970383006B9D74 /* ofxUDPManager.cpp in Sources */,
 				8366F8EF1B970351006B9D74 /* ofxEasingCirc.cpp in Sources */,
 				8366F8C81B970339006B9D74 /* OscTypes.cpp in Sources */,
+				83408D2F1BB9AF160015325C /* ofxImageSequence.cpp in Sources */,
 				83D8F33E1B95CDBC00C12951 /* Tracker.cpp in Sources */,
 				83D8F3371B95CDBC00C12951 /* ContourFinder.cpp in Sources */,
 				8366F8C91B970339006B9D74 /* ofxOscBundle.cpp in Sources */,
