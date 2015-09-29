@@ -215,8 +215,8 @@ void OscClient::sendSoundCue(float cue) {
 }
 
 //
-// Send audio cue to QLab Mac
-// '/cue/{number}/start'
+// Send audio voluem cue to QLab Mac?
+// '/volume/{number}/start'??
 //
 void OscClient::sendSoundVolume(float id, float volume) {
     string address = "/volume/" + ofToString(id) + "/" + ofToString(volume);
