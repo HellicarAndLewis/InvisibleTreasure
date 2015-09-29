@@ -32,17 +32,20 @@ void Message::draw(int x, int y) {
     if (state == INACTIVE) return;
     ofPushStyle();
     
+    /*
     ofSetColor(255, 255, 0);
     ofCircle(x, y, 4);
     ofSetColor(200, 0, 0);
     ofRectangle bounds;
     bounds.set(x - (getWidth()/2), y, getWidth(), getHeight());
     ofRect(bounds);
+    */
     
     float alpha = 0;
     if (state == INTRO) alpha = 255 * progress;
     else if (state == OUTRO) alpha = 255 * (1-progress);
     else if (state == INTERACTIVE) alpha = 255;
+    if (getHeight() < 1) alpha = 0;
     
     textBlock.setText(messageString);
     textBlock.setColor(colour.r, colour.g, colour.b, alpha);
@@ -65,6 +68,11 @@ void Message::show(string message, float timeIn, float timeHold, float timeOut, 
     this->timeHold = timeHold;
     this->timeOut = timeOut;
     this->loop = loop;
+    
+    textBlock.setText(messageString);
+    textBlock.setColor(colour.r, colour.g, colour.b, 0);
+    textBlock.wrapTextX(maxWidth);
+    
     Sequencable::play();
 }
 

@@ -151,6 +151,7 @@ void SceneManager::setupGui() {
     panel.add(autoPlay.set("auto play", true));
     
     // child panels
+    guiables.push_back((GuiableBase*)&led);
     for (auto scene: scenes)
         guiables.push_back((GuiableBase*)scene);
     parameters.setName("Scene GUIs");

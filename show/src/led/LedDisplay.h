@@ -11,6 +11,7 @@
 #include "Message.h"
 #include "Displayable.h"
 #include "Countdown.h"
+#include "GuiableBase.h"
 
 //
 // LED style display
@@ -19,7 +20,7 @@
 //  - call queue(Params params) several times, specifying the time to display each message for
 //  - call playQueue()
 //
-class LedDisplay : public Displayable {
+class LedDisplay : public Displayable, public GuiableBase {
 public:
     
     // Params define the state and behaviour of the LED display
@@ -56,6 +57,8 @@ public:
     void show(string title, float countdownDuration=-1.0f);
     void hide();
     
+    void setupGui();
+    
     Message title1;
     Message title2;
     string title;
@@ -67,5 +70,8 @@ public:
 protected:
 private:
     void onTitleStateChange(Sequencable::State & state);
+    
+    ofParameter<float> percentYTitle;
+    ofParameter<float> percentYCountdown;
     
 };

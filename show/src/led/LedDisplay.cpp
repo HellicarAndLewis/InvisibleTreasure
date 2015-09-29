@@ -38,12 +38,23 @@ void LedDisplay::draw() {
     
     display->begin();
     ofClear(39, 36, 37, 255);
-    // title 1
-    int stringH = title1.getHeight();
-    title1.draw(getDisplayRect().getCenter().x, getDisplayRect().getHeight()*0.3 - stringH/2);
-    // title 2  / countdown
-    stringH = title2.getHeight();
-    title2.draw(getDisplayRect().getCenter().x, getDisplayRect().getHeight()*0.6);
+    
+    int stringH;
+    if (showCountdown) {
+        // title 1
+        stringH = title1.getHeight();
+        title1.draw(getDisplayRect().getCenter().x, getDisplayRect().getHeight()*percentYTitle.get() - stringH/2);
+        // title 2  / countdown
+        stringH = title2.getHeight();
+        title2.draw(getDisplayRect().getCenter().x, getDisplayRect().getHeight()*percentYCountdown.get() - stringH/2);
+    }
+    else {
+        // title 1
+        stringH = title1.getHeight();
+        title1.draw(getDisplayRect().getCenter().x, getDisplayRect().getHeight()*0.45 - stringH/2);
+    }
+    
+    
     ofSetColor(255);
     display->end();
 }
@@ -76,8 +87,8 @@ void LedDisplay::show(Params params) {
         this->title = params.messageParams.message;
     }
     if (params.countdownDuration > 0) {
-        title2.show("");
         showCountdown = true;
+        title2.show(ofToString(params.countdownDuration));
         countdown->start(params.countdownDuration);
     }
 }
@@ -95,6 +106,16 @@ void LedDisplay::hide() {
     title1.hide();
     title2.hide();
 }
+
+
+void LedDisplay::setupGui(){
+    guiName = "LED Display";
+    panel.setup(guiName, "settings/led.xml");
+    panel.add(percentYTitle.set("percent y title", 0.35, 0, 1));
+    panel.add(percentYCountdown.set("percent y countdown", 0.65, 0, 1));
+    panel.loadFromFile("settings/led.xml");
+}
+
 //////////////////////////////////////////////////////////////////////////////////
 // protected
 //////////////////////////////////////////////////////////////////////////////////
