@@ -64,6 +64,8 @@ cd ofxImageSequence
 git checkout 18507f2c7f7af877ee7d0e11a072cf24eb503707
 cd ..
 
+${CLONE}lukemalcolm/ofxTextSuite
+
 
 # final step is to cd back to the start dir
 cd ../apps/invisibleTreasure

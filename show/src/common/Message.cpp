@@ -31,10 +31,16 @@ void Message::draw() {
 void Message::draw(int x, int y) {
     if (state == INACTIVE) return;
     ofPushStyle();
+    
+    ofSetColor(200, 0, 0);
+    ofRect(x, y, getWidth(), getHeight());
+    
     if (state == INTRO) ofSetColor(colour, 255 * progress);
     else if (state == OUTRO) ofSetColor(colour, 255 * (1-progress));
     else if (state == INTERACTIVE) ofSetColor(colour, 255);
+    
     layout.drawString(messageString, x, y + layout.getAscender());
+    
     ofPopStyle();
 }
 
@@ -63,7 +69,7 @@ float Message::getWidth(){
 }
 
 float Message::getHeight(){
-    float height = layout.getStringBoundingBox(messageString, 0, 0).getHeight();
+    float height = -layout.getStringBoundingBox(messageString, 0, 0).y;
     return height;
 }
 
