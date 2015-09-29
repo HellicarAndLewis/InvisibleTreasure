@@ -68,7 +68,7 @@ public:
     ofParameter<bool> drawTestPattern;
     ofParameter<int> activeDisplay;
     ofParameter<bool> isCalibrating;
-    
+    ofParameter<bool> identifyProjectors;
     ofParameterGroup displaySizes;
     
 
@@ -78,5 +78,6 @@ private:
     void onScaleToWindow(bool& scale);
     void allocateProjectorsFbo();
     
+    ofTrueTypeFont font;
     ProjectionManager projectionManager;
 };

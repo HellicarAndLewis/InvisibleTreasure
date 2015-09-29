@@ -15,7 +15,8 @@ DisplayManager::DisplayManager() {
 }
 
 void DisplayManager::setup() {
-    testPattern.loadImage("images/testpattern.png");
+    testPattern.loadImage("images/bbc.png");
+    font.loadFont("fonts/Andale Mono.ttf", 120);
 }
 
 void DisplayManager::update() {
@@ -32,10 +33,11 @@ void DisplayManager::setupGui() {
     // add parameters
     scaleToWindow.addListener(this, &DisplayManager::onScaleToWindow);
     panel.add(activeDisplay.set("display mode", 0, 0, 2));
-    panel.add(scaleToWindow.set("scale to window", true));
+    panel.add(scaleToWindow.set("scale to window", false));
     panel.add(drawOutput.set("master projector output", true));
-    panel.add(drawTestPattern.set("master test pattern", true));
-    panel.add(isCalibrating.set("calibrating", false));
+    panel.add(drawTestPattern.set("master test pattern", false));
+    panel.add(isCalibrating.set("master calibrating", false));
+    panel.add(identifyProjectors.set("master identify projectors", false));
     
     // sizes
     displaySizes.setName("Display Sizes");
@@ -187,6 +189,7 @@ void DisplayManager::drawMaster() {
                 projectionManager.projection[0].draw();
                 masterProjection.in.getTextureReference().unbind();
                 if (isCalibrating) projectionManager.projection[0].drawCalibration(ofColor(255,0,0));
+                if (identifyProjectors) font.drawString("1", inW/4, inH/4);
                 
                 // Top Right
                 projectionManager.projection[1].rectIn.set(inW/2, 0, inW/2, inH/2);
@@ -196,6 +199,7 @@ void DisplayManager::drawMaster() {
                 projectionManager.projection[1].draw();
                 masterProjection.in.getTextureReference().unbind();
                 if (isCalibrating) projectionManager.projection[1].drawCalibration(ofColor(0,255,0));
+                if (identifyProjectors) font.drawString("2", inW/2 + inW/4, inH/4);
             }
             projectionManager.endTop();
             
@@ -212,6 +216,7 @@ void DisplayManager::drawMaster() {
                 projectionManager.projection[2].draw();
                 masterProjection.in.getTextureReference().unbind();
                 if (isCalibrating) projectionManager.projection[2].drawCalibration(ofColor(0,0,255));
+                if (identifyProjectors) font.drawString("3", inW/4, inH/4);
                 
                 // Bottom Right
                 // sample from bottom right of the 2x2 input
@@ -222,6 +227,7 @@ void DisplayManager::drawMaster() {
                 projectionManager.projection[3].draw();
                 masterProjection.in.getTextureReference().unbind();
                 if (isCalibrating) projectionManager.projection[3].drawCalibration(ofColor(255,255,0));
+                if (identifyProjectors) font.drawString("4", inW/2 + inW/4, inH/4);
                 
             }
             projectionManager.endBottom();
