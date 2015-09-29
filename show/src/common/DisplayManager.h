@@ -51,6 +51,7 @@ public:
     void drawSlave();
     void drawMaster();
     void setupGui();
+    void drawGui();
     void refreshFbos();
 	void windowResized(int w, int h);
     
@@ -66,6 +67,7 @@ public:
     ofParameter<bool> drawOutput;
     ofParameter<bool> drawTestPattern;
     ofParameter<int> activeDisplay;
+    ofParameter<bool> isCalibrating;
     
     ofParameterGroup displaySizes;
     

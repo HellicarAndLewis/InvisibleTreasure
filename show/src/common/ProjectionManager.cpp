@@ -102,11 +102,23 @@ void ProjectionManager::endBottom() {
 }
 
 void ProjectionManager::setupGui() {
+    guiName = "Projectors";
+    panel.setup(guiName, "settings/projectors.xml");
+    
+    group.setName("Edge Blending");
     group.add(gamma.set("gamma", 0.5, 0, 1));
     group.add(luminance.set("luminance", 0, 0, 1));
     group.add(power.set("power", 1, 0, 1));
     group.add(showBlend.set("show blend", true));
-    group.setName("Edge Blending");
+    panel.add(group);
+    
+    //projectors
+    panel.add(projection[0].set("1 Top left"));
+    panel.add(projection[1].set("2 Top right"));
+    panel.add(projection[2].set("3 Bottom left"));
+    panel.add(projection[3].set("4 Bottom right"));
+    
+    panel.loadFromFile("settings/projectors.xml");
 }
 
 //////////////////////////////////////////////////////////////////////////////////

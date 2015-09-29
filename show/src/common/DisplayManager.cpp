@@ -35,6 +35,7 @@ void DisplayManager::setupGui() {
     panel.add(scaleToWindow.set("scale to window", true));
     panel.add(drawOutput.set("master projector output", true));
     panel.add(drawTestPattern.set("master test pattern", true));
+    panel.add(isCalibrating.set("calibrating", false));
     
     // sizes
     displaySizes.setName("Display Sizes");
@@ -44,9 +45,12 @@ void DisplayManager::setupGui() {
     displaySizes.add(masterProjection.sizeIn.set("Master projection", ofVec2f(DISPLAY_W*2,DISPLAY_H*2), ofVec2f(0,0), ofVec2f(DISPLAY_W*4,DISPLAY_H*4)));
     panel.add(displaySizes);
     
+    // child panels
     // edge blending
     projectionManager.setupGui();
-    panel.add(projectionManager.group);
+    panel.add(projectionManager.guiEnabled.set(projectionManager.guiName, false));
+    projectionManager.panel.setPosition(270*2, 10);
+    
     
     panel.loadFromFile("settings/displays.xml");
     refreshFbos();
@@ -56,6 +60,12 @@ void DisplayManager::setupGui() {
     projectionManager.setup(masterProjection.sizeIn.get().x/2, masterProjection.sizeIn.get().y/2);
 }
 
+void DisplayManager::drawGui() {
+    if (guiEnabled) {
+        GuiableBase::drawGui();
+        projectionManager.drawGui();
+    }
+}
 
 void DisplayManager::drawSlave() {
     if (slaveScreen.sizeChanged()) slaveScreen.refreshFbos();
@@ -112,6 +122,7 @@ void DisplayManager::drawMaster() {
     float projectionW = (drawOutput) ? projectionManager.width : masterProjection.in.getWidth();
     float scale = 1.0f;
     float totalW = 0.0f;
+    
     // set the total target width
     if (activeDisplay == 0) {
         // Draw both screen and projections
@@ -123,6 +134,7 @@ void DisplayManager::drawMaster() {
         // Draw projection
         totalW = projectionW;
     }
+    
     // work out scaling
     if (scaleToWindow.get() && totalW > ofGetWidth()) {
         scale = ofGetWidth() / totalW;
@@ -138,6 +150,7 @@ void DisplayManager::drawMaster() {
         projectionX = screenW * scale;
     }
     if (activeDisplay == 0 || activeDisplay == 2) {
+        
         // now master projection
         // this is an output for 4 projectors
         // input is a 2x2 matrix
@@ -150,23 +163,75 @@ void DisplayManager::drawMaster() {
             masterProjection.in.end();
         }
         if (drawOutput) {
-            // slice master projection horozontally into the output FBO
             
-            // drawSubsection is where to draw x, y followed by crop w, h and crop start pos x, y
+            // slice master projection horozontally into the outputs
+            // we're turning our single 2048x1536 projection input FBO:
+            //   1 2
+            //   3 4
+            //
+            // Into two strips that will be blending together:
+            //   top:    [1 2]
+            //   bottom: [3 4]
+            //
+            // So the output will be a long strip like so:
+            //   1 2 3 4
+            
+            // TOP strip
             projectionManager.beginTop();
-            masterProjection.in.getTextureReference().drawSubsection(0, 0, inW, inH/2, 0, 0);
+            {
+                // Top Left
+                projectionManager.projection[0].rectIn.set(0, 0, inW/2, inH/2);
+                // output to the first position of the top blender FBO
+                projectionManager.projection[0].rectOut.set(0, 0, inW/2, inH/2);
+                masterProjection.in.getTextureReference().bind();
+                projectionManager.projection[0].draw();
+                masterProjection.in.getTextureReference().unbind();
+                if (isCalibrating) projectionManager.projection[0].drawCalibration(ofColor(255,0,0));
+                
+                // Top Right
+                projectionManager.projection[1].rectIn.set(inW/2, 0, inW/2, inH/2);
+                // output to the second position of the top blender FBO
+                projectionManager.projection[1].rectOut.set(inW/2, 0, inW/2, inH/2);
+                masterProjection.in.getTextureReference().bind();
+                projectionManager.projection[1].draw();
+                masterProjection.in.getTextureReference().unbind();
+                if (isCalibrating) projectionManager.projection[1].drawCalibration(ofColor(0,255,0));
+            }
             projectionManager.endTop();
             
+            
+            // BOTTOM strip
             projectionManager.beginBottom();
-            masterProjection.in.getTextureReference().drawSubsection(0, 0, inW, inH/2, 0, inH/2);
+            {
+                // Bottom Left
+                // sample from bottom left of the 2x2 input
+                projectionManager.projection[2].rectIn.set(0, inH/2, inW/2, inH/2);
+                // output to the first position of the bottom blender FBO
+                projectionManager.projection[2].rectOut.set(0, 0, inW/2, inH/2);
+                masterProjection.in.getTextureReference().bind();
+                projectionManager.projection[2].draw();
+                masterProjection.in.getTextureReference().unbind();
+                if (isCalibrating) projectionManager.projection[2].drawCalibration(ofColor(0,0,255));
+                
+                // Bottom Right
+                // sample from bottom right of the 2x2 input
+                projectionManager.projection[3].rectIn.set(inW/2, inH/2, inW/2, inH/2);
+                // output to the second position of the bottom blender FBO
+                projectionManager.projection[3].rectOut.set(inW/2, 0, inW/2, inH/2);
+                masterProjection.in.getTextureReference().bind();
+                projectionManager.projection[3].draw();
+                masterProjection.in.getTextureReference().unbind();
+                if (isCalibrating) projectionManager.projection[3].drawCalibration(ofColor(255,255,0));
+                
+            }
             projectionManager.endBottom();
             
+            // Draw the final output from projection manager
             projectionManager.draw(projectionX, 0, scale);
             
-            //projectorsOutput.end();
-            //projectorsOutput.draw(projectionX, 0, projectorsOutput.getWidth()*scale, projectorsOutput.getHeight()*scale);
         }
         else {
+            // just draw the input FBP
             masterProjection.draw(projectionX, 0, scale);
         }
     }
