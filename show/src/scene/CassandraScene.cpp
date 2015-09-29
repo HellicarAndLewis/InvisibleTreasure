@@ -74,7 +74,7 @@ void CassandraScene::draw() {
             
             if (sequenceMain.getCurrentFrame() >= sequenceMain.getTotalFrames() - 1 || (playbackTime > timerMain && sequenceMain.getCurrentFrame() < 20)) {
                 // sequence is over
-                nextSubscene();
+                mode == IDLE;
             }
             
         }
@@ -167,6 +167,7 @@ void CassandraScene::play(int i){
                 setMode(PLAYBACK);
             }
             if (isMaster()) {
+                countdown->start(timerMain.get());
                 // TODO: LX cue
                 // TODO: sund cue
             }
