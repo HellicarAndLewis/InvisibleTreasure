@@ -166,6 +166,7 @@ void CassandraScene::play(int i){
             if (isWindow()) {
                 setMode(PLAYBACK);
             }
+            if (isSlave()) led->hide();
             if (isMaster()) {
                 countdown->start(timerMain.get());
                 // TODO: LX cue

@@ -142,10 +142,15 @@ void FlantsScene::play(int i){
             led->show(boom.get());
         }
         else if (i == 58) {
-            led->show(gameOver.get() + "\n" + playAgain.get());
+            led->queue(LedDisplay::Params(gameOver.get(), 0, timerGameOver, 0, false, 0));
+            led->queue(LedDisplay::Params(playAgain.get(), 0, timerAgain, 0, false, 0));
+            led->playQueue();
         }
         else if (i == 62) {
-            led->show(gameOver.get() + "\n" + tired.get() + "\n" + nextLevel.get(), timerNext);
+            led->queue(LedDisplay::Params(gameOver.get(), 0, timerGameOver, 0, false, 0));
+            led->queue(LedDisplay::Params(tired.get(), 0, timerTired, 0, false, 0));
+            led->queue(LedDisplay::Params(nextLevel.get(), 0, timerNext, 0, false, timerNext));
+            led->playQueue();
         }
     }
     SceneBase::play(i);

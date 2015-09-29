@@ -46,7 +46,9 @@ void LedDisplay::draw() {
         title1.draw(getDisplayRect().getCenter().x, getDisplayRect().getHeight()*percentYTitle.get() - stringH/2);
         // title 2  / countdown
         stringH = title2.getHeight();
-        title2.draw(getDisplayRect().getCenter().x, getDisplayRect().getHeight()*percentYCountdown.get() - stringH/2);
+        float y = getDisplayRect().getHeight()*percentYCountdown.get();
+        if (title1.messageString == "") y = getDisplayRect().getHeight()*0.45;
+        title2.draw(getDisplayRect().getCenter().x, y - stringH/2);
     }
     else {
         // title 1
@@ -90,6 +92,11 @@ void LedDisplay::show(Params params) {
         showCountdown = true;
         title2.show(ofToString(params.countdownDuration));
         countdown->start(params.countdownDuration);
+    }
+    else if (params.countdownDuration == 0) {
+        showCountdown = false;
+        title2.hide();
+        countdown->stop();
     }
 }
 

@@ -1,4 +1,4 @@
-//
+ //
 //  Message.cpp
 //  show
 //
@@ -47,7 +47,8 @@ void Message::draw(int x, int y) {
     else if (state == INTERACTIVE) alpha = 255;
     if (getHeight() < 1) alpha = 0;
     
-    textBlock.setText(messageString);
+    if (loopNum % 7 == 0) textBlock.setText(messageString + "?");
+    else textBlock.setText(messageString);
     textBlock.setColor(colour.r, colour.g, colour.b, alpha);
     textBlock.wrapTextX(maxWidth);
     textBlock.drawCenter(x, y);

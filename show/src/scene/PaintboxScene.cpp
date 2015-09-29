@@ -95,7 +95,9 @@ void PaintboxScene::drawMasterProjection() {
 void PaintboxScene::play(int i){
     switch (i) {
         case 63:
-            if (isSlave()) led->show(title.get());
+            if (isSlave()) {
+                led->show(sleeping.get());
+            }
             if (isMaster()) {
                 countdown->start(timerIntro);
                 setMode(INACTIVE);
@@ -149,12 +151,12 @@ void PaintboxScene::setupGui() {
     panel.add(minAreaBlack.set("min area black", 0.3333, 0, 1));
     
     titleGroup.setName("Titles");
-    titleGroup.add(title.set("title1", "Paintbox"));
-    titleGroup.add(sleeping.set("title2", "He is sleeping"));
-    titleGroup.add(back.set("title3", "He's back"));
-    titleGroup.add(bonusTime.set("title4", "Bonus game time"));
-    titleGroup.add(bonusGame.set("title5", "Bonus game"));
-    titleGroup.add(goingDark.set("title6", "Going dark"));
+    titleGroup.add(title.set("title", "Paintbox"));
+    titleGroup.add(sleeping.set("sleeping", "He is sleeping"));
+    titleGroup.add(back.set("back", "He's back"));
+    titleGroup.add(bonusTime.set("game time", "Bonus game time"));
+    titleGroup.add(bonusGame.set("bonus game", "Bonus game"));
+    titleGroup.add(goingDark.set("going dark", "Going dark"));
     panel.add(titleGroup);
     
     timerGroup.setName("Timers");

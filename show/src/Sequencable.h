@@ -34,6 +34,7 @@ protected:
     float timeHold = -1.0f;
     float timeOut = 0.5f;
     bool loop = false;
+    int loopNum;
     
 private:
     

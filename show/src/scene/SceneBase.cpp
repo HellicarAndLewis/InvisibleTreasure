@@ -236,8 +236,10 @@ void SceneBase::onModeChange(AppModel::Mode& mode) {
     }
 }
 void SceneBase::onCountdownComplete(int& i) {
-    ofLogVerbose() << "SceneBase::onCountdownComlete for " << name;
-    nextSubscene();
+    if (isMaster()) {
+        ofLogVerbose() << "SceneBase::onCountdownComlete for " << name;
+        nextSubscene();
+    }
 }
 //////////////////////////////////////////////////////////////////////////////////
 // oF event handlers

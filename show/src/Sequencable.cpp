@@ -12,9 +12,12 @@ void Sequencable::update() {
     progress = tween.update();
     if (tween.isCompleted()) {
         if (state == INTRO) setState(INTERACTIVE);
-        if (state == INTERACTIVE && timeHold > 0) setState(OUTRO);
-        if (state == OUTRO) {
-            if (loop) setState(INTRO);
+        else if (state == INTERACTIVE && timeHold > 0) setState(OUTRO);
+        else  if (state == OUTRO) {
+            if (loop) {
+                loopNum++;
+                setState(INTRO);
+            }
             else setState(INACTIVE);
         }
     }
@@ -42,9 +45,10 @@ void Sequencable::setState(State state) {
 void Sequencable::play() {
     if (timeIn > 0) setState(INTRO);
     else setState(INTERACTIVE);
-    
+    loopNum = 1;
 }
 void Sequencable::stop() {
+    loop = false;
     if (timeOut > 0) setState(OUTRO);
     else setState(INACTIVE);
 }

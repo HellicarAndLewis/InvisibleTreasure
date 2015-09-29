@@ -44,7 +44,9 @@ void ShadowsScene::play(int i){
             // LED: Welcome
             // fixed-name image
             // Cues
-            led->show(welcomeTitle);
+            led->queue(LedDisplay::Params(welcomeTitle.get(), 1, 5, 1, true));
+            led->playQueue();
+            
             imageElement.setup("images/static.jpg");
             imageElement.setDisplay(&displays->slaveProjection);
             imageElement.show();
