@@ -15,7 +15,7 @@ class CassandraScene : public SceneBase {
 public:
     
     enum Mode {
-        RECORD_CASSANDRA, RECORD_MAIN, PLAYBACK
+        IDLE, RECORD_CASSANDRA, RECORD_MAIN, PLAYBACK
     } mode;
     
     CassandraScene();
@@ -30,9 +30,14 @@ public:
 protected:
 private:
     
+    void setMode(Mode mode);
+    void prepareRecordingDir(string path);
+    
     ofxImageSequence sequenceCassandra;
     ofxImageSequence sequenceMain;
     int fileCount;
+    int indexCassandra;
+    float playbackTime;
     
     // gui
     ofParameterGroup titleGroup;

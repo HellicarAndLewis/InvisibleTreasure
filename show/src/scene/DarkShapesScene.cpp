@@ -54,9 +54,14 @@ void DarkShapesScene::drawMasterScreen() {
     ContourTracker& tracker = *vision->getTracker();
     ofxCv::ContourFinder& contourFinder = tracker.contourFinder;
     
+    if (!tracker.thresholded.isAllocated()) {
+        ofLogError() << "in DarkShapesScene::drawMasterScreen tracker image is not allocated";
+        return;
+    }
+    
     float targetWidth = MIN(ofGetWidth(), displays->masterScreen.sizeIn->x) * 0.7;
     float scale = targetWidth / tracker.thresholded.width;
-    float col1Width;
+    float col1Width = 0;
     
     ofPushStyle();
     ofPushMatrix();

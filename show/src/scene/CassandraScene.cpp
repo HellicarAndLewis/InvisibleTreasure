@@ -10,6 +10,10 @@
 using namespace ofxCv;
 using namespace cv;
 
+#define DIR_CASSANDRA "recordings/cassandra/"
+#define DIR_MAIN "recordings/main/"
+
+
 CassandraScene::CassandraScene() {
     name = "Cassandra";
 }
@@ -26,14 +30,25 @@ void CassandraScene::update() {
         if (mode == PLAYBACK) {
         }
         else if (mode == RECORD_CASSANDRA) {
-            string filename = "recordings/cassandra/" + ofToString(fileCount) + ".jpg";
-            vision->ipcamCassandra.grabber->getFrame()->saveImage(filename, OF_IMAGE_QUALITY_HIGH);
-            fileCount++;
+            auto image = vision->ipcamCassandra.grabber->getFrame();
+            if (image->isAllocated() && image->height > 1) {
+                stringstream stream;
+                stream << DIR_CASSANDRA << setw(10) << setfill('0') << fileCount << ".jpg";
+                string filename = stream.str();
+                image->saveImage(filename, OF_IMAGE_QUALITY_HIGH);
+                fileCount++;
+            }
+            
         }
         else if (mode == RECORD_MAIN) {
-            string filename = "recordings/main/" + ofToString(fileCount) + ".jpg";
-            vision->ipcam.grabber->getFrame()->saveImage(filename, OF_IMAGE_QUALITY_HIGH);
-            fileCount++;
+            auto image = vision->ipcam.grabber->getFrame();
+            if (image->isAllocated() && image->height > 1) {
+                stringstream stream;
+                stream << DIR_MAIN << setw(10) << setfill('0') << fileCount << ".jpg";
+                string filename = stream.str();
+                image->saveImage(filename, OF_IMAGE_QUALITY_HIGH);
+                fileCount++;
+            }
         }
     }
     SceneBase::update();
@@ -42,12 +57,23 @@ void CassandraScene::update() {
 void CassandraScene::draw() {
     if (isWindow()) {
         if (mode == PLAYBACK) {
-            // TODO: playback image sequence
-            if (sequenceCassandra.isLoaded())
-                sequenceCassandra.getFrameForTime(ofGetElapsedTimef())->draw(0,0);
+            playbackTime += ofGetLastFrameTime();
+            
+            ofTexture& main = sequenceMain.getTextureForTime(playbackTime);
+            float x = 0;
+            float scale = ofGetWidth() / main.getWidth();
+            if (playbackTime < timerCassandra) {
+                ofTexture& cassandra = sequenceCassandra.getTextureForTime(playbackTime);
+                scale = (ofGetWidth()/2) / cassandra.getWidth();
+                x = cassandra.getWidth()*scale;
+                cassandra.draw(0, 0, cassandra.getWidth()*scale, cassandra.getHeight()*scale);
+            }
+            main.draw(x, 0, main.getWidth()*scale, main.getHeight()*scale);
+            
         }
         else if (mode == RECORD_CASSANDRA) {
-            vision->ipcamCassandra.grabber->getFrame()->draw(0, 0);
+            auto image = vision->ipcamCassandra.grabber->getFrame();
+            image->draw(0, 0);
             ofSetColor(200,0,0);
             ofCircle(ofGetWidth()/2, ofGetHeight()/2, 20);
             ofSetColor(255);
@@ -76,7 +102,9 @@ void CassandraScene::play(int i){
                 countdown->start(timerIntro.get());
                 // TODO: sound cue?
             }
+            if (isWindow()) setMode(IDLE);
             break;
+            
         case 78:
             // audience name, manual cue
             if (isSlave()) {
@@ -86,7 +114,9 @@ void CassandraScene::play(int i){
                 // TODO: LX cue
                 // TODO: sound cue?
             }
+            if (isWindow()) setMode(IDLE);
             break;
+            
         case 79:
             // welcome, all windows record cassandra room, timed
             if (isSlave()) {
@@ -94,15 +124,14 @@ void CassandraScene::play(int i){
                 led->playQueue();
             }
             if (isWindow()) {
-                vision->setToIPCamCassandra();
-                mode = RECORD_CASSANDRA;
-                fileCount = 0;
+                setMode(RECORD_CASSANDRA);
             }
             if (isMaster()) {
                 countdown->start(timerCassandra.get());
                 // TODO: sund cue
             }
             break;
+            
         case 80:
             // welcome, all windows stop recording cassandra, start recording main room, timed
             if (isSlave()) {
@@ -110,22 +139,18 @@ void CassandraScene::play(int i){
                 led->playQueue();
             }
             if (isWindow()) {
-                vision->setToIPCamMain();
-                mode = RECORD_MAIN;
-                fileCount = 0;
+                setMode(RECORD_MAIN);
             }
             if (isMaster()) {
                 countdown->start(timerMain.get());
                 // TODO: sund cue
             }
             break;
+            
         case 81:
             // all windows stop recording main room, playback both videos split screen, timed
             if (isWindow()) {
-                mode = PLAYBACK;
-                sequenceCassandra.enableThreadedLoad(true);
-                sequenceCassandra.setExtension("jpg");
-                sequenceCassandra.loadSequence("recordings/cassandra");
+                setMode(PLAYBACK);
             }
             if (isMaster()) {
                 // TODO: LX cue
@@ -148,6 +173,7 @@ void CassandraScene::play(int i){
                 // TODO: LX cue
                 // TODO: sund cue
             }
+            if (isWindow()) setMode(IDLE);
             break;
         default:
             break;
@@ -188,6 +214,37 @@ void CassandraScene::setupGui() {
 // private
 //////////////////////////////////////////////////////////////////////////////////
 
+void CassandraScene::setMode(Mode mode) {
+    this->mode = mode;
+    if (mode == PLAYBACK) {
+        indexCassandra = 0;
+        playbackTime = 0;
+        //sequenceCassandra.enableThreadedLoad(true);
+        sequenceCassandra.setExtension("jpg");
+        sequenceCassandra.loadSequence(DIR_CASSANDRA);
+        sequenceCassandra.setFrameRate(23);
+    }
+    else {
+        sequenceCassandra.unloadSequence();
+    }
+    if (mode == RECORD_CASSANDRA) {
+        prepareRecordingDir(DIR_CASSANDRA);
+        vision->setToIPCamCassandra();
+    }
+    else if (mode == RECORD_MAIN) {
+        prepareRecordingDir(DIR_MAIN);
+        vision->setToIPCamMain();
+    }
+}
+
+void CassandraScene::prepareRecordingDir(string path) {
+    // remove existing recordings
+    if (ofDirectory::doesDirectoryExist(path)) {
+        ofDirectory::removeDirectory(path, true);
+    }
+    ofDirectory::createDirectory(path);
+    fileCount = 0;
+}
 //////////////////////////////////////////////////////////////////////////////////
 // custom event handlers
 //////////////////////////////////////////////////////////////////////////////////
