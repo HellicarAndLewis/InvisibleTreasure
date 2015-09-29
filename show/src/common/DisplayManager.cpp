@@ -16,17 +16,10 @@ DisplayManager::DisplayManager() {
 
 void DisplayManager::setup() {
     testPattern.loadImage("images/testpattern.png");
-    slaveScreen.params.setName("Slave screen");
-    slaveScreen.params.add(slaveScreen.sizeIn.set("size", ofVec2f(DISPLAY_W,DISPLAY_H), ofVec2f(0,0), ofVec2f(DISPLAY_W*2,DISPLAY_W*2)));
-    slaveProjection.params.setName("Slave projection");
-    slaveProjection.params.add(slaveProjection.sizeIn.set("size", ofVec2f(DISPLAY_W,DISPLAY_H), ofVec2f(0,0), ofVec2f(DISPLAY_W*2,DISPLAY_W*2)));
-    masterScreen.params.setName("Master screen");
-    masterScreen.params.add(masterScreen.sizeIn.set("size", ofVec2f(DISPLAY_W,DISPLAY_H), ofVec2f(0,0), ofVec2f(DISPLAY_W*2,DISPLAY_W*2)));
-    masterProjection.params.setName("Master projection");
-    masterProjection.params.add(masterProjection.sizeIn.set("size", ofVec2f(DISPLAY_W*2,DISPLAY_H*2), ofVec2f(0,0), ofVec2f(DISPLAY_W*4,DISPLAY_H*4)));
 }
 
 void DisplayManager::update() {
+    projectionManager.update();
 }
 
 void DisplayManager::draw() {
@@ -42,12 +35,25 @@ void DisplayManager::setupGui() {
     panel.add(scaleToWindow.set("scale to window", true));
     panel.add(drawOutput.set("master projector output", true));
     panel.add(drawTestPattern.set("master test pattern", true));
-    panel.add(slaveScreen.params);
-    panel.add(slaveProjection.params);
-    panel.add(masterScreen.params);
-    panel.add(masterProjection.params);
+    
+    // sizes
+    displaySizes.setName("Display Sizes");
+    displaySizes.add(slaveScreen.sizeIn.set("Slave screen", ofVec2f(DISPLAY_W,DISPLAY_H), ofVec2f(0,0), ofVec2f(DISPLAY_W*2,DISPLAY_W*2)));
+    displaySizes.add(slaveProjection.sizeIn.set("Slave Projection", ofVec2f(DISPLAY_W,DISPLAY_H), ofVec2f(0,0), ofVec2f(DISPLAY_W*2,DISPLAY_W*2)));
+    displaySizes.add(masterScreen.sizeIn.set("Master screen", ofVec2f(DISPLAY_W,DISPLAY_H), ofVec2f(0,0), ofVec2f(DISPLAY_W*2,DISPLAY_W*2)));
+    displaySizes.add(masterProjection.sizeIn.set("Master projection", ofVec2f(DISPLAY_W*2,DISPLAY_H*2), ofVec2f(0,0), ofVec2f(DISPLAY_W*4,DISPLAY_H*4)));
+    panel.add(displaySizes);
+    
+    // edge blending
+    projectionManager.setupGui();
+    panel.add(projectionManager.group);
+    
     panel.loadFromFile("settings/displays.xml");
     refreshFbos();
+    // setup projection manager
+    // give it the w/h of each projector
+    // this is half the width and half the height of the overall 2x2 projection canvas
+    projectionManager.setup(masterProjection.sizeIn.get().x/2, masterProjection.sizeIn.get().y/2);
 }
 
 
@@ -93,7 +99,7 @@ void DisplayManager::drawMaster() {
     // make sure the projectors FBO is at the right size
     // it will contain 2 horzizontal slices from masterProjection.in side by side
     // so it needs to be double the width and half the height
-    if (projectorsOutput.getWidth() != masterProjection.in.getWidth()*2) {
+    if (projectionManager.width != masterProjection.in.getWidth()*2) {
         allocateProjectorsFbo();
     }
     if (masterScreen.sizeChanged()) masterScreen.refreshFbos();
@@ -103,7 +109,7 @@ void DisplayManager::drawMaster() {
     // take into account scaling to fit the window
     // and drawing projection input vs output
     float screenW = masterScreen.in.getWidth();
-    float projectionW = (drawOutput) ? projectorsOutput.getWidth() : masterProjection.in.getWidth();
+    float projectionW = (drawOutput) ? projectionManager.width : masterProjection.in.getWidth();
     float scale = 1.0f;
     float totalW = 0.0f;
     // set the total target width
@@ -118,7 +124,7 @@ void DisplayManager::drawMaster() {
         totalW = projectionW;
     }
     // work out scaling
-    if (scaleToWindow && totalW > ofGetWidth()) {
+    if (scaleToWindow.get() && totalW > ofGetWidth()) {
         scale = ofGetWidth() / totalW;
     }
     
@@ -145,13 +151,20 @@ void DisplayManager::drawMaster() {
         }
         if (drawOutput) {
             // slice master projection horozontally into the output FBO
-            projectorsOutput.begin();
-            ofClear(0);
+            
             // drawSubsection is where to draw x, y followed by crop w, h and crop start pos x, y
+            projectionManager.beginTop();
             masterProjection.in.getTextureReference().drawSubsection(0, 0, inW, inH/2, 0, 0);
-            masterProjection.in.getTextureReference().drawSubsection(inW, 0, inW, inH/2, 0, inH/2);
-            projectorsOutput.end();
-            projectorsOutput.draw(projectionX, 0, projectorsOutput.getWidth()*scale, projectorsOutput.getHeight()*scale);
+            projectionManager.endTop();
+            
+            projectionManager.beginBottom();
+            masterProjection.in.getTextureReference().drawSubsection(0, 0, inW, inH/2, 0, inH/2);
+            projectionManager.endBottom();
+            
+            projectionManager.draw(projectionX, 0, scale);
+            
+            //projectorsOutput.end();
+            //projectorsOutput.draw(projectionX, 0, projectorsOutput.getWidth()*scale, projectorsOutput.getHeight()*scale);
         }
         else {
             masterProjection.draw(projectionX, 0, scale);
@@ -183,7 +196,7 @@ void DisplayManager::onScaleToWindow(bool& scale) {
 }
 
 void DisplayManager::allocateProjectorsFbo(){
-    projectorsOutput.allocate(masterProjection.in.getWidth()*2, masterProjection.in.getHeight()*0.5);
+    //projectorsOutput.allocate(masterProjection.in.getWidth()*2, masterProjection.in.getHeight()*0.5);
 }
 //////////////////////////////////////////////////////////////////////////////////
 // custom event handlers

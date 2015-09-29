@@ -9,6 +9,7 @@
 #pragma once
 #include "ofMain.h"
 #include "GuiableBase.h"
+#include "ProjectionManager.h"
 
 class DisplayManager : public GuiableBase {
 public:
@@ -51,28 +52,29 @@ public:
     void drawMaster();
     void setupGui();
     void refreshFbos();
-    
 	void windowResized(int w, int h);
     
     Display slaveScreen;
     Display slaveProjection;
     Display masterScreen;
     Display masterProjection;
-    
     ofImage testPattern;
-    ofFbo projectorsOutput;
+    
     // TODO: add params for drawing options?
     // draw in, draw out, draw blended, etc
     ofParameter<bool> scaleToWindow;
     ofParameter<bool> drawOutput;
     ofParameter<bool> drawTestPattern;
     ofParameter<int> activeDisplay;
-    //ofParameter<bool> drawBlended;
+    
+    ofParameterGroup displaySizes;
     
 
 protected:  
 private:
+    
     void onScaleToWindow(bool& scale);
     void allocateProjectorsFbo();
     
+    ProjectionManager projectionManager;
 };

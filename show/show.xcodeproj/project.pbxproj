@@ -15,6 +15,8 @@
 		83408D2F1BB9AF160015325C /* ofxImageSequence.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 83408D2D1BB9AF160015325C /* ofxImageSequence.cpp */; };
 		834242371BB05064004A2A11 /* Countdown.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 834242351BB05064004A2A11 /* Countdown.cpp */; };
 		8342423A1BB0969F004A2A11 /* VideoGrabberInput.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 834242381BB0969F004A2A11 /* VideoGrabberInput.cpp */; };
+		8346A2061BBA9EB0003C6CD5 /* ofxProjectorBlend.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8346A2031BBA9EB0003C6CD5 /* ofxProjectorBlend.cpp */; };
+		8346A2091BBA9F1A003C6CD5 /* ProjectionManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8346A2071BBA9F1A003C6CD5 /* ProjectionManager.cpp */; };
 		834E00C81BA9B73A0068D276 /* Message.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 834E00C61BA9B73A0068D276 /* Message.cpp */; };
 		834E014C1BA9B7670068D276 /* libftgl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 834E012D1BA9B7670068D276 /* libftgl.a */; };
 		834E014D1BA9B7670068D276 /* libftgl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 834E012F1BA9B7670068D276 /* libftgl.a */; };
@@ -180,6 +182,11 @@
 		834242361BB05064004A2A11 /* Countdown.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Countdown.h; sourceTree = "<group>"; };
 		834242381BB0969F004A2A11 /* VideoGrabberInput.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = VideoGrabberInput.cpp; path = input/VideoGrabberInput.cpp; sourceTree = "<group>"; };
 		834242391BB0969F004A2A11 /* VideoGrabberInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VideoGrabberInput.h; path = input/VideoGrabberInput.h; sourceTree = "<group>"; };
+		8346A2031BBA9EB0003C6CD5 /* ofxProjectorBlend.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxProjectorBlend.cpp; sourceTree = "<group>"; };
+		8346A2041BBA9EB0003C6CD5 /* ofxProjectorBlend.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxProjectorBlend.h; sourceTree = "<group>"; };
+		8346A2051BBA9EB0003C6CD5 /* ofxProjectorBlendShader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxProjectorBlendShader.h; sourceTree = "<group>"; };
+		8346A2071BBA9F1A003C6CD5 /* ProjectionManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ProjectionManager.cpp; path = common/ProjectionManager.cpp; sourceTree = "<group>"; };
+		8346A2081BBA9F1A003C6CD5 /* ProjectionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProjectionManager.h; path = common/ProjectionManager.h; sourceTree = "<group>"; };
 		834E00C61BA9B73A0068D276 /* Message.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Message.cpp; path = common/Message.cpp; sourceTree = "<group>"; };
 		834E00C71BA9B73A0068D276 /* Message.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Message.h; path = common/Message.h; sourceTree = "<group>"; };
 		834E01151BA9B7670068D276 /* FTBBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FTBBox.h; sourceTree = "<group>"; };
@@ -514,6 +521,25 @@
 			path = ../../../addons/ofxImageSequence/src;
 			sourceTree = "<group>";
 		};
+		8346A2011BBA9E9A003C6CD5 /* ofxProjectorBlend */ = {
+			isa = PBXGroup;
+			children = (
+				8346A2021BBA9EB0003C6CD5 /* src */,
+			);
+			name = ofxProjectorBlend;
+			sourceTree = "<group>";
+		};
+		8346A2021BBA9EB0003C6CD5 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				8346A2031BBA9EB0003C6CD5 /* ofxProjectorBlend.cpp */,
+				8346A2041BBA9EB0003C6CD5 /* ofxProjectorBlend.h */,
+				8346A2051BBA9EB0003C6CD5 /* ofxProjectorBlendShader.h */,
+			);
+			name = src;
+			path = ../../../addons/ofxProjectorBlend/src;
+			sourceTree = "<group>";
+		};
 		834E00C51BA9B6ED0068D276 /* ui */ = {
 			isa = PBXGroup;
 			children = (
@@ -665,6 +691,8 @@
 			children = (
 				834E01671BAACE4C0068D276 /* DisplayManager.cpp */,
 				834E01681BAACE4C0068D276 /* DisplayManager.h */,
+				8346A2071BBA9F1A003C6CD5 /* ProjectionManager.cpp */,
+				8346A2081BBA9F1A003C6CD5 /* ProjectionManager.h */,
 			);
 			name = display;
 			sourceTree = "<group>";
@@ -1305,6 +1333,7 @@
 		BB4B014C10F69532006C3DED /* addons */ = {
 			isa = PBXGroup;
 			children = (
+				8346A2011BBA9E9A003C6CD5 /* ofxProjectorBlend */,
 				83408D2B1BB9AF080015325C /* ofxImageSequence */,
 				834E00C91BA9B7660068D276 /* ofxFTGL */,
 				8366F9B11B989C9A006B9D74 /* ofxRemoteUI */,
@@ -1503,6 +1532,7 @@
 				8366F8C41B970339006B9D74 /* UdpSocketWin.cpp in Sources */,
 				8366F8F01B970351006B9D74 /* ofxEasingCubic.cpp in Sources */,
 				8366F90B1B970383006B9D74 /* ofxUDPManager.cpp in Sources */,
+				8346A2061BBA9EB0003C6CD5 /* ofxProjectorBlend.cpp in Sources */,
 				8366F8EF1B970351006B9D74 /* ofxEasingCirc.cpp in Sources */,
 				8366F8C81B970339006B9D74 /* OscTypes.cpp in Sources */,
 				83408D2F1BB9AF160015325C /* ofxImageSequence.cpp in Sources */,
@@ -1554,6 +1584,7 @@
 				8366F9A81B9899AB006B9D74 /* ofxButton.cpp in Sources */,
 				8366F9C71B989CD3006B9D74 /* ofxRemoteUINeigbors.cpp in Sources */,
 				834E01651BAA9EC00068D276 /* ImageElement.cpp in Sources */,
+				8346A2091BBA9F1A003C6CD5 /* ProjectionManager.cpp in Sources */,
 				8366F8C21B970339006B9D74 /* UdpSocket.cpp in Sources */,
 				8366F9AE1B9899AB006B9D74 /* ofxToggle.cpp in Sources */,
 				83D8F3491B95CF7400C12951 /* IPVideoGrabber.cpp in Sources */,
