@@ -31,17 +31,12 @@ void SceneBase::draw() {
     // Common slave drawing
     //
     if (isSlave()) {
+        // slave screen
         led->draw();
         // slave projection
         beginSlaveProjectionDraw();
         {
-            ofClear(0);
-            float screenW = displays->slaveProjection.sizeIn.get().x;
-            float screenH = displays->slaveProjection.sizeIn.get().y;
-            ofPushStyle();
-            ofSetColor(0,0,200);
-            ofRect(0, 0, screenW, screenH);
-            ofPopStyle();
+            ofClear(0, 255);
             drawSlaveProjection();
         }
         endSlaveProjectionDraw();
@@ -51,33 +46,20 @@ void SceneBase::draw() {
     // Common Master drawing
     //
     if (isMaster()) {
-        // Screen
+        // mater creen
         beginMasterScreenDraw();
         {
-            float screenW = displays->masterScreen.sizeIn.get().x;
-            float screenH = displays->masterScreen.sizeIn.get().y;
-            ofClear(0);
-            ofPushStyle();
-            ofSetColor(50);
-            ofRect(0, 0, screenW, screenH);
-            ofPopStyle();
+            ofClear(50, 255);
             drawMasterScreen();
         }
         endMasterScreenDraw();
-        // Projection
+        // master projection
         beginMasterProjectionDraw();
         {
-            ofClear(0);
-            float screenW = displays->masterProjection.sizeIn.get().x;
-            float screenH = displays->masterProjection.sizeIn.get().y;
-            ofPushStyle();
-            ofSetColor(0,0,200);
-            ofRect(0, 0, screenW, screenH);
-            ofPopStyle();
+            ofClear(0, 255);
             drawMasterProjection();
         }
         endMasterProjectionDraw();
-        
     }
     
     

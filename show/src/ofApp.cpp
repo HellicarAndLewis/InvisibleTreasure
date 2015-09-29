@@ -54,6 +54,8 @@ void ofApp::update() {
 
 void ofApp::draw() {
     
+    ofBackground(0, 0, 140);
+    
     //
     // Draw display manager first
     // display manager draws FBOs for each display device e.g. screen and projectors
@@ -81,9 +83,9 @@ void ofApp::draw() {
 void ofApp::setupGui() {
     // setup panels
     guiables.push_back(&osc);
-    guiables.push_back(&sceneManager);
     guiables.push_back(&vision);
     guiables.push_back(&displayManager);
+    guiables.push_back(&sceneManager);
     
     // global panel
     //ofxGuiSetFont("fonts/Andale Mono.ttf", 12);

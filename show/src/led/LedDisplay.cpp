@@ -37,7 +37,7 @@ void LedDisplay::draw() {
     title2.layout.setLineLength(getDisplayRect().width);
     
     display->begin();
-    ofClear(39, 36, 37);
+    ofClear(39, 36, 37, 255);
     // title 1
     int stringW = title1.getWidth();
     title1.draw(getDisplayRect().getCenter().x-title1.getWidth()/2, getDisplayRect().getHeight()*0.3);

@@ -46,7 +46,7 @@ void Sequencable::play() {
 }
 void Sequencable::stop() {
     if (timeOut > 0) setState(OUTRO);
-    else setState(INTERACTIVE);
+    else setState(INACTIVE);
 }
 
 //////////////////////////////////////////////////////////////////////////////////

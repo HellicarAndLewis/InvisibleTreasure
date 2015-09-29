@@ -22,20 +22,19 @@ void SitinScene::setup() {
 }
 
 void SitinScene::update() {
-    if (mode==AppModel::SLAVE) {}
-    else if (mode==AppModel::WINDOW) {}
-    else if (mode==AppModel::MASTER) {}
+    if (isSlave()) {
+        imageElement.update();
+    }
     SceneBase::update();
 }
 
 void SitinScene::draw() {
-    
-    if (mode==AppModel::SLAVE) {}
-    else if (mode==AppModel::WINDOW) {}
-    else if (mode==AppModel::MASTER) {}
     SceneBase::draw();
 }
 
+void SitinScene::drawSlaveProjection() {
+    imageElement.draw();
+}
 
 //////////////////////////////////////////////////////////////////////////////////
 // public
@@ -44,15 +43,40 @@ void SitinScene::play(int i){
     switch (i) {
         case 83:
             // title, manual cue
+            if (isSlave()) led->show(title);
+            if (isMaster()) {
+                countdown->stop();
+                // TODO LX and sound cues
+            }
             break;
         case 84:
             // the end, 10 seconds
+            if (isSlave()) led->show(theEnd);
+            if (isMaster()) {
+                countdown->start(timerTheEnd);
+                // TODO LX and sound cues
+            }
             break;
         case 85:
             // final audio track, 10 seconds
+            if (isSlave()) led->hide();
+            if (isMaster()) {
+                countdown->start(timerFadeUp);
+                // TODO LX and sound cues
+            }
             break;
         case 86:
             // image, manual cue
+            if (isSlave()) {
+                imageElement.setup("images/static.jpg");
+                imageElement.setDisplay(&displays->slaveProjection);
+                imageElement.show();
+                led->hide();
+            }
+            if (isMaster()) {
+                countdown->stop();
+                // TODO LX and sound cues
+            }
             break;
         default:
             break;
@@ -61,14 +85,18 @@ void SitinScene::play(int i){
 }
 
 void SitinScene::stop(){
-    // stop/unload/clear things
     SceneBase::stop();
 }
 
 void SitinScene::setupGui() {
     guiName = "Sitin";
     panel.setup(guiName, "settings/sitin.xml");
-    // add parameters
+    titleGroup.setName("Titles");
+    titleGroup.add(title.set("title", "Sit-In"));
+    titleGroup.add(theEnd.set("end", "The End"));
+    timerGroup.setName("Timers");
+    timerGroup.add(timerTheEnd.set("the end", 10, 1, 60));
+    timerGroup.add(timerFadeUp.set("fade up", 10, 1, 60));
     panel.loadFromFile("settings/sitin.xml");
 }
 //////////////////////////////////////////////////////////////////////////////////

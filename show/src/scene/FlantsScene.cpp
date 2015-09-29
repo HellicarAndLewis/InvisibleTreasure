@@ -18,12 +18,9 @@ void FlantsScene::setup() {
     // subscenes
     subsceneStart = 51;
     subsceneEnd = 62;
-    ofRectangle bounds = ofRectangle(0, 0, displays->masterProjection.sizeIn.get().x, displays->masterProjection.sizeIn.get().y);
-    //bounds.scaleFromCenter(0.9);
-    particles.setup(1000, bounds);
-    SceneBase::setup();
     radius = 0;
     alphaShader.load("shaders/greyscaleAlpha.vert", "shaders/greyscaleAlpha.frag");
+    SceneBase::setup();
 }
 
 void FlantsScene::update() {
@@ -186,6 +183,10 @@ void FlantsScene::setupGui() {
     panel.add(timerGroup);
     
     panel.loadFromFile("settings/flants.xml");
+    
+    // setup bounds after GUI
+    ofRectangle bounds = ofRectangle(0, 0, displays->masterProjection.sizeIn.get().x, displays->masterProjection.sizeIn.get().y);
+    particles.setup(1000, bounds);
 }
 //////////////////////////////////////////////////////////////////////////////////
 // protected

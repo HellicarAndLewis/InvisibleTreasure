@@ -18,11 +18,7 @@ void PaintboxScene::setup() {
     // subscenes
     subsceneStart = 63;
     subsceneEnd = 66;
-    // canvas FBO setup
-    ofRectangle bounds = ofRectangle(0, 0, displays->masterProjection.sizeIn.get().x, displays->masterProjection.sizeIn.get().y);
-    canvas.allocate(bounds.width, bounds.height, GL_RGB);
     brushImage.loadImage("images/paintbrush/brush1.png");
-    
     SceneBase::setup();
 }
 
@@ -171,6 +167,11 @@ void PaintboxScene::setupGui() {
     panel.add(timerGroup);
     
     panel.loadFromFile("settings/paintbox.xml");
+    
+    
+    // canvas FBO setup
+    ofRectangle bounds = ofRectangle(0, 0, displays->masterProjection.sizeIn.get().x, displays->masterProjection.sizeIn.get().y);
+    canvas.allocate(bounds.width, bounds.height, GL_RGB);
 }
 //////////////////////////////////////////////////////////////////////////////////
 // protected

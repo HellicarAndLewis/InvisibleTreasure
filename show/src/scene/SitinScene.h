@@ -9,6 +9,7 @@
 #pragma once
 #include "ofMain.h"
 #include "SceneBase.h"
+#include "ImageElement.h"
 
 class SitinScene : public SceneBase {
 public:
@@ -18,11 +19,21 @@ public:
     void setup();
     void update();
     void draw();
+    void drawSlaveProjection();
     void play(int i);
     void stop();
     void setupGui();
     
 protected:
 private:
+    ImageElement imageElement;
     
+    // gui
+    ofParameterGroup titleGroup;
+    ofParameter<string> title;
+    ofParameter<string> theEnd;
+    // timers
+    ofParameterGroup timerGroup;
+    ofParameter<int> timerTheEnd;
+    ofParameter<int> timerFadeUp;
 };
