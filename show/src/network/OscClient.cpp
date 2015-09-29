@@ -172,6 +172,24 @@ void OscClient::sendLightSoundCue(CueParams cue) {
     }
 }
 
+void OscClient::sendLightSoundCue(CueWithListParams cue) {
+    if (cue.lightCue > 0) {
+        sendLightingCue(cue.lightCue, cue.lightList);
+    }
+    if (cue.soundCue > 0) {
+        sendSoundCue(cue.soundCue);
+    }
+}
+
+void OscClient::sendLightSoundCue(CueWithFloatParams cue) {
+    if (cue.lightCue > 0) {
+        sendLightingCue(cue.lightCue, cue.lightList);
+    }
+    if (cue.soundCue > 0) {
+        sendSoundCue(cue.soundCue);
+    }
+}
+
 //
 // Send lighting LX cues to nomad lighting desk
 // which requires the format /eos/cue/<list number>/<cue number>/fire

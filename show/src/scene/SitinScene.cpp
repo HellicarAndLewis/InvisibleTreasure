@@ -97,6 +97,8 @@ void SitinScene::setupGui() {
     timerGroup.setName("Timers");
     timerGroup.add(timerTheEnd.set("the end", 10, 1, 60));
     timerGroup.add(timerFadeUp.set("fade up", 10, 1, 60));
+    panel.add(titleGroup);
+    panel.add(timerGroup);
     panel.loadFromFile("settings/sitin.xml");
 }
 //////////////////////////////////////////////////////////////////////////////////

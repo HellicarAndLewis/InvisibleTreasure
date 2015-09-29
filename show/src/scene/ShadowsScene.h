@@ -24,8 +24,8 @@ public:
     
     ofParameter<string> welcomeTitle;
     ofParameter<string> goingDarkTitle;
-    OscClient::CueParams cue1;
-    OscClient::CueParams cue2;
+    OscClient::CueWithFloatParams cue1;
+    OscClient::CueWithFloatParams cue2;
 
 protected:
 private:

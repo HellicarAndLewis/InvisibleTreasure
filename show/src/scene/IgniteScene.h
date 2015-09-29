@@ -38,7 +38,8 @@ public:
     // gui
     ofParameter<string> title1;
     ofParameter<string> title2;
-    OscClient::CueParams cues[CUE_COUNT];
+    OscClient::CueWithListParams inCues[CUE_COUNT];
+    OscClient::CueWithListParams outCues[CUE_COUNT];
     OscClient::CueParams nextCue;
     ofParameter<int> timeIntro;
     ofParameter<int> minMicTime;

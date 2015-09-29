@@ -127,13 +127,13 @@ void IgniteScene::play(int i){
         }
         if (isMaster()) {
             int cueI = i - 4;
-            osc->sendLightSoundCue(cues[cueI]);
             countdown->stop();
             minTime.start(minMicTime.get());
             // reset values
             for (int i = 0; i<WINDOW_COUNT; i++) {
                 windowTriggers[i] = false;
                 windowVolumes[i] = 0;
+                osc->sendLightSoundCue(outCues[i]);
             }
         }
         // start audio input if this is the active window
@@ -163,28 +163,26 @@ void IgniteScene::stop(){
 void IgniteScene::setupGui() {
     guiName = "Ignite";
     panel.setup(guiName, "settings/ignite.xml");
-    // titles, times, cues
+    
+    // titles, times
     panel.add(title1.set("title 1", "Ignite The Space"));
     panel.add(title2.set("title 2", "Next Level"));
     panel.add(minMicTime.set("min mic time", 20, 1, 60));
     panel.add(timeIntro.set("intro time", 30, 1, 60));
     panel.add(countdownDuration.set("countdown", 5, 0, 20));
-    for (int i=0; i<CUE_COUNT; i++) {
-        cues[i].lightCue = i;
-        cues[i].lightList = 2;
-        panel.add(cues[i].setup("Cue " + ofToString(i)));
-    }
-    nextCue.lightCue = 2;
-    panel.add(nextCue.setup("Cue Next"));
-    // audio
-    panel.add(targetVolume.set("target volume", 0.8, 0, 1));
-    panel.add(targetFrames.set("target frames", 60, 1, 180));
     
-    panel.add(radiusMin);
-    panel.add(radiusMax);
-    panel.add(noiseScale);
+    // audio
+    panel.add(targetVolume.set("target volume", 0.5, 0, 1));
+    panel.add(targetFrames.set("target frames", 60, 1, 180));
     panel.add(threshold);
     panel.add(debugDraw);
+    
+    // cues
+    for (int i=0; i<CUE_COUNT; i++) {
+        panel.add(inCues[i].setup("Cue in" + ofToString(i), (i+1)*2));
+        panel.add(outCues[i].setup("Cue out" + ofToString(i), ((i+1)*2)+1));
+    }
+    panel.add(nextCue.setup("Cue Next", 2));
     panel.loadFromFile("settings/ignite.xml");
 }
 
@@ -217,10 +215,11 @@ void IgniteScene::onWindowVolume(OscClient::VolumeEventArgs& args) {
     if (isMaster()) {
         int i = args.windowId - 1;
         if (args.windowId == subsceneI - 3 || subsceneI == 8) {
-            ofLogVerbose() << "window : " + ofToString(i) + " vol : " + ofToString(args.volume);
+            //ofLogVerbose() << "window : " + ofToString(i) + " vol : " + ofToString(args.volume);
             float vol = args.volume;
             windowVolumes[i] = vol;
             if (vol > targetVolume) {
+                osc->sendLightSoundCue(inCues[i]);
                 if (targetHitCount++ > targetFrames && minTime.isComplete()) {
                     if (subsceneI == 8) {
                         // this is the final mode in which all windows are active
@@ -234,17 +233,14 @@ void IgniteScene::onWindowVolume(OscClient::VolumeEventArgs& args) {
                     }
                 }
             }
+            else {
+                osc->sendLightSoundCue(outCues[i]);
+            }
         }
     }
 }
 
 void IgniteScene::onWindowVolumeTrigger(OscClient::VolumeEventArgs& args) {
-//    if (isMaster()) {
-//        int i = args.windowId - 1;
-//        if (i >= 0 && i < WINDOW_COUNT) {
-//            windowTriggers[i] = true;
-//        }
-//    }
 }
 
 //////////////////////////////////////////////////////////////////////////////////

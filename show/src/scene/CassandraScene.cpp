@@ -220,6 +220,8 @@ void CassandraScene::setupGui() {
     timerGroup.add(timerMain.set("main", 5*60, 1, 10*60));
     timerGroup.add(timerOutro.set("outro", 5, 1, 10));
     
+    panel.add(titleGroup);
+    panel.add(timerGroup);
     panel.loadFromFile("settings/cassandra.xml");
 }
 //////////////////////////////////////////////////////////////////////////////////

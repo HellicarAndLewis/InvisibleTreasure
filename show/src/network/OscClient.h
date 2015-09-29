@@ -16,15 +16,41 @@ class OscClient : public GuiableBase {
 public:
     
     struct CueParams {
-        ofParameter<float> lightCue;
+        int lightList = 1;
+        ofParameter<int> lightCue;
+        ofParameter<int> soundCue;
+        ofParameterGroup params;
+        ofParameterGroup setup(string name, int lightCue=0, int soundCue=0) {
+            params.setName(name);
+            params.add(this->lightCue.set("light cue", lightCue, 0, 40));
+            params.add(this->soundCue.set("sound cue", soundCue, 0, 40));
+            return params;
+        }
+    };
+    
+    struct CueWithListParams {
+        ofParameter<int> lightCue;
         ofParameter<int> lightList;
         ofParameter<int> soundCue;
         ofParameterGroup params;
-        ofParameterGroup setup(string name) {
+        ofParameterGroup setup(string name, int lightCue = 0, int lightList = 2, int soundCue = 0) {
             params.setName(name);
-            params.add(lightCue.set("light cue", 0, 0, 40));
-            params.add(lightList.set("light list", 1, 1, 2));
-            params.add(soundCue.set("sound cue", 0, 0, 40));
+            params.add(this->lightCue.set("light cue", lightCue, 0, 40));
+            params.add(this->lightList.set("light list", lightList, 0, 5));
+            params.add(this->soundCue.set("sound cue", soundCue, 0, 40));
+            return params;
+        }
+    };
+    
+    struct CueWithFloatParams {
+        int lightList = 1;
+        ofParameter<float> lightCue;
+        ofParameter<int> soundCue;
+        ofParameterGroup params;
+        ofParameterGroup setup(string name, float lightCue=0.5, int soundCue=0) {
+            params.setName(name);
+            params.add(this->lightCue.set("light cue", lightCue, 0, 40));
+            params.add(this->soundCue.set("sound cue", soundCue, 0, 40));
             return params;
         }
     };
@@ -53,6 +79,9 @@ public:
     void sendVolumeTrigger(int windowId);
     
     void sendLightSoundCue(CueParams cue);
+    void sendLightSoundCue(CueWithListParams cue);
+    void sendLightSoundCue(CueWithFloatParams cue);
+    
     void sendLightingCue(float cue, float list = 1);
     void sendSoundCue(float cue);
     void sendSoundVolume(float id, float volume);
