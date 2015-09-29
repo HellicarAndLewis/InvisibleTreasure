@@ -36,10 +36,9 @@ public:
     void nextSubScene();
     void setupGui();
     void drawGui();
-    
 	void keyPressed(int key);
     
-    
+    bool isDebugMode;
 
 protected:  
 private:
@@ -77,7 +76,6 @@ private:
     
     vector<SceneBase*> scenes;
     int sceneIndex;
-    //int subSceneIndex;
     SceneBase* sceneIn;
     SceneBase* sceneOut;
     bool subSceneQueued;

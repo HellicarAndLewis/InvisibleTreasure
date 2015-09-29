@@ -62,8 +62,10 @@ void SceneManager::setup(AppModel* model, OscClient* osc, VisionManager* vision,
 }
 
 void SceneManager::update() {
-    for (auto scene: scenes)
+    for (auto scene: scenes) {
+        scene->isDebugMode = isDebugMode;
         if (scene->state != SceneBase::INACTIVE) scene->update();
+    }
 }
 
 void SceneManager::draw() {

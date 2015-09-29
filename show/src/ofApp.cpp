@@ -47,6 +47,7 @@ void ofApp::setup() {
 void ofApp::update() {
     osc.update();
     vision.update();
+    sceneManager.isDebugMode = debug;
     sceneManager.update();
     displayManager.update();
 }
@@ -73,17 +74,8 @@ void ofApp::draw() {
     // plus contour tracking and background subtraction
     if (vision.debugDraw) vision.draw();
     
-    // debug draw
-    if (debug) {
-        osc.draw();
-        string s = appModel.modeString;
-        s += "\n" + ofToString(ofGetFrameRate());
-        ofDrawBitmapStringHighlight(s, 10, ofGetHeight() - 20);
-    }
-    
     // GUI panels
     drawGui();
-    
 }
 
 void ofApp::setupGui() {

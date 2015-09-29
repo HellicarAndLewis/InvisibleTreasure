@@ -72,19 +72,31 @@ void CassandraScene::draw() {
             }
             main.draw(x, y, main.getWidth()*scale, main.getHeight()*scale);
             
+            if (sequenceMain.getCurrentFrame() >= sequenceMain.getTotalFrames() - 1 || (playbackTime > timerMain && sequenceMain.getCurrentFrame() < 20)) {
+                // sequence is over
+                nextSubscene();
+            }
+            
         }
-        else if (mode == RECORD_CASSANDRA) {
-            auto image = vision->ipcamCassandra.grabber->getFrame();
-            image->draw(0, 0);
-            ofSetColor(200,0,0);
-            ofCircle(ofGetWidth()/2, ofGetHeight()/2, 20);
-            ofSetColor(255);
-        }
-        else if (mode == RECORD_MAIN) {
-            vision->ipcam.grabber->getFrame()->draw(0, 0);
-            ofSetColor(200,0,0);
-            ofCircle(ofGetWidth()/2, ofGetHeight()/2, 20);
-            ofSetColor(255);
+        if (isDebugMode) {
+            if (mode == RECORD_CASSANDRA) {
+                auto image = vision->ipcamCassandra.grabber->getFrame();
+                image->draw(0, 0);
+                ofSetColor(200,0,0);
+                ofCircle(ofGetWidth()/2, ofGetHeight()/2, 20);
+                ofSetColor(255);
+            }
+            else if (mode == RECORD_MAIN) {
+                vision->ipcam.grabber->getFrame()->draw(0, 0);
+                ofSetColor(200,0,0);
+                ofCircle(ofGetWidth()/2, ofGetHeight()/2, 20);
+                ofSetColor(255);
+            }
+            else if (mode == PLAYBACK) {
+                ofDrawBitmapStringHighlight("playback time: " + ofToString(playbackTime), 10, ofGetHeight()/2);
+                ofDrawBitmapStringHighlight("cassandra: " + ofToString(sequenceCassandra.getCurrentFrame()) + "/" + ofToString(sequenceCassandra.getTotalFrames()), 10, ofGetHeight()/2 + 20);
+                ofDrawBitmapStringHighlight("main: " + ofToString(sequenceMain.getCurrentFrame()) + "/" + ofToString(sequenceMain.getTotalFrames()), 10, ofGetHeight()/2 + 40);
+            }
         }
     }
     SceneBase::draw();
