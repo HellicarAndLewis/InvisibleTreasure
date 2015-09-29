@@ -101,6 +101,7 @@ void LedDisplay::show(Params params) {
 }
 
 void LedDisplay::show(string title, float countdownDuration) {
+    paramsQueue.clear();
     title1.show(title);
     this->title = title;
     title2.show("");

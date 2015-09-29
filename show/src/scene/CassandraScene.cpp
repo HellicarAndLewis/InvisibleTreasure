@@ -176,6 +176,7 @@ void CassandraScene::play(int i){
         case 82:
             // rabbit angry, etc, timed
             if (isSlave()) {
+                led->hide();
                 led->queue(LedDisplay::Params(rabbitDisappointed.get(), 0, 1, 0, false, timerOutro.get()));
                 led->queue(LedDisplay::Params(rabbitBoss.get(), 0, 1, 0));
                 led->queue(LedDisplay::Params(rabbitDisappointed.get(), 0, 1, 0));

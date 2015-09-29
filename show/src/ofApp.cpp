@@ -54,8 +54,6 @@ void ofApp::update() {
 
 void ofApp::draw() {
     
-    ofBackground(0, 0, 140);
-    
     //
     // Draw display manager first
     // display manager draws FBOs for each display device e.g. screen and projectors

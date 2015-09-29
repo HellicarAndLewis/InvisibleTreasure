@@ -119,6 +119,7 @@ void PaintboxScene::play(int i){
             break;
         case 66:
             if (isSlave()) {
+                led->hide();
                 led->queue(LedDisplay::Params(back.get(), 0, 5, 0));
                 led->queue(LedDisplay::Params(bonusTime.get(), 0, 5, 0));
                 led->queue(LedDisplay::Params(bonusGame.get(), 0, 1, 0, false, 5));
