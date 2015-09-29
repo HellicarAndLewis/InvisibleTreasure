@@ -8,7 +8,7 @@
 
 #pragma once
 #include "ofMain.h"
-#include "ofxFTGL.h"
+#include "ofxTextSuite.h"
 #include "Sequencable.h"
 #include "Displayable.h"
 
@@ -40,12 +40,13 @@ public:
     float getWidth();
     float getHeight();
     
-    ofxFTGLSimpleLayout layout;
+    ofxTextBlock textBlock;
+    TextBlockAlignment alignment;  //constants for controlling state
     string messageString;
     ofColor colour;
+    int maxWidth;
 
 protected:
 private:
-    ofxFTGLFont* font;
     
 };

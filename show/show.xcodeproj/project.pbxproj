@@ -17,6 +17,7 @@
 		8342423A1BB0969F004A2A11 /* VideoGrabberInput.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 834242381BB0969F004A2A11 /* VideoGrabberInput.cpp */; };
 		8346A2061BBA9EB0003C6CD5 /* ofxProjectorBlend.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8346A2031BBA9EB0003C6CD5 /* ofxProjectorBlend.cpp */; };
 		8346A2091BBA9F1A003C6CD5 /* ProjectionManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8346A2071BBA9F1A003C6CD5 /* ProjectionManager.cpp */; };
+		8346A21B1BBB0246003C6CD5 /* ofxTextBlock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8346A2161BBB0246003C6CD5 /* ofxTextBlock.cpp */; };
 		834E00C81BA9B73A0068D276 /* Message.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 834E00C61BA9B73A0068D276 /* Message.cpp */; };
 		834E014C1BA9B7670068D276 /* libftgl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 834E012D1BA9B7670068D276 /* libftgl.a */; };
 		834E014D1BA9B7670068D276 /* libftgl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 834E012F1BA9B7670068D276 /* libftgl.a */; };
@@ -187,6 +188,9 @@
 		8346A2051BBA9EB0003C6CD5 /* ofxProjectorBlendShader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxProjectorBlendShader.h; sourceTree = "<group>"; };
 		8346A2071BBA9F1A003C6CD5 /* ProjectionManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ProjectionManager.cpp; path = common/ProjectionManager.cpp; sourceTree = "<group>"; };
 		8346A2081BBA9F1A003C6CD5 /* ProjectionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProjectionManager.h; path = common/ProjectionManager.h; sourceTree = "<group>"; };
+		8346A2161BBB0246003C6CD5 /* ofxTextBlock.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxTextBlock.cpp; sourceTree = "<group>"; };
+		8346A2171BBB0246003C6CD5 /* ofxTextBlock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxTextBlock.h; sourceTree = "<group>"; };
+		8346A2181BBB0246003C6CD5 /* ofxTextSuite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxTextSuite.h; sourceTree = "<group>"; };
 		834E00C61BA9B73A0068D276 /* Message.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Message.cpp; path = common/Message.cpp; sourceTree = "<group>"; };
 		834E00C71BA9B73A0068D276 /* Message.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Message.h; path = common/Message.h; sourceTree = "<group>"; };
 		834E01151BA9B7670068D276 /* FTBBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FTBBox.h; sourceTree = "<group>"; };
@@ -538,6 +542,25 @@
 			);
 			name = src;
 			path = ../../../addons/ofxProjectorBlend/src;
+			sourceTree = "<group>";
+		};
+		8346A20F1BBB0246003C6CD5 /* ofxTextSuite */ = {
+			isa = PBXGroup;
+			children = (
+				8346A2151BBB0246003C6CD5 /* src */,
+			);
+			name = ofxTextSuite;
+			path = ../../../addons/ofxTextSuite;
+			sourceTree = "<group>";
+		};
+		8346A2151BBB0246003C6CD5 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				8346A2161BBB0246003C6CD5 /* ofxTextBlock.cpp */,
+				8346A2171BBB0246003C6CD5 /* ofxTextBlock.h */,
+				8346A2181BBB0246003C6CD5 /* ofxTextSuite.h */,
+			);
+			path = src;
 			sourceTree = "<group>";
 		};
 		834E00C51BA9B6ED0068D276 /* ui */ = {
@@ -1333,6 +1356,7 @@
 		BB4B014C10F69532006C3DED /* addons */ = {
 			isa = PBXGroup;
 			children = (
+				8346A20F1BBB0246003C6CD5 /* ofxTextSuite */,
 				8346A2011BBA9E9A003C6CD5 /* ofxProjectorBlend */,
 				83408D2B1BB9AF080015325C /* ofxImageSequence */,
 				834E00C91BA9B7660068D276 /* ofxFTGL */,
@@ -1625,6 +1649,7 @@
 				8366F9591B974242006B9D74 /* ofxArgs.cpp in Sources */,
 				8366F9481B9732EA006B9D74 /* LightboxScene.cpp in Sources */,
 				83C5A3ED1B9AE17C00753092 /* CassandraScene.cpp in Sources */,
+				8346A21B1BBB0246003C6CD5 /* ofxTextBlock.cpp in Sources */,
 				834242371BB05064004A2A11 /* Countdown.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

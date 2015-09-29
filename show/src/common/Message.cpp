@@ -16,8 +16,8 @@ Message::Message() {
 }
 
 void Message::setup(string fontPath, int fontSize) {
-    layout.loadFont(fontPath, fontSize);
-    layout.setAlignment(FTGL_ALIGN_LEFT);
+    textBlock.init(fontPath, fontSize);
+    textBlock.wrapTextX(ofGetWidth());
 }
 
 void Message::update() {
@@ -32,14 +32,22 @@ void Message::draw(int x, int y) {
     if (state == INACTIVE) return;
     ofPushStyle();
     
+    ofSetColor(255, 255, 0);
+    ofCircle(x, y, 4);
     ofSetColor(200, 0, 0);
-    ofRect(x, y, getWidth(), getHeight());
+    ofRectangle bounds;
+    bounds.set(x - (getWidth()/2), y, getWidth(), getHeight());
+    ofRect(bounds);
     
-    if (state == INTRO) ofSetColor(colour, 255 * progress);
-    else if (state == OUTRO) ofSetColor(colour, 255 * (1-progress));
-    else if (state == INTERACTIVE) ofSetColor(colour, 255);
+    float alpha = 0;
+    if (state == INTRO) alpha = 255 * progress;
+    else if (state == OUTRO) alpha = 255 * (1-progress);
+    else if (state == INTERACTIVE) alpha = 255;
     
-    layout.drawString(messageString, x, y + layout.getAscender());
+    textBlock.setText(messageString);
+    textBlock.setColor(colour.r, colour.g, colour.b, alpha);
+    textBlock.wrapTextX(maxWidth);
+    textBlock.drawCenter(x, y);
     
     ofPopStyle();
 }
@@ -65,12 +73,11 @@ void Message::hide() {
 }
 
 float Message::getWidth(){
-    return layout.getStringBoundingBox(messageString, 0, 0).getWidth();
+    return textBlock.getWidth();
 }
 
 float Message::getHeight(){
-    float height = -layout.getStringBoundingBox(messageString, 0, 0).y;
-    return height;
+    return textBlock.getHeight();
 }
 
 //////////////////////////////////////////////////////////////////////////////////
