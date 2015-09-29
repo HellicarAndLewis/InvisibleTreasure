@@ -27,9 +27,7 @@ void CassandraScene::setup() {
 
 void CassandraScene::update() {
     if (isWindow()) {
-        if (mode == PLAYBACK) {
-        }
-        else if (mode == RECORD_CASSANDRA) {
+        if (mode == RECORD_CASSANDRA) {
             auto image = vision->ipcamCassandra.grabber->getFrame();
             if (image->isAllocated() && image->height > 1) {
                 stringstream stream;
@@ -38,7 +36,6 @@ void CassandraScene::update() {
                 image->saveImage(filename, OF_IMAGE_QUALITY_HIGH);
                 fileCount++;
             }
-            
         }
         else if (mode == RECORD_MAIN) {
             auto image = vision->ipcam.grabber->getFrame();
@@ -59,16 +56,21 @@ void CassandraScene::draw() {
         if (mode == PLAYBACK) {
             playbackTime += ofGetLastFrameTime();
             
+            // draw the image sequences next to each other
+            // if only main is drawing, set the scale to fill the screen
             ofTexture& main = sequenceMain.getTextureForTime(playbackTime);
-            float x = 0;
             float scale = ofGetWidth() / main.getWidth();
+            float x = 0;
+            float y = (ofGetHeight()/2) - (main.getHeight()*scale*0.5);
+            // draw cassandra if it's still playing
             if (playbackTime < timerCassandra) {
                 ofTexture& cassandra = sequenceCassandra.getTextureForTime(playbackTime);
                 scale = (ofGetWidth()/2) / cassandra.getWidth();
                 x = cassandra.getWidth()*scale;
-                cassandra.draw(0, 0, cassandra.getWidth()*scale, cassandra.getHeight()*scale);
+                y = (ofGetHeight()/2) - (main.getHeight()*scale*0.5);
+                cassandra.draw(0, y, cassandra.getWidth()*scale, cassandra.getHeight()*scale);
             }
-            main.draw(x, 0, main.getWidth()*scale, main.getHeight()*scale);
+            main.draw(x, y, main.getWidth()*scale, main.getHeight()*scale);
             
         }
         else if (mode == RECORD_CASSANDRA) {
@@ -218,14 +220,18 @@ void CassandraScene::setMode(Mode mode) {
     this->mode = mode;
     if (mode == PLAYBACK) {
         indexCassandra = 0;
+        indexMain = 0;
         playbackTime = 0;
-        //sequenceCassandra.enableThreadedLoad(true);
         sequenceCassandra.setExtension("jpg");
         sequenceCassandra.loadSequence(DIR_CASSANDRA);
         sequenceCassandra.setFrameRate(23);
+        sequenceMain.setExtension("jpg");
+        sequenceMain.loadSequence(DIR_MAIN);
+        sequenceMain.setFrameRate(23);
     }
     else {
         sequenceCassandra.unloadSequence();
+        sequenceMain.unloadSequence();
     }
     if (mode == RECORD_CASSANDRA) {
         prepareRecordingDir(DIR_CASSANDRA);

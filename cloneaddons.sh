@@ -59,9 +59,9 @@ cd ofxFTGL
 git checkout 3a562f3ca3fb002b728f6949810169587bfa751b
 cd ..
 
-${CLONE}Flightphase/ofxImageSequence
+${CLONE}outsidecontext/ofxImageSequence
 cd ofxImageSequence
-git checkout 375b7b248a58532484b725e3729676c60c0b270b
+git checkout 18507f2c7f7af877ee7d0e11a072cf24eb503707
 cd ..
 
 

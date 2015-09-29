@@ -37,6 +37,7 @@ private:
     ofxImageSequence sequenceMain;
     int fileCount;
     int indexCassandra;
+    int indexMain;
     float playbackTime;
     
     // gui
