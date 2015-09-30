@@ -63,4 +63,15 @@ private:
     ofParameter<int> timerBonus;
     ofParameter<int> timerOutro;
     
+    // LX cues
+    ofParameter<int> lxCueIntro;
+    ofParameter<int> lxCueOutro;
+    ofParameterGroup lxCueGroup;
+    
+    // Sound cues
+    ofParameter<int> soundCueSoundScape;
+    ofParameter<int> soundCueSoundScape2;
+    ofParameter<int> soundCueOutro;
+    ofParameterGroup soundCueGroup;
+    
 };

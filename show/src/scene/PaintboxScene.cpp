@@ -110,6 +110,7 @@ void PaintboxScene::play(int i){
             if (isMaster()) {
                 countdown->start(timerIntro);
                 setMode(INACTIVE);
+                osc->sendLightingCue(lxCueIntro);
             }
             break;
         case 64:
@@ -117,6 +118,7 @@ void PaintboxScene::play(int i){
             if (isMaster()) {
                 countdown->start(timerLines);
                 setMode(LINES);
+                osc->sendSoundCue(soundCueSoundScape);
             }
             break;
         case 65:
@@ -124,6 +126,7 @@ void PaintboxScene::play(int i){
             if (isMaster()) {
                 countdown->start(timerErase);
                 setMode(ERASER);
+                osc->sendSoundCue(soundCueSoundScape2);
             }
             if (isWindow()) imageElement.hide();
             break;
@@ -142,6 +145,8 @@ void PaintboxScene::play(int i){
             if (isMaster()) {
                 countdown->start(timerOutro);
                 setMode(FADE);
+                osc->sendSoundCue(soundCueOutro);
+                osc->sendLightingCue(lxCueOutro);
             }
             if (isWindow()) {
                 // pink/yellow image
@@ -184,6 +189,19 @@ void PaintboxScene::setupGui() {
     timerGroup.add(timerBonus.set("bonus", 5, 1, 10));
     timerGroup.add(timerOutro.set("outro", 15, 1, 20));
     panel.add(timerGroup);
+    
+    // LX cues
+    lxCueGroup.setName("LX Cues");
+    lxCueGroup.add(lxCueIntro.set("intro", 28, 0, 100));
+    lxCueGroup.add(lxCueOutro.set("outro", 29, 0, 100));
+    panel.add(lxCueGroup);
+    
+    // Sound cues
+    soundCueGroup.setName("Sound Cues");
+    soundCueGroup.add(soundCueSoundScape.set("soundscape", 0, 0, 100));
+    soundCueGroup.add(soundCueSoundScape2.set("soundscape 2", 0, 0, 100));
+    soundCueGroup.add(soundCueOutro.set("outro", 0, 0, 100));
+    panel.add(soundCueGroup);
     
     panel.loadFromFile("settings/paintbox.xml");
     
