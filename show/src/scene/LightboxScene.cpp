@@ -31,10 +31,16 @@ void LightboxScene::setup() {
 }
 
 void LightboxScene::update() {
+    if (isWindow()) {
+        imageElement.update();
+    }
     SceneBase::update();
 }
 
 void LightboxScene::draw() {
+    if (isWindow()) {
+        imageElement.draw(ofRectangle(0, 0, ofGetWidth(), ofGetHeight()));
+    }
     SceneBase::draw();
 }
 
@@ -251,6 +257,7 @@ void LightboxScene::play(int i){
             countdown->start(5 * 60);
             playMode = ALL_ZONES;
         }
+        if (isWindow()) imageElement.hide();
     }
     
     // outro
@@ -259,6 +266,11 @@ void LightboxScene::play(int i){
         if (isMaster()) {
             countdown->start(countdownDuration);
             osc->sendLightSoundCue(cues[LIGHTBOX_CUE_COUNT-1]);
+        }
+        if (isWindow()) {
+            // pink/yellow image
+            imageElement.setup("images/bonusGame.jpg");
+            imageElement.show();
         }
     }
     
@@ -269,6 +281,7 @@ void LightboxScene::play(int i){
 }
 
 void LightboxScene::stop(){
+    if (isWindow()) imageElement.hide();
     SceneBase::stop();
 }
 

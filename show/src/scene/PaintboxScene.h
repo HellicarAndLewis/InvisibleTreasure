@@ -9,6 +9,7 @@
 #pragma once
 #include "ofMain.h"
 #include "SceneBase.h"
+#include "ImageElement.h"
 
 // TODO: blob tracking, draw lines with people
 //
@@ -40,6 +41,7 @@ private:
     map<int, ofColor> colours;
     ofImage brushImage;
     float totalBlobArea;
+    ImageElement imageElement;
     
     ofParameter<float> minAreaEraser;
     ofParameter<float> minAreaBlack;

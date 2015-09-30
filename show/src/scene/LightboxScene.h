@@ -9,6 +9,7 @@
 #pragma once
 #include "ofMain.h"
 #include "SceneBase.h"
+#include "ImageElement.h"
 #define LIGHTBOX_CUE_COUNT 8
 
 class LightboxScene : public SceneBase {
@@ -80,5 +81,6 @@ private:
     bool zonesActive = false;
     bool isHeroActive = false;
     vector<HitArea> hitAreas;
+    ImageElement imageElement;
     
 };

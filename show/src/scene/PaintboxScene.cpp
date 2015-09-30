@@ -33,9 +33,15 @@ void PaintboxScene::update() {
             totalBlobArea += rect.getArea();
         }
     }
+    if (isWindow()) {
+        imageElement.update();
+    }
 }
 
 void PaintboxScene::draw() {
+    if (isWindow()) {
+        imageElement.draw(ofRectangle(0, 0, ofGetWidth(), ofGetHeight()));
+    }
     SceneBase::draw();
 }
 
@@ -116,6 +122,7 @@ void PaintboxScene::play(int i){
                 countdown->start(timerErase);
                 setMode(ERASER);
             }
+            if (isWindow()) imageElement.hide();
             break;
         case 66:
             if (isSlave()) {
@@ -133,6 +140,11 @@ void PaintboxScene::play(int i){
                 countdown->start(timerOutro);
                 setMode(FADE);
             }
+            if (isWindow()) {
+                // pink/yellow image
+                imageElement.setup("images/bonusGame.jpg");
+                imageElement.show();
+            }
             break;
         default:
             break;
@@ -141,6 +153,7 @@ void PaintboxScene::play(int i){
 }
 
 void PaintboxScene::stop(){
+    if (isWindow()) imageElement.hide();
     SceneBase::stop();
 }
 
