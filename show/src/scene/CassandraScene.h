@@ -57,4 +57,19 @@ private:
     ofParameter<int> timerCassandra;
     ofParameter<int> timerMain;
     ofParameter<int> timerOutro;
+    
+    // LX cues
+    ofParameter<int> lxCueIntro;
+    ofParameter<int> lxCuePlayback;
+    ofParameter<int> lxCueOutro;
+    ofParameterGroup lxCueGroup;
+    
+    // Sound cues
+    ofParameter<int> soundCueIntro;
+    ofParameter<int> soundCueName;
+    ofParameter<int> soundCueCassandra;
+    ofParameter<int> soundCueTimePassing;
+    ofParameter<int> soundCuePlayback;
+    ofParameter<int> soundCueOutro;
+    ofParameterGroup soundCueGroup;
 };

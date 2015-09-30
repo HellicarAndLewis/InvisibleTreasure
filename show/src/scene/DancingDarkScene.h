@@ -42,7 +42,6 @@ private:
     Tune tunes[DANCING_TUNE_COUNT];
     ofParameterGroup tunesGroup;
     
-    
     // LX cues
     ofParameter<int> lxCueBlackout;
     ofParameter<int> lxCueLightsUp;

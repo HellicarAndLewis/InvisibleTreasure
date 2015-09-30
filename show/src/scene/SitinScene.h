@@ -36,4 +36,16 @@ private:
     ofParameterGroup timerGroup;
     ofParameter<int> timerTheEnd;
     ofParameter<int> timerFadeUp;
+    
+    // LX cues
+    ofParameter<int> lxCueIntro;
+    ofParameter<int> lxCueTheEnd;
+    ofParameter<int> lxCueOutro;
+    ofParameterGroup lxCueGroup;
+    
+    // Sound cues
+    ofParameter<int> soundCueIntro;
+    ofParameter<int> soundCueTheEnd;
+    ofParameter<int> soundCueOutro;
+    ofParameterGroup soundCueGroup;
 };

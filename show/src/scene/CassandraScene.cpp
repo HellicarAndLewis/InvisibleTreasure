@@ -133,7 +133,7 @@ void CassandraScene::play(int i){
             }
             if (isMaster()) {
                 countdown->start(timerIntro.get());
-                // TODO: sound cue?
+                osc->sendSoundCue(soundCueIntro);
             }
             if (isWindow()) setMode(IDLE);
             break;
@@ -144,8 +144,8 @@ void CassandraScene::play(int i){
                 led->show(audience.get());
             }
             if (isMaster()) {
-                // TODO: LX cue
-                // TODO: sound cue?
+                osc->sendLightingCue(lxCueIntro);
+                osc->sendSoundCue(soundCueName);
             }
             if (isWindow()) setMode(IDLE);
             break;
@@ -163,7 +163,7 @@ void CassandraScene::play(int i){
             }
             if (isMaster()) {
                 countdown->start(timerCassandra.get());
-                // TODO: sund cue
+                osc->sendSoundCue(soundCueCassandra);
             }
             break;
             
@@ -181,7 +181,7 @@ void CassandraScene::play(int i){
             }
             if (isMaster()) {
                 countdown->start(timerMain.get());
-                // TODO: sund cue
+                osc->sendSoundCue(soundCueTimePassing);
             }
             break;
             
@@ -194,8 +194,8 @@ void CassandraScene::play(int i){
             if (isSlave()) led->hide();
             if (isMaster()) {
                 countdown->start(timerMain.get());
-                // TODO: LX cue
-                // TODO: sund cue
+                osc->sendSoundCue(soundCuePlayback);
+                osc->sendLightingCue(lxCuePlayback);
             }
             break;
         case 82:
@@ -212,8 +212,8 @@ void CassandraScene::play(int i){
             }
             if (isMaster()) {
                 countdown->start(timerOutro.get() + 1);
-                // TODO: LX cue
-                // TODO: sund cue
+                osc->sendSoundCue(soundCueOutro);
+                osc->sendLightingCue(lxCueOutro);
             }
             if (isWindow()) setMode(IDLE);
             break;
@@ -245,9 +245,26 @@ void CassandraScene::setupGui() {
     timerGroup.add(timerCassandra.set("cassandra", 2*60, 1, 10*60));
     timerGroup.add(timerMain.set("main", 5*60, 1, 10*60));
     timerGroup.add(timerOutro.set("outro", 5, 1, 10));
-    
     panel.add(titleGroup);
     panel.add(timerGroup);
+    
+    // LX cues
+    lxCueGroup.setName("LX Cues");
+    lxCueGroup.add(lxCueIntro.set("intro", 34, 0, 100));
+    lxCueGroup.add(lxCuePlayback.set("playback", 35, 0, 100));
+    lxCueGroup.add(lxCueOutro.set("outro", 0, 0, 100));
+    panel.add(lxCueGroup);
+    
+    // Sound cues
+    soundCueGroup.setName("Sound Cues");
+    soundCueGroup.add(soundCueIntro.set("intro", 0, 0, 100));
+    soundCueGroup.add(soundCueName.set("name", 0, 0, 100));
+    soundCueGroup.add(soundCueCassandra.set("cassandra", 0, 0, 100));
+    soundCueGroup.add(soundCueTimePassing.set("time passing", 0, 0, 100));
+    soundCueGroup.add(soundCuePlayback.set("placyback", 0, 0, 100));
+    soundCueGroup.add(soundCueOutro.set("outro", 0, 0, 100));
+    panel.add(soundCueGroup);
+    
     panel.loadFromFile("settings/cassandra.xml");
 }
 //////////////////////////////////////////////////////////////////////////////////

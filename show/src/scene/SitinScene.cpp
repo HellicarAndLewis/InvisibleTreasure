@@ -46,7 +46,8 @@ void SitinScene::play(int i){
             if (isSlave()) led->show(title);
             if (isMaster()) {
                 countdown->stop();
-                // TODO LX and sound cues
+                osc->sendLightingCue(lxCueIntro);
+                osc->sendSoundCue(soundCueIntro);
             }
             break;
         case 84:
@@ -54,7 +55,8 @@ void SitinScene::play(int i){
             if (isSlave()) led->show(theEnd);
             if (isMaster()) {
                 countdown->start(timerTheEnd);
-                // TODO LX and sound cues
+                osc->sendLightingCue(lxCueTheEnd);
+                osc->sendSoundCue(soundCueTheEnd);
             }
             break;
         case 85:
@@ -62,7 +64,8 @@ void SitinScene::play(int i){
             if (isSlave()) led->hide();
             if (isMaster()) {
                 countdown->start(timerFadeUp);
-                // TODO LX and sound cues
+                osc->sendLightingCue(lxCueOutro);
+                osc->sendSoundCue(soundCueOutro);
             }
             break;
         case 86:
@@ -75,7 +78,6 @@ void SitinScene::play(int i){
             }
             if (isMaster()) {
                 countdown->stop();
-                // TODO LX and sound cues
             }
             break;
         default:
@@ -99,6 +101,21 @@ void SitinScene::setupGui() {
     timerGroup.add(timerFadeUp.set("fade up", 10, 1, 60));
     panel.add(titleGroup);
     panel.add(timerGroup);
+    
+    // LX cues
+    lxCueGroup.setName("LX Cues");
+    lxCueGroup.add(lxCueIntro.set("intro", 36, 0, 100));
+    lxCueGroup.add(lxCueTheEnd.set("the end", 38, 0, 100));
+    lxCueGroup.add(lxCueOutro.set("outro", 39, 0, 100));
+    panel.add(lxCueGroup);
+    
+    // Sound cues
+    soundCueGroup.setName("Sound Cues");
+    soundCueGroup.add(soundCueIntro.set("intro", 0, 0, 100));
+    soundCueGroup.add(soundCueTheEnd.set("the end", 0, 0, 100));
+    soundCueGroup.add(soundCueOutro.set("outro", 0, 0, 100));
+    panel.add(soundCueGroup);
+    
     panel.loadFromFile("settings/sitin.xml");
 }
 //////////////////////////////////////////////////////////////////////////////////
