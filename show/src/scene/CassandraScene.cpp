@@ -22,6 +22,8 @@ void CassandraScene::setup() {
     // subscenes
     subsceneStart = 77;
     subsceneEnd = 82;
+    timer.setup("fonts/Arial Black.ttf", 140);
+    timer.colour.set(255);
     SceneBase::setup();
 }
 
@@ -47,6 +49,7 @@ void CassandraScene::update() {
                 fileCount++;
             }
         }
+        timer.update();
     }
     SceneBase::update();
 }
@@ -78,6 +81,18 @@ void CassandraScene::draw() {
             }
             
         }
+        
+        if (subsceneI == 80) {
+            windowTimer += ofGetLastFrameTime();
+            int secondsLeft = timerMain - windowTimer;
+            int mins = floor(secondsLeft / 60);
+            int secs = secondsLeft % 60;
+            timer.messageString = ofToString(mins) + ":" + ofToString(secs);
+            timer.maxWidth = ofGetWidth() * 0.9;
+            int stringH = timer.getHeight();
+            timer.draw(ofGetWidth()/2, ofGetHeight()*.45 - stringH/2);
+        }
+        
         if (isDebugMode) {
             if (mode == RECORD_CASSANDRA) {
                 auto image = vision->ipcamCassandra.grabber->getFrame();
@@ -139,6 +154,7 @@ void CassandraScene::play(int i){
                 led->playQueue();
             }
             if (isWindow()) {
+                timer.hide();
                 setMode(RECORD_CASSANDRA);
             }
             if (isMaster()) {
@@ -155,6 +171,8 @@ void CassandraScene::play(int i){
                 led->playQueue();
             }
             if (isWindow()) {
+                windowTimer = 0;
+                timer.show("", 1, -1, 1);
                 setMode(RECORD_MAIN);
             }
             if (isMaster()) {
@@ -166,6 +184,7 @@ void CassandraScene::play(int i){
         case 81:
             // all windows stop recording main room, playback both videos split screen, timed
             if (isWindow()) {
+                timer.hide();
                 setMode(PLAYBACK);
             }
             if (isSlave()) led->hide();

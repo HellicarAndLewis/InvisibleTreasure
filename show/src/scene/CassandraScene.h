@@ -10,6 +10,7 @@
 #include "ofMain.h"
 #include "SceneBase.h"
 #include "ofxImageSequence.h"
+#include "Message.h"
 
 class CassandraScene : public SceneBase {
 public:
@@ -39,6 +40,8 @@ private:
     int indexCassandra;
     int indexMain;
     float playbackTime;
+    float windowTimer;
+    Message timer;
     
     // gui
     ofParameterGroup titleGroup;
