@@ -11,7 +11,7 @@
 #include "SceneBase.h"
 #include "ShapeRenderer.h"
 #define MAX_ATTEMPTS 3
-#define DARK_SHAPES_CUE_COUNT 11
+#define DARK_SHAPES_LXCUE_COUNT 10
 #define DARK_SHAPES_TIMER_COUNT 8
 
 // TODO: cv blob tracking and shape detection
@@ -114,8 +114,19 @@ private:
     ofParameter<string> bonusComplete;
     ofParameter<string> heIs;
     ofParameter<string> nextLevel;
-    // cues: reset, centre, wall1, wall2, wall3, wall4, all, outro
-    OscClient::CueParams cues[DARK_SHAPES_CUE_COUNT];
+    
+    // LX cues:
+    // 11 bright, 12 blackout, 13 lights up, 14 black, 15 lights, 16 black, 17 lights, 18 black, 19 lights, 22 countdown
+    ofParameter<int> lxCues[DARK_SHAPES_LXCUE_COUNT];
+    ofParameterGroup lxCueGroup;
+    
+    // Sound cues
+    // bonus, countdown, bad, good
+    ofParameter<int> soundCueBonus;
+    ofParameter<int> soundCueCount;
+    ofParameter<int> soundCueBad;
+    ofParameter<int> soundCueGood;
+    ofParameterGroup soundCueGroup;
     
     ofParameterGroup timerGroup;
     ofParameter<int> timers[DARK_SHAPES_TIMER_COUNT];
