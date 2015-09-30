@@ -134,6 +134,7 @@ void SceneBase::stop(){
     Sequencable::stop();
     led->hide();
     countdown->stop();
+    vision->isEnabled = false;
 }
 
 //////////////////////////////////////////////////////////////////////////////////

@@ -96,6 +96,7 @@ void FlantsScene::drawMasterProjection() {
 //////////////////////////////////////////////////////////////////////////////////
 void FlantsScene::play(int i){
     if (isMaster()) {
+        vision->isEnabled = true;
         if (i == 51) {
             setMode(YELLOW_SMALL);
             countdown->stop();

@@ -38,6 +38,7 @@ public:
     IVisionInput* getInput();
     
     ofParameter<bool> debugDraw;
+    ofParameter<bool> isEnabled;
     IPCamInput ipcam;
     IPCamInput ipcamCassandra;
     

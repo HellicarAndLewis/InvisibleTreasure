@@ -99,6 +99,9 @@ void PaintboxScene::drawMasterProjection() {
 // public
 //////////////////////////////////////////////////////////////////////////////////
 void PaintboxScene::play(int i){
+    if (isMaster()) {
+        vision->isEnabled = true;
+    }
     switch (i) {
         case 63:
             if (isSlave()) {

@@ -56,6 +56,7 @@ void CassandraScene::update() {
 
 void CassandraScene::draw() {
     if (isWindow()) {
+        vision->isEnabled = true;
         if (mode == PLAYBACK) {
             playbackTime += ofGetLastFrameTime();
             

@@ -45,7 +45,7 @@ void VisionManager::setup() {
 }
 
 void VisionManager::update() {
-    if (input == NULL) return;
+    if (input == NULL || !isEnabled) return;
     input->update();
     if (input->getIsReady() && input->isFrameNew()) {
         inputImage.setFromPixels(input->getPixelsRef());
@@ -149,6 +149,7 @@ void VisionManager::setupGui() {
     // vision next
     guiName = "Vision";
     panel.setup(guiName, "settings/vision.xml");
+    panel.add(isEnabled.set("enabled", false));
     panel.add(inputSelector.set("input", 0, 0, inputs.size()-1));
     panel.add(debugDraw.set("debug draw", false));
     panel.add(isCalibrating.set("calibrating", false));

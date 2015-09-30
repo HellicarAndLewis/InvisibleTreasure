@@ -103,6 +103,9 @@ void DarkShapesScene::drawMasterScreen() {
 // public
 //////////////////////////////////////////////////////////////////////////////////
 void DarkShapesScene::play(int i){
+    if (isMaster()) {
+        vision->isEnabled = true;
+    }
     if (i == 17) {
         if (isSlave()) led->show(title.get());
         if (isMaster()) {

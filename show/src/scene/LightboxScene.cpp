@@ -275,7 +275,10 @@ void LightboxScene::play(int i){
     }
     
     // refresh hit areas for all subscenes
-    if (isMaster()) refreshHitAreas();
+    if (isMaster()) {
+        vision->isEnabled = true;
+        refreshHitAreas();
+    }
     
     SceneBase::play(i);
 }
