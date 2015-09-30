@@ -10,8 +10,9 @@
 #include "ofMain.h"
 #include "SceneBase.h"
 #include "Particles.h"
+#define FLANTS_CUE_COUNT 9
 
-// TODO: particles, blob tracking, contours, errosion
+// particles, blob tracking, contours, errosion
 //
 class FlantsScene : public SceneBase {
 public:
@@ -57,4 +58,6 @@ private:
     ofParameter<int> timerAgain;
     ofParameter<int> timerTired;
     ofParameter<int> timerNext;
+    
+    OscClient::CueParams cues[FLANTS_CUE_COUNT];
 };

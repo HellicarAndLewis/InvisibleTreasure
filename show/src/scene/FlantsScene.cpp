@@ -100,37 +100,46 @@ void FlantsScene::play(int i){
         if (i == 51) {
             setMode(YELLOW_SMALL);
             countdown->stop();
+            osc->sendLightSoundCue(cues[0]);
         }
         else if (i == 52) {
             setMode(YELLOW_EXPAND);
             countdown->start(timerTransition);
+            osc->sendLightSoundCue(cues[1]);
         }
         else if (i == 53) {
             setMode(YELLOW_BLUE_SHAPES);
             countdown->stop();
+            osc->sendLightSoundCue(cues[2]);
         }
         else if (i == 54) {
             setMode(RED_SMALL);
             countdown->stop();
+            osc->sendLightSoundCue(cues[3]);
         }
         else if (i == 55 || i == 59) {
             setMode(RED_EXPAND);
             countdown->start(timerTransition);
+            osc->sendLightSoundCue(cues[4]);
         }
         else if (i == 56 || i == 60) {
             setMode(RED_BLUE_SHAPES);
             countdown->stop();
+            osc->sendLightSoundCue(cues[5]);
         }
         else if (i == 57 || i == 61) {
             setMode(EXPLODE);
             countdown->start(timerBoom);
+            osc->sendLightSoundCue(cues[6]);
         }
         else if (i == 58) {
             setMode(EXPLODE);
             countdown->start(timerGameOver + timerAgain);
+            osc->sendLightSoundCue(cues[7]);
         }
         else if (i == 62) {
             countdown->start(timerGameOver + timerTired + timerNext);
+            osc->sendLightSoundCue(cues[8]);
         }
     }
     
@@ -189,6 +198,25 @@ void FlantsScene::setupGui() {
     timerGroup.add(timerTired.set("tired", 3, 1, 10));
     timerGroup.add(timerNext.set("next", 5, 1, 10));
     panel.add(timerGroup);
+    
+    // cues
+    panel.add(cues[0].setup("cue intro", 23, 0));
+    // pool expand, lx24, change track
+    panel.add(cues[1].setup("cue expand", 24, 0));
+    // add blue shapes
+    panel.add(cues[2].setup("cue add blue", 23, 0));
+    // red
+    panel.add(cues[3].setup("cue red", 25, 0));
+    // expand
+    panel.add(cues[4].setup("cue red expand", 25, 0));
+    // add blue
+    panel.add(cues[5].setup("cue red blue", 25, 0));
+    // boom
+    panel.add(cues[6].setup("cue boom", 26, 0));
+    // play again
+    panel.add(cues[7].setup("cue play again", 0, 0));
+    // game over
+    panel.add(cues[8].setup("cue game over", 27, 0));
     
     panel.loadFromFile("settings/flants.xml");
     
