@@ -94,6 +94,7 @@ public:
 protected:  
 private:
     int id;
+    bool isConnected;
     
     ofxOscSender sender;
     ofxOscReceiver receiver;

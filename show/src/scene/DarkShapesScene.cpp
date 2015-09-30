@@ -128,6 +128,7 @@ void DarkShapesScene::play(int i){
                         break;
                     case ShapeGame::FAIL:
                         if (isSlave()) {
+                            led->hide();
                             led->queue(LedDisplay::Params(game.label, 0, 1, 0, false, 0));
                             led->queue(LedDisplay::Params(playAgain.get(), 0, 1, 0));
                             led->queue(LedDisplay::Params(game.label, 0, 1, 0));
@@ -158,6 +159,7 @@ void DarkShapesScene::play(int i){
     // outro
     else if (i == 50) {
         if (isSlave()) {
+            led->hide();
             led->queue(LedDisplay::Params(bonusComplete.get(), 0, timers[5], 0, false, 0));
             led->queue(LedDisplay::Params(heIs.get(), 0, timers[6], 0, false, 0));
             led->queue(LedDisplay::Params(nextLevel.get(), 0, timers[7], 0, false, timers[7]));

@@ -42,8 +42,7 @@ void ShadowsScene::play(int i){
     if (i==1) {
         if (isSlave()) {
             // LED: Welcome
-            // fixed-name image
-            // Cues
+            led->hide();
             led->queue(LedDisplay::Params(welcomeTitle.get(), 1, 5, 1, true));
             led->playQueue();
             

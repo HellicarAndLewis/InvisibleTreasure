@@ -19,6 +19,7 @@ OscClient::OscClient() {
     sendPort = "12345";
     receivePort = "12345";
     current_msg_string = 0;
+    isConnected = false;
 }
 
 void OscClient::setup(int id) {
@@ -26,6 +27,8 @@ void OscClient::setup(int id) {
 }
 
 void OscClient::update() {
+    if (!isConnected) return;
+    
     // hide old messages
     for(int i = 0; i < NUM_MSG_STRINGS; i++){
         if(timers[i] < ofGetElapsedTimef()){
@@ -112,12 +115,18 @@ void OscClient::setupGui() {
     panel.add(sendPort.set("to port", "12345"));
     panel.loadFromFile("settings/osc.xml");
     // setup OSC clients after loading settings
-    sender.setup(sendAddress, ofToInt(sendPort));
-    receiver.setup(ofToInt(receivePort));
+    try {
+        sender.setup(sendAddress, ofToInt(sendPort));
+        receiver.setup(ofToInt(receivePort));
+        isConnected = true;
+    } catch (std::exception e) {
+        ofLogError() << "OscClient cannot conect! Are you connected to the network?";
+    }
 }
 
 void OscClient::sendPlayScene(int id) {
     ofLogNotice("OscClient::sendPlayScene: " + (string)PLAY_SCENE_ADRESS + " " + ofToString(id));
+    if (!isConnected) return;
     ofxOscMessage m;
     m.setAddress(PLAY_SCENE_ADRESS);
     m.addIntArg(id);
@@ -128,6 +137,7 @@ void OscClient::sendPlayScene(int id) {
 
 void OscClient::sendPlaySubScene(int id) {
     ofLogNotice("OscClient::sendPlaySubScene: " + (string)PLAY_SUBSCENE_ADRESS + " " + ofToString(id));
+    if (!isConnected) return;
     ofxOscMessage m;
     m.setAddress(PLAY_SUBSCENE_ADRESS);
     m.addIntArg(id);
@@ -136,6 +146,7 @@ void OscClient::sendPlaySubScene(int id) {
 }
 
 void OscClient::sendPresence(string areaName, int count){
+    if (!isConnected) return;
     ofxOscMessage m;
     m.setAddress(PRESENCE_ADRESS);
     m.addStringArg(areaName);
@@ -146,6 +157,7 @@ void OscClient::sendPresence(string areaName, int count){
 
 void OscClient::sendVolume(float volume, int windowId){
     ofLogVerbose("OscClient::sendVolume: " + (string)VOLUME_ADRESS + " " + ofToString(volume));
+    if (!isConnected) return;
     ofxOscMessage m;
     m.setAddress(VOLUME_ADRESS);
     m.addFloatArg(volume);
@@ -156,6 +168,7 @@ void OscClient::sendVolume(float volume, int windowId){
 
 void OscClient::sendVolumeTrigger(int windowId) {
     ofLogNotice("OscClient::sendVolumeTrigger: " + (string)VOLUME_ADRESS + " " + ofToString(windowId));
+    if (!isConnected) return;
     ofxOscMessage m;
     m.setAddress(VOLUME_TRIGGER_ADRESS);
     m.addIntArg(windowId);
@@ -197,6 +210,7 @@ void OscClient::sendLightSoundCue(CueWithFloatParams cue) {
 void OscClient::sendLightingCue(float cue, float list) {
     string address = "/eos/cue/" + ofToString(list) + "/" + ofToString(cue) + "/fire";
     ofLogNotice("OscClient::sendLightingCue: " + address);
+    if (!isConnected) return;
     ofxOscMessage m;
     m.setAddress(address);
     sender.sendMessage(m);
@@ -209,6 +223,7 @@ void OscClient::sendLightingCue(float cue, float list) {
 void OscClient::sendSoundCue(float cue) {
     string address = "/cue/" + ofToString(cue) + "/start";
     ofLogNotice("OscClient::sendSoundCue: " + address);
+    if (!isConnected) return;
     ofxOscMessage m;
     m.setAddress(address);
     sender.sendMessage(m);
@@ -221,6 +236,7 @@ void OscClient::sendSoundCue(float cue) {
 void OscClient::sendSoundVolume(float id, float volume) {
     string address = "/volume/" + ofToString(id) + "/" + ofToString(volume);
     ofLogVerbose("OscClient::sendSoundVolume: " + address);
+    if (!isConnected) return;
     ofxOscMessage m;
     m.setAddress(address);
     sender.sendMessage(m);
@@ -244,6 +260,7 @@ void OscClient::sendSoundVolume(float id, float volume) {
 
 void OscClient::keyPressed (int key) {
     if(key == 'p'){
+        if (!isConnected) return;
         ofxOscMessage m;
         m.setAddress("/ping");
         m.addIntArg(1);

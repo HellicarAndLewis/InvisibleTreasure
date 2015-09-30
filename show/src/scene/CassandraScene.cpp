@@ -134,6 +134,7 @@ void CassandraScene::play(int i){
         case 79:
             // welcome, all windows record cassandra room, timed
             if (isSlave()) {
+                led->hide();
                 led->queue(LedDisplay::Params(welcome.get(), 1, 5, 1, true));
                 led->playQueue();
             }
@@ -149,6 +150,7 @@ void CassandraScene::play(int i){
         case 80:
             // welcome, all windows stop recording cassandra, start recording main room, timed
             if (isSlave()) {
+                led->hide();
                 led->queue(LedDisplay::Params(welcome.get(), 1, 5, 1, true));
                 led->playQueue();
             }
