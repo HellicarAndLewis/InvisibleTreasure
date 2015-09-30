@@ -85,12 +85,15 @@ void CassandraScene::draw() {
         if (subsceneI == 80) {
             windowTimer += ofGetLastFrameTime();
             int secondsLeft = timerMain - windowTimer;
-            int mins = floor(secondsLeft / 60);
-            int secs = secondsLeft % 60;
-            timer.messageString = ofToString(mins) + ":" + ofToString(secs);
-            timer.maxWidth = ofGetWidth() * 0.9;
-            int stringH = timer.getHeight();
-            timer.draw(ofGetWidth()/2, ofGetHeight()*.45 - stringH/2);
+            if (secondsLeft > 0) {
+                int mins = floor(secondsLeft / 60);
+                string secs = ofToString( (secondsLeft % 60) );
+                if (secs.length() == 1) secs = "0" + secs;
+                timer.messageString = ofToString(mins) + ":" + secs;
+                timer.maxWidth = ofGetWidth() * 0.9;
+                int stringH = timer.getHeight();
+                timer.draw(ofGetWidth()/2, ofGetHeight()*.45 - stringH/2);
+            }
         }
         
         if (isDebugMode) {
