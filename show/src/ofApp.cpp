@@ -42,6 +42,7 @@ void ofApp::setup() {
     sceneManager.setup(&appModel, &osc, &vision, &displayManager);
     // call this last!
     setupGui();
+    if (appModel.mode != AppModel::MASTER) ofHideCursor();
 }
 
 void ofApp::update() {
