@@ -8,13 +8,19 @@ echo computer = $computer
 echo user = $user
 echo pass = $pass
 
+#change to working directory
+dir=${0%/*}
+if [ -d "$dir" ]; then
+  cd "$dir"
+fi
+
 name=FANSHEN
 mount_point=/Volumes/$name
-syncfrom=/Users/chris/projects/invisibleTreasure/apps/invisibleTreasure/show/bin
+syncfrom=../../../../../bin
 syncto=/Volumes/$name/Documents/fanshen
 
 # remote mount address
-mount_address=afp://mistress:password@mistress.local/mistress
+mount_address=afp://$user:$pass@$computer.local/$computer
 
 
 if [ "$test" != "$mount_point" ]
