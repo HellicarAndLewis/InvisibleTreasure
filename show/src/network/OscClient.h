@@ -86,6 +86,9 @@ public:
     void sendSoundCue(float cue);
     void sendSoundVolume(float id, float volume);
     
+    void sendKill();
+    
+    ofxButton killButton;
     ofEvent<int> playSceneEvent;
     ofEvent<int> playSubSceneEvent;
     ofEvent<VolumeEventArgs> volumeEvent;

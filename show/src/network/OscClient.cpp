@@ -67,6 +67,10 @@ void OscClient::update() {
             VolumeEventArgs args = VolumeEventArgs(1, windowId);
             if (senderId != this->id) ofNotifyEvent(volumeTriggerEvent, args, this);
         }
+        else if (msg_string == "/kill") {
+            int senderId = m.getArgAsInt32(0);
+            if (senderId != this->id) std::exit(1);
+        }
         
         
         msg_string += ": ";
@@ -113,11 +117,15 @@ void OscClient::setupGui() {
     panel.add(info.set("to change", "Edit XML + restart"));
     panel.add(sendAddress.set("to IP", "192.168.0.255"));
     panel.add(sendPort.set("to port", "12345"));
+    killButton.addListener(this, &OscClient::sendKill);
+    panel.add(killButton.setup("kill"));
+    
     panel.loadFromFile("settings/osc.xml");
     // setup OSC clients after loading settings
     try {
         sender.setup(sendAddress, ofToInt(sendPort));
         receiver.setup(ofToInt(receivePort));
+        ofLogError() << "OscClient connected to " << sendAddress;
         isConnected = true;
     } catch (std::exception e) {
         ofLogError() << "OscClient cannot conect! Are you connected to the network?";
@@ -240,6 +248,17 @@ void OscClient::sendSoundVolume(float id, float volume) {
     ofxOscMessage m;
     m.setAddress(address);
     sender.sendMessage(m);
+}
+
+void OscClient::sendKill() {
+    string address = "/kill";
+    ofLogVerbose("OscClient::sendKill");
+    if (!isConnected) return;
+    ofxOscMessage m;
+    m.setAddress(address);
+    m.addIntArg(this->id);
+    sender.sendMessage(m);
+    //std::exit(1);
 }
 
 //////////////////////////////////////////////////////////////////////////////////
