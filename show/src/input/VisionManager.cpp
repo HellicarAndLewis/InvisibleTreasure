@@ -173,7 +173,7 @@ void VisionManager::setupGui() {
     panel.setup(guiName, "settings/vision.xml");
     panel.add(isEnabled.set("enabled", false));
     panel.add(inputSelector.set("input", 0, 0, inputs.size()-1));
-    panel.add(inputCrop.set("input crop", 1, 0, 1));
+    panel.add(inputCrop.set("input crop", 0.6, 0, 1));
     panel.add(debugDraw.set("debug draw", false));
     panel.add(isCalibrating.set("calibrating", false));
     panel.add(ipCamURLMain.set("Main cam URL", "http://192.168.255.10/axis-cgi/mjpg/video.cgi"));

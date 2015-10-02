@@ -41,10 +41,10 @@ void DisplayManager::setupGui() {
     
     // sizes
     displaySizes.setName("Display Sizes");
-    displaySizes.add(slaveScreen.sizeIn.set("Slave screen", ofVec2f(DISPLAY_W,DISPLAY_H), ofVec2f(0,0), ofVec2f(DISPLAY_W*2,DISPLAY_W*2)));
-    displaySizes.add(slaveProjection.sizeIn.set("Slave Projection", ofVec2f(DISPLAY_W,DISPLAY_H), ofVec2f(0,0), ofVec2f(DISPLAY_W*2,DISPLAY_W*2)));
-    displaySizes.add(masterScreen.sizeIn.set("Master screen", ofVec2f(DISPLAY_W,DISPLAY_H), ofVec2f(0,0), ofVec2f(DISPLAY_W*2,DISPLAY_W*2)));
-    displaySizes.add(masterProjection.sizeIn.set("Master projection", ofVec2f(DISPLAY_W*2,DISPLAY_H*2), ofVec2f(0,0), ofVec2f(DISPLAY_W*4,DISPLAY_H*4)));
+    displaySizes.add(slaveScreen.sizeIn.set("Slave screen", ofVec2f(1680, 1050), ofVec2f(0,0), ofVec2f(1920, 1080)));
+    displaySizes.add(slaveProjection.sizeIn.set("Slave Projection", ofVec2f(DISPLAY_W, DISPLAY_H), ofVec2f(0,0), ofVec2f(DISPLAY_W*2, DISPLAY_W*2)));
+    displaySizes.add(masterScreen.sizeIn.set("Master screen", ofVec2f(1920, 1080), ofVec2f(0,0), ofVec2f(1920, 1080)));
+    displaySizes.add(masterProjection.sizeIn.set("Master projection", ofVec2f(DISPLAY_W*2, DISPLAY_H*2), ofVec2f(0,0), ofVec2f(DISPLAY_W*4, DISPLAY_H*4)));
     panel.add(displaySizes);
     
     // child panels

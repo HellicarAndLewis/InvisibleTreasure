@@ -26,6 +26,9 @@ public:
             group.add(this->port.set("port", port));
             return group;
         }
+        void connect() {
+            client.setup(address, ofToInt(port));
+        }
     };
     
     struct CueParams {
@@ -116,14 +119,11 @@ private:
     Sender senderLights;
     Sender senderSound;
     
-    ofxOscSender sender;
     ofxOscReceiver receiver;
     int current_msg_string;
     string msg_strings[NUM_MSG_STRINGS];
     float timers[NUM_MSG_STRINGS];
     
     ofParameter<string> info;
-    ofParameter<string> sendAddress;
-    ofParameter<string> sendPort;
     ofParameter<string> receivePort;
 };

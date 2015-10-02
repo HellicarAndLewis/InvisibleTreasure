@@ -15,8 +15,6 @@
 #define VOLUME_TRIGGER_ADRESS "/window/volumetrigger"
 
 OscClient::OscClient() {
-    sendAddress = "192.168.0.255";
-    sendPort = "12345";
     receivePort = "12345";
     current_msg_string = 0;
     isConnected = false;
@@ -116,12 +114,9 @@ void OscClient::setupGui() {
     panel.setup(guiName, "settings/osc.xml");
     panel.add(info.set("to change", "Edit XML + restart"));
     
-//    panel.add(senderBroadcast.setup("broadcast", "192.168.255.255", "12345"));
-//    panel.add(senderLights.setup("broadcast", "192.168.255.255", "12345"));
-//    panel.add(senderSound.setup("broadcast", "192.168.255.255", "12345"));
-    
-    panel.add(sendAddress.set("to IP", "192.168.0.255"));
-    panel.add(sendPort.set("to port", "12345"));
+    panel.add(senderBroadcast.setup("broadcast", "192.168.1.255", "12345"));
+    panel.add(senderLights.setup("light", "192.168.255.1", "53002"));
+    panel.add(senderSound.setup("sound", "192.168.255.1", "8001"));
     
     killButton.addListener(this, &OscClient::sendKill);
     panel.add(killButton.setup("kill"));
@@ -129,9 +124,11 @@ void OscClient::setupGui() {
     panel.loadFromFile("settings/osc.xml");
     // setup OSC clients after loading settings
     try {
-        sender.setup(sendAddress, ofToInt(sendPort));
+        senderBroadcast.connect();
+        senderLights.connect();
+        senderSound.connect();
         receiver.setup(ofToInt(receivePort));
-        ofLogError() << "OscClient connected to " << sendAddress;
+        ofLogError() << "OscClient listening on " << receivePort;
         isConnected = true;
     } catch (std::exception e) {
         ofLogError() << "OscClient cannot conect! Are you connected to the network?";
@@ -145,7 +142,7 @@ void OscClient::sendPlayScene(int id) {
     m.setAddress(PLAY_SCENE_ADRESS);
     m.addIntArg(id);
     m.addIntArg(this->id);
-    sender.sendMessage(m);
+    senderBroadcast.client.sendMessage(m);
 }
 
 
@@ -156,7 +153,7 @@ void OscClient::sendPlaySubScene(int id) {
     m.setAddress(PLAY_SUBSCENE_ADRESS);
     m.addIntArg(id);
     m.addIntArg(this->id);
-    sender.sendMessage(m);
+    senderBroadcast.client.sendMessage(m);
 }
 
 void OscClient::sendPresence(string areaName, int count){
@@ -166,7 +163,7 @@ void OscClient::sendPresence(string areaName, int count){
     m.addStringArg(areaName);
     m.addIntArg(count);
     m.addIntArg(this->id);
-    sender.sendMessage(m);
+    senderBroadcast.client.sendMessage(m);
 }
 
 void OscClient::sendVolume(float volume, int windowId){
@@ -177,7 +174,7 @@ void OscClient::sendVolume(float volume, int windowId){
     m.addFloatArg(volume);
     m.addIntArg(windowId);
     m.addIntArg(this->id);
-    sender.sendMessage(m);
+    senderBroadcast.client.sendMessage(m);
 }
 
 void OscClient::sendVolumeTrigger(int windowId) {
@@ -187,7 +184,7 @@ void OscClient::sendVolumeTrigger(int windowId) {
     m.setAddress(VOLUME_TRIGGER_ADRESS);
     m.addIntArg(windowId);
     m.addIntArg(this->id);
-    sender.sendMessage(m);
+    senderBroadcast.client.sendMessage(m);
 }
 
 void OscClient::sendLightSoundCue(CueParams cue) {
@@ -227,7 +224,7 @@ void OscClient::sendLightingCue(float cue, float list) {
     if (!isConnected) return;
     ofxOscMessage m;
     m.setAddress(address);
-    sender.sendMessage(m);
+    senderLights.client.sendMessage(m);
 }
 
 //
@@ -240,7 +237,7 @@ void OscClient::sendSoundCue(float cue) {
     if (!isConnected) return;
     ofxOscMessage m;
     m.setAddress(address);
-    sender.sendMessage(m);
+    senderSound.client.sendMessage(m);
 }
 
 //
@@ -253,7 +250,7 @@ void OscClient::sendSoundVolume(float id, float volume) {
     if (!isConnected) return;
     ofxOscMessage m;
     m.setAddress(address);
-    sender.sendMessage(m);
+    senderSound.client.sendMessage(m);
 }
 
 void OscClient::sendKill() {
@@ -263,7 +260,7 @@ void OscClient::sendKill() {
     ofxOscMessage m;
     m.setAddress(address);
     m.addIntArg(this->id);
-    sender.sendMessage(m);
+    senderBroadcast.client.sendMessage(m);
     //std::exit(1);
 }
 
@@ -286,10 +283,10 @@ void OscClient::sendKill() {
 void OscClient::keyPressed (int key) {
     if(key == 'p'){
         if (!isConnected) return;
-        ofLogNotice() << "/sub/1/level";
+        ofLogNotice() << "/ping";
         ofxOscMessage m;
-        m.setAddress("/seq/go");
-        //m.addIntArg(255);
-        sender.sendMessage(m);
+        m.setAddress("/ping");
+        m.addIntArg(1);
+        senderBroadcast.client.sendMessage(m);
     }
 }
