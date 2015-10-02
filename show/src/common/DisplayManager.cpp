@@ -30,7 +30,8 @@ void DisplayManager::draw() {
 void DisplayManager::setupGui() {
     guiName = "Displays";
     panel.setup(guiName, "settings/displays.xml");
-    // add parameters
+    
+    // general settings
     scaleToWindow.addListener(this, &DisplayManager::onScaleToWindow);
     panel.add(activeDisplay.set("display mode", 0, 0, 2));
     panel.add(scaleToWindow.set("scale to window", false));
@@ -47,15 +48,14 @@ void DisplayManager::setupGui() {
     displaySizes.add(masterProjection.sizeIn.set("Master projection", ofVec2f(DISPLAY_W*2, DISPLAY_H*2), ofVec2f(0,0), ofVec2f(DISPLAY_W*4, DISPLAY_H*4)));
     panel.add(displaySizes);
     
-    // child panels
-    // edge blending
+    // edge blending (child panel)
     projectionManager.setupGui();
     panel.add(projectionManager.guiEnabled.set(projectionManager.guiName, false));
     projectionManager.panel.setPosition(270*2, 10);
     
-    
     panel.loadFromFile("settings/displays.xml");
     refreshFbos();
+    
     // setup projection manager
     // give it the w/h of each projector
     // this is half the width and half the height of the overall 2x2 projection canvas
@@ -72,6 +72,7 @@ void DisplayManager::drawGui() {
 void DisplayManager::drawSlave() {
     if (slaveScreen.sizeChanged()) slaveScreen.refreshFbos();
     if (slaveProjection.sizeChanged()) slaveProjection.refreshFbos();
+    
     // Setup some dimensions for drawing screen, projection or both
     // take into account scaling to fit the window
     // and drawing projection input vs output
@@ -93,7 +94,6 @@ void DisplayManager::drawSlave() {
         scale = ofGetWidth() / totalW;
     }
     
-    //
     // Now we can draw stuff
     float projectionX = 0.0f;
     // Screen
@@ -108,12 +108,6 @@ void DisplayManager::drawSlave() {
 }
 
 void DisplayManager::drawMaster() {
-    // make sure the projectors FBO is at the right size
-    // it will contain 2 horzizontal slices from masterProjection.in side by side
-    // so it needs to be double the width and half the height
-    if (projectionManager.width != masterProjection.in.getWidth()*2) {
-        allocateProjectorsFbo();
-    }
     if (masterScreen.sizeChanged()) masterScreen.refreshFbos();
     if (masterProjection.sizeChanged()) masterProjection.refreshFbos();
     
@@ -248,7 +242,6 @@ void DisplayManager::refreshFbos() {
     slaveProjection.refreshFbos();
     masterScreen.refreshFbos();
     masterProjection.refreshFbos();
-    allocateProjectorsFbo();
 }
 
 //////////////////////////////////////////////////////////////////////////////////
@@ -266,9 +259,6 @@ void DisplayManager::onScaleToWindow(bool& scale) {
     refreshFbos();
 }
 
-void DisplayManager::allocateProjectorsFbo(){
-    //projectorsOutput.allocate(masterProjection.in.getWidth()*2, masterProjection.in.getHeight()*0.5);
-}
 //////////////////////////////////////////////////////////////////////////////////
 // custom event handlers
 //////////////////////////////////////////////////////////////////////////////////

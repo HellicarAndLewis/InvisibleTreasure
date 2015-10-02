@@ -11,6 +11,9 @@
 #include "Sequencable.h"
 #include "Displayable.h"
 
+//
+// Image with fadein/out
+//
 class ImageElement : public Sequencable, public Displayable {
 public:
     ImageElement();

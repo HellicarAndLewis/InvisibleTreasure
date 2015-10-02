@@ -13,6 +13,8 @@ LedDisplay::LedDisplay() {
 
 void LedDisplay::setup(Countdown * countdown) {
     this->countdown = countdown;
+    
+    // LED style font size and colour
     title1.setup("fonts/led_board-7.ttf", 80);
     title2.setup("fonts/led_board-7.ttf", 80);
     title1.colour.set(226, 148, 57);
@@ -33,48 +35,48 @@ void LedDisplay::update() {
 }
 
 void LedDisplay::draw() {
+    
+    // Set the max widths
+    // exceeding this will wrap text
     title1.maxWidth = getDisplayRect().width * 0.9;
     title2.maxWidth = getDisplayRect().width * 0.9;
     
+    // begin the slave screen display
     display->begin();
-    ofClear(39, 36, 37, 255);
-    
-    int stringH;
-    if (showCountdown) {
-        // title 1
-        stringH = title1.getHeight();
-        title1.draw(getDisplayRect().getCenter().x, getDisplayRect().getHeight()*percentYTitle.get() - stringH/2);
-        // title 2  / countdown
-        stringH = title2.getHeight();
-        float y = getDisplayRect().getHeight()*percentYCountdown.get();
-        if (title1.messageString == "") y = getDisplayRect().getHeight()*0.45;
-        title2.draw(getDisplayRect().getCenter().x, y - stringH/2);
+    {
+        ofClear(39, 36, 37, 255);
+        int stringH;
+        if (showCountdown) {
+            // title 1
+            stringH = title1.getHeight();
+            title1.draw(getDisplayRect().getCenter().x, getDisplayRect().getHeight()*percentYTitle.get() - stringH/2);
+            // title 2  / countdown
+            stringH = title2.getHeight();
+            float y = getDisplayRect().getHeight()*percentYCountdown.get();
+            if (title1.messageString == "") y = getDisplayRect().getHeight()*0.45;
+            title2.draw(getDisplayRect().getCenter().x, y - stringH/2);
+        }
+        else {
+            // title 1
+            stringH = title1.getHeight();
+            title1.draw(getDisplayRect().getCenter().x, getDisplayRect().getHeight()*0.45 - stringH/2);
+        }
+        ofSetColor(255);
     }
-    else {
-        // title 1
-        stringH = title1.getHeight();
-        title1.draw(getDisplayRect().getCenter().x, getDisplayRect().getHeight()*0.45 - stringH/2);
-    }
-    
-    
-    ofSetColor(255);
     display->end();
+    // end the slave screen display
 }
 
 //////////////////////////////////////////////////////////////////////////////////
 // public
 //////////////////////////////////////////////////////////////////////////////////
 
-// TODO: expand to allow queued messages
-// show(params).show(params) etc
-// LED params are Message params and float countdown
-// keep vector<LED::Params>, when messages ends, pop the next and show it
-//
 void LedDisplay::queue(Params params) {
     paramsQueue.push_back(params);
 }
 
-
+// This MUST be called after queuing
+// otherwise nothing happens
 void LedDisplay::playQueue() {
     if (paramsQueue.size() > 0) {
         Params params = paramsQueue.front();
@@ -100,6 +102,8 @@ void LedDisplay::show(Params params) {
     }
 }
 
+// No queue, just show
+// Overrides/destroys any existing queue
 void LedDisplay::show(string title, float countdownDuration) {
     paramsQueue.clear();
     title1.show(title);

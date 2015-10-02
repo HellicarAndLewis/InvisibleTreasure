@@ -10,8 +10,11 @@
 #include "ofMain.h"
 #include "ofxTween.h"
 
-// Inherit from this to add sequencable states to a class
+//
+// Inherit from this to add sequencable states to a class!
+// each state has a time/duration that can be 0 or more seconds
 // Scenes inherit from this to manage scene sequencing
+// LED messages inherit to allow message sequencing
 //
 class Sequencable {
 public:

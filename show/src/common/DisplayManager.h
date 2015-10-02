@@ -11,13 +11,26 @@
 #include "GuiableBase.h"
 #include "ProjectionManager.h"
 
+//
+// Display manager
+// Slave and Master have multiple displays (screen + projectors)
+// this class manages FBOs that relate to a display
+// these FBOs can then be scaled into a single screen for testing and dev
+// or they can be 100% resulting in output across the external projections
+//
 class DisplayManager : public GuiableBase {
 public:
     
+    
+    //////////////////////////////////////////////////////////////////////////////////
+    // Display
+    //////////////////////////////////////////////////////////////////////////////////
+    // Wrapper for each display
+    // contains an FBO for the display
+    // and a target display size (x=width, y=height)
     struct Display {
         ofFbo in;
         ofParameter<ofVec2f> sizeIn;
-        ofParameterGroup params;
         
         void refreshFbos() {
             in.allocate((int)sizeIn.get().x, (int)sizeIn.get().y);
@@ -44,6 +57,11 @@ public:
         }
     };
     
+    
+    
+    //////////////////////////////////////////////////////////////////////////////////
+    // Display Manager
+    //////////////////////////////////////////////////////////////////////////////////
     DisplayManager();
 	void setup();
 	void update();
@@ -55,14 +73,14 @@ public:
     void refreshFbos();
 	void windowResized(int w, int h);
     
+    // Displays for all sreens and projectors
     Display slaveScreen;
     Display slaveProjection;
     Display masterScreen;
     Display masterProjection;
     ofImage testPattern;
     
-    // TODO: add params for drawing options?
-    // draw in, draw out, draw blended, etc
+    // GUI
     ofParameter<bool> scaleToWindow;
     ofParameter<bool> drawOutput;
     ofParameter<bool> drawTestPattern;
@@ -71,13 +89,10 @@ public:
     ofParameter<bool> identifyProjectors;
     ofParameterGroup displaySizes;
     
-
 protected:  
 private:
     
     void onScaleToWindow(bool& scale);
-    void allocateProjectorsFbo();
-    
     ofTrueTypeFont font;
     ProjectionManager projectionManager;
 };

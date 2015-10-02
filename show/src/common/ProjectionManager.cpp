@@ -12,9 +12,15 @@ ProjectionManager::ProjectionManager() {
 }
 
 void ProjectionManager::setup(int w, int h) {
+    // Top row is 2 projectors, an overlap of 20 pixels, horizontally blended
     blender[0].setup(w, h, 2, 20, ofxProjectorBlend_Horizontal);
+    // Bottom row is 2 projectors, an overlap of 20 pixels, horizontally blended
     blender[1].setup(w, h, 2, 20, ofxProjectorBlend_Horizontal);
+    
+    // Final blend is 2 composite textures, an overlap of 20 pixels, vertically blended
     blender[2].setup(w*2, h, 2, 20, ofxProjectorBlend_Vertical);
+    
+    // final output width is x4
     width = w*4;
     height = h;
 }
@@ -40,8 +46,7 @@ void ProjectionManager::draw(int x, int y, float scale) {
     blender[1].draw();
     ofPopMatrix();
     blender[2].end();
-    
-    // TODO: scale
+    // Draw the final output
     ofPushMatrix();
     ofScale(scale, scale);
     blender[2].draw(x, y);
@@ -53,23 +58,6 @@ void ProjectionManager::draw(int x, int y, float scale) {
 //////////////////////////////////////////////////////////////////////////////////
 void ProjectionManager::beginTop() {
     blender[0].begin();
-    //light gray backaground
-    ofSetColor(100, 100, 100);
-    ofRect(0, 0, blender[0].getCanvasWidth(), blender[0].getCanvasHeight());
-    
-    //thick grid lines for blending
-    ofSetColor(255, 255, 255);
-    ofSetLineWidth(3);
-    
-    //vertical line
-    for(int i = 0; i <= blender[0].getCanvasWidth(); i+=40){
-        ofLine(i, 0, i, blender[0].getCanvasHeight());
-    }
-    
-    //horizontal lines
-    for(int j = 0; j <= blender[0].getCanvasHeight(); j+=40){
-        ofLine(0, j, blender[0].getCanvasWidth(), j);
-    }
 }
 
 void ProjectionManager::endTop() {
@@ -78,23 +66,6 @@ void ProjectionManager::endTop() {
 
 void ProjectionManager::beginBottom() {
     blender[1].begin();
-    //light gray backaground
-    ofSetColor(100, 100, 100);
-    ofRect(0, 0, blender[1].getCanvasWidth(), blender[1].getCanvasHeight());
-    
-    //thick grid lines for blending
-    ofSetColor(255, 255, 255);
-    ofSetLineWidth(3);
-    
-    //vertical line
-    for(int i = 0; i <= blender[1].getCanvasWidth(); i+=40){
-        ofLine(i, 0, i, blender[1].getCanvasHeight());
-    }
-    
-    //horizontal lines
-    for(int j = 0; j <= blender[1].getCanvasHeight(); j+=40){
-        ofLine(0, j, blender[1].getCanvasWidth(), j);
-    }
 }
 
 void ProjectionManager::endBottom() {
@@ -105,6 +76,7 @@ void ProjectionManager::setupGui() {
     guiName = "Projectors";
     panel.setup(guiName, "settings/projectors.xml");
     
+    // edge blending
     group.setName("Edge Blending");
     group.add(gamma.set("gamma", 0.5, 0, 1));
     group.add(luminance.set("luminance", 0, 0, 1));
@@ -112,7 +84,7 @@ void ProjectionManager::setupGui() {
     group.add(showBlend.set("show blend", true));
     panel.add(group);
     
-    //projectors
+    // projectors
     panel.add(projection[0].set("1 Top left"));
     panel.add(projection[1].set("2 Top right"));
     panel.add(projection[2].set("3 Bottom left"));

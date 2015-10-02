@@ -41,14 +41,20 @@ void Message::draw(int x, int y) {
     ofRect(bounds);
     */
     
+    // fade in/out
     float alpha = 0;
     if (state == INTRO) alpha = 255 * progress;
     else if (state == OUTRO) alpha = 255 * (1-progress);
     else if (state == INTERACTIVE) alpha = 255;
     if (getHeight() < 1) alpha = 0;
     
+    // HACK: there's an exceptional circumstance in 3 subscenes
+    // in which "Welcome" appears 6 times
+    // then "Welcome?" once and repeats ad infinitum
+    // altough not ideal, this was the lesser of several evils
     if (loopNum % 7 == 0) textBlock.setText(messageString + "?");
     else textBlock.setText(messageString);
+    
     textBlock.setColor(colour.r, colour.g, colour.b, alpha);
     textBlock.wrapTextX(maxWidth);
     textBlock.drawCenter(x, y);
@@ -69,11 +75,9 @@ void Message::show(string message, float timeIn, float timeHold, float timeOut, 
     this->timeHold = timeHold;
     this->timeOut = timeOut;
     this->loop = loop;
-    
     textBlock.setText(messageString);
     textBlock.setColor(colour.r, colour.g, colour.b, 0);
     textBlock.wrapTextX(maxWidth);
-    
     Sequencable::play();
 }
 

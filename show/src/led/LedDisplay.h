@@ -23,6 +23,9 @@
 class LedDisplay : public Displayable, public GuiableBase {
 public:
     
+    //////////////////////////////////////////////////////////////////////////////////
+    // Params
+    //////////////////////////////////////////////////////////////////////////////////
     // Params define the state and behaviour of the LED display
     // this includes text and animation timings
     struct Params {
@@ -45,6 +48,9 @@ public:
         }
     };
     
+    //////////////////////////////////////////////////////////////////////////////////
+    // LED Display
+    //////////////////////////////////////////////////////////////////////////////////
     LedDisplay();
 	void setup(Countdown * countdown);
 	void update();
@@ -59,18 +65,28 @@ public:
     
     void setupGui();
     
+    // title1 is the text/title
     Message title1;
-    Message title2;
     string title;
+    // title2 is the countdown
+    Message title2;
     
+    // pointer to the countdown
+    // so we can get the time remaining from it
     bool showCountdown;
     Countdown * countdown;
+    
+    // params queue for sequencing messages
     vector<Params> paramsQueue;
     
 protected:
 private:
+    
+    // listener for title state change
+    // so we can show the next message if there is one
     void onTitleStateChange(Sequencable::State & state);
     
+    // GUI controls for position
     ofParameter<float> percentYTitle;
     ofParameter<float> percentYCountdown;
     

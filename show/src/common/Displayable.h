@@ -10,6 +10,10 @@
 #include "ofMain.h"
 #include "DisplayManager.h"
 
+//
+// Inherit from this if you'll only ever be drawing to a single display
+// only really used by LED Display
+//
 class Displayable {
 public:
     Displayable() {
