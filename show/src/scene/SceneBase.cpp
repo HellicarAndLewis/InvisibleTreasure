@@ -112,6 +112,11 @@ void SceneBase::draw() {
     ofSetColor(255);
 }
 
+void SceneBase::drawMasterScreen() {
+    vision->isEnabled = true;
+    drawVision();
+}
+
 //////////////////////////////////////////////////////////////////////////////////
 // public
 //////////////////////////////////////////////////////////////////////////////////
@@ -140,6 +145,33 @@ void SceneBase::stop(){
 //////////////////////////////////////////////////////////////////////////////////
 // protected
 //////////////////////////////////////////////////////////////////////////////////
+
+void SceneBase::drawVision() {
+    ofImage * image = &vision->outputImage;
+    
+    if (!image->isAllocated()) {
+        ofLogError() << "in SceneBase::drawVision vision image is not allocated";
+        return;
+    }
+    
+    float targetWidth = MIN(ofGetWidth(), displays->masterScreen.sizeIn->x) * 0.5;
+    float scale = targetWidth / image->width;
+    ofPushStyle();
+    ofPushMatrix();
+    {
+        ofTranslate(10, 10);
+        ofPushMatrix();
+        {
+            ofScale(scale, scale);
+            ofSetColor(255);
+            image->draw(0, 0);
+        }
+        ofPopMatrix();
+    }
+    ofPopMatrix();
+    ofPopStyle();
+}
+
 void SceneBase::nextSubscene(int i) {
     if (state == INTERACTIVE) {
         ofNotifyEvent(nextSubsceneEvent, i, this);

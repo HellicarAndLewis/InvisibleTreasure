@@ -40,7 +40,7 @@ void VisionManager::setup() {
         calibration.setPatternType(patternType);
     }
     calibration.setFillFrame(false);
-    calibration.load("camera/dome.yml");
+    calibration.load("camera/calibration.yml");
     isFirstImage = true;
 }
 
@@ -49,6 +49,7 @@ void VisionManager::update() {
     input->update();
     if (input->getIsReady() && input->isFrameNew()) {
         inputImage.setFromPixels(input->getPixelsRef());
+        
         if (isFirstImage) {
             isFirstImage = false;
             imitate(outputImage, inputImage);
@@ -78,24 +79,45 @@ void VisionManager::update() {
                     lastTime = curTime;
                 }
             }
+            if (ofGetKeyPressed('r')) {
+                calibration.reset();
+            }
         }
         
         // undistort input into the output image
         calibration.undistort(toCv(inputImage), toCv(outputImage));
         outputImage.update();
         
-        // TODO: use outputImage with contour tracker
-        contourTracker.image = &inputImage;
+        // create a crop rect from the centre of the output image
+        ofRectangle rect;
+        int w = outputImage.getWidth();
+        int h = outputImage.getHeight();
+        rect.setFromCenter(w/2, h/2, w*inputCrop, h*inputCrop);
+        
+        // crop the image into our crop cv mat
+        cv::Rect crop_roi = cv::Rect(rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight());
+        cv::Mat cam_mat = toCv(outputImage);
+        crop = cam_mat(crop_roi).clone();
+        
+        if (crop.size != toCv(contourTracker.image).size) {
+            contourTracker.resetBg();
+        }
+        copy(crop, contourTracker.image);
         contourTracker.update();
     }
 }
 
 void VisionManager::draw() {
     ofSetColor(255);
-    float w = MAX(ofGetWidth()/4, 256);
-    float h = inputImage.getHeight() * (w / inputImage.getWidth());
+    float w = MAX(ofGetWidth()/2, 256);
+    float scale = (w / inputImage.getWidth());
+    float h = inputImage.getHeight() * scale;
     inputImage.draw(0, 0, w, h);
-    outputImage.draw(w, 0, w, h);
+    
+    ofPushMatrix();
+    ofScale(scale/inputCrop, scale/inputCrop);
+    drawMat(crop, w/(scale/inputCrop), 0);
+    ofPopMatrix();
     
     if (isCalibrating) {
         stringstream intrinsics;
@@ -151,10 +173,11 @@ void VisionManager::setupGui() {
     panel.setup(guiName, "settings/vision.xml");
     panel.add(isEnabled.set("enabled", false));
     panel.add(inputSelector.set("input", 0, 0, inputs.size()-1));
+    panel.add(inputCrop.set("input crop", 1, 0, 1));
     panel.add(debugDraw.set("debug draw", false));
     panel.add(isCalibrating.set("calibrating", false));
-    panel.add(ipCamURLMain.set("Main cam URL", "http://10.0.0.50/axis-cgi/mjpg/video.cgi"));
-    panel.add(ipCamURLCassandra.set("Cassandra cam URL", "http://10.0.0.51/axis-cgi/mjpg/video.cgi"));
+    panel.add(ipCamURLMain.set("Main cam URL", "http://192.168.255.10/axis-cgi/mjpg/video.cgi"));
+    panel.add(ipCamURLCassandra.set("Cassandra cam URL", "http://192.168.255.11/axis-cgi/mjpg/video.cgi"));
     panel.add(contourTracker.parameters);
     panel.loadFromFile("settings/vision.xml");
     

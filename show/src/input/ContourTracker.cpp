@@ -25,14 +25,15 @@ void ContourTracker::setup() {
     contourFinder.getTracker().setMaximumDistance(32);
     
     showLabels = true;
-    image = NULL;
+    //image = NULL;
 }
 
 void ContourTracker::update() {
     // bg
+    //if (image == NULL) return;
     background.setLearningTime(bgLearningTime);
     background.setThresholdValue(bgThreshold);
-    background.update(*image, thresholded);
+    background.update(image, thresholded);
     thresholded.update();
     // contours
     blur(thresholded, 10);

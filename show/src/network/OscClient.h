@@ -15,6 +15,19 @@
 class OscClient : public GuiableBase {
 public:
     
+    struct Sender {
+        ofxOscSender client;
+        ofParameter<string> address;
+        ofParameter<string> port;
+        ofParameterGroup group;
+        ofParameterGroup setup(string name, string address, string port) {
+            group.setName(name);
+            group.add(this->address.set("address", address));
+            group.add(this->port.set("port", port));
+            return group;
+        }
+    };
+    
     struct CueParams {
         int lightList = 1;
         ofParameter<int> lightCue;
@@ -22,8 +35,8 @@ public:
         ofParameterGroup params;
         ofParameterGroup setup(string name, int lightCue=0, int soundCue=0) {
             params.setName(name);
-            params.add(this->lightCue.set("light cue", lightCue, 0, 40));
-            params.add(this->soundCue.set("sound cue", soundCue, 0, 40));
+            params.add(this->lightCue.set("light cue", lightCue, 0, 100));
+            params.add(this->soundCue.set("sound cue", soundCue, 0, 100));
             return params;
         }
     };
@@ -35,9 +48,9 @@ public:
         ofParameterGroup params;
         ofParameterGroup setup(string name, int lightCue = 0, int lightList = 2, int soundCue = 0) {
             params.setName(name);
-            params.add(this->lightCue.set("light cue", lightCue, 0, 40));
+            params.add(this->lightCue.set("light cue", lightCue, 0, 100));
             params.add(this->lightList.set("light list", lightList, 0, 5));
-            params.add(this->soundCue.set("sound cue", soundCue, 0, 40));
+            params.add(this->soundCue.set("sound cue", soundCue, 0, 100));
             return params;
         }
     };
@@ -49,8 +62,8 @@ public:
         ofParameterGroup params;
         ofParameterGroup setup(string name, float lightCue=0.5, int soundCue=0) {
             params.setName(name);
-            params.add(this->lightCue.set("light cue", lightCue, 0, 40));
-            params.add(this->soundCue.set("sound cue", soundCue, 0, 40));
+            params.add(this->lightCue.set("light cue", lightCue, 0, 100));
+            params.add(this->soundCue.set("sound cue", soundCue, 0, 100));
             return params;
         }
     };
@@ -98,6 +111,10 @@ protected:
 private:
     int id;
     bool isConnected;
+    
+    Sender senderBroadcast;
+    Sender senderLights;
+    Sender senderSound;
     
     ofxOscSender sender;
     ofxOscReceiver receiver;

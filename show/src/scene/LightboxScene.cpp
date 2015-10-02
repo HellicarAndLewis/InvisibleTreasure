@@ -52,13 +52,18 @@ void LightboxScene::drawMasterScreen() {
     ContourTracker& tracker = *vision->getTracker();
     ofxCv::ContourFinder& contourFinder = tracker.contourFinder;
     
-    float scale = tracker.thresholded.width / displays->masterScreen.sizeIn->x;
+    
+    float targetWidth = MIN(ofGetWidth(), displays->masterScreen.sizeIn->x) * 0.5;
+    float scale = targetWidth / tracker.thresholded.width;
     
     ofPushStyle();
     ofPushMatrix();
     ofTranslate(10, 10);
     ofSetColor(120);
+    //ofPushMatrix();
+    ofScale(scale, scale);
     tracker.thresholded.draw(0, 0);
+    //ofPopMatrix();
     ofSetColor(255);
     float width = tracker.thresholded.width;
     float height = tracker.thresholded.height;
@@ -114,7 +119,8 @@ void LightboxScene::drawMasterScreen() {
     // hitArea[0] also determines whether or not other areas are active
     // all areas control sound volume
     ofSetColor(255, 255, 255, 100);
-    float y = ofGetHeight() - 200;
+    float y = 10;
+    float x = width + 10;
     float volume = 0;
     bool heroChanged = false;
     bool anyChanged = false;
@@ -180,10 +186,10 @@ void LightboxScene::drawMasterScreen() {
         ofPushStyle();
         ofFill();
         ofSetColor(50);
-        ofRect(0, y, ofGetWidth()/2, 40);
+        ofRect(x, y, ofGetWidth()/2, 40);
         ofSetColor(255);
-        ofRect(0, y, hitArea.volume*ofGetWidth()/2, 40);
-        ofDrawBitmapStringHighlight(hitArea.name + " volume:" + ofToString(hitArea.volume), 0, y+20);
+        ofRect(x, y, hitArea.volume*ofGetWidth()/2, 40);
+        ofDrawBitmapStringHighlight(hitArea.name + " volume:" + ofToString(hitArea.volume), x, y+20);
         y+=40;
         ofPopStyle();
     }

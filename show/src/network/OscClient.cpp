@@ -115,8 +115,14 @@ void OscClient::setupGui() {
     guiName = "OSC";
     panel.setup(guiName, "settings/osc.xml");
     panel.add(info.set("to change", "Edit XML + restart"));
+    
+//    panel.add(senderBroadcast.setup("broadcast", "192.168.255.255", "12345"));
+//    panel.add(senderLights.setup("broadcast", "192.168.255.255", "12345"));
+//    panel.add(senderSound.setup("broadcast", "192.168.255.255", "12345"));
+    
     panel.add(sendAddress.set("to IP", "192.168.0.255"));
     panel.add(sendPort.set("to port", "12345"));
+    
     killButton.addListener(this, &OscClient::sendKill);
     panel.add(killButton.setup("kill"));
     
@@ -280,9 +286,10 @@ void OscClient::sendKill() {
 void OscClient::keyPressed (int key) {
     if(key == 'p'){
         if (!isConnected) return;
+        ofLogNotice() << "/sub/1/level";
         ofxOscMessage m;
-        m.setAddress("/ping");
-        m.addIntArg(1);
+        m.setAddress("/seq/go");
+        //m.addIntArg(255);
         sender.sendMessage(m);
     }
 }

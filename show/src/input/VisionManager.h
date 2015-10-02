@@ -41,6 +41,7 @@ public:
     ofParameter<bool> isEnabled;
     IPCamInput ipcam;
     IPCamInput ipcamCassandra;
+    ofImage inputImage, outputImage;
     
 protected:  
 private:
@@ -54,9 +55,9 @@ private:
     IVisionInput* input;
     
     // tracking and calibration
+    cv::Mat crop;
     ContourTracker contourTracker;
     ofxCv::Calibration calibration;
-    ofImage inputImage, outputImage;
     ofPixels previous;
     ofPixels diff;
     float diffMean;
@@ -68,6 +69,7 @@ private:
     ofParameter<bool> isCalibrating;
     ofParameter<string> ipCamURLMain;
     ofParameter<string> ipCamURLCassandra;
+    ofParameter<float> inputCrop;
     void onInputChange(int & i);
     
 };

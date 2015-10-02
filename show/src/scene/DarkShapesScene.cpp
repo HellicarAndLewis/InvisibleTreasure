@@ -59,7 +59,7 @@ void DarkShapesScene::drawMasterScreen() {
         return;
     }
     
-    float targetWidth = MIN(ofGetWidth(), displays->masterScreen.sizeIn->x) * 0.7;
+    float targetWidth = MIN(ofGetWidth(), displays->masterScreen.sizeIn->x) * 0.5;
     float scale = targetWidth / tracker.thresholded.width;
     float col1Width = 0;
     

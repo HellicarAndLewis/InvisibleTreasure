@@ -22,7 +22,7 @@ public:
     void resetBg();
     void setupGui();
     
-    ofImage* image;
+    ofImage image;
     ofImage thresholded;
     
     ofParameter<float> maxRadius;
