@@ -19,12 +19,13 @@ void FlantsScene::setup() {
     subsceneStart = 51;
     subsceneEnd = 62;
     radius = 0;
+    isFirstPlay = true;
     alphaShader.load("shaders/greyscaleAlpha.vert", "shaders/greyscaleAlpha.frag");
     SceneBase::setup();
 }
 
 void FlantsScene::update() {
-    if (isMaster()) {
+    if (isMaster() && state == INTERACTIVE) {
         
         // contour tracker
         ContourTracker& tracker = *vision->getTracker();
@@ -41,6 +42,10 @@ void FlantsScene::update() {
             radius = ofLerp(radius, radiusLarge, 0.1);
         }
         
+        if (isFirstPlay) {
+            revertBgLearn = tracker.bgLearningTime;
+            isFirstPlay = false;
+        }
         tracker.bgLearningTime = eatRate;
         
         particles.attractPoints.clear();
@@ -168,8 +173,9 @@ void FlantsScene::play(int i){
     SceneBase::play(i);
 }
 
-void FlantsScene::stop(){
-    // stop/unload/clear things
+void FlantsScene::stop(){;
+    vision->getTracker()->bgLearningTime = revertBgLearn;
+    isFirstPlay = true;
     SceneBase::stop();
 }
 

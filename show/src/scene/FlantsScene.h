@@ -41,6 +41,8 @@ private:
     ofParameter<int> eatRate;
     ofParameter<int> radiusSmall;
     ofParameter<int> radiusLarge;
+    int revertBgLearn;
+    bool isFirstPlay;
     
     // gui
     ofParameterGroup titleGroup;

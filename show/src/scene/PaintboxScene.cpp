@@ -27,7 +27,6 @@ void PaintboxScene::update() {
     if (isMaster() && getIsActive()) {
         totalBlobArea = 0;
         ContourTracker& tracker = *vision->getTracker();
-        tracker.bgLearningTime = 900;
         ofxCv::ContourFinder& contourFinder = tracker.contourFinder;
         for(int i = 0; i < contourFinder.size(); i++) {
             auto rect = toOf(contourFinder.getBoundingRect(i));
