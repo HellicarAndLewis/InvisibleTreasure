@@ -15,7 +15,6 @@
 #define VOLUME_TRIGGER_ADRESS "/window/volumetrigger"
 
 OscClient::OscClient() {
-    receivePort = "12345";
     current_msg_string = 0;
     isConnected = false;
 }
@@ -27,7 +26,7 @@ void OscClient::setup(int id) {
 void OscClient::update() {
     if (!isConnected) return;
     
-    // hide old messages
+    // debug only
     for(int i = 0; i < NUM_MSG_STRINGS; i++){
         if(timers[i] < ofGetElapsedTimef()){
             msg_strings[i] = "";
@@ -70,7 +69,7 @@ void OscClient::update() {
             if (senderId != this->id) std::exit(1);
         }
         
-        
+        // Unknown message
         msg_string += ": ";
         for(int i = 0; i < m.getNumArgs(); i++){
             // get the argument type
@@ -90,16 +89,17 @@ void OscClient::update() {
                 msg_string += "unknown";
             }
         }
-        // add to the list of strings to display
+        
+        // debug only
         msg_strings[current_msg_string] = msg_string;
         timers[current_msg_string] = ofGetElapsedTimef() + 5.0f;
         current_msg_string = (current_msg_string + 1) % NUM_MSG_STRINGS;
-        // clear the next line
         msg_strings[current_msg_string] = "";
     }
 }
 
 void OscClient::draw() {
+    // debug only
     for(int i = 0; i < NUM_MSG_STRINGS; i++){
         ofDrawBitmapString(msg_strings[i], 10, 40 + 15 * i);
     }
@@ -112,16 +112,16 @@ void OscClient::draw() {
 void OscClient::setupGui() {
     guiName = "OSC";
     panel.setup(guiName, "settings/osc.xml");
-    panel.add(info.set("to change", "Edit XML + restart"));
-    
+    panel.add(receivePort.set("receive port", "12345"));
+    // senders
     panel.add(senderBroadcast.setup("broadcast", "192.168.1.255", "12345"));
     panel.add(senderLights.setup("light", "192.168.255.1", "53002"));
     panel.add(senderSound.setup("sound", "192.168.255.1", "8001"));
-    
+    // KILL ALL OTHER APPS
     killButton.addListener(this, &OscClient::sendKill);
     panel.add(killButton.setup("kill"));
-    
     panel.loadFromFile("settings/osc.xml");
+    
     // setup OSC clients after loading settings
     try {
         senderBroadcast.connect();

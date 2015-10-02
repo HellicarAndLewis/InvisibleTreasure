@@ -12,9 +12,28 @@
 #include "GuiableBase.h"
 #define NUM_MSG_STRINGS 20
 
+//
+// Master:
+// sends OSC to a broadcast address to make other macs play subscenes
+// sends OSC to lighting desk software
+// sends OSC to sound desk software
+// receives mic volume levels from windows
+//
+// Windows:
+// send mic volume to broadcast address
+//
+// Windows and Slave:
+// receive scene play commands
+//
 class OscClient : public GuiableBase {
 public:
     
+    
+    //////////////////////////////////////////////////////////////////////////////////
+    // Sender
+    //////////////////////////////////////////////////////////////////////////////////
+    // We need three senders: lights, sounds and broadcast
+    // Each sender has a GUI group
     struct Sender {
         ofxOscSender client;
         ofParameter<string> address;
@@ -31,6 +50,12 @@ public:
         }
     };
     
+    
+    //////////////////////////////////////////////////////////////////////////////////
+    // Sound/Light cue paramaters
+    //////////////////////////////////////////////////////////////////////////////////
+    // Structs for wrapping up cues: useful for combining sound and light commands
+    // Standard/normal is default light list 1, cues are ints
     struct CueParams {
         int lightList = 1;
         ofParameter<int> lightCue;
@@ -44,6 +69,7 @@ public:
         }
     };
     
+    // With configurable light list
     struct CueWithListParams {
         ofParameter<int> lightCue;
         ofParameter<int> lightList;
@@ -58,6 +84,7 @@ public:
         }
     };
     
+    // with a float light cue e.g. for shadows scene light cue 0.5
     struct CueWithFloatParams {
         int lightList = 1;
         ofParameter<float> lightCue;
@@ -71,6 +98,11 @@ public:
         }
     };
     
+    
+    //////////////////////////////////////////////////////////////////////////////////
+    // Volume event
+    //////////////////////////////////////////////////////////////////////////////////
+    // Fired when master gets a new volume message from a window
     struct VolumeEventArgs {
         float volume;
         int windowId;
@@ -80,31 +112,38 @@ public:
         }
     };
     
+    
+    //////////////////////////////////////////////////////////////////////////////////
+    // OSC Client
+    //////////////////////////////////////////////////////////////////////////////////
+    
     OscClient();
 	void setup(int id);
 	void update();
 	void draw();
-	
 	void keyPressed(int key);
-    
     void setupGui();
+    
+    // Broadcast messages
     void sendPlayScene(int id);
     void sendPlaySubScene(int id);
     void sendPresence(string areaName, int count);
     void sendVolume(float volume, int windowId);
     void sendVolumeTrigger(int windowId);
     
+    // Light and sound cues
     void sendLightSoundCue(CueParams cue);
     void sendLightSoundCue(CueWithListParams cue);
     void sendLightSoundCue(CueWithFloatParams cue);
-    
     void sendLightingCue(float cue, float list = 1);
     void sendSoundCue(float cue);
     void sendSoundVolume(float id, float volume);
     
+    // Careful now!
     void sendKill();
     
-    ofxButton killButton;
+    // Events for the rest of the app
+    // when new messages are received
     ofEvent<int> playSceneEvent;
     ofEvent<int> playSubSceneEvent;
     ofEvent<VolumeEventArgs> volumeEvent;
@@ -124,6 +163,6 @@ private:
     string msg_strings[NUM_MSG_STRINGS];
     float timers[NUM_MSG_STRINGS];
     
-    ofParameter<string> info;
     ofParameter<string> receivePort;
+    ofxButton killButton;
 };
