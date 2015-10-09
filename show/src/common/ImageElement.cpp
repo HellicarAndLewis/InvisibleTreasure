@@ -27,7 +27,7 @@ void ImageElement::draw(ofRectangle rect) {
     else ofSetColor(255);
     ofRectangle imageRect = ofRectangle(0, 0, image.getWidth(), image.getHeight());
     imageRect.scaleTo(rect, OF_SCALEMODE_CENTER);
-    image.draw(imageRect);
+    image.draw(rect.getTopLeft(), rect.width, rect.height);
     ofSetColor(255);
 }
 
