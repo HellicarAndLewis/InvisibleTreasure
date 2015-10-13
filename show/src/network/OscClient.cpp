@@ -41,9 +41,6 @@ void OscClient::update() {
         string msg_string;
         msg_string = m.getAddress();
         int senderId = m.getArgAsInt32(1);
-        if (senderId != this->id) {
-            cout<<senderId<<endl;
-        }
 
         if (msg_string == PLAY_SCENE_ADRESS) {
             int sceneId = m.getArgAsInt32(0);
@@ -118,12 +115,12 @@ void OscClient::setupGui() {
     panel.setup(guiName, "settings/osc.xml");
     panel.add(receivePort.set("receive port", "12345"));
     // senders
-    //panel.add(senderBroadcast.setup("broadcast", "192.168.0.255", "12345"));
-    panel.add(senderMaster.setup("master", "192.168.255.42", "12345"));
-    panel.add(senderSlave.setup("slave", "192.168.255.43", "12345"));
-    for(int i=0; i<4; i++) {
-        panel.add(senderWalls[i].setup("wall" + ofToString(i+1), "192.168.255.5" + ofToString(i+1), "12345"));
-    }
+    panel.add(senderBroadcast.setup("broadcast", "192.168.255.255", "12345"));
+//    panel.add(senderMaster.setup("master", "192.168.255.42", "12345"));
+//    panel.add(senderSlave.setup("slave", "192.168.255.43", "12345"));
+//    for(int i=0; i<4; i++) {
+//        panel.add(senderWalls[i].setup("wall" + ofToString(i+1), "192.168.255.5" + ofToString(i+1), "12345"));
+//    }
     panel.add(senderLights.setup("light", "192.168.255.1", "53002"));
     panel.add(senderSound.setup("sound", "192.168.255.1", "8001"));
     // KILL ALL OTHER APPS
@@ -133,12 +130,12 @@ void OscClient::setupGui() {
     
     // setup OSC clients after loading settings
     try {
-        //cast.connect();
-        senderMaster.connect();
-        senderSlave.connect();
-        for(int i=0; i < 4; i++) {
-            senderWalls[i].connect();
-        }
+        senderBroadcast.connect();
+//        senderMaster.connect();
+//        senderSlave.connect();
+//        for(int i=0; i < 4; i++) {
+//            senderWalls[i].connect();
+//        }
         senderLights.connect();
         senderSound.connect();
         receiver.setup(ofToInt(receivePort));
@@ -156,12 +153,12 @@ void OscClient::sendPlayScene(int id) {
     m.setAddress(PLAY_SCENE_ADRESS);
     m.addIntArg(id);
     m.addIntArg(this->id);
-    senderMaster.client.sendMessage(m);
-    senderSlave.client.sendMessage(m);
-    for(int i=0; i<4; i++) {
-        senderWalls[i].client.sendMessage(m);
-    }
-//    senderBroadcast.client.sendMessage(m);
+//    senderMaster.client.sendMessage(m);
+//    senderSlave.client.sendMessage(m);
+//    for(int i=0; i<4; i++) {
+//        senderWalls[i].client.sendMessage(m);
+//    }
+    senderBroadcast.client.sendMessage(m);
 }
 
 
@@ -172,12 +169,12 @@ void OscClient::sendPlaySubScene(int id) {
     m.setAddress(PLAY_SUBSCENE_ADRESS);
     m.addIntArg(id);
     m.addIntArg(this->id);
-    senderMaster.client.sendMessage(m);
-    senderSlave.client.sendMessage(m);
-    for(int i=0; i<4; i++) {
-        senderWalls[i].client.sendMessage(m);
-    }
-//    senderBroadcast.client.sendMessage(m);
+//    senderMaster.client.sendMessage(m);
+//    senderSlave.client.sendMessage(m);
+//    for(int i=0; i<4; i++) {
+//        senderWalls[i].client.sendMessage(m);
+//    }
+    senderBroadcast.client.sendMessage(m);
 }
 
 void OscClient::sendPresence(string areaName, int count){
@@ -187,12 +184,12 @@ void OscClient::sendPresence(string areaName, int count){
     m.addStringArg(areaName);
     m.addIntArg(count);
     m.addIntArg(this->id);
-    senderMaster.client.sendMessage(m);
-    senderSlave.client.sendMessage(m);
-    for(int i=0; i<4; i++) {
-        senderWalls[i].client.sendMessage(m);
-    }
-//    senderBroadcast.client.sendMessage(m);
+//    senderMaster.client.sendMessage(m);
+//    senderSlave.client.sendMessage(m);
+//    for(int i=0; i<4; i++) {
+//        senderWalls[i].client.sendMessage(m);
+//    }
+    senderBroadcast.client.sendMessage(m);
 }
 
 void OscClient::sendVolume(float volume, int windowId){
@@ -203,12 +200,12 @@ void OscClient::sendVolume(float volume, int windowId){
     m.addFloatArg(volume);
     m.addIntArg(windowId);
     m.addIntArg(this->id);
-    senderMaster.client.sendMessage(m);
-    senderSlave.client.sendMessage(m);
-    for(int i=0; i<4; i++) {
-        senderWalls[i].client.sendMessage(m);
-    }
-//    senderBroadcast.client.sendMessage(m);
+//    senderMaster.client.sendMessage(m);
+//    senderSlave.client.sendMessage(m);
+//    for(int i=0; i<4; i++) {
+//        senderWalls[i].client.sendMessage(m);
+//    }
+    senderBroadcast.client.sendMessage(m);
 }
 
 void OscClient::sendVolumeTrigger(int windowId) {
@@ -218,12 +215,12 @@ void OscClient::sendVolumeTrigger(int windowId) {
     m.setAddress(VOLUME_TRIGGER_ADRESS);
     m.addIntArg(windowId);
     m.addIntArg(this->id);
-    senderMaster.client.sendMessage(m);
-    senderSlave.client.sendMessage(m);
-    for(int i=0; i<4; i++) {
-        senderWalls[i].client.sendMessage(m);
-    }
-//    senderBroadcast.client.sendMessage(m);
+//    senderMaster.client.sendMessage(m);
+//    senderSlave.client.sendMessage(m);
+//    for(int i=0; i<4; i++) {
+//        senderWalls[i].client.sendMessage(m);
+//    }
+    senderBroadcast.client.sendMessage(m);
 }
 
 void OscClient::sendLightSoundCue(CueParams cue) {
@@ -326,11 +323,11 @@ void OscClient::keyPressed (int key) {
         ofxOscMessage m;
         m.setAddress("/ping");
         m.addIntArg(1);
-        senderMaster.client.sendMessage(m);
-        senderSlave.client.sendMessage(m);
-        for(int i=0; i<4; i++) {
-            senderWalls[i].client.sendMessage(m);
-        }
-//        senderBroadcast.client.sendMessage(m);
+//        senderMaster.client.sendMessage(m);
+//        senderSlave.client.sendMessage(m);
+//        for(int i=0; i<4; i++) {
+//            senderWalls[i].client.sendMessage(m);
+//        }
+        senderBroadcast.client.sendMessage(m);
     }
 }

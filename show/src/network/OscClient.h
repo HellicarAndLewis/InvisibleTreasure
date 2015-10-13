@@ -154,10 +154,10 @@ private:
     int id;
     bool isConnected;
     
-    //Sender senderBroadcast;
-    Sender senderMaster;
-    Sender senderSlave;
-    Sender senderWalls[4];
+    Sender senderBroadcast;
+//    Sender senderMaster;
+//    Sender senderSlave;
+//    Sender senderWalls[4];
     Sender senderLights;
     Sender senderSound;
     
