@@ -204,8 +204,8 @@ void CassandraScene::play(int i){
                 led->hide();
                 led->queue(LedDisplay::Params(rabbitDisappointed.get(), 0, 1, 0, false, timerOutro.get()));
                 led->queue(LedDisplay::Params(rabbitBoss.get(), 0, 1, 0));
-                led->queue(LedDisplay::Params(rabbitDisappointed.get(), 0, 1, 0));
-                led->queue(LedDisplay::Params(rabbitBoss.get(), 0, 1, 0));
+                led->queue(LedDisplay::Params(boss.get(), 0, 1, 0));
+                led->queue(LedDisplay::Params(boss.get(), 0, 1, 0));
                 led->queue(LedDisplay::Params(boss.get(), 0, 1, 0));
                 led->queue(LedDisplay::Params(boss.get(), 0, 1, 0));
                 led->playQueue();
@@ -233,12 +233,12 @@ void CassandraScene::setupGui() {
     panel.setup(guiName, "settings/cassandra.xml");
     
     titleGroup.setName("Titles");
-    titleGroup.add(title.set("1", "Cassandra"));
+    titleGroup.add(title.set("1", "ALL THINK FIB LENS"));
     titleGroup.add(audience.set("2", "Audience"));
     titleGroup.add(welcome.set("3", "Welcome"));
-    titleGroup.add(rabbitDisappointed.set("4", "The Rabbit is disappointed"));
-    titleGroup.add(rabbitBoss.set("5", "The Rabbit is boss"));
-    titleGroup.add(boss.set("6", "is boss"));
+    titleGroup.add(rabbitDisappointed.set("4", "He is disappointed"));
+    titleGroup.add(rabbitBoss.set("5", "He is pleased"));
+    titleGroup.add(boss.set("6", "He is boss"));
     
     timerGroup.setName("Timers");
     timerGroup.add(timerIntro.set("intro", 5, 1, 10));

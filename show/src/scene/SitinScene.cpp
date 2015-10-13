@@ -94,8 +94,8 @@ void SitinScene::setupGui() {
     guiName = "Sitin";
     panel.setup(guiName, "settings/sitin.xml");
     titleGroup.setName("Titles");
-    titleGroup.add(title.set("title", "Sit-In"));
-    titleGroup.add(theEnd.set("end", "The End"));
+    titleGroup.add(title.set("title", "SIN IT"));
+    titleGroup.add(theEnd.set("end", "System power failure"));
     timerGroup.setName("Timers");
     timerGroup.add(timerTheEnd.set("the end", 10, 1, 60));
     timerGroup.add(timerFadeUp.set("fade up", 10, 1, 60));

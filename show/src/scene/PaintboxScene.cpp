@@ -137,9 +137,9 @@ void PaintboxScene::play(int i){
                 led->queue(LedDisplay::Params(bonusTime.get(), 0, 5, 0));
                 led->queue(LedDisplay::Params(bonusGame.get(), 0, 1, 0, false, 5));
                 led->queue(LedDisplay::Params(goingDark.get(), 0, 1, 0));
-                led->queue(LedDisplay::Params(bonusGame.get(), 0, 1, 0));
+                led->queue(LedDisplay::Params(pleaseEnjoy.get(), 0, 1, 0));
                 led->queue(LedDisplay::Params(goingDark.get(), 0, 1, 0));
-                led->queue(LedDisplay::Params(bonusGame.get(), 0, 1, 0));
+                led->queue(LedDisplay::Params(pleaseEnjoy.get(), 0, 1, 0));
                 led->playQueue();
             }
             if (isMaster()) {
@@ -173,12 +173,13 @@ void PaintboxScene::setupGui() {
     panel.add(minAreaBlack.set("min area black", 0.3333, 0, 1));
     
     titleGroup.setName("Titles");
-    titleGroup.add(title.set("title", "Paintbox"));
-    titleGroup.add(sleeping.set("sleeping", "He is sleeping"));
-    titleGroup.add(back.set("back", "He's back"));
-    titleGroup.add(bonusTime.set("game time", "Bonus game time"));
+    titleGroup.add(title.set("title", "IN A BOLD DAWN"));
+    titleGroup.add(sleeping.set("sleeping", "Caution: unsupervised activity"));
+    titleGroup.add(back.set("back", "Supervision resumed"));
+    titleGroup.add(bonusTime.set("game time", "Bonus game permitted"));
     titleGroup.add(bonusGame.set("bonus game", "Bonus game"));
     titleGroup.add(goingDark.set("going dark", "Going dark"));
+    titleGroup.add(pleaseEnjoy.set("please enjoy", "Please enjoy"));
     panel.add(titleGroup);
     
     timerGroup.setName("Timers");

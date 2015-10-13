@@ -165,7 +165,7 @@ void IgniteScene::setupGui() {
     panel.setup(guiName, "settings/ignite.xml");
     
     // titles, times
-    panel.add(title1.set("title 1", "Ignite The Space"));
+    panel.add(title1.set("title 1", "VERY LOUD I CONE"));
     panel.add(title2.set("title 2", "Next Level"));
     panel.add(minMicTime.set("min mic time", 20, 1, 60));
     panel.add(timeIntro.set("intro time", 30, 1, 60));

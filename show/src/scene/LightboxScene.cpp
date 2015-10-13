@@ -298,9 +298,9 @@ void LightboxScene::setupGui() {
     guiName = "Lightbox";
     panel.setup(guiName, "settings/lightbox.xml");
     // titles, times, cues
-    panel.add(title.set("title1", "Lightbox"));
-    panel.add(waiting.set("title2", "Waiting"));
-    panel.add(phase2.set("title3", "Phase 2"));
+    panel.add(title.set("title1", "OHMNARY"));
+    panel.add(waiting.set("title2", "In it to win it"));
+    panel.add(phase2.set("title3", "System ready"));
     panel.add(bonusGame.set("title4", "Bonus Game"));
     panel.add(countdownDuration.set("countdown", 5, 0, 20));
     // cues: 0:reset, 1:centre, 2:wall1, 3:wall2, 4:wall3, 5:wall4, 6:all, 7:outro

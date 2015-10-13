@@ -54,6 +54,8 @@ private:
     ofParameter<string> bonusTime;
     ofParameter<string> bonusGame;
     ofParameter<string> goingDark;
+    ofParameter<string> pleaseEnjoy;
+    
     // timers
     ofParameterGroup timerGroup;
     ofParameter<int> timerIntro;

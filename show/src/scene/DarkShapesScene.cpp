@@ -200,8 +200,8 @@ void DarkShapesScene::setupGui() {
     panel.add(title.set("title", "Bonus game"));
     panel.add(playAgain.set("play again", "Play again"));
     panel.add(goingDark.set("going dark", "Going dark"));
-    panel.add(bonusComplete.set("bonus complete", "Bonus game complete"));
-    panel.add(heIs.set("he is", "He is [tbc]"));
+    panel.add(bonusComplete.set("bonus complete", "Bonus game completed"));
+    panel.add(heIs.set("he is", "He is pleased"));
     panel.add(nextLevel.set("next level", "Next level"));
     
     timerGroup.setName("Timers");

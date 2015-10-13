@@ -188,11 +188,11 @@ void FlantsScene::setupGui() {
     panel.add(radiusLarge.set("Radius large", 1536, 100, 1536));
     
     titleGroup.setName("Titles");
-    titleGroup.add(title.set("title1", "Flants"));
+    titleGroup.add(title.set("title1", "APE DELETET"));
     titleGroup.add(boom.set("title2", "Boom"));
     titleGroup.add(gameOver.set("title3", "Game over"));
     titleGroup.add(playAgain.set("title4", "Play again"));
-    titleGroup.add(tired.set("title5", "He is tired"));
+    titleGroup.add(tired.set("title5", "He is satisfied"));
     titleGroup.add(nextLevel.set("title6", "Next Level"));
     panel.add(titleGroup);
     
