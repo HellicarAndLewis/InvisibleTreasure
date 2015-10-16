@@ -39,6 +39,7 @@ void ofApp::setup() {
     osc.setup(appModel.id);
     vision.setup();
     displayManager.setup();
+    ofHideCursor();
     sceneManager.setup(&appModel, &osc, &vision, &displayManager);
     // call this last!
     setupGui();
@@ -147,7 +148,10 @@ void ofApp::keyPressed (int key) {
 
 void ofApp::keyReleased (int key) {}
 
-void ofApp::mouseMoved(int x, int y) {}
+void ofApp::mouseMoved(int x, int y) {
+    if(appModel.mode == AppModel::MASTER)
+        ofShowCursor();
+}
 
 void ofApp::mouseDragged(int x, int y, int button) {}
 
