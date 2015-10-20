@@ -128,8 +128,7 @@ void Particles::update(){
         ofSetColor(255);
         background.end();
     }
-    
-    if (fullParticles / p.size() > 0.9) {
+    if ((float)fullParticles / (float)p.size() > 0.9) {
         allFull = true;
     }
 }
@@ -198,12 +197,7 @@ void Particles::generateShape() {
     float maxY = bounds.getBottom() - 300;
     float width = ofRandom(100, 200);
     ofRectangle bounds = ofRectangle(ofRandom(minX, maxX), ofRandom(minY, maxY), width, width);
-    if (ofRandomuf() > 0.5) {
-        ofRect(bounds);
-    }
-    else {
-        ofCircle(bounds.getCenter(), bounds.getHeight()/2);
-    }
+    ofCircle(bounds.getCenter(), bounds.getHeight()/2);
     backgroundShapes.push_back(bounds);
 }
 
