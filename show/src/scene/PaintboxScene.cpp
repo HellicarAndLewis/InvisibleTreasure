@@ -72,10 +72,10 @@ void PaintboxScene::drawMasterProjection() {
             if (mode == ERASER) {
                 float areaPercent = rect.getArea() / totalBlobArea;
                 if (areaPercent >= minAreaEraser) {
-                    ofSetColor(255);
+                    ofSetColor(0);
                 }
                 if (areaPercent >= minAreaBlack) {
-                    ofSetColor(0);
+                    ofSetColor(255);
                 }
             }
             // rotate the brush image to vary the painted lines
@@ -225,7 +225,7 @@ void PaintboxScene::setMode(Mode mode) {
 
 void PaintboxScene::clearCanvas(){
     canvas.begin();
-    ofClear(255, 255, 255, 255);
+    ofClear(0, 0, 0, 255);
     canvas.end();
 }
 
