@@ -328,6 +328,8 @@ void OscClient::keyPressed (int key) {
         for(int i=0; i<4; i++) {
             senderWalls[i].client.sendMessage(m);
         }
+        senderSound.client.sendMessage(m);
+        senderLights.client.sendMessage(m);
 //        senderBroadcast.client.sendMessage(m);
     }
 }

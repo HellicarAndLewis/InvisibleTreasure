@@ -43,7 +43,7 @@ void ShadowsScene::play(int i){
         if (isSlave()) {
             // LED: Welcome
             led->hide();
-            led->queue(LedDisplay::Params(welcomeTitle.get(), 1, 5, 1, true));
+            led->queue(LedDisplay::Params(welcomeTitle.get(), 1.5, 4.5, 1, true));
             led->playQueue();
             
             imageElement.setup("images/static.jpg");
@@ -64,10 +64,10 @@ void ShadowsScene::play(int i){
             // Cues
             led->show(goingDarkTitle, time);
             imageElement.hide(time);
+            osc->sendLightSoundCue(cue2);
         }
         if (isMaster()) {
             countdown->start(time);
-            osc->sendLightSoundCue(cue2);
         }
     }
     
@@ -85,7 +85,7 @@ void ShadowsScene::setupGui() {
     // titles, times, cues
     panel.add(welcomeTitle.set("title 1", "Welcome"));
     panel.add(goingDarkTitle.set("title 2", "Going Dark"));
-    panel.add(countdownDuration.set("countdown", 10, 0, 20));
+    panel.add(countdownDuration.set("countdown", 12, 0, 20));
     cue1.lightCue.set(0.5);
     cue2.lightCue.set(1);
     panel.add(cue1.setup("Cue 1"));

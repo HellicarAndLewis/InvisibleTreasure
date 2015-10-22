@@ -69,9 +69,10 @@ void DarkShapesScene::drawMasterScreen() {
         ofTranslate(10, 10);
         ofPushMatrix();
         {
-            ofScale(scale, scale);
+            //ofScale(scale, scale);
             ofSetColor(255);
-            tracker.thresholded.draw(0, 0);
+            drawVision();
+            //tracker.thresholded.draw(0, 0);
         }
         ofPopMatrix();
         
@@ -103,6 +104,17 @@ void DarkShapesScene::drawMasterScreen() {
 // public
 //////////////////////////////////////////////////////////////////////////////////
 void DarkShapesScene::play(int i){
+//    if(isSlave()) {
+//        if (i == 35) osc->sendLightingCue(lxCues[1]);
+//        else if (i == 36 || i == 37) osc->sendLightingCue(lxCues[2]);
+//        else if (i == 39) osc->sendLightingCue(lxCues[3]);
+//        else if (i == 40 || i == 41) osc->sendLightingCue(lxCues[4]);
+//        else if (i == 43) osc->sendLightingCue(lxCues[5]);
+//        else if (i == 44 || i == 45) osc->sendLightingCue(lxCues[6]);
+//        else if (i == 47) osc->sendLightingCue(lxCues[7]);
+//        else if (i == 48 || i == 49) osc->sendLightingCue(lxCues[8]);
+//        else if (i == 50) osc->sendLightingCue(lxCues[9]);
+//    }
     if (isMaster()) {
         vision->isEnabled = true;
         if (i == 35) osc->sendLightingCue(lxCues[1]);

@@ -114,14 +114,35 @@ void IgniteScene::play(int i){
     
     // Initial subscene is blank
     if (i == 3) {
-        if (isSlave()) led->show("");
+        if (isSlave()) led->show(title1.get());
         if (isMaster()) {
             countdown->start(timeIntro.get());
         }
     }
+    if(i == 4) {
+        //osc->sendSoundCue(3); //Another Horrible Hack I'M SORRY CHRIS!
+        if (isMaster())
+            osc->sendLightSoundCue(intro);
+    }
+    if(i == 5) {
+        if (isMaster())
+            osc->sendLightSoundCue(FourToFive);
+    }
+    if(i == 6) {
+        if (isMaster())
+            osc->sendLightSoundCue(FiveToSix);
+    }
+    if(i == 7) {
+        if (isMaster())
+            osc->sendLightSoundCue(SixToSeven);
+    }
+    if(i == 8) {
+        if (isMaster())
+            osc->sendLightSoundCue(SevenToEight);
+    }
     
     // Active mic scenes, 1 to 4, then all 4
-    else if (i >= 4 && i <= 8) {
+    if (i >= 4 && i <= 8) {
         if (isSlave()) {
             led->show(title1.get());
         }
@@ -133,7 +154,7 @@ void IgniteScene::play(int i){
             for (int i = 0; i<WINDOW_COUNT; i++) {
                 windowTriggers[i] = false;
                 windowVolumes[i] = 0;
-                osc->sendLightSoundCue(outCues[i]);
+                //osc->sendLightSoundCue(outCues[i]);
             }
         }
         // start audio input if this is the active window
@@ -169,7 +190,7 @@ void IgniteScene::setupGui() {
     panel.add(title2.set("title 2", "Next Level"));
     panel.add(minMicTime.set("min mic time", 20, 1, 60));
     panel.add(timeIntro.set("intro time", 30, 1, 60));
-    panel.add(countdownDuration.set("countdown", 5, 0, 20));
+    panel.add(countdownDuration.set("countdown", 37, 0, 20));
     
     // audio
     panel.add(targetVolume.set("target volume", 0.5, 0, 1));
@@ -182,6 +203,11 @@ void IgniteScene::setupGui() {
         panel.add(inCues[i].setup("Cue in" + ofToString(i), (i+1)*2));
         panel.add(outCues[i].setup("Cue out" + ofToString(i), ((i+1)*2)+1));
     }
+    panel.add(intro.setup("Wall 1 Open", 1));
+    panel.add(FourToFive.setup("Wall 2 Open", 1));
+    panel.add(FiveToSix.setup("Wall 3 Open", 1));
+    panel.add(SixToSeven.setup("Wall 4 Open", 1));
+    panel.add(SevenToEight.setup("All Walls Open", 1));
     panel.add(nextCue.setup("Cue Next", 2));
     panel.loadFromFile("settings/ignite.xml");
 }
@@ -200,7 +226,7 @@ void IgniteScene::drawGui() {
 bool IgniteScene::getWindowActive() {
     bool active = false;
     if (mode==AppModel::WINDOW) {
-        if (appModel->windowId == 1 && subsceneI >= 4) active = true;
+        if (appModel->windowId == 1 && subsceneI >= 3) active = true;
         if (appModel->windowId == 2 && subsceneI >= 5) active = true;
         if (appModel->windowId == 3 && subsceneI >= 6) active = true;
         if (appModel->windowId == 4 && subsceneI >= 7) active = true;
@@ -234,7 +260,7 @@ void IgniteScene::onWindowVolume(OscClient::VolumeEventArgs& args) {
                 }
             }
             else {
-                osc->sendLightSoundCue(outCues[i]);
+                //osc->sendLightSoundCue(outCues[i]);
             }
         }
     }

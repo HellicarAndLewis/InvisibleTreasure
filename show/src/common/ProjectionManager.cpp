@@ -85,10 +85,10 @@ void ProjectionManager::setupGui() {
     panel.add(group);
     
     // projectors
-    panel.add(projection[0].set("1 Top left"));
-    panel.add(projection[1].set("2 Top right"));
-    panel.add(projection[2].set("3 Bottom left"));
-    panel.add(projection[3].set("4 Bottom right"));
+    panel.add(projection[0].set("Top left 1"));
+    panel.add(projection[1].set("Top right 2"));
+    panel.add(projection[2].set("Bottom left 3"));
+    panel.add(projection[3].set("Bottom right 4"));
     
     panel.loadFromFile("settings/projectors.xml");
 }

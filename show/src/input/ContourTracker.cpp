@@ -17,7 +17,7 @@ ContourTracker::ContourTracker() {
 void ContourTracker::setup() {
     
     contourFinder.setMinAreaRadius(10);
-    contourFinder.setMaxAreaRadius(200);
+    contourFinder.setMaxAreaRadius(40);
     contourFinder.setThreshold(threshold);
     // wait for half a frame before forgetting something
     contourFinder.getTracker().setPersistence(15);

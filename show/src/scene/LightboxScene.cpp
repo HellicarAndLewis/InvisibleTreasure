@@ -55,7 +55,6 @@ void LightboxScene::drawMasterScreen() {
     
     float targetWidth = MIN(ofGetWidth(), displays->masterScreen.sizeIn->x) * 0.5;
     float scale = targetWidth / tracker.thresholded.width;
-    
     ofPushStyle();
     ofPushMatrix();
     ofTranslate(10, 10);
@@ -233,15 +232,15 @@ void LightboxScene::play(int i){
             }
             else if (i == 11) {
                 playMode = WALL_1;
-                countdown->start(60);
+                countdown->start(30);
             }
             else if (i == 12) {
                 playMode = WALL_2;
-                countdown->start(60);
+                countdown->start(30);
             }
             else if (i == 13) {
                 playMode = WALLS_3_4;
-                countdown->start(120);
+                countdown->start(60);
             }
         }
     }
@@ -260,7 +259,7 @@ void LightboxScene::play(int i){
     else if (i == 15) {
         if (isSlave()) led->show(phase2.get());
         if (isMaster()) {
-            countdown->start(5 * 60);
+            countdown->start(4 * 60);
             playMode = ALL_ZONES;
         }
         if (isWindow()) imageElement.hide();
@@ -336,21 +335,25 @@ void LightboxScene::sendActiveCue() {
     // cues: 0:reset, 1:centre, 2:wall1, 3:wall2, 4:wall3, 5:wall4, 6:all, 7:outro
     switch (playMode) {
         case CENTRE:
-            osc->sendLightingCue(cues[1].soundCue);
+            osc->sendLightSoundCue(cues[1]);
             break;
         case WALL_1:
-            osc->sendLightingCue(cues[2].soundCue);
+            cout<<cues[2].lightCue<<endl;
+            osc->sendLightingCue(cues[2].lightCue);
             break;
         case WALL_2:
-            osc->sendLightingCue(cues[3].soundCue);
+            cout<<cues[3].lightCue<<endl;
+            osc->sendLightingCue(cues[3].lightCue);
             break;
         case WALLS_3_4:
         case WAITING:
-            osc->sendLightingCue(cues[4].soundCue);
-            osc->sendLightingCue(cues[5].soundCue);
+            cout<<"wall3: "<<cues[4].lightCue<<endl;
+            cout<<"wall4: "<<cues[4].lightCue<<endl;
+            osc->sendLightingCue(cues[4].lightCue);
+            osc->sendLightingCue(cues[5].lightCue);
             break;
         case ALL_ZONES:
-            osc->sendLightingCue(cues[6].soundCue);
+            osc->sendLightingCue(cues[6].lightCue);
             break;
         default:
             break;

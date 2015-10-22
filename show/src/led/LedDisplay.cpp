@@ -15,8 +15,8 @@ void LedDisplay::setup(Countdown * countdown) {
     this->countdown = countdown;
     
     // LED style font size and colour
-    title1.setup("fonts/led_board-7.ttf", 80);
-    title2.setup("fonts/led_board-7.ttf", 80);
+    title1.setup("fonts/led_board-7.ttf", 170);
+    title2.setup("fonts/led_board-7.ttf", 170);
     title1.colour.set(226, 148, 57);
     title2.colour.set(226, 148, 57);
     
@@ -54,7 +54,7 @@ void LedDisplay::draw() {
             stringH = title2.getHeight();
             float y = getDisplayRect().getHeight()*percentYCountdown.get();
             if (title1.messageString == "") y = getDisplayRect().getHeight()*0.45;
-            title2.draw(getDisplayRect().getCenter().x, y - stringH/2);
+            if(countdown->progress <= 10) title2.draw(getDisplayRect().getCenter().x, y - stringH/2); // horrible hack by JB
         }
         else {
             // title 1

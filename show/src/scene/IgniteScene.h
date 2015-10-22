@@ -40,6 +40,11 @@ public:
     ofParameter<string> title2;
     OscClient::CueWithListParams inCues[CUE_COUNT];
     OscClient::CueWithListParams outCues[CUE_COUNT];
+    OscClient::CueWithListParams intro;
+    OscClient::CueWithListParams FourToFive;
+    OscClient::CueWithListParams FiveToSix;
+    OscClient::CueWithListParams SixToSeven;
+    OscClient::CueWithListParams SevenToEight;
     OscClient::CueParams nextCue;
     ofParameter<int> timeIntro;
     ofParameter<int> minMicTime;

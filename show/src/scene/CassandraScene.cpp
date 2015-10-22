@@ -233,12 +233,12 @@ void CassandraScene::setupGui() {
     panel.setup(guiName, "settings/cassandra.xml");
     
     titleGroup.setName("Titles");
-    titleGroup.add(title.set("1", "ALL THINK FIB LENS"));
-    titleGroup.add(audience.set("2", "Audience"));
-    titleGroup.add(welcome.set("3", "Welcome"));
-    titleGroup.add(rabbitDisappointed.set("4", "He is disappointed"));
-    titleGroup.add(rabbitBoss.set("5", "He is pleased"));
-    titleGroup.add(boss.set("6", "He is boss"));
+    titleGroup.add(title.set("title1", "5. ALL THINK FIB LENS"));
+    titleGroup.add(audience.set("title2", "Clare"));
+    titleGroup.add(welcome.set("title3", "Welcome"));
+    titleGroup.add(rabbitDisappointed.set("title4", "He is disappointed"));
+    titleGroup.add(rabbitBoss.set("title5", "He is pleased"));
+    titleGroup.add(boss.set("title6", "He is boss"));
     
     timerGroup.setName("Timers");
     timerGroup.add(timerIntro.set("intro", 5, 1, 10));

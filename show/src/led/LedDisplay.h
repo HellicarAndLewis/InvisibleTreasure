@@ -32,6 +32,7 @@ public:
         Message::Params messageParams;
         float countdownDuration=-1.0f;
         bool justCountdown = false;
+        float startShowingTime=-1.0f;
         
         Params(Message::Params messageParams, float countdownDuration=-1.0f) :
         messageParams(messageParams),

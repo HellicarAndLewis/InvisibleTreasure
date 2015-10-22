@@ -58,14 +58,14 @@ void DancingDarkScene::setupGui() {
     guiName = "Dancing Dark";
     panel.setup(guiName, "settings/dancingdark.xml");
     
-    panel.add(tunes[0].set("1", "The Twist", 30, 67));
-    panel.add(tunes[1].set("2", "Line Dance", 30, 68));
-    panel.add(tunes[2].set("3", "Flamenco", 30, 69));
-    panel.add(tunes[3].set("4", "Shake it", 30, 70));
-    panel.add(tunes[4].set("5", "Salsa", 30, 71));
-    panel.add(tunes[5].set("6", "Can Can", 30, 72));
-    panel.add(tunes[6].set("7", "Conga", 30, 73));
-    panel.add(tunes[7].set("8", "Go go go", 150, 74));
+    panel.add(tunes[0].set("title1", "The Twist", 30, 67));
+    panel.add(tunes[1].set("title2", "Line Dance", 30, 68));
+    panel.add(tunes[2].set("title3", "Flamenco", 30, 69));
+    panel.add(tunes[3].set("title4", "Shake it", 30, 70));
+    panel.add(tunes[4].set("title5", "Salsa", 30, 71));
+    panel.add(tunes[5].set("title6", "Can Can", 30, 72));
+    panel.add(tunes[6].set("title7", "Conga", 30, 73));
+    panel.add(tunes[7].set("title8", "Go go go", 150, 74));
     panel.add(tunes[8].set("exit", "", 5, 75));
     panel.add(tunes[9].set("fade", "", 10, 76));
     
