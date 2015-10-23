@@ -15,15 +15,11 @@ LightboxScene::LightboxScene() {
 }
 
 void LightboxScene::setup() {
-    // add hit areas
-    // positions and sizes are normalized
-    // so they can later be mapped to the tracking rect
-    hitAreas.push_back(HitArea("centre"));
-    hitAreas.push_back(HitArea("window1"));
-    hitAreas.push_back(HitArea("window2"));
-    hitAreas.push_back(HitArea("window3"));
-    hitAreas.push_back(HitArea("window4"));
-    
+    hitAreas[0].set("centre");
+    hitAreas[1].set("window1");
+    hitAreas[2].set("window2");
+    hitAreas[3].set("window3");
+    hitAreas[4].set("window4");
     // subscenes
     subsceneStart = 10;
     subsceneEnd = 16;
@@ -92,14 +88,18 @@ void LightboxScene::drawMasterScreen() {
                 if (rect.intersects(hitArea.rect)) {
                     isHit = true;
                     hitArea.blobCount++;
+                    hitArea.presence = 1;
                 }
+            }
+            if (!isHeroActive && hitArea.name != "centre") {
+                hitArea.presence = 0;
             }
         }
         
         // draw the blob rect
         // brighter if it's in an area
         if (isHit) {
-           ofSetHexColor(0x43E06D);
+            ofSetHexColor(0x43E06D);
         }
         else {
             ofSetHexColor(0x385BE0);
@@ -120,14 +120,17 @@ void LightboxScene::drawMasterScreen() {
     ofSetColor(255, 255, 255, 100);
     float y = 10;
     float x = width + 10;
-    float volume = 0;
     bool heroChanged = false;
     bool anyChanged = false;
     
-    for (auto & hitArea: hitAreas) {
-        // cache this area's lx/sound cue params
-        OscClient::CueParams cue = getCueForArea(hitArea.name);
-        volume = 0;
+    
+    
+    for (int i=0; i<5; i++) {
+        HitArea& hitArea = hitAreas[i];
+        
+        if (playMode == ALL_ZONES) {
+            if (!allBlobsInAreas) hitArea.presence = 0;
+        }
         
         if (hitArea.active) {
             hitArea.update();
@@ -142,9 +145,6 @@ void LightboxScene::drawMasterScreen() {
                     heroChanged = (hitArea.changed);
                 }
                 // this zone and hero are active
-                // set the volume
-                // TODO: add proximity to volume mapping
-                volume = 1.0f;
                 ofSetHexColor(0xF7D63E);
             }
             
@@ -158,39 +158,38 @@ void LightboxScene::drawMasterScreen() {
                 }
                 ofSetHexColor(0xA8912A);
             }
+            
+            if (hitArea.changed) {
+                if (hitArea.getIsTriggered()) {
+                    // send sound on
+                    ofLogNotice() << "     SOUND ON FOR " << hitArea.name;
+                    osc->sendSoundCue(hitArea.soundCueIn);
+                }
+                else {
+                    // send sound off
+                    ofLogNotice() << "     SOUND OFF FOR " << hitArea.name;
+                    osc->sendSoundCue(hitArea.soundCueOut);
+                }
+            }
+            
             ofRect(hitArea.rect);
             ofDrawBitmapString(hitArea.name, hitArea.rect.getCenter()-ofPoint(30,0));
-            // reset the count to 0 ready for the next loop
-            hitArea.blobCount = 0;
         }
         
-        // Check which OSC state to send
-        // if (mode == ALL_ZONES && allBlobsInAreas && isHeroActive = true) sendActiveCue(); OR osc->sendLightingCue(cues[0].lightCue);
-        // else if (mode != ALL_ZONES && isHeroActive = true) DO IT
-        
-        if (playMode == ALL_ZONES) {
-            if (!allBlobsInAreas || !isHeroActive) volume = 0.0f;
-        }
-        else {
-            if (!isHeroActive) volume = 0.0f;
-        }
-        
-        // lerp to the new volume
-        // and send the lerped value over OSC
-        hitArea.volume = ofLerp(hitArea.volume, volume, 0.5);
-        if (hitArea.volume < 0.001) hitArea.volume = 0.0f;
-        osc->sendSoundVolume(cue.soundCue, hitArea.volume);
-        
-        // draw bars for volume levels
+        // draw bars for presence
         ofPushStyle();
         ofFill();
         ofSetColor(50);
         ofRect(x, y, ofGetWidth()/2, 40);
         ofSetColor(255);
-        ofRect(x, y, hitArea.volume*ofGetWidth()/2, 40);
-        ofDrawBitmapStringHighlight(hitArea.name + " volume:" + ofToString(hitArea.volume), x, y+20);
+        ofRect(x, y, hitArea.smoothed*ofGetWidth()/2, 40);
+        ofDrawBitmapStringHighlight(hitArea.name + " presence:" + ofToString(hitArea.presence), x, y+20);
         y+=40;
         ofPopStyle();
+        
+        // reset the count to 0 ready for the next loop
+        hitArea.blobCount = 0;
+        hitArea.presence = 0;
     }
     
     // Check to see if we need to send a new LX cue
@@ -209,7 +208,8 @@ void LightboxScene::drawMasterScreen() {
     
     if (zonesActive != lastZonesActive) {
         if (zonesActive) sendActiveCue();
-        else osc->sendLightingCue(cues[0].lightCue);
+        else if(playMode == ALL_ZONES || playMode == WAITING) osc->sendLightingCue(cues[0].lightCue);
+        else osc->sendLightingCue(CenterBlinkingAllOff.lightCue);
     }
     
     ofPopMatrix();
@@ -247,9 +247,12 @@ void LightboxScene::play(int i){
     
     // Waiting for all players to be in trigger zones
     else if (i == 14) {
-        if (isSlave()) led->show(waiting.get());
+        if (isSlave()) {
+            led->show(waiting.get());
+        }
         if (isMaster()) {
             countdown->stop();
+            osc->sendLightSoundCue(WaitingIntro);
             playMode = WAITING;
         }
     }
@@ -257,9 +260,13 @@ void LightboxScene::play(int i){
     // All zones active
     // everyone must be in a zone
     else if (i == 15) {
-        if (isSlave()) led->show(phase2.get());
+        if (isSlave()) {
+            led->hide();
+            led->queue(LedDisplay::Params(phase2.get(), 0, 5, 1, false, 0));
+        }
         if (isMaster()) {
             countdown->start(4 * 60);
+            osc->sendLightSoundCue(SystemReadyIntro);
             playMode = ALL_ZONES;
         }
         if (isWindow()) imageElement.hide();
@@ -275,7 +282,7 @@ void LightboxScene::play(int i){
             led->queue(LedDisplay::Params(bonusGame, 0, 8, 0, false));
             led->queue(LedDisplay::Params("", 0, 2, 0, false));
             led->playQueue();
-        }
+        }//led->show(bonusGame.get(), countdownDuration);
         if (isMaster()) {
             countdown->start(countdownDuration);
             osc->sendLightSoundCue(cues[LIGHTBOX_CUE_COUNT-1]);
@@ -318,10 +325,15 @@ void LightboxScene::setupGui() {
         cues[i].soundCue = lxNum;
         lxNum++;
     }
-    // hit areas
+    panel.add(CenterBlinkingAllOff.setup("CenterBlinkingAllOff", 1));
+    panel.add(SystemReadyIntro.setup("SystemReadyIntro", 1));
+    panel.add(WaitingIntro.setup("WaitingIntro", 1));
+    
+    // add hit areas
+    // positions and sizes are normalized
+    // so they can later be mapped to the tracking rect
     for (auto hit: hitAreas) {
-        panel.add(hit.position);
-        panel.add(hit.size);
+        panel.add(hit.group);
     }
     panel.loadFromFile("settings/lightbox.xml");
 }
@@ -343,20 +355,16 @@ void LightboxScene::sendActiveCue() {
     // cues: 0:reset, 1:centre, 2:wall1, 3:wall2, 4:wall3, 5:wall4, 6:all, 7:outro
     switch (playMode) {
         case CENTRE:
-            osc->sendLightSoundCue(cues[1]);
+            osc->sendLightingCue(cues[1].lightCue);
             break;
         case WALL_1:
-            cout<<cues[2].lightCue<<endl;
             osc->sendLightingCue(cues[2].lightCue);
             break;
         case WALL_2:
-            cout<<cues[3].lightCue<<endl;
             osc->sendLightingCue(cues[3].lightCue);
             break;
         case WALLS_3_4:
         case WAITING:
-            cout<<"wall3: "<<cues[4].lightCue<<endl;
-            cout<<"wall4: "<<cues[4].lightCue<<endl;
             osc->sendLightingCue(cues[4].lightCue);
             osc->sendLightingCue(cues[5].lightCue);
             break;
