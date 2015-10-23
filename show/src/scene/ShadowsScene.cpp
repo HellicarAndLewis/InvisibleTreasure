@@ -62,12 +62,16 @@ void ShadowsScene::play(int i){
             // LED: Going Dark and 10 second countdown
             // hide image
             // Cues
-            led->show(goingDarkTitle, time);
+            led->hide();
+            led->queue(LedDisplay::Params(goingDarkTitle, 0, 2, 0, false, 0));
+            led->queue(LedDisplay::Params(goingDarkTitle, 0, 10, 0, false, 10));
+            led->playQueue();
+            //led->show(goingDarkTitle, time);
             imageElement.hide(time);
-            osc->sendLightSoundCue(cue2);
         }
         if (isMaster()) {
             countdown->start(time);
+            osc->sendLightSoundCue(cue2);
         }
     }
     

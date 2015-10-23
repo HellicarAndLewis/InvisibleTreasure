@@ -54,7 +54,7 @@ void LedDisplay::draw() {
             stringH = title2.getHeight();
             float y = getDisplayRect().getHeight()*percentYCountdown.get();
             if (title1.messageString == "") y = getDisplayRect().getHeight()*0.45;
-            if(countdown->progress <= 10) title2.draw(getDisplayRect().getCenter().x, y - stringH/2); // horrible hack by JB
+            title2.draw(getDisplayRect().getCenter().x, y - stringH/2); // horrible hack by JB
         }
         else {
             // title 1

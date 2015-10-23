@@ -99,6 +99,7 @@ public:
     void stop();
     void setupGui();
     void drawGui();
+    string getShapeForScene(int scene);
     
     // gui
     ofParameter<int> modeSelector;
@@ -126,6 +127,11 @@ private:
     ofParameter<int> soundCueCount;
     ofParameter<int> soundCueBad;
     ofParameter<int> soundCueGood;
+    
+    ofParameter<int> CircleStarting;
+    ofParameter<int> SquareStarting;
+    ofParameter<int> TriangleStarting;
+    ofParameter<int> StarStarting;
     ofParameterGroup soundCueGroup;
     
     ofParameterGroup timerGroup;

@@ -267,7 +267,15 @@ void LightboxScene::play(int i){
     
     // outro
     else if (i == 16) {
-        if (isSlave()) led->show(bonusGame.get(), countdownDuration);
+        if (isSlave()) {
+            led->hide();
+            led->queue(LedDisplay::Params("", 0, 2, 0, false));
+            led->queue(LedDisplay::Params(bonusGame, 0, 6, 0, false));
+            led->queue(LedDisplay::Params(bonusGame, 0, 5, 0, false, 5));
+            led->queue(LedDisplay::Params(bonusGame, 0, 8, 0, false));
+            led->queue(LedDisplay::Params("", 0, 2, 0, false));
+            led->playQueue();
+        }
         if (isMaster()) {
             countdown->start(countdownDuration);
             osc->sendLightSoundCue(cues[LIGHTBOX_CUE_COUNT-1]);

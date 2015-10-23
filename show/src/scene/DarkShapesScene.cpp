@@ -135,7 +135,7 @@ void DarkShapesScene::play(int i){
             osc->sendLightingCue(lxCues[0]);
         }
     }
-    else if (i > 17 && i < 50) {
+    if (i > 17 && i < 50) {
         shapeRenderer.invert = (i >= 34);
         for (auto & game : shapeGames) {
             if (i >= game.startScene && i <= game.endScene) {
@@ -144,14 +144,28 @@ void DarkShapesScene::play(int i){
                 switch (game.state) {
                     case ShapeGame::INTRO:
                         shapeRenderer.showShape(game.shapeMode);
-                        if (isMaster()) countdown->start(timers[1]);
+                        if (isMaster()) {
+                            countdown->start(timers[1]);
+                        }
                         if (isSlave()) led->hide();
                         break;
                     case ShapeGame::PLAY:
                         shapeRenderer.showShape(game.shapeMode);
                         if (isSlave()) led->show("", timers[2]);
                         if (isMaster()) {
-                            osc->sendSoundCue(soundCueCount);
+                            if((i >= 17 && i <= 20) || (i >= 33 && i <= 36)) {
+                                osc->sendSoundCue(CircleStarting);
+                            }
+                            if((i >= 21 && i <= 24) || (i >= 37 && i <= 40)) {
+                                osc->sendSoundCue(SquareStarting);
+                            }
+                            if((i >= 25 && i <= 28) || (i >= 41 && i <= 44)) {
+                                osc->sendSoundCue(TriangleStarting);
+                            }
+                            if((i >= 29 && i <= 32) || (i >= 45 && i <= 48)) {
+                                osc->sendSoundCue(StarStarting);
+                            }
+                            //osc->sendSoundCue(soundCueCount);
                             countdown->start(timers[2]);
                         }
                         break;
@@ -174,7 +188,7 @@ void DarkShapesScene::play(int i){
                         shapeRenderer.hide(true);
                         if (isSlave()) led->hide();
                         if (isMaster()) {
-                            osc->sendSoundCue(soundCueGood);
+                            //osc->sendSoundCue(soundCueGood);
                             countdown->start(timers[4]);
                         }
                         break;
@@ -186,9 +200,10 @@ void DarkShapesScene::play(int i){
         }
     }
     // outro
-    else if (i == 50) {
+    if (i == 50) {
         if (isSlave()) {
             led->hide();
+            // text to display message, time in, time out, hold loop, countdown
             led->queue(LedDisplay::Params(bonusComplete.get(), 0, timers[5], 0, false, 0));
             led->queue(LedDisplay::Params(heIs.get(), 0, timers[6], 0, false, 0));
             led->queue(LedDisplay::Params(nextLevel.get(), 0, timers[7], 0, false, timers[7]));
@@ -251,6 +266,11 @@ void DarkShapesScene::setupGui() {
     soundCueGroup.add(soundCueCount.set("countdown", 12, 0, 100));
     soundCueGroup.add(soundCueBad.set("bad", 13, 0, 100));
     soundCueGroup.add(soundCueGood.set("good", 14, 0, 100));
+    soundCueGroup.add(CircleStarting.set("Circle Starting", 15, 0, 100));
+    soundCueGroup.add(SquareStarting.set("Square Starting", 16, 0, 100));
+    soundCueGroup.add(TriangleStarting.set("Triangle Starting", 17, 0, 100));
+    soundCueGroup.add(StarStarting.set("Star Starting", 18, 0, 100));
+    
     panel.add(soundCueGroup);
     
     ofParameterGroup timerGroup;
@@ -292,7 +312,9 @@ void DarkShapesScene::onCountdownComplete(int& i) {
         // Shape game mode
         if (currentShapeGame != NULL) {
             ShapeGame::State state = currentShapeGame->getNextState();
-            if (state == ShapeGame::INACTIVE) nextSubscene(currentShapeGame->endScene + 1);
+            if (state == ShapeGame::INACTIVE) {
+                nextSubscene(currentShapeGame->endScene + 1);
+            }
             else {
                 int id = currentShapeGame->getSceneForState(state);
                 nextSubscene(id);
@@ -310,6 +332,7 @@ void DarkShapesScene::onSuccess() {
         currentShapeGame->success();
         ofLogNotice() << "DarkShapesScene::onSuccess, now play " + ofToString(currentShapeGame->sceneI);
         nextSubscene(currentShapeGame->sceneI);
+        // If we're Succeeding on circle send rectangle
     }
 }
 //////////////////////////////////////////////////////////////////////////////////
