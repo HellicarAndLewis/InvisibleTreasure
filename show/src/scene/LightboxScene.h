@@ -18,13 +18,19 @@ public:
     // Hit area is a trigger zone in the space
     // It's defined by a rect which can be set via the GUI
     struct HitArea {
-        HitArea(string name, ofVec2f position=ofVec2f(.5, .5), float size=.01) : name(name) {
-            this->position.set(name+" pos", position, ofVec2f(0,0), ofVec2f(1,1));
-            this->size.set(name+" size", size, 0, 1);
+        void set(string name, ofVec2f position=ofVec2f(.5, .5), float size=.01) {
+            this->name = name;
+            this->position.set("pos", position, ofVec2f(0,0), ofVec2f(1,1));
+            this->size.set("size", size, 0, 1);
+            group.add(this->position);
+            group.add(this->size);
+            group.add(this->soundCueIn.set("sound in", 0, -1, 100));
+            group.add(this->soundCueOut.set("sound out", 0, -1, 100));
+            group.setName(name);
         }
         void update() {
             bool wasTriggered = getIsTriggered();
-            smoothed = ofLerp(smoothed, blobCount, 0.1f);
+            smoothed = ofLerp(smoothed, presence, 0.1f);
             changed = (getIsTriggered() != wasTriggered);
         }
         bool getIsTriggered() {
@@ -32,18 +38,23 @@ public:
         }
         bool changed = false;
         bool active = false;
-        // area pposition, size and resulting rectangle
-        ofParameter<ofVec2f> position;
-        ofParameter<float> size;
         ofRectangle rect;
         // meaningful name
         string name = "";
         // volume resulting from blobs in this area
         float volume = 0;
         // blob tracking in this area
+        int presence = 0;
         int blobCount = 0;
         int lastBlobCount = 0;
         float smoothed = 0;
+        
+        // area pposition, size and resulting rectangle
+        ofParameter<ofVec2f> position;
+        ofParameter<float> size;
+        ofParameter<int> soundCueIn;
+        ofParameter<int> soundCueOut;
+        ofParameterGroup group;
     };
     
     // Play mode determines which zones are active
@@ -80,7 +91,7 @@ private:
     
     bool zonesActive = false;
     bool isHeroActive = false;
-    vector<HitArea> hitAreas;
+    HitArea hitAreas[5];
     ImageElement imageElement;
     
 };
