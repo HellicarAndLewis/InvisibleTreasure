@@ -20,8 +20,8 @@ public:
     struct HitArea {
         void set(string name, ofVec2f position=ofVec2f(.5, .5), float size=.01) {
             this->name = name;
-            this->position.set("pos", position, ofVec2f(0,0), ofVec2f(1,1));
-            this->size.set("size", size, 0, 1);
+            this->position.set("pos", position, ofVec2f(-1,-1), ofVec2f(2,2));
+            this->size.set("size", size, 0, 2);
             group.add(this->position);
             group.add(this->size);
             group.add(this->soundCueIn.set("sound in", 0, -1, 100));

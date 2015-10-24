@@ -91,7 +91,7 @@ void Particle::update(){
                     vel += frc * 0.4;
                 }
                 
-                if ( attractPoints->at(closest).inside(pos) && (eatBlobs || inShape)) {
+                if ( attractPoints->at(closest).inside(pos) && (eatBlobs || inShape) && ofRandom(1) < 0.01 ) {
                     eat();
                 }
                 
@@ -114,7 +114,7 @@ void Particle::update(){
 void Particle::eat() {
     isEating = true;
     if (mode == EAT_GREEN) {
-        color.lerp( ofColor(67,224,109), 0.01 );
+        color.lerp( ofColor(67,224,109), 0.01);
         if (color.g > 222) isFull = true;
     }
     else if (mode == EAT_GROW) {

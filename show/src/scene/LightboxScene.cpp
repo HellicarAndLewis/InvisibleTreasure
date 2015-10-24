@@ -207,7 +207,10 @@ void LightboxScene::drawMasterScreen() {
     }
     
     if (zonesActive != lastZonesActive) {
-        if (zonesActive) sendActiveCue();
+        if (zonesActive && playMode == ALL_ZONES) {
+            osc->sendLightingCue(SystemReadyIntro.soundCue);
+        }
+        else if (zonesActive) sendActiveCue();
         else if(playMode == ALL_ZONES || playMode == WAITING) osc->sendLightingCue(cues[0].lightCue);
         else osc->sendLightingCue(CenterBlinkingAllOff.lightCue);
     }
@@ -220,7 +223,10 @@ void LightboxScene::drawMasterScreen() {
 // public
 //////////////////////////////////////////////////////////////////////////////////
 void LightboxScene::play(int i){
-    
+    if(i == 10) {
+        osc->sendSoundCue(8);
+        osc->sendLightingCue(3);
+    }
     // interactive / play modes
     // centre, wall 1, wall 2, walls 3 & 4
     if (i >= 10 && i <= 13) {
@@ -232,14 +238,17 @@ void LightboxScene::play(int i){
             }
             else if (i == 11) {
                 playMode = WALL_1;
+                sendActiveCue();
                 countdown->start(30);
             }
             else if (i == 12) {
                 playMode = WALL_2;
+                sendActiveCue();
                 countdown->start(30);
             }
             else if (i == 13) {
                 playMode = WALLS_3_4;
+                sendActiveCue();
                 countdown->start(60);
             }
         }
@@ -276,13 +285,13 @@ void LightboxScene::play(int i){
     else if (i == 16) {
         if (isSlave()) {
             led->hide();
-            led->queue(LedDisplay::Params("", 0, 2, 0, false));
+            led->queue(LedDisplay::Params("", 0, 10, 0, false));
             led->queue(LedDisplay::Params(bonusGame, 0, 6, 0, false));
             led->queue(LedDisplay::Params(bonusGame, 0, 5, 0, false, 5));
             led->queue(LedDisplay::Params(bonusGame, 0, 8, 0, false));
-            led->queue(LedDisplay::Params("", 0, 2, 0, false));
+            //led->queue(LedDisplay::Params("", 0, 2, 0, false));
             led->playQueue();
-        }//led->show(bonusGame.get(), countdownDuration);
+        }
         if (isMaster()) {
             countdown->start(countdownDuration);
             osc->sendLightSoundCue(cues[LIGHTBOX_CUE_COUNT-1]);

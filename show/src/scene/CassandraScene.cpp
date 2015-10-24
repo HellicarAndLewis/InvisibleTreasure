@@ -202,8 +202,8 @@ void CassandraScene::play(int i){
             // rabbit angry, etc, timed
             if (isSlave()) {
                 led->hide();
-                led->queue(LedDisplay::Params(rabbitDisappointed.get(), 0, 1, 0, false, timerOutro.get()));
-                led->queue(LedDisplay::Params(rabbitBoss.get(), 0, 1, 0));
+                led->queue(LedDisplay::Params(rabbitDisappointed.get(), 0, 2, 0, false));
+                led->queue(LedDisplay::Params(rabbitBoss.get(), 0, 1, 0, false, timerOutro.get()));
                 led->queue(LedDisplay::Params(boss.get(), 0, 1, 0));
                 led->queue(LedDisplay::Params(boss.get(), 0, 1, 0));
                 led->queue(LedDisplay::Params(boss.get(), 0, 1, 0));
@@ -211,8 +211,8 @@ void CassandraScene::play(int i){
                 led->playQueue();
             }
             if (isMaster()) {
-                countdown->start(timerOutro.get() + 1);
-                osc->sendSoundCue(soundCueOutro);
+                countdown->start(7);
+                osc->sendSoundCue(80);
                 osc->sendLightingCue(lxCueOutro);
             }
             if (isWindow()) setMode(IDLE);

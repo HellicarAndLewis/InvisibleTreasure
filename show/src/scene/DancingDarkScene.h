@@ -17,7 +17,7 @@ public:
     struct Tune {
         ofParameter<string> ledTitle;
         ofParameter<int> soundCueNum;
-        ofParameter<int> duration;
+        ofParameter<float> duration;
         ofParameterGroup group;
         ofParameterGroup set(string title, string ledTitle, int duration, int soundCueNum) {
             group.add(this->ledTitle.set("LED title", ledTitle));

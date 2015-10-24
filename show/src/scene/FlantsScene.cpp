@@ -143,7 +143,7 @@ void FlantsScene::play(int i){
             osc->sendLightSoundCue(cues[7]);
         }
         else if (i == 62) {
-            countdown->start(timerGameOver + timerTired + timerNext);
+            countdown->start(17 /*timerGameOver + timerTired + timerNext*/);
             osc->sendLightSoundCue(cues[8]);
         }
     }
@@ -164,9 +164,9 @@ void FlantsScene::play(int i){
         }
         else if (i == 62) {
             led->hide();
-            led->queue(LedDisplay::Params(gameOver.get(), 0, timerGameOver, 0, false, 0));
-            led->queue(LedDisplay::Params(tired.get(), 0, timerTired, 0, false, 0));
-            led->queue(LedDisplay::Params(nextLevel.get(), 0, timerNext, 0, false, timerNext));
+            led->queue(LedDisplay::Params(gameOver.get(), 0, 4, 0, false, 0));
+            led->queue(LedDisplay::Params(tired.get(), 0, 8, 0, false, 0));
+            led->queue(LedDisplay::Params(nextLevel.get(), 0, 5, 0, false, 5));
             led->playQueue();
         }
     }

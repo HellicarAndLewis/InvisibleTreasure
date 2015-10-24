@@ -125,14 +125,17 @@ void DarkShapesScene::play(int i){
         else if (i == 44 || i == 45) osc->sendLightingCue(lxCues[6]);
         else if (i == 47) osc->sendLightingCue(lxCues[7]);
         else if (i == 48 || i == 49) osc->sendLightingCue(lxCues[8]);
-        else if (i == 50) osc->sendLightingCue(lxCues[9]);
+        else if (i == 50) {
+            osc->sendLightingCue(lxCues[9]);
+            osc->sendSoundCue(48);
+        }
     }
     if (i == 17) {
-        if (isSlave()) led->show(title.get());
+        if (isSlave()) led->hide();
         if (isMaster()) {
-            countdown->start(timers[0]);
-            osc->sendSoundCue(soundCueBonus);
-            osc->sendLightingCue(lxCues[0]);
+            countdown->start(0);//);
+            //osc->sendSoundCue(soundCueBonus);
+            //osc->sendLightingCue(lxCues[0]);
         }
     }
     if (i > 17 && i < 50) {
@@ -151,20 +154,14 @@ void DarkShapesScene::play(int i){
                         break;
                     case ShapeGame::PLAY:
                         shapeRenderer.showShape(game.shapeMode);
-                        if (isSlave()) led->show("", timers[2]);
+                        if (isSlave()) {
+                            led->hide();
+                            led->queue(LedDisplay::Params("", 0, 10, 0, false, 10));
+                            led->queue(LedDisplay::Params("", 0, 2, 0, false));
+                            led->playQueue();
+                            //led->show("", timers[2]);
+                        }
                         if (isMaster()) {
-                            if((i >= 17 && i <= 20) || (i >= 33 && i <= 36)) {
-                                osc->sendSoundCue(CircleStarting);
-                            }
-                            if((i >= 21 && i <= 24) || (i >= 37 && i <= 40)) {
-                                osc->sendSoundCue(SquareStarting);
-                            }
-                            if((i >= 25 && i <= 28) || (i >= 41 && i <= 44)) {
-                                osc->sendSoundCue(TriangleStarting);
-                            }
-                            if((i >= 29 && i <= 32) || (i >= 45 && i <= 48)) {
-                                osc->sendSoundCue(StarStarting);
-                            }
                             //osc->sendSoundCue(soundCueCount);
                             countdown->start(timers[2]);
                         }
@@ -188,7 +185,7 @@ void DarkShapesScene::play(int i){
                         shapeRenderer.hide(true);
                         if (isSlave()) led->hide();
                         if (isMaster()) {
-                            //osc->sendSoundCue(soundCueGood);
+                            osc->sendSoundCue(soundCueGood);
                             countdown->start(timers[4]);
                         }
                         break;
@@ -199,18 +196,44 @@ void DarkShapesScene::play(int i){
             }
         }
     }
+    if(i == 18) {
+        if(isSlave()) {
+            led->hide();
+            led->queue(LedDisplay::Params("Circle", 0, 2, 0, false));
+            led->playQueue();
+        }
+    }
+    if(i == 18 || i == 34) {
+        if(isMaster()) {
+            osc->sendSoundCue(CircleStarting);
+            osc->sendLightingCue(lxCues[0]);
+        }
+    }
+    if(i == 22 || i == 38 ) {
+        if(isMaster())
+            osc->sendSoundCue(SquareStarting);
+    }
+    if(i == 26 || i == 42) {
+        if(isMaster())
+            osc->sendSoundCue(TriangleStarting);
+    }
+    if(i == 30 || i == 48) {
+        if(isMaster())
+            osc->sendSoundCue(StarStarting);
+    }
     // outro
     if (i == 50) {
         if (isSlave()) {
             led->hide();
             // text to display message, time in, time out, hold loop, countdown
-            led->queue(LedDisplay::Params(bonusComplete.get(), 0, timers[5], 0, false, 0));
-            led->queue(LedDisplay::Params(heIs.get(), 0, timers[6], 0, false, 0));
-            led->queue(LedDisplay::Params(nextLevel.get(), 0, timers[7], 0, false, timers[7]));
+            led->queue(LedDisplay::Params(bonusComplete.get(), 0, 6, 0, false, 0));
+            led->queue(LedDisplay::Params(heIs.get(), 0, 8, 0, false, 0));
+            led->queue(LedDisplay::Params(nextLevel.get(), 0, 5, 0, false, 5));
+            led->queue(LedDisplay::Params("", 0, 2, 0, false));
             led->playQueue();
         }
         if (isMaster()) {
-            countdown->start(timers[5] + timers[6] + timers[7]);
+            countdown->start(21);
         }
     }
     SceneBase::play(i);
@@ -257,6 +280,7 @@ void DarkShapesScene::setupGui() {
     lxCueGroup.add(lxCues[7].set("blackout 4", 18, 0, 100));
     lxCueGroup.add(lxCues[8].set("lights 4", 19, 0, 100));
     lxCueGroup.add(lxCues[9].set("countdown", 22, 0, 100));
+    ofParameter<int> outroCueLighting;
     panel.add(lxCueGroup);
     
     // Sound cues
@@ -270,13 +294,12 @@ void DarkShapesScene::setupGui() {
     soundCueGroup.add(SquareStarting.set("Square Starting", 16, 0, 100));
     soundCueGroup.add(TriangleStarting.set("Triangle Starting", 17, 0, 100));
     soundCueGroup.add(StarStarting.set("Star Starting", 18, 0, 100));
+    soundCueGroup.add(outroCueSound.set("OutroCueSound", 48, 0, 100));
     
     panel.add(soundCueGroup);
     
     ofParameterGroup timerGroup;
     ofParameter<int> timers[DARK_SHAPES_TIMER_COUNT];
-    
-    
     
     // TODO: add LX and sound cues to GUI
     

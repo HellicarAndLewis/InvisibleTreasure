@@ -127,6 +127,8 @@ private:
     ofParameter<int> soundCueCount;
     ofParameter<int> soundCueBad;
     ofParameter<int> soundCueGood;
+    ofParameter<int> outroCueSound;
+    ofParameter<int> outroCueLighting;
     
     ofParameter<int> CircleStarting;
     ofParameter<int> SquareStarting;

@@ -43,7 +43,7 @@ void DancingDarkScene::play(int i){
         }
     }
     if (isMaster()) {
-        if (i == 67) osc->sendLightingCue(lxCueBlackout);
+        if (i == 67) ;//osc->sendLightingCue(lxCueBlackout);
         else if (i == 74) osc->sendLightingCue(lxCueLightsUp);
         else if (i == 75) osc->sendLightingCue(lxCueOutro);
     }
@@ -68,7 +68,6 @@ void DancingDarkScene::setupGui() {
     panel.add(tunes[7].set("title8", "Go go go", 150, 74));
     panel.add(tunes[8].set("exit", "", 5, 75));
     panel.add(tunes[9].set("fade", "", 10, 76));
-    
     
     // LX cues
     lxCueGroup.setName("LX Cues");

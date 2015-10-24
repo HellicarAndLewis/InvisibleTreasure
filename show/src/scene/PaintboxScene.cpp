@@ -133,13 +133,14 @@ void PaintboxScene::play(int i){
         case 66:
             if (isSlave()) {
                 led->hide();
-                led->queue(LedDisplay::Params(back.get(), 0, 5, 0));
-                led->queue(LedDisplay::Params(bonusTime.get(), 0, 5, 0));
+                led->queue(LedDisplay::Params(back.get(), 0, 8, 0));
+                led->queue(LedDisplay::Params(bonusTime.get(), 0, 6, 0));
                 led->queue(LedDisplay::Params(bonusGame.get(), 0, 1, 0, false, 5));
                 led->queue(LedDisplay::Params(goingDark.get(), 0, 1, 0));
                 led->queue(LedDisplay::Params(pleaseEnjoy.get(), 0, 1, 0));
                 led->queue(LedDisplay::Params(goingDark.get(), 0, 1, 0));
                 led->queue(LedDisplay::Params(pleaseEnjoy.get(), 0, 1, 0));
+                led->queue(LedDisplay::Params("", 0, 2, 0));
                 led->playQueue();
             }
             if (isMaster()) {
