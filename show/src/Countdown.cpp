@@ -15,6 +15,17 @@ void Countdown::setup() {
 }
 
 void Countdown::update() {
+//    if(enabled) {
+//        float currentTime = ofGetElapsedTimef();
+//        float diff = currentTime - startTime;
+//        progress = diff;
+//        if(progress >= countdownDuration) {
+//            stop();
+//            ofLogVerbose() << "countdown completed";
+//            int i = 0;
+//            ofNotifyEvent(countdownCompleteEvent, i, this);
+//        }
+//    }
     if (tween.isRunning() && enabled) {
         progress = tween.update();
         if (tween.isCompleted()) {
@@ -33,8 +44,10 @@ void Countdown::draw() {
 //////////////////////////////////////////////////////////////////////////////////
 void Countdown::start(float duration) {
     enabled = true;
-    tween.setParameters(easinglinear, ofxTween::easeOut, duration, 0, duration*1000, 0);
+    tween.setParameters(easinglinear, ofxTween::easeIn, duration, 0, duration*1000, 0);
     tween.start();
+    //    startTime = ofGetElapsedTimef();
+    //    countdownDuration = duration;
 }
 void Countdown::stop() {
     progress = 0;
@@ -43,6 +56,7 @@ void Countdown::stop() {
 
 bool Countdown::isComplete() {
     return (tween.isCompleted() && enabled);
+//    return (progress >= 1 && enabled);
 }
 //////////////////////////////////////////////////////////////////////////////////
 // protected

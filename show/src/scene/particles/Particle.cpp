@@ -9,7 +9,7 @@ Particle::Particle(){
     maxDrag = 0.95;
     flock = false;
     mode = EAT_GREEN;
-    color.set(255,234,119);
+    color.set(255,234,119); // Note to change this if we use ofFloatColor to floats
     isFull = false;
     eatBlobs = true;
     inShape = false;
@@ -91,10 +91,9 @@ void Particle::update(){
                     vel += frc * 0.4;
                 }
                 
-                if ( attractPoints->at(closest).inside(pos) && (eatBlobs || inShape) && ofRandom(1) < 0.01 ) {
+                if ( attractPoints->at(closest).inside(pos) && (eatBlobs || inShape) ) {
                     eat();
                 }
-                
             }
             else {
                 vel *= drag;
@@ -114,11 +113,13 @@ void Particle::update(){
 void Particle::eat() {
     isEating = true;
     if (mode == EAT_GREEN) {
-        color.lerp( ofColor(67,224,109), 0.01);
+        color.lerp( ofColor(67,224,109), 0.01); //last parameter is effectively eat rate
+        // Tis color is not changing slowly enough even when we vary to value higher or lower
+        // Perhaps we need to use ofFloatColor, in order to get a smooth lerp that is slow enough
         if (color.g > 222) isFull = true;
     }
     else if (mode == EAT_GROW) {
-        setScale(scale + 0.02);
+        setScale(scale + 0.02); //last parameter is effectively eat rate
         if (scale >= 2) {
             isFull = true;
         }

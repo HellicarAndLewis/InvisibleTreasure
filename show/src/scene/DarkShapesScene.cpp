@@ -148,9 +148,16 @@ void DarkShapesScene::play(int i){
                     case ShapeGame::INTRO:
                         shapeRenderer.showShape(game.shapeMode);
                         if (isMaster()) {
+                            if(game.label == "Circle") osc->sendSoundCue(CircleStarting);
+                            else if(game.label == "Rectangle") osc->sendSoundCue(SquareStarting);
+                            else if(game.label == "Triangle") osc->sendSoundCue(TriangleStarting);
+                            else if(game.label == "Star") osc->sendSoundCue(StarStarting);
                             countdown->start(timers[1]);
                         }
-                        if (isSlave()) led->hide();
+                        if (isSlave()){
+                            if (i < 34) led->show(game.label);
+                            else led->show("Going Dark");
+                        }
                         break;
                     case ShapeGame::PLAY:
                         shapeRenderer.showShape(game.shapeMode);
@@ -189,38 +196,37 @@ void DarkShapesScene::play(int i){
                             countdown->start(timers[4]);
                         }
                         break;
-                        
                     default:
                         break;
                 }
             }
         }
     }
-    if(i == 18) {
-        if(isSlave()) {
-            led->hide();
-            led->queue(LedDisplay::Params("Circle", 0, 2, 0, false));
-            led->playQueue();
-        }
-    }
-    if(i == 18 || i == 34) {
-        if(isMaster()) {
-            osc->sendSoundCue(CircleStarting);
-            osc->sendLightingCue(lxCues[0]);
-        }
-    }
-    if(i == 22 || i == 38 ) {
-        if(isMaster())
-            osc->sendSoundCue(SquareStarting);
-    }
-    if(i == 26 || i == 42) {
-        if(isMaster())
-            osc->sendSoundCue(TriangleStarting);
-    }
-    if(i == 30 || i == 48) {
-        if(isMaster())
-            osc->sendSoundCue(StarStarting);
-    }
+//    if(i == 18) {
+//        if(isSlave()) {
+//            led->hide();
+//            led->queue(LedDisplay::Params("Circle", 0, 2, 0, false));
+//            led->playQueue();
+//        }
+//    }
+//    if(i == 18 || i == 34) {
+//        if(isMaster()) {
+//            osc->sendSoundCue(CircleStarting);
+//            osc->sendLightingCue(lxCues[0]);
+//        }
+//    }
+//    if(i == 22 || i == 38 ) {
+//        if(isMaster())
+//            osc->sendSoundCue(SquareStarting);
+//    }
+//    if(i == 26 || i == 42) {
+//        if(isMaster())
+//            osc->sefffndSoundCue(TriangleStarting);
+//    }
+//    if(i == 30 || i == 48) {
+//        if(isMaster())
+//            osc->sendSoundCue(StarStarting);
+//    }
     // outro
     if (i == 50) {
         if (isSlave()) {
@@ -351,12 +357,12 @@ void DarkShapesScene::onCountdownComplete(int& i) {
 }
 
 void DarkShapesScene::onSuccess() {
-    if (currentShapeGame != NULL) {
-        currentShapeGame->success();
-        ofLogNotice() << "DarkShapesScene::onSuccess, now play " + ofToString(currentShapeGame->sceneI);
-        nextSubscene(currentShapeGame->sceneI);
-        // If we're Succeeding on circle send rectangle
-    }
+    //if (currentShapeGame != NULL) {
+    //osc->sendSoundCue(soundCueGood);
+    currentShapeGame->success();
+    ofLogNotice() << "DarkShapesScene::onSuccess, now play " + ofToString(currentShapeGame->sceneI);
+    nextSubscene(currentShapeGame->sceneI);
+    //}
 }
 //////////////////////////////////////////////////////////////////////////////////
 // oF event handlers

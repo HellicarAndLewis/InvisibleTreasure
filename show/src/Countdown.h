@@ -24,6 +24,8 @@ public:
     
     float progress;
     ofEvent<int> countdownCompleteEvent;
+    float startTime;
+    float countdownDuration;
 
 protected:
     bool enabled;

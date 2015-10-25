@@ -65,7 +65,7 @@ public:
             else if (state == FAIL) {
                 attemptNum++;
                 if (attemptNum > MAX_ATTEMPTS) nextState = INACTIVE;
-                else nextState = PLAY;
+                else nextState = INTRO;
             }
             else if (state == PASS) nextState = INACTIVE;
             return nextState;

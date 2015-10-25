@@ -63,7 +63,7 @@ void ShadowsScene::play(int i){
             // hide image
             // Cues
             led->hide();
-            led->queue(LedDisplay::Params(goingDarkTitle, 0, 2, 0, false, 0));
+            led->queue(LedDisplay::Params(goingDarkTitle, 0, 2, 0, false));
             led->queue(LedDisplay::Params(goingDarkTitle, 0, 10, 0, false, 10));
             led->playQueue();
             //led->show(goingDarkTitle, time);

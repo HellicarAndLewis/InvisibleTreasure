@@ -144,7 +144,7 @@ void PaintboxScene::play(int i){
                 led->playQueue();
             }
             if (isMaster()) {
-                countdown->start(timerOutro);
+                countdown->start(21);
                 setMode(FADE);
                 osc->sendSoundCue(soundCueOutro);
                 osc->sendLightingCue(lxCueOutro);

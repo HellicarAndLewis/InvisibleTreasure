@@ -63,6 +63,7 @@ void FlantsScene::update() {
             if (particles.allFull) {
                 particles.resetEating();
                 nextSubscene();
+                cout<<"entering Next Scene"<<endl;
             }
         }
     }

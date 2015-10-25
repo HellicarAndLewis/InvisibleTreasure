@@ -156,7 +156,7 @@ void LightboxScene::drawMasterScreen() {
                     isHeroActive = false;
                     heroChanged = (hitArea.changed);
                 }
-                ofSetHexColor(0xA8912A);
+                ofSetHexColor(0xF7D63E);
             }
             
             if (hitArea.changed) {
