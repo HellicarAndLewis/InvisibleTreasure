@@ -268,7 +268,7 @@ void SitinScene::drawMasterScreen() {
     ofxCv::ContourFinder& contourFinder = tracker.contourFinder;
     
     float targetWidth = MIN(ofGetWidth(), displays->masterScreen.sizeIn->x) * 0.5;
-    float scale = 1.98758;//targetWidth / tracker.thresholded.width;
+    float scale = targetWidth / tracker.thresholded.width; //1.98758;
     ofPushStyle();
     ofPushMatrix();
     ofTranslate(10, 10);
@@ -364,6 +364,13 @@ void SitinScene::drawMasterScreen() {
         }
         ofRect(hitArea.rect);
         ofDrawBitmapString(hitArea.name, hitArea.rect.getCenter()-ofPoint(30,0));
+        //ofTranslate(ofGetWidth()/2, 0);
+        ofPushMatrix();
+        ofTranslate(tracker.thresholded.width, 0);
+        //To-Do replace magic numbers
+        ofScale(0.5, 0.5);
+        drawVision();
+        ofPopMatrix();
     }
 }
 

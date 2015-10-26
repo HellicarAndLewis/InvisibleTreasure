@@ -296,6 +296,11 @@ void OscClient::sendKill() {
     ofxOscMessage m;
     m.setAddress(address);
     m.addIntArg(this->id);
+    senderMaster.client.sendMessage(m);
+    senderSlave.client.sendMessage(m);
+    for(int i=0; i<4; i++) {
+        senderWalls[i].client.sendMessage(m);
+    }
     //senderBroadcast.client.sendMessage(m);
     //std::exit(1);
 }
