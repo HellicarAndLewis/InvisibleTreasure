@@ -313,8 +313,8 @@ void CassandraScene::prepareRecordingDir(string path) {
         ofDirectory::removeDirectory(path, true);
     }
     ofDirectory::createDirectory(path);
-    cassandraFileCount = 0;
-    mainFileCount = 0;
+    if(path == DIR_CASSANDRA) cassandraFileCount = 0;
+    else mainFileCount = 0;
 }
 //////////////////////////////////////////////////////////////////////////////////
 // custom event handlers
