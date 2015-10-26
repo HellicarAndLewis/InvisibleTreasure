@@ -152,8 +152,11 @@ void FlantsScene::play(int i){
     
     // LED title
     if (isSlave()) {
-        if ( (i>50 && i<57) || (i>58 && i<61) ) {
+        if ( i>50 && i<57 ) {
             led->show(title.get());
+        }
+        else if ( i>58 && i<61 ) {
+            led->hide();
         }
         else if (i == 57 || i == 61) {
             led->show(boom.get());
