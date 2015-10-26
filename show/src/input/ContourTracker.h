@@ -33,6 +33,10 @@ public:
     ofParameter<int> bgLearningTime;
     ofParameter<int> bgThreshold;
     
+    ofParameter<float> minAreaNorm;
+    ofParameter<float> maxAreaNorm;
+    ofParameter<bool> doTrackLight;
+    
     // tracking
     ofxCv::ContourFinder contourFinder;
     bool showLabels;

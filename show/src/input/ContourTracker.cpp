@@ -37,6 +37,9 @@ void ContourTracker::update() {
     thresholded.update();
     // contours
     blur(thresholded, 10);
+    contourFinder.setInvert(doTrackLight);
+    contourFinder.setMinAreaNorm(minAreaNorm);
+    contourFinder.setMaxAreaNorm(maxAreaNorm);
     contourFinder.findContours(thresholded);
     contourFinder.setThreshold(threshold);
 }
@@ -116,20 +119,14 @@ void ContourTracker::resetBg() {
 }
 
 void ContourTracker::setupGui() {
-    
-    //ofParameter<float> maxRadius;
-    //ofParameter<float> threhshold;
-    //ofParameter<int> perstistence;
-    //ofParameter<float> maxDistance;
-    //ofParameter<float> blurAmount;
-    //ofParameter<float> bgLearningTime;
-    //ofParameter<float> bgThreshold;
-    
     guiName = "Contour Tracking";
     parameters.setName(guiName);
     parameters.add(threshold.set("threshold", 15, 0, 255));
     parameters.add(bgLearningTime.set("bg learn time", 900, 1, 2000));
     parameters.add(bgThreshold.set("bg threshold", 10, 0, 255));
+    parameters.add(minAreaNorm.set("min area norm", 0.0, 0, 0.2));
+    parameters.add(maxAreaNorm.set("max area norm", 0.2, 0, 0.2));
+    parameters.add(doTrackLight.set("track light blobs", false));
 }
 
 //////////////////////////////////////////////////////////////////////////////////
