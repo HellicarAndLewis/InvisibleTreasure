@@ -103,8 +103,6 @@ void Particles::update(){
         ofSetColor(255);
         background.end();
     }
-    cout<<"Numer of Full Particles: "<<fullParticles<<endl;
-    cout<<"Total Number of Particles: "<<p.size()<<endl;
     if ( ( (float) fullParticles / (float) p.size() ) > 0.9 ) { //arithmetic error here previously?
         allFull = true;
     }
