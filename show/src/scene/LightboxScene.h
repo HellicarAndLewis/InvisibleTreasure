@@ -80,6 +80,7 @@ private:
     void sendActiveCue();
     void refreshHitAreas();
     OscClient::CueParams getCueForArea(string name);
+    bool hitTest(HitArea& hit, ofRectangle blob);
     
     // gui
     ofParameter<string> title;

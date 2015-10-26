@@ -85,7 +85,7 @@ void LightboxScene::drawMasterScreen() {
                 float scaledH = hitArea.size * height;
                 hitArea.rect.setFromCenter(scaledX, scaledY, scaledW, scaledH);
                 // hit test, increase hit area blob count to track the total
-                if (rect.intersects(hitArea.rect)) {
+                if (hitTest(hitArea, rect)) {
                     isHit = true;
                     hitArea.blobCount++;
                     hitArea.presence = 1;
@@ -359,6 +359,26 @@ void LightboxScene::drawGui() {
 //////////////////////////////////////////////////////////////////////////////////
 // private
 //////////////////////////////////////////////////////////////////////////////////
+
+bool LightboxScene::hitTest(LightboxScene::HitArea& hit, ofRectangle blob) {
+    bool isHit = false;
+    if (hit.name == "centre") {
+        isHit = blob.intersects(hit.rect);
+    } else if (hit.name == "window1") {
+        // right wall, check left side of blob
+        isHit = blob.getLeft() > hit.rect.getLeft();
+    } else if (hit.name == "window2") {
+        // left wall, check right side of blob
+        isHit = blob.getRight() < hit.rect.getRight();
+    } else if (hit.name == "window3") {
+        // top wall, check bottom of blob
+        isHit = blob.getBottom() < hit.rect.getBottom();
+    } else if (hit.name == "window4") {
+        // bottom wall, check top of blob
+        isHit = blob.getTop() > hit.rect.getTop();
+    }
+    return isHit;
+}
 
 void LightboxScene::sendActiveCue() {
     // cues: 0:reset, 1:centre, 2:wall1, 3:wall2, 4:wall3, 5:wall4, 6:all, 7:outro
