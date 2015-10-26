@@ -41,6 +41,7 @@ public:
     
     Mode mode;
     ofColor color;
+    float colorInhibitor;
     
     vector <ofPoint> trail;
     vector <ofRectangle> * attractPoints;

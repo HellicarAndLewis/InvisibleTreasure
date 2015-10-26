@@ -31,6 +31,7 @@ public:
     void generateShape();
     
     bool eatBackground;
+    float colorInhibitor;
 
 private:
     

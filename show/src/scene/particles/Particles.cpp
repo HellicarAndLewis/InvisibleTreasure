@@ -72,32 +72,6 @@ void Particles::update(){
     
     int fullParticles = 0;
     for(int i = 0; i < p.size(); ++i){
-        // TODO: determine ambient behaviour
-        if (flock) {
-            /*
-            ofPoint closestPt;
-            int closest = -1; 
-            float closestDist = 9999999;
-            for(int j = 0; j < p.size(); ++j){
-                float lenSq = p[j].pos.distanceSquared(p[i].pos);
-                if( lenSq < closestDist && p[i].id!=p[j].id){
-                    closestDist = lenSq;
-                    closest = j;
-                }
-            }
-            if (closest!=-1) {
-                closestPt=p[closest].pos;
-                p[i].attractPoints->clear();
-                p[i].attractPoints->push_back(closestPt);
-            }
-             */
-            /*
-            if (i != 0) {
-                p[i].attractPoints->clear();
-                p[i].attractPoints->push_back(p[0].pos);
-            }
-             */
-        }
         
         if (eatBackground) {
             ofPoint pos = p[i].pos;
@@ -112,6 +86,7 @@ void Particles::update(){
         }
         
         p[i].setMode(currentMode);
+        p[i].colorInhibitor = colorInhibitor;
         p[i].eatBlobs = !eatBackground;
         p[i].update();
         if (p[i].isFull) {

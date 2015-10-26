@@ -48,6 +48,7 @@ void FlantsScene::update() {
         }
         tracker.bgLearningTime = eatRate;
         
+        particles.colorInhibitor = colorInhibitor;
         particles.attractPoints.clear();
         for(int i = 0; i < contourFinder.size(); i++) {
             // blob rect and position
@@ -185,6 +186,7 @@ void FlantsScene::setupGui() {
     panel.setup(guiName, "settings/flants.xml");
     
     panel.add(eatRate.set("Eat rate", 5, 1, 30));
+    panel.add(colorInhibitor.set("Colour Inhibitor", 0.7, 0, 0.99));
     panel.add(radiusSmall.set("Radius small", 800, 100, 768));
     panel.add(radiusLarge.set("Radius large", 1536, 100, 1536));
     

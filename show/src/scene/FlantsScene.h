@@ -39,6 +39,7 @@ private:
     
     int radius;
     ofParameter<int> eatRate;
+    ofParameter<float> colorInhibitor;
     ofParameter<int> radiusSmall;
     ofParameter<int> radiusLarge;
     int revertBgLearn;

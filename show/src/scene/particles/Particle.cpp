@@ -13,6 +13,7 @@ Particle::Particle(){
     isFull = false;
     eatBlobs = true;
     inShape = false;
+    colorInhibitor = 0.7;
     fullness = 0;
 }
 
@@ -113,10 +114,12 @@ void Particle::update(){
 void Particle::eat() {
     isEating = true;
     if (mode == EAT_GREEN) {
-        color.lerp( ofColor(67,224,109), 0.01); //last parameter is effectively eat rate
-        // Tis color is not changing slowly enough even when we vary to value higher or lower
-        // Perhaps we need to use ofFloatColor, in order to get a smooth lerp that is slow enough
-        if (color.g > 222) isFull = true;
+        if (ofRandomuf() > colorInhibitor) {
+            color.lerp( ofColor(67,224,109), 0.01); //last parameter is effectively eat rate
+            // Tis color is not changing slowly enough even when we vary to value higher or lower
+            // Perhaps we need to use ofFloatColor, in order to get a smooth lerp that is slow enough
+            if (color.r < 69) isFull = true;
+        }
     }
     else if (mode == EAT_GROW) {
         setScale(scale + 0.02); //last parameter is effectively eat rate
