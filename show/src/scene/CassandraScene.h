@@ -36,7 +36,9 @@ private:
     
     ofxImageSequence sequenceCassandra;
     ofxImageSequence sequenceMain;
-    int fileCount;
+//    int fileCount;
+    int cassandraFileCount;
+    int mainFileCount;
     int indexCassandra;
     int indexMain;
     float playbackTime;

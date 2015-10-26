@@ -13,6 +13,9 @@ using namespace cv;
 #define DIR_CASSANDRA "recordings/cassandra/"
 #define DIR_MAIN "recordings/main/"
 
+#define CASSANDRA_DURATION 120 // Cassandra recording lasts for 2 minutes
+#define MAIN_DURATION 300 // main recording lasts for 5 minutes
+
 
 CassandraScene::CassandraScene() {
     name = "Cassandra";
@@ -33,20 +36,22 @@ void CassandraScene::update() {
             auto image = vision->ipcamCassandra.grabber->getFrame();
             if (image->isAllocated() && image->height > 1) {
                 stringstream stream;
-                stream << DIR_CASSANDRA << setw(10) << setfill('0') << fileCount << ".jpg";
+                stream << DIR_CASSANDRA << setw(10) << setfill('0') << cassandraFileCount << ".jpg";
                 string filename = stream.str();
                 image->saveImage(filename, OF_IMAGE_QUALITY_HIGH);
-                fileCount++;
+                //fileCount++;
+                cassandraFileCount++;
             }
         }
         else if (mode == RECORD_MAIN) {
             auto image = vision->ipcam.grabber->getFrame();
             if (image->isAllocated() && image->height > 1) {
                 stringstream stream;
-                stream << DIR_MAIN << setw(10) << setfill('0') << fileCount << ".jpg";
+                stream << DIR_MAIN << setw(10) << setfill('0') << mainFileCount << ".jpg";
                 string filename = stream.str();
                 image->saveImage(filename, OF_IMAGE_QUALITY_HIGH);
-                fileCount++;
+                //filecount++;
+                mainFileCount++;
             }
         }
         timer.update();
@@ -283,10 +288,10 @@ void CassandraScene::setMode(Mode mode) {
         playbackTime = 0;
         sequenceCassandra.setExtension("jpg");
         sequenceCassandra.loadSequence(DIR_CASSANDRA);
-        sequenceCassandra.setFrameRate(23);
+        sequenceCassandra.setFrameRate(cassandraFileCount/CASSANDRA_DURATION);
         sequenceMain.setExtension("jpg");
         sequenceMain.loadSequence(DIR_MAIN);
-        sequenceMain.setFrameRate(23);
+        sequenceMain.setFrameRate(mainFileCount/MAIN_DURATION);
     }
     else {
         sequenceCassandra.unloadSequence();
@@ -308,7 +313,8 @@ void CassandraScene::prepareRecordingDir(string path) {
         ofDirectory::removeDirectory(path, true);
     }
     ofDirectory::createDirectory(path);
-    fileCount = 0;
+    cassandraFileCount = 0;
+    mainFileCount = 0;
 }
 //////////////////////////////////////////////////////////////////////////////////
 // custom event handlers
