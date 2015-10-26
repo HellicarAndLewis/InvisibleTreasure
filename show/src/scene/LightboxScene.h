@@ -97,5 +97,6 @@ private:
     bool isHeroActive = false;
     HitArea hitAreas[5];
     ImageElement imageElement;
+    ofParameter<float> imageDelay;
     
 };

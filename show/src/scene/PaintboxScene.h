@@ -42,6 +42,7 @@ private:
     ofImage brushImage;
     float totalBlobArea;
     ImageElement imageElement;
+    ofParameter<float> imageDelay;
     
     ofParameter<float> minAreaEraser;
     ofParameter<float> minAreaBlack;

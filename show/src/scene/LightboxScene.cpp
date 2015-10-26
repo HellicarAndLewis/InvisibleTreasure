@@ -299,7 +299,7 @@ void LightboxScene::play(int i){
         if (isWindow()) {
             // pink/yellow image
             imageElement.setup("images/bonusGame.jpg");
-            imageElement.show();
+            imageElement.show(1, imageDelay);
         }
     }
     
@@ -321,6 +321,7 @@ void LightboxScene::setupGui() {
     guiName = "Lightbox";
     panel.setup(guiName, "settings/lightbox.xml");
     // titles, times, cues
+    panel.add(imageDelay.set("image delay", 2, 0, 10));
     panel.add(title.set("title1", "OHMNARY"));
     panel.add(waiting.set("title2", "In it to win it"));
     panel.add(phase2.set("title3", "System ready"));

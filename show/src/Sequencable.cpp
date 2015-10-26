@@ -26,17 +26,17 @@ void Sequencable::update() {
 //////////////////////////////////////////////////////////////////////////////////
 // public
 //////////////////////////////////////////////////////////////////////////////////
-void Sequencable::setState(State state) {
+void Sequencable::setState(State state, float delay) {
     this->state = state;
     ofNotifyEvent(stateChangeEvent, state, this);
     if (state == INTRO) {
-        tween.setParameters(easinglinear,ofxTween::easeOut,0,1,timeIn*1000,0);
+        tween.setParameters(easinglinear, ofxTween::easeOut, 0, 1, timeIn*1000, delay * 1000);
     }
     else if (state == INTERACTIVE && timeHold > 0) {
-        tween.setParameters(easinglinear,ofxTween::easeOut,0,1,timeHold*1000,0);
+        tween.setParameters(easinglinear, ofxTween::easeOut, 0, 1, timeHold*1000, delay * 1000);
     }
     else if (state == OUTRO) {
-        tween.setParameters(easinglinear,ofxTween::easeOut,0,1,timeOut*1000,0);
+        tween.setParameters(easinglinear, ofxTween::easeOut, 0, 1, timeOut*1000, delay * 1000);
     }
     tween.start();
     progress = 0;

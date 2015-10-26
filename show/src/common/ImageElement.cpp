@@ -31,10 +31,10 @@ void ImageElement::draw(ofRectangle rect) {
     ofSetColor(255);
 }
 
-void ImageElement::show(float duration) {
+void ImageElement::show(float duration, float delay) {
     if (state != INTERACTIVE) {
         timeIn = duration;
-        setState(INTRO);
+        setState(INTRO, delay);
     }
 }
 

@@ -152,7 +152,7 @@ void PaintboxScene::play(int i){
             if (isWindow()) {
                 // pink/yellow image
                 imageElement.setup("images/bonusGame.jpg");
-                imageElement.show();
+                imageElement.show(1, imageDelay);
             }
             break;
         default:
@@ -170,6 +170,7 @@ void PaintboxScene::setupGui() {
     guiName = "Paintbox";
     panel.setup(guiName, "settings/paintbox.xml");
     
+    panel.add(imageDelay.set("image delay", 2, 0, 10));
     panel.add(minAreaEraser.set("min area eraser", 0.1667, 0, 1));
     panel.add(minAreaBlack.set("min area black", 0.3333, 0, 1));
     

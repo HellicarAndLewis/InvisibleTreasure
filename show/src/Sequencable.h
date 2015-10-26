@@ -25,7 +25,7 @@ public:
     virtual void update();
     virtual void play();
     virtual void stop();
-    void setState(State state);
+    void setState(State state, float delay = 0.0);
     
     ofEvent<State> stateChangeEvent;
     float progress;
