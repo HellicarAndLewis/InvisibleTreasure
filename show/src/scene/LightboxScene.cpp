@@ -149,7 +149,7 @@ void LightboxScene::drawMasterScreen() {
             }
             
             // No blobs in this area
-            // Trigger sone is INACTIVE
+            // Trigger zone is INACTIVE
             else  {
                 // if this is centre/hero send lx reset
                 if (hitArea.name == "centre") {
@@ -159,16 +159,19 @@ void LightboxScene::drawMasterScreen() {
                 ofSetHexColor(0xF7D63E);
             }
             
-            if (hitArea.changed) {
-                if (hitArea.getIsTriggered()) {
-                    // send sound on
-                    ofLogNotice() << "     SOUND ON FOR " << hitArea.name;
-                    osc->sendSoundCue(hitArea.soundCueIn);
-                }
-                else {
-                    // send sound off
-                    ofLogNotice() << "     SOUND OFF FOR " << hitArea.name;
-                    osc->sendSoundCue(hitArea.soundCueOut);
+            // These sound cues for in and out of zones only get fired when in phase 1
+            if(playMode != ALL_ZONES && playMode != WAITING && playMode != INACTIVE) { //Only sned these queues when we're in phase 1
+                if (hitArea.changed) {
+                    if (hitArea.getIsTriggered()) {
+                        // send sound on
+                        ofLogNotice() << "     SOUND ON FOR " << hitArea.name;
+                        osc->sendSoundCue(hitArea.soundCueIn);
+                    }
+                    else {
+                        // send sound off
+                        ofLogNotice() << "     SOUND OFF FOR " << hitArea.name;
+                        osc->sendSoundCue(hitArea.soundCueOut);
+                    }
                 }
             }
             
@@ -206,13 +209,28 @@ void LightboxScene::drawMasterScreen() {
         else zonesActive = false;
     }
     
-    if (zonesActive != lastZonesActive) {
-        if (zonesActive && playMode == ALL_ZONES) {
-            osc->sendLightingCue(SystemReadyIntro.soundCue);
+    if(playMode != INACTIVE) {
+        if (zonesActive != lastZonesActive) { //i.e there has been a change
+    //       if (zonesActive && playMode == ALL_ZONES) {
+    //            osc->sendLightingCue(SystemReadyIntro.soundCue);
+    //       }
+            if (zonesActive) {
+                sendActiveCue();
+                // This only happens when we are in phase 2 and we have all the zones active
+                if(playMode == ALL_ZONES) { // This means we're in phase 2
+                    osc->sendSoundCue(21); //this cue means turn everything on when we are in phase and and we have all zones active
+                }
+            }
+            //else if(playMode == ALL_ZONES || playMode == WAITING) osc->sendLightingCue(cues[0].lightCue);
+            else {
+                //if we're in phase 2 "System ready" and it is not the case tha all zones are active
+                if(playMode == ALL_ZONES) {
+                    // osc->sendLightSoundCue(CenterBlinkingAllOff); // set center light blinking and turn all sounds off
+                    osc->sendSoundCue(CenterBlinkingAllOff.soundCue);
+                    osc->sendLightingCue(CenterBlinkingAllOff.lightCue);
+                }
+            }
         }
-        else if (zonesActive) sendActiveCue();
-        else if(playMode == ALL_ZONES || playMode == WAITING) osc->sendLightingCue(cues[0].lightCue);
-        else osc->sendLightingCue(CenterBlinkingAllOff.lightCue);
     }
     
     ofPopMatrix();
@@ -261,7 +279,9 @@ void LightboxScene::play(int i){
         }
         if (isMaster()) {
             countdown->stop();
-            osc->sendLightSoundCue(WaitingIntro);
+            osc->sendLightingCue(WaitingIntro.lightCue);
+            osc->sendSoundCue(WaitingIntro.soundCue);
+//            osc->sendLightSoundCue(WaitingIntro);
             playMode = WAITING;
         }
     }
@@ -271,11 +291,14 @@ void LightboxScene::play(int i){
     else if (i == 15) {
         if (isSlave()) {
             led->hide();
-            led->queue(LedDisplay::Params(phase2.get(), 0, 5, 1, false, 0));
+            led->queue(LedDisplay::Params(phase2.get(), 0, 8, 0, false, 0));
+            led->playQueue();
         }
         if (isMaster()) {
             countdown->start(4 * 60);
-            osc->sendLightSoundCue(SystemReadyIntro);
+            osc->sendLightingCue(SystemReadyIntro.lightCue);
+            osc->sendSoundCue(SystemReadyIntro.soundCue);
+            // osc->sendLightSoundCue(SystemReadyIntro);
             playMode = ALL_ZONES;
         }
         if (isWindow()) imageElement.hide();
@@ -285,16 +308,18 @@ void LightboxScene::play(int i){
     else if (i == 16) {
         if (isSlave()) {
             led->hide();
-            led->queue(LedDisplay::Params("", 0, 10, 0, false));
+            led->queue(LedDisplay::Params("", 0, 3, 0, false));
             led->queue(LedDisplay::Params(bonusGame, 0, 6, 0, false));
             led->queue(LedDisplay::Params(bonusGame, 0, 5, 0, false, 5));
-            led->queue(LedDisplay::Params(bonusGame, 0, 8, 0, false));
-            //led->queue(LedDisplay::Params("", 0, 2, 0, false));
+            led->queue(LedDisplay::Params(bonusGame, 0, 6, 0, false));
             led->playQueue();
         }
         if (isMaster()) {
-            countdown->start(countdownDuration);
-            osc->sendLightSoundCue(cues[LIGHTBOX_CUE_COUNT-1]);
+            countdown->start(20/*countdownDuration*/);
+            osc->sendLightingCue(cues[LIGHTBOX_CUE_COUNT-1].lightCue);
+            osc->sendSoundCue(cues[LIGHTBOX_CUE_COUNT-1].soundCue);
+            //osc->sendLightSoundCue(cues[LIGHTBOX_CUE_COUNT-1]);
+            playMode = INACTIVE;
         }
         if (isWindow()) {
             // pink/yellow image

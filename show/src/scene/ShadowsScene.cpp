@@ -51,7 +51,9 @@ void ShadowsScene::play(int i){
             imageElement.show();
         }
         if (isMaster()) {
-            osc->sendLightSoundCue(cue1);
+            // osc->sendLightSoundCue(cue1);
+            osc->sendLightingCue(cue1.lightCue);
+            osc->sendSoundCue(cue1.soundCue);
         }
     }
     
@@ -71,7 +73,9 @@ void ShadowsScene::play(int i){
         }
         if (isMaster()) {
             countdown->start(time);
-            osc->sendLightSoundCue(cue2);
+            // osc->sendLightSoundCue(cue2);
+            osc->sendLightingCue(cue2.lightCue);
+            osc->sendSoundCue(cue2.soundCue);
         }
     }
     

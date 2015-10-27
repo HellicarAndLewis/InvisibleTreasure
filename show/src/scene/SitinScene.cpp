@@ -97,6 +97,7 @@ void SitinScene::play(int i){
             }
             
             if (isMaster()) {
+                vision->inputCrop = 0.436;
                 countdown->stop();
                 
                 osc->sendLightingCue(lxCueIntro);
@@ -264,7 +265,7 @@ void SitinScene::drawMasterScreen() {
     // fire off OSC when blobs enter certain areas
     
     ContourTracker& tracker = *vision->getTracker();
-    if( tracker.bgLearningTime != 2000) tracker.bgLearningTime = 2000;
+    //if( tracker.bgLearningTime != 2000) tracker.bgLearningTime = 2000;
     ofxCv::ContourFinder& contourFinder = tracker.contourFinder;
     
     float targetWidth = MIN(ofGetWidth(), displays->masterScreen.sizeIn->x) * 0.5;

@@ -43,7 +43,8 @@ public:
     IPCamInput ipcamCassandra;
     ofImage inputImage, outputImage;
     
-protected:  
+    ofParameter<float> inputCrop;
+protected:
 private:
     
     // inputs
@@ -69,7 +70,6 @@ private:
     ofParameter<bool> isCalibrating;
     ofParameter<string> ipCamURLMain;
     ofParameter<string> ipCamURLCassandra;
-    ofParameter<float> inputCrop;
     void onInputChange(int & i);
     
 };

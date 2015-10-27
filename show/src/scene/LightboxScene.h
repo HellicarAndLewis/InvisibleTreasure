@@ -60,7 +60,7 @@ public:
     // Play mode determines which zones are active
     // and how the trigger zones affect sound volume
     enum PLAY_MODE {
-        CENTRE, WALL_1, WALL_2, WALLS_3_4, WAITING, ALL_ZONES
+        CENTRE, WALL_1, WALL_2, WALLS_3_4, WAITING, ALL_ZONES, INACTIVE
     } playMode;
     
     LightboxScene();

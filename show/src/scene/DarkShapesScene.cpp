@@ -133,7 +133,7 @@ void DarkShapesScene::play(int i){
     if (i == 17) {
         if (isSlave()) led->hide();
         if (isMaster()) {
-            countdown->start(0);//);
+            countdown->start(0);
             //osc->sendSoundCue(soundCueBonus);
             //osc->sendLightingCue(lxCues[0]);
         }
@@ -177,9 +177,9 @@ void DarkShapesScene::play(int i){
                         if (isSlave()) {
                             led->hide();
                             led->queue(LedDisplay::Params(game.label, 0, 1, 0, false, 0));
-                            led->queue(LedDisplay::Params(playAgain.get(), 0, 1, 0));
+                            led->queue(LedDisplay::Params("Fail", 0, 1, 0));
                             led->queue(LedDisplay::Params(game.label, 0, 1, 0));
-                            led->queue(LedDisplay::Params(playAgain.get(), 0, 1, 0));
+                            led->queue(LedDisplay::Params("Fail", 0, 1, 0));
                             led->playQueue();
                         }
                         shapeRenderer.hide();
@@ -235,11 +235,11 @@ void DarkShapesScene::play(int i){
             led->queue(LedDisplay::Params(bonusComplete.get(), 0, 6, 0, false, 0));
             led->queue(LedDisplay::Params(heIs.get(), 0, 8, 0, false, 0));
             led->queue(LedDisplay::Params(nextLevel.get(), 0, 5, 0, false, 5));
-            led->queue(LedDisplay::Params("", 0, 2, 0, false));
+            led->queue(LedDisplay::Params("", 0, 0, 0, false));
             led->playQueue();
         }
         if (isMaster()) {
-            countdown->start(21);
+            countdown->start(19);
         }
     }
     SceneBase::play(i);

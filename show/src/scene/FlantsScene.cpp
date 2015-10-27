@@ -105,48 +105,57 @@ void FlantsScene::play(int i){
     if (isMaster()) {
         vision->isEnabled = true;
         if (i == 51) {
+            vision->inputCrop = 0.536;
             setMode(YELLOW_SMALL);
             countdown->stop();
-            osc->sendLightSoundCue(cues[0]);
+            osc->sendSoundCue(cues[0].soundCue);
+            osc->sendLightingCue(cues[0].lightCue);
         }
         else if (i == 52) {
             setMode(YELLOW_EXPAND);
             countdown->start(timerTransition);
-            osc->sendLightSoundCue(cues[1]);
+            osc->sendSoundCue(cues[1].soundCue);
+            osc->sendLightingCue(cues[1].lightCue);
         }
         else if (i == 53) {
             setMode(YELLOW_BLUE_SHAPES);
             countdown->stop();
-            osc->sendLightSoundCue(cues[2]);
+            osc->sendSoundCue(cues[2].soundCue);
+            osc->sendLightingCue(cues[2].lightCue);
         }
         else if (i == 54) {
             setMode(RED_SMALL);
             countdown->stop();
-            osc->sendLightSoundCue(cues[3]);
+            osc->sendSoundCue(cues[3].soundCue);
+            osc->sendLightingCue(cues[3].lightCue);
         }
         else if (i == 55 || i == 59) {
             setMode(RED_EXPAND);
-            countdown->start(timerTransition);
-            osc->sendLightSoundCue(cues[4]);
+            countdown->start(10);
+            osc->sendLightingCue(cues[4].lightCue);
+            osc->sendSoundCue(cues[4].soundCue);
         }
         else if (i == 56 || i == 60) {
             setMode(RED_BLUE_SHAPES);
             countdown->stop();
-            osc->sendLightSoundCue(cues[5]);
+            osc->sendSoundCue(cues[5].soundCue);
         }
         else if (i == 57 || i == 61) {
             setMode(EXPLODE);
             countdown->start(timerBoom);
-            osc->sendLightSoundCue(cues[6]);
+            osc->sendSoundCue(cues[6].soundCue);
+            osc->sendLightingCue(cues[6].lightCue);
         }
         else if (i == 58) {
             setMode(EXPLODE);
             countdown->start(timerGameOver + timerAgain);
-            osc->sendLightSoundCue(cues[7]);
+            osc->sendSoundCue(cues[7].soundCue);
+            osc->sendLightingCue(cues[7].lightCue);
         }
         else if (i == 62) {
             countdown->start(17 /*timerGameOver + timerTired + timerNext*/);
-            osc->sendLightSoundCue(cues[8]);
+            osc->sendSoundCue(cues[8].soundCue);
+            osc->sendLightingCue(cues[8].lightCue);
         }
     }
     
@@ -179,7 +188,7 @@ void FlantsScene::play(int i){
 }
 
 void FlantsScene::stop(){;
-    vision->getTracker()->bgLearningTime = revertBgLearn;
+    //vision->getTracker()->bgLearningTime = 1;
     isFirstPlay = true;
     SceneBase::stop();
 }

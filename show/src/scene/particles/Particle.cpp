@@ -122,7 +122,7 @@ void Particle::eat() {
         }
     }
     else if (mode == EAT_GROW) {
-        setScale(scale + 0.02); //last parameter is effectively eat rate
+        setScale(scale + 0.015); //last parameter is effectively eat rate
         if (scale >= 2) {
             isFull = true;
         }

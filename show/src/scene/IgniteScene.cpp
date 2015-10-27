@@ -116,29 +116,43 @@ void IgniteScene::play(int i){
     if (i == 3) {
         if (isSlave()) led->show(title1.get());
         if (isMaster()) {
-            countdown->start(timeIntro.get());
+            countdown->start(0);//timeIntro.get());
         }
     }
     if(i == 4) {
         //osc->sendSoundCue(3); //Another Horrible Hack I'M SORRY CHRIS!
-        if (isMaster())
-            osc->sendLightSoundCue(intro);
+        if (isMaster()) {
+            osc->sendLightingCue(intro.lightCue);
+            osc->sendSoundCue(intro.soundCue);
+        }
     }
     if(i == 5) {
-        if (isMaster())
-            osc->sendLightSoundCue(FourToFive);
+        if (isMaster()) {
+            osc->sendLightingCue(FourToFive.lightCue, FourToFive.lightList);
+            osc->sendSoundCue(FourToFive.soundCue);
+//            osc->sendLightSoundCue(FourToFive);
+        }
     }
     if(i == 6) {
-        if (isMaster())
-            osc->sendLightSoundCue(FiveToSix);
+        if (isMaster()) {
+            osc->sendLightingCue(FiveToSix.lightCue, FiveToSix.lightList);
+            osc->sendSoundCue(FiveToSix.soundCue);
+        }
+//            osc->sendLightSoundCue(FiveToSix);
     }
     if(i == 7) {
-        if (isMaster())
-            osc->sendLightSoundCue(SixToSeven);
+        if (isMaster()) {
+            osc->sendLightingCue(SixToSeven.lightCue, SixToSeven.lightList);
+            osc->sendSoundCue(SixToSeven.soundCue);
+        }
+//            osc->sendLightSoundCue(SixToSeven);
     }
     if(i == 8) {
-        if (isMaster())
-            osc->sendLightSoundCue(SevenToEight);
+        if (isMaster()) {
+            osc->sendLightingCue(SevenToEight.lightCue, SevenToEight.lightList);
+            osc->sendSoundCue(SevenToEight.soundCue);
+        }
+//            osc->sendLightSoundCue(SevenToEight);
     }
     
     // Active mic scenes, 1 to 4, then all 4
@@ -177,7 +191,9 @@ void IgniteScene::play(int i){
         }
         if (isMaster()) {
             countdown->start(countdownDuration);
-            osc->sendLightSoundCue(nextCue);
+            cout<<"sent lighting cue 2 and sound cue 7"<<endl;
+            osc->sendLightingCue(2);
+            osc->sendSoundCue(7);
         }
     }
     
@@ -253,7 +269,9 @@ void IgniteScene::onWindowVolume(OscClient::VolumeEventArgs& args) {
             float vol = args.volume;
             windowVolumes[i] = vol;
             if (vol > targetVolume) {
-                osc->sendLightSoundCue(inCues[i]);
+//                osc->sendLightSoundCue(inCues[i]);
+                osc->sendLightingCue(inCues[i].lightCue);
+                osc->sendSoundCue(inCues[i].soundCue);
                 if (targetHitCount++ > targetFrames && minTime.isComplete()) {
                     if (subsceneI == 8) {
                         // this is the final mode in which all windows are active

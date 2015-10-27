@@ -176,8 +176,9 @@ void CassandraScene::play(int i){
             // welcome, all windows stop recording cassandra, start recording main room, timed
             if (isSlave()) {
                 led->hide();
-                led->queue(LedDisplay::Params(welcome.get(), 1, 5, 1, true));
-                led->playQueue();
+                //led->queue(LedDisplay::Params(welcome.get(), 1, 5, 1, true)); old replaced with line below
+                //led->playQueue();
+                led->show(title.get());
             }
             if (isWindow()) {
                 windowTimer = 0;
@@ -196,7 +197,10 @@ void CassandraScene::play(int i){
                 timer.hide();
                 setMode(PLAYBACK);
             }
-            if (isSlave()) led->hide();
+            if (isSlave()) {
+                led->hide();
+                led->show(title.get());
+            }
             if (isMaster()) {
                 countdown->start(timerMain.get());
                 osc->sendSoundCue(soundCuePlayback);
@@ -266,7 +270,7 @@ void CassandraScene::setupGui() {
     soundCueGroup.add(soundCueName.set("name", 0, 0, 100));
     soundCueGroup.add(soundCueCassandra.set("cassandra", 0, 0, 100));
     soundCueGroup.add(soundCueTimePassing.set("time passing", 0, 0, 100));
-    soundCueGroup.add(soundCuePlayback.set("placyback", 0, 0, 100));
+    soundCueGroup.add(soundCuePlayback.set("playback", 0, 0, 100));
     soundCueGroup.add(soundCueOutro.set("outro", 0, 0, 100));
     panel.add(soundCueGroup);
     
