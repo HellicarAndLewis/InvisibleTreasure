@@ -272,9 +272,9 @@ void IgniteScene::onWindowVolume(OscClient::VolumeEventArgs& args) {
             float vol = args.volume;
             windowVolumes[i] = vol;
             if (vol > targetVolume) {
-//                osc->sendLightSoundCue(inCues[i]);
-                osc->sendLightingCue(inCues[i].lightCue);
-                osc->sendSoundCue(inCues[i].soundCue);
+               osc->sendLightSoundCue(inCues[i]);
+                //osc->sendLightingCue(inCues[i].lightCue);
+                //osc->sendSoundCue(inCues[i].soundCue);
                 if (targetHitCount++ > targetFrames && minTime.isComplete()) {
                     if (subsceneI == 8) {
                         // this is the final mode in which all windows are active

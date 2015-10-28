@@ -118,7 +118,7 @@ void Particle::eat() {
             color.lerp( ofColor(255,128,0), 0.01); //last parameter is effectively eat rate
             // Tis color is not changing slowly enough even when we vary to value higher or lower
             // Perhaps we need to use ofFloatColor, in order to get a smooth lerp that is slow enough
-            if (color.r > 170) {
+            if (color.r > 100) {
                 isFull = true;
             }
         }
