@@ -168,6 +168,10 @@ void LightboxScene::drawMasterScreen() {
                         osc->sendSoundCue(hitArea.soundCueIn);
                     }
                     else {
+                        if(hitArea.name == "centre") {
+                            // send this if someone has left the center (should be lx cue 3
+                            osc->sendLightingCue(cues[0].lightCue);
+                        }
                         // send sound off
                         ofLogNotice() << "     SOUND OFF FOR " << hitArea.name;
                         osc->sendSoundCue(hitArea.soundCueOut);

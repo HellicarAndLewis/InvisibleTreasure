@@ -75,7 +75,7 @@ void ShadowsScene::play(int i){
             countdown->start(time);
             // osc->sendLightSoundCue(cue2);
             osc->sendLightingCue(cue2.lightCue);
-            osc->sendSoundCue(cue2.soundCue);
+            osc->sendSoundCue(2);
         }
     }
     

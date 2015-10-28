@@ -34,6 +34,8 @@ void FlantsScene::update() {
         float targetW = displays->masterProjection.sizeIn->x;
         float targetH = tracker.thresholded.height * scale;
         
+        tracker.minAreaNorm = 0;
+        
         if (mode == YELLOW_SMALL || mode == RED_SMALL) {
             radius = ofLerp(radius, radiusSmall, 0.1);
         } else if (mode == EXPLODE) {
@@ -46,7 +48,6 @@ void FlantsScene::update() {
             revertBgLearn = tracker.bgLearningTime;
             isFirstPlay = false;
         }
-        tracker.bgLearningTime = eatRate;
         
         particles.colorInhibitor = colorInhibitor;
         particles.attractPoints.clear();
@@ -126,12 +127,12 @@ void FlantsScene::play(int i){
         else if (i == 54) {
             setMode(RED_SMALL);
             countdown->stop();
-            osc->sendSoundCue(cues[3].soundCue);
+            osc->sendSoundCue(53/*cues[3].soundCue*/);
             osc->sendLightingCue(cues[3].lightCue);
         }
         else if (i == 55 || i == 59) {
             setMode(RED_EXPAND);
-            countdown->start(10);
+            countdown->start(5);
             osc->sendLightingCue(cues[4].lightCue);
             osc->sendSoundCue(cues[4].soundCue);
         }

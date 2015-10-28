@@ -91,7 +91,7 @@ void SitinScene::play(int i){
             
             if (isSlave()) {
                 led->hide();
-                led->queue(LedDisplay::Params(title, 0, 360, 0, false));
+                led->queue(LedDisplay::Params("6. GUESS THE GAME", 0, 360, 0, false));
                 led->queue(LedDisplay::Params("6. SIT IN", 0, 1000, 0, false));
                 led->playQueue();
             }
@@ -99,6 +99,7 @@ void SitinScene::play(int i){
             if (isMaster()) {
                 vision->inputCrop = 0.436;
                 countdown->stop();
+                
                 
                 osc->sendLightingCue(lxCueIntro);
                 
@@ -267,6 +268,9 @@ void SitinScene::drawMasterScreen() {
     ContourTracker& tracker = *vision->getTracker();
     //if( tracker.bgLearningTime != 2000) tracker.bgLearningTime = 2000;
     ofxCv::ContourFinder& contourFinder = tracker.contourFinder;
+    
+    tracker.minAreaNorm = 0.00326531;
+    tracker.bgLearningTime = 1;
     
     float targetWidth = MIN(ofGetWidth(), displays->masterScreen.sizeIn->x) * 0.5;
     float scale = targetWidth / tracker.thresholded.width; //1.98758;

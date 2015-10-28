@@ -134,7 +134,7 @@ void CassandraScene::play(int i){
         case 77:
             // title, timed
             if (isSlave()) {
-                led->show(title.get());
+                led->show("5. SOMEONE");
             }
             if (isMaster()) {
                 countdown->start(timerIntro.get());
@@ -159,8 +159,8 @@ void CassandraScene::play(int i){
             // welcome, all windows record cassandra room, timed
             if (isSlave()) {
                 led->hide();
-                led->queue(LedDisplay::Params(welcome.get(), 1, 5, 1, true));
-                led->playQueue();
+                led->show("5. " + ofToUpper(audience.get()) + " KNOWS");
+                //led->playQueue();
             }
             if (isWindow()) {
                 timer.hide();
@@ -168,7 +168,7 @@ void CassandraScene::play(int i){
             }
             if (isMaster()) {
                 countdown->start(timerCassandra.get());
-                osc->sendSoundCue(soundCueCassandra);
+                osc->sendSoundCue(75);
             }
             break;
             
@@ -178,7 +178,8 @@ void CassandraScene::play(int i){
                 led->hide();
                 //led->queue(LedDisplay::Params(welcome.get(), 1, 5, 1, true)); old replaced with line below
                 //led->playQueue();
-                led->show(title.get());
+                led->show("5. SOMEONE KNOWS");
+                
             }
             if (isWindow()) {
                 windowTimer = 0;
@@ -199,7 +200,7 @@ void CassandraScene::play(int i){
             }
             if (isSlave()) {
                 led->hide();
-                led->show(title.get());
+                led->show("5. SOMEONE KNOWS NOTHING");
             }
             if (isMaster()) {
                 countdown->start(timerMain.get());

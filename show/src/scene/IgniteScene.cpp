@@ -122,37 +122,40 @@ void IgniteScene::play(int i){
     if(i == 4) {
         //osc->sendSoundCue(3); //Another Horrible Hack I'M SORRY CHRIS!
         if (isMaster()) {
-            osc->sendLightingCue(intro.lightCue);
-            osc->sendSoundCue(intro.soundCue);
+            osc->sendLightSoundCue(intro);
+            //osc->sendSoundCue(intro.soundCue);
         }
     }
     if(i == 5) {
         if (isMaster()) {
-            osc->sendLightingCue(FourToFive.lightCue, FourToFive.lightList);
-            osc->sendSoundCue(FourToFive.soundCue);
-//            osc->sendLightSoundCue(FourToFive);
+//            osc->sendLightingCue(FourToFive.lightCue, FourToFive.lightList);
+//            osc->sendSoundCue(FourToFive.soundCue);
+            osc->sendLightSoundCue(FourToFive);
         }
     }
     if(i == 6) {
         if (isMaster()) {
-            osc->sendLightingCue(FiveToSix.lightCue, FiveToSix.lightList);
-            osc->sendSoundCue(FiveToSix.soundCue);
+//            osc->sendLightingCue(FiveToSix.lightCue, FiveToSix.lightList);
+//            osc->sendSoundCue(FiveToSix.soundCue);
+            osc->sendLightSoundCue(FiveToSix);
+
         }
-//            osc->sendLightSoundCue(FiveToSix);
     }
     if(i == 7) {
         if (isMaster()) {
-            osc->sendLightingCue(SixToSeven.lightCue, SixToSeven.lightList);
-            osc->sendSoundCue(SixToSeven.soundCue);
+//            osc->sendLightingCue(SixToSeven.lightCue, SixToSeven.lightList);
+//            osc->sendSoundCue(SixToSeven.soundCue);
+            osc->sendLightSoundCue(SixToSeven);
+
         }
-//            osc->sendLightSoundCue(SixToSeven);
     }
     if(i == 8) {
         if (isMaster()) {
-            osc->sendLightingCue(SevenToEight.lightCue, SevenToEight.lightList);
-            osc->sendSoundCue(SevenToEight.soundCue);
+            osc->sendLightSoundCue(SevenToEight);
+            osc->sendSoundCue(6.5);
+//            osc->sendLightingCue(SevenToEight.lightCue, SevenToEight.lightList);
+//            osc->sendSoundCue(SevenToEight.soundCue);
         }
-//            osc->sendLightSoundCue(SevenToEight);
     }
     
     // Active mic scenes, 1 to 4, then all 4
