@@ -283,7 +283,7 @@ void FlantsScene::setMode(Mode mode) {
         particles.setColour(ofColor(255,0,0));
     }
     else {
-        particles.setColour(ofColor(255,234,119));
+        particles.setColour(ofColor(0,255,0));
     }
     
     if (mode == YELLOW_BLUE_SHAPES || mode == RED_BLUE_SHAPES) {
