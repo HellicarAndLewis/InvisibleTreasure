@@ -122,7 +122,7 @@ void PaintboxScene::play(int i){
             }
             break;
         case 65:
-            if (isSlave()) led->show(title.get());
+            if (isSlave()) led->show("4. Phase 2: Link/Erase");
             if (isMaster()) {
                 countdown->start(timerErase);
                 setMode(ERASER);
