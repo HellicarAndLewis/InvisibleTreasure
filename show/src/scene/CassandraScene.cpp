@@ -179,8 +179,6 @@ void CassandraScene::play(int i){
                 //led->queue(LedDisplay::Params(welcome.get(), 1, 5, 1, true)); old replaced with line below
                 //led->playQueue();
                 //led->show("5. SOMEONE KNOWS");
-                led->hide();
-                
             }
             if (isWindow()) {
                 windowTimer = 0;
