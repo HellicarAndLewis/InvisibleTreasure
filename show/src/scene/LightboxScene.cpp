@@ -295,8 +295,7 @@ void LightboxScene::play(int i){
     else if (i == 15) {
         if (isSlave()) {
             led->hide();
-            led->queue(LedDisplay::Params(phase2.get(), 0, 8, 0, false, 0));
-            led->playQueue();
+            led->show(phase2.get());
         }
         if (isMaster()) {
             countdown->start(4 * 60);
@@ -313,7 +312,7 @@ void LightboxScene::play(int i){
         if (isSlave()) {
             led->hide();
             led->queue(LedDisplay::Params("", 0, 3, 0, false));
-            led->queue(LedDisplay::Params(bonusGame, 0, 6, 0, false));
+            led->queue(LedDisplay::Params("Level Completed", 0, 6, 0, false));
             led->queue(LedDisplay::Params(bonusGame, 0, 5, 0, false, 5));
             led->queue(LedDisplay::Params(bonusGame, 0, 6, 0, false));
             led->playQueue();

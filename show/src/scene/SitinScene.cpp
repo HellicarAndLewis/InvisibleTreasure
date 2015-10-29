@@ -91,7 +91,7 @@ void SitinScene::play(int i){
             
             if (isSlave()) {
                 led->hide();
-                led->queue(LedDisplay::Params("6. GUESS THE GAME", 0, 360, 0, false));
+                led->queue(LedDisplay::Params("6. STOP THE NOISE", 0, 360, 0, false));
                 led->queue(LedDisplay::Params("6. SIT IN", 0, 1000, 0, false));
                 led->playQueue();
             }

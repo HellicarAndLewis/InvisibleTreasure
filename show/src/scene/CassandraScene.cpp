@@ -178,7 +178,8 @@ void CassandraScene::play(int i){
                 led->hide();
                 //led->queue(LedDisplay::Params(welcome.get(), 1, 5, 1, true)); old replaced with line below
                 //led->playQueue();
-                led->show("5. SOMEONE KNOWS");
+                //led->show("5. SOMEONE KNOWS");
+                led->hide();
                 
             }
             if (isWindow()) {
@@ -200,7 +201,9 @@ void CassandraScene::play(int i){
             }
             if (isSlave()) {
                 led->hide();
-                led->show("5. SOMEONE KNOWS NOTHING");
+                led->queue(LedDisplay::Params("5. SOMEONE KNOWS NOTHING", 0, 1, 5, false, 0));
+                led->playQueue();
+                //led->show("5. SOMEONE KNOWS NOTHING");
             }
             if (isMaster()) {
                 countdown->start(timerMain.get());
