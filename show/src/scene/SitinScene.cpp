@@ -91,7 +91,7 @@ void SitinScene::play(int i){
             
             if (isSlave()) {
                 led->hide();
-                led->queue(LedDisplay::Params("6. STOP THE NOISE", 0, 360, 0, false));
+                led->queue(LedDisplay::Params("6. STOP THE NOISE", 0, stopNoiseDuration, 0, false));
                 led->queue(LedDisplay::Params("6. SIT IN", 0, 1000, 0, false));
                 led->playQueue();
             }
@@ -212,6 +212,8 @@ void SitinScene::setupGui() {
     timerGroup.add(timerTheEnd.set("the end", 10, 1, 60));
     
     timerGroup.add(timerFadeUp.set("fade up", 10, 1, 60));
+    
+    timerGroup.add(stopNoiseDuration.set("Stop Noise Duration", 360, 300, 1000));
     
     panel.add(titleGroup);
     

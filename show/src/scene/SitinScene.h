@@ -168,6 +168,8 @@ private:
     
     ofParameter<int> timerFadeUp;
     
+    ofParameter<int> stopNoiseDuration;
+    
     
     
     // LX cues
