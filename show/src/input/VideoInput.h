@@ -31,3 +31,4 @@ private:
     ofVideoPlayer video;
     
 };
+

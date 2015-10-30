@@ -20,18 +20,23 @@ void PaintboxScene::setup() {
     subsceneEnd = 66;
     brushImage.loadImage("images/paintbrush/brush1.png");
     SceneBase::setup();
+    
+    FlowFinder& flowFinder = *vision->getFlow();
+    
+    for(int i=0; i < NUM_BRUSHES; i++) {
+        brushes[i].setup(1920, 1080);
+    }
+    for(int i = 0; i < NUM_ERASERS; i++) {
+        erasers[i].setup(1920, 1080);
+        erasers[i].scale = ofRandom(5, 10);
+        erasers[i].col = ofColor(0);
+    }
 }
 
 void PaintboxScene::update() {
     SceneBase::update();
     if (isMaster() && getIsActive()) {
-        totalBlobArea = 0;
-        ContourTracker& tracker = *vision->getTracker();
-        ofxCv::ContourFinder& contourFinder = tracker.contourFinder;
-        for(int i = 0; i < contourFinder.size(); i++) {
-            auto rect = toOf(contourFinder.getBoundingRect(i));
-            totalBlobArea += rect.getArea();
-        }
+        
     }
     if (isWindow()) {
         imageElement.update();
@@ -51,43 +56,57 @@ void PaintboxScene::drawMasterProjection() {
     if (getIsActive()) {
         
         // contour tracker
-        ContourTracker& tracker = *vision->getTracker();
-        ofxCv::ContourFinder& contourFinder = tracker.contourFinder;
-        float scale = displays->masterProjection.sizeIn->x / tracker.thresholded.width;
+        FlowFinder& flowFinder = *vision->getFlow();
+        ofxCv::FlowFarneback& flow = flowFinder.flow;
+        //ofxCv::ContourFinder& contourFinder = tracker.contourFinder;
+        float scale = displays->masterProjection.sizeIn->x / flowFinder.image.width;
         float targetW = displays->masterProjection.sizeIn->x;
-        float targetH = tracker.thresholded.height * scale;
+        float targetH = flowFinder.image.height * scale;
         
         // start canvas FBO
         canvas.begin();
-        for(int i = 0; i < contourFinder.size(); i++) {
-            auto rect = toOf(contourFinder.getBoundingRect(i));
-            auto center = toOf(contourFinder.getCenter(i));
-            // label identifies specific blobs
-            // use the label as a key for assigning colours
-            int label = contourFinder.getLabel(i);
-            ofSetColor(getColour(label));
-            // in eraser mode, blobs above a certain size have specific colours
-            // white acts as an eraser
-            // black is, black.
-            if (mode == ERASER) {
-                float areaPercent = rect.getArea() / totalBlobArea;
-                if (areaPercent >= minAreaEraser) {
-                    ofSetColor(0);
-                }
-                if (areaPercent >= minAreaBlack) {
-                    ofSetColor(255);
-                }
-            }
-            // rotate the brush image to vary the painted lines
-            ofPushMatrix();
-            ofTranslate(center*scale);
-            ofRotateZ(ofRandom(360));
-            float scale = ofClamp((rect.width)/brushImage.width, 0.5, 4);
-            int w = brushImage.width*scale;
-            int h = brushImage.height*scale;
-            brushImage.draw(-w/2, -h/2, w, h);
-            ofPopMatrix();
+        //flowFinder.image.draw(0, 0);
+        //flow.draw();
+        for(int i = 0; i < NUM_BRUSHES; i++) {
+            brushes[i].update(&flowFinder);
+            brushes[i].draw(&brushImage);
         }
+        if(mode == ERASER) {
+            for(int i = 0; i < NUM_ERASERS; i++) {
+                erasers[i].update(&flowFinder);
+                erasers[i].draw(&brushImage);
+            }
+        }
+        //flowFinder.draw();
+//        for(int i = 0; i < contourFinder.size(); i++) {
+//            auto rect = toOf(contourFinder.getBoundingRect(i));
+//            auto center = toOf(contourFinder.getCenter(i));
+//            // label identifies specific blobs
+//            // use the label as a key for assigning colours
+//            int label = contourFinder.getLabel(i);
+//            ofSetColor(getColour(label));
+//            // in eraser mode, blobs above a certain size have specific colours
+//            // white acts as an eraser
+//            // black is, black.
+//            if (mode == ERASER) {
+//                float areaPercent = rect.getArea() / totalBlobArea;
+//                if (areaPercent >= minAreaEraser) {
+//                    ofSetColor(0);
+//                }
+//                if (areaPercent >= minAreaBlack) {
+//                    ofSetColor(255);
+//                }
+//            }
+//            // rotate the brush image to vary the painted lines
+//            ofPushMatrix();
+//            ofTranslate(center*scale);
+//            ofRotateZ(ofRandom(360));
+//            float scale = ofClamp((rect.width)/brushImage.width, 0.5, 4);
+//            int w = brushImage.width*scale;
+//            int h = brushImage.height*scale;
+//            brushImage.draw(-w/2, -h/2, w, h);
+//            ofPopMatrix();
+//        }
         ofSetColor(255);
         canvas.end();
     }
@@ -108,6 +127,7 @@ void PaintboxScene::play(int i){
                 led->show(sleeping.get());
             }
             if (isMaster()) {
+                vision->setFlowActive(true);
                 countdown->start(timerIntro);
                 setMode(INACTIVE);
                 osc->sendLightingCue(lxCueIntro);
@@ -144,6 +164,7 @@ void PaintboxScene::play(int i){
                 led->playQueue();
             }
             if (isMaster()) {
+                vision->setFlowActive(false);
                 countdown->start(21);
                 setMode(FADE);
                 osc->sendSoundCue(soundCueOutro);

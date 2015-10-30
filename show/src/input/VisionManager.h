@@ -14,11 +14,13 @@
 #include "VideoGrabberInput.h"
 #include "GuiableBase.h"
 #include "ContourTracker.h"
+#include "FlowFinder.h"
 
 // manages vision-based inputs: IP camera, video file, image file, etc
 // applies distortion coorection to active input
 // exposes the output image to the rest of the app
 //
+
 class VisionManager : public GuiableBase {
 public:
     VisionManager();
@@ -31,7 +33,9 @@ public:
     
     void setupGui();
     void drawGui();
+    void setFlowActive(bool bActive);
     ContourTracker* getTracker();
+    FlowFinder* getFlow();
     
     void setToIPCamMain();
     void setToIPCamCassandra();
@@ -58,6 +62,7 @@ private:
     // tracking and calibration
     cv::Mat crop;
     ContourTracker contourTracker;
+    FlowFinder flowFinder;
     ofxCv::Calibration calibration;
     ofPixels previous;
     ofPixels diff;

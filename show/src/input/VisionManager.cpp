@@ -24,6 +24,9 @@ void VisionManager::setup() {
     // tracker
     contourTracker.setup();
     
+    // flow finder
+    flowFinder.setup();
+    
     // calibration
     FileStorage settings(ofToDataPath("camera/settings.yml"), FileStorage::READ);
     if(settings.isOpened()) {
@@ -102,8 +105,11 @@ void VisionManager::update() {
         if (crop.size != toCv(contourTracker.image).size) {
             contourTracker.resetBg();
         }
-        copy(crop, contourTracker.image);
+        copy(crop, contourTracker.image); // NOTE CHANGE THIS BACK TO CROP!
         contourTracker.update();
+        
+        copy(crop, flowFinder.image); // NOTE CHANGE THIS BACK TO CROP!
+        flowFinder.update();
     }
 }
 
@@ -139,6 +145,16 @@ void VisionManager::draw() {
         contourTracker.draw();
     }
     ofPopMatrix();
+    
+    //draw optical flow
+    ofPushMatrix();
+    {
+        ofTranslate(w, h);
+        float scale = h/flowFinder.image.height;
+        ofScale(scale, scale);
+        flowFinder.draw();
+    }
+    ofPopMatrix();
 }
 
 void VisionManager::exit() {
@@ -161,6 +177,10 @@ ContourTracker* VisionManager::getTracker(){
     return &contourTracker;
 }
 
+FlowFinder* VisionManager::getFlow(){
+    return &flowFinder;
+}
+
 IVisionInput* VisionManager::getInput(){
     return input;
 }
@@ -168,6 +188,10 @@ IVisionInput* VisionManager::getInput(){
 void VisionManager::setupGui() {
     // contour tracker gui first
     contourTracker.setupGui();
+    
+    // Flow finder gui second
+    flowFinder.setupGui();
+    
     // vision next
     guiName = "Vision";
     panel.setup(guiName, "settings/vision.xml");
@@ -179,6 +203,7 @@ void VisionManager::setupGui() {
     panel.add(ipCamURLMain.set("Main cam URL", "http://192.168.255.10/axis-cgi/mjpg/video.cgi"));
     panel.add(ipCamURLCassandra.set("Cassandra cam URL", "http://192.168.255.11/axis-cgi/mjpg/video.cgi"));
     panel.add(contourTracker.parameters);
+    panel.add(flowFinder.parameters);
     panel.loadFromFile("settings/vision.xml");
     
     // load camera URLs with XML settings
@@ -195,6 +220,10 @@ void VisionManager::setupGui() {
 
 void VisionManager::drawGui() {
     GuiableBase::drawGui();
+}
+
+void VisionManager::setFlowActive(bool bActive) {
+    flowFinder.active = bActive;
 }
 //////////////////////////////////////////////////////////////////////////////////
 // protected
