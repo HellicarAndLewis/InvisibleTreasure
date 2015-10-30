@@ -65,6 +65,7 @@ void FlowFinder::setupGui() {
     parameters.add(polySigma.set("Ply Sigma", 1.5, 0, 5));
     parameters.add(windowSize.set("windowSize", 8, 1, 20));
     parameters.add(useGaussian.set("Use Gaussian", false));
+    parameters.add(imageScale.set("Image Scale", 0.5, 0.01, 1.0));
 }
 
 //////////////////////////////////////////////////////////////////////////////////

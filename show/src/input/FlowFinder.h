@@ -26,8 +26,6 @@ public:
     ofImage image;
     ofImage smallImage;
     
-    float imageScale;
-    
     // tracking
     ofxCv::FlowFarneback flow;
     bool active;
@@ -39,6 +37,7 @@ public:
     ofParameter<float> pyramidScale;
     ofParameter<int> windowSize;
     ofParameter<bool> useGaussian;
+    ofParameter<float> imageScale;
     
     
 protected:
