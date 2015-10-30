@@ -23,6 +23,8 @@ public:
     
     ofRectangle bounds;
     
+    float inverseDamping;
+    
     float scale;
     float noiseCounter;
     float noiseStep;
@@ -37,13 +39,14 @@ public:
         int min = 100;
         int max = 255;
         col = ofColor(ofRandom(min, max), ofRandom(min, max), ofRandom(min, max));
+        inverseDamping = 1.0;
         
     };
     void update(FlowFinder* flowFinder) {
         float mappedX = ofMap(loc.x, bounds.getX(), bounds.getWidth(), 1, flowFinder->image.width-1, true);
         float mappedY = ofMap(loc.y, bounds.getY(), bounds.getHeight(), 1, flowFinder->image.height-1, true);
         vel = flowFinder->flow.getAverageFlowInRegion(ofRectangle(mappedX, mappedY, 1, 1));
-        loc += vel;
+        loc += vel*inverseDamping;
     };
     void draw(ofImage* brushImage) {
         ofSetColor(col.r, col.g, col.b);
@@ -117,6 +120,9 @@ private:
     
     ofParameter<float> minAreaEraser;
     ofParameter<float> minAreaBlack;
+    
+    ofParameter<float> brushSpeed;
+    ofParameter<float> eraserSpeed;
     
     // gui
     ofParameterGroup titleGroup;
