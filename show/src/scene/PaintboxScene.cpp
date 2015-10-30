@@ -23,18 +23,24 @@ void PaintboxScene::setup() {
     
     FlowFinder& flowFinder = *vision->getFlow();
     
-    for(int i=0; i < NUM_BRUSHES; i++) {
-        brushes[i].setup(1920, 1080);
-    }
-    for(int i = 0; i < NUM_ERASERS; i++) {
-        erasers[i].setup(1920, 1080);
-        erasers[i].scale = ofRandom(5, 10);
-        erasers[i].col = ofColor(0);
-        erasers[i].inverseDamping = 0.7;
-    }
+    paintBrushesSetup = false;
 }
 
 void PaintboxScene::update() {
+    if(!paintBrushesSetup) {
+        ofRectangle bounds = ofRectangle(0, 0, displays->masterProjection.sizeIn.get().x, displays->masterProjection.sizeIn.get().y);
+        
+        for(int i=0; i < NUM_BRUSHES; i++) {
+            brushes[i].setup(bounds.width, bounds.height);
+        }
+        for(int i = 0; i < NUM_ERASERS; i++) {
+            erasers[i].setup(bounds.width, bounds.height);
+            erasers[i].scale = ofRandom(5, 10);
+            erasers[i].col = ofColor(0);
+            erasers[i].inverseDamping = 0.7;
+        }
+        paintBrushesSetup = true;
+    }
     SceneBase::update();
     if (isMaster() && getIsActive()) {
         

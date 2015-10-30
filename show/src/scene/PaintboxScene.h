@@ -106,6 +106,7 @@ private:
     void clearCanvas();
     ofColor getColour(int blob);
     bool getIsActive();
+    bool paintBrushesSetup;
     
     ofFbo canvas;
     map<int, ofColor> colours;
