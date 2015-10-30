@@ -185,9 +185,10 @@ void IgniteScene::play(int i){
     else if (i == 9) {
         if (isSlave()) {
             led->hide();
-            led->queue(LedDisplay::Params(title1.get(), 0, 1, 15, false, 0));
-            led->queue(LedDisplay::Params("", 0, 14, 0, false, 0));
-            led->queue(LedDisplay::Params("Level Completed", 0, 2, 0, false, 0));
+            led->queue(LedDisplay::Params("Level Completed", 0, 32, 0, false, 0));
+            //led->queue(LedDisplay::Params(title1.get(), 0, 1, 15, false, 0));
+            //led->queue(LedDisplay::Params("", 0, 14, 0, false, 0));
+            //led->queue(LedDisplay::Params("Level Completed", 0, 2, 0, false, 0));
             led->queue(LedDisplay::Params(title2, 0, 5, 0, false, 5));
             led->playQueue();
             //led->show(title2, countdownDuration);

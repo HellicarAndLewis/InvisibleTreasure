@@ -199,7 +199,7 @@ void CassandraScene::play(int i){
             }
             if (isSlave()) {
                 led->hide();
-                led->queue(LedDisplay::Params("5. SOMEONE KNOWS NOTHING", 0, 1, 5, false, 0));
+                led->queue(LedDisplay::Params("5. " + ofToUpper(audience.get()) + " KNOWS NOTHING", 0, 1, 5, false, 0));
                 led->playQueue();
                 //led->show("5. SOMEONE KNOWS NOTHING");
             }

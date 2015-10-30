@@ -256,7 +256,7 @@ void LightboxScene::play(int i){
         if (isMaster()) {
             if (i == 10) {
                 playMode = CENTRE;
-                countdown->start(30);
+                countdown->start(60);
             }
             else if (i == 11) {
                 playMode = WALL_1;
@@ -271,7 +271,7 @@ void LightboxScene::play(int i){
             else if (i == 13) {
                 playMode = WALLS_3_4;
                 sendActiveCue();
-                countdown->start(60);
+                countdown->start(30);
             }
         }
     }

@@ -200,23 +200,14 @@ void SitinScene::setupGui() {
     guiName = "Sitin";
     
     panel.setup(guiName, "settings/sitin.xml");
-    
     titleGroup.setName("Titles");
-    
     titleGroup.add(title.set("title", "SIN IT"));
-    
     titleGroup.add(theEnd.set("end", "System power failure"));
-    
     timerGroup.setName("Timers");
-    
     timerGroup.add(timerTheEnd.set("the end", 10, 1, 60));
-    
     timerGroup.add(timerFadeUp.set("fade up", 10, 1, 60));
-    
     timerGroup.add(stopNoiseDuration.set("Stop Noise Duration", 360, 300, 1000));
-    
     panel.add(titleGroup);
-    
     panel.add(timerGroup);
     
     
@@ -224,13 +215,9 @@ void SitinScene::setupGui() {
     // LX cues
     
     lxCueGroup.setName("LX Cues");
-    
     lxCueGroup.add(lxCueIntro.set("intro", 36, 0, 100));
-    
     lxCueGroup.add(lxCueTheEnd.set("the end", 38, 0, 100));
-    
     lxCueGroup.add(lxCueOutro.set("outro", 39, 0, 100));
-    
     panel.add(lxCueGroup);
     
     
@@ -238,13 +225,9 @@ void SitinScene::setupGui() {
     // Sound cues
     
     soundCueGroup.setName("Sound Cues");
-    
     soundCueGroup.add(soundCueIntro.set("intro", 0, 0, 100));
-    
     soundCueGroup.add(soundCueTheEnd.set("the end", 0, 0, 100));
-    
     soundCueGroup.add(soundCueOutro.set("outro", 0, 0, 100));
-    
     panel.add(soundCueGroup);
     
     
@@ -372,13 +355,13 @@ void SitinScene::drawMasterScreen() {
         ofRect(hitArea.rect);
         ofDrawBitmapString(hitArea.name, hitArea.rect.getCenter()-ofPoint(30,0));
         //ofTranslate(ofGetWidth()/2, 0);
-        ofPushMatrix();
-        ofTranslate(tracker.thresholded.width, 0);
-        //To-Do replace magic numbers
-        ofScale(0.5, 0.5);
-        drawVision();
-        ofPopMatrix();
     }
+    ofPushMatrix();
+    ofTranslate(tracker.thresholded.width, 0);
+    //To-Do replace magic numbers
+    ofScale(0.5, 0.5);
+    drawVision();
+    ofPopMatrix();
 }
 
 //////////////////////////////////////////////////////////////////////////////////
