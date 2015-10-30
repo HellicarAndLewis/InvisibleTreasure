@@ -203,8 +203,8 @@ void PaintboxScene::setupGui() {
     panel.add(imageDelay.set("image delay", 2, 0, 10));
     panel.add(minAreaEraser.set("min area eraser", 0.1667, 0, 1));
     panel.add(minAreaBlack.set("min area black", 0.3333, 0, 1));
-    panel.add(brushSpeed.set("brush speed", 1.0, 0.0, 3.0));
-    panel.add(eraserSpeed.set("eraser speed", 0.7, 0.0, 1.0));
+    panel.add(brushSpeed.set("brush speed", 3.0, 0.0, 5.0));
+    panel.add(eraserSpeed.set("eraser speed", 3.0, 0.0, 5.0));
     
     titleGroup.setName("Titles");
     titleGroup.add(title.set("title", "IN A BOLD DAWN"));

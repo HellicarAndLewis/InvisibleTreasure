@@ -13,7 +13,7 @@
 //#include "Paintbrush.h"
 
 #define NUM_BRUSHES 50
-#define NUM_ERASERS 3
+#define NUM_ERASERS 5
 
 class paintBrush {
 public:
