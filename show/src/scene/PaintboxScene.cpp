@@ -151,7 +151,7 @@ void PaintboxScene::play(int i){
             }
             break;
         case 65:
-            if (isSlave()) led->show("4. Free Play + Link/Erase");
+            if (isSlave()) led->show("4. Free Play + Black Paint");
             if (isMaster()) {
                 countdown->start(timerErase);
                 setMode(ERASER);

@@ -111,6 +111,7 @@
 		83D8F3401B95CDBC00C12951 /* Wrappers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 83D8F3331B95CDBC00C12951 /* Wrappers.cpp */; };
 		83D8F3491B95CF7400C12951 /* IPVideoGrabber.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 83D8F3471B95CF7400C12951 /* IPVideoGrabber.cpp */; };
 		BBAB23CB13894F3D00AA2426 /* GLUT.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = BBAB23BE13894E4700AA2426 /* GLUT.framework */; };
+		C14043D11BE3E908001AB149 /* FlowFinder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C14043CF1BE3E908001AB149 /* FlowFinder.cpp */; settings = {ASSET_TAGS = (); }; };
 		E4328149138ABC9F0047C5CB /* openFrameworksDebug.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E4328148138ABC890047C5CB /* openFrameworksDebug.a */; };
 		E45BE97B0E8CC7DD009D7055 /* AGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E45BE9710E8CC7DD009D7055 /* AGL.framework */; };
 		E45BE97C0E8CC7DD009D7055 /* ApplicationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E45BE9720E8CC7DD009D7055 /* ApplicationServices.framework */; };
@@ -391,6 +392,8 @@
 		83D8F3471B95CF7400C12951 /* IPVideoGrabber.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = IPVideoGrabber.cpp; sourceTree = "<group>"; };
 		83D8F3481B95CF7400C12951 /* IPVideoGrabber.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IPVideoGrabber.h; sourceTree = "<group>"; };
 		BBAB23BE13894E4700AA2426 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = ../../../libs/glut/lib/osx/GLUT.framework; sourceTree = "<group>"; };
+		C14043CF1BE3E908001AB149 /* FlowFinder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FlowFinder.cpp; path = input/FlowFinder.cpp; sourceTree = "<group>"; };
+		C14043D01BE3E908001AB149 /* FlowFinder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FlowFinder.h; path = input/FlowFinder.h; sourceTree = "<group>"; };
 		E4328143138ABC890047C5CB /* openFrameworksLib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = openFrameworksLib.xcodeproj; path = ../../../libs/openFrameworksCompiled/project/osx/openFrameworksLib.xcodeproj; sourceTree = SOURCE_ROOT; };
 		E45BE9710E8CC7DD009D7055 /* AGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AGL.framework; path = /System/Library/Frameworks/AGL.framework; sourceTree = "<absolute>"; };
 		E45BE9720E8CC7DD009D7055 /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = /System/Library/Frameworks/ApplicationServices.framework; sourceTree = "<absolute>"; };
@@ -797,6 +800,8 @@
 				830CAAFC1B98F57A00217859 /* ContourTracker.h */,
 				834242381BB0969F004A2A11 /* VideoGrabberInput.cpp */,
 				834242391BB0969F004A2A11 /* VideoGrabberInput.h */,
+				C14043CF1BE3E908001AB149 /* FlowFinder.cpp */,
+				C14043D01BE3E908001AB149 /* FlowFinder.h */,
 			);
 			name = input;
 			sourceTree = "<group>";
@@ -1454,6 +1459,7 @@
 				8366F9AB1B9899AB006B9D74 /* ofxPanel.cpp in Sources */,
 				8366F9211B9706C1006B9D74 /* VisionManager.cpp in Sources */,
 				8366F8C01B970339006B9D74 /* IpEndpointName.cpp in Sources */,
+				C14043D11BE3E908001AB149 /* FlowFinder.cpp in Sources */,
 				8366F8C31B970339006B9D74 /* NetworkingUtilsWin.cpp in Sources */,
 				8366F8EC1B970351006B9D74 /* ofxEasing.cpp in Sources */,
 				8391ED671BB2A9E800704A84 /* Particles.cpp in Sources */,

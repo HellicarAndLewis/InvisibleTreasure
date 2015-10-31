@@ -85,11 +85,11 @@ void SitinScene::play(int i){
             
             if (isSlave()) {
                 led->hide();
-                led->queue(LedDisplay::Params("6.       ", 0, 180, 0, false));
+                led->queue(LedDisplay::Params("LEVEL 6.", 0, 180, 0, false));
                 led->queue(LedDisplay::Params("6. BEHAVE", 0, 60, 0, false));
                 led->queue(LedDisplay::Params("6. CONFORM", 0, 60, 0, false));
                 led->queue(LedDisplay::Params("6. OBEY", 0, 120, 0, false));
-                led->queue(LedDisplay::Params("is this what you want?", 0, 1000, 0, false));
+                led->queue(LedDisplay::Params("Is this what you want?", 0, 1000, 0, false));
                 led->playQueue();
             }
             
