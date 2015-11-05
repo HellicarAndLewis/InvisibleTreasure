@@ -12,8 +12,8 @@
 #include "ImageElement.h"
 //#include "Paintbrush.h"
 
-#define NUM_BRUSHES 50
-#define NUM_ERASERS 5
+#define NUM_BRUSHES 56
+#define NUM_ERASERS 6
 
 class paintBrush {
 public:
